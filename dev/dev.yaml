@@ -1,0 +1,24 @@
+# Tessera's dev cluster — trust auth on loopback, port 5433.
+Database:
+  postgres:
+    Host: 127.0.0.1
+    Port: 5433
+    Database: zitadel
+    User:
+      Username: zitadel
+      Password: ""
+      SSL:
+        Mode: disable
+    Admin:
+      Username: tessera
+      Password: ""
+      ExistingDatabase: postgres
+      SSL:
+        Mode: disable
+ExternalDomain: localhost
+ExternalPort: 8088
+ExternalSecure: false
+TLS:
+  Enabled: false
+Port: 8088
+MasterKey: "MasterkeyNeedsToHave32Characters"

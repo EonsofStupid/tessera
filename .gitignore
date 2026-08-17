@@ -19,3 +19,7 @@ target/
 # Upstream trees we build from — reference, not vendored.
 # Cloned with: git clone --depth 1 (see docs/03-roadmap.md)
 upstream/
+
+# Dev database and build outputs — disposable, rebuilt by dev/up.sh.
+.pgdata/
+.artifacts/
