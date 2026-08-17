@@ -41,6 +41,9 @@ issuer on the request path.
   "member_id": "mem_01J8…",
   "workspace_id": "ws-0001",
 
+  "occupant": "human",
+  "basis": "subscription",
+
   "authorization": {
     "subject": "mem_01J8…",
     "scopes": ["hosting:active", "terminal:advanced", "chat:unified"],
@@ -49,6 +52,20 @@ issuer on the request path.
 
   "provider": { "access_class": "subscription" }
 }
+```
+
+A token minted for an agent seat differs in exactly two claims:
+
+```json
+{ "sub": "clyffy", "occupant": "agent", "basis": "subscription" }
+```
+
+And a **delegated** one — Clyffy acting for a customer — carries RFC 8693's
+`act`:
+
+```json
+{ "sub": "mem_01J8…", "occupant": "human",
+  "act": { "sub": "clyffy", "occupant": "agent" } }
 ```
 
 The `authorization` and `provider` blocks are lifted verbatim from
@@ -90,12 +107,37 @@ like an issuer misconfiguration.)
 (`hosting.active`). Consumers accept both spellings; the colon form is
 canonical, because it is what OAuth scope syntax and the seam draft already use.
 
-**`provider.access_class` is `subscription | api | local | none`.** The same
-axis Automaton already measures per seat, so "this customer is on a
-subscription" means one thing across the estate. Automaton's internal spelling
-(`subscription_oauth`, `api_key`, `local`, `unknown`) maps onto it; `unknown`
-is never promoted to `subscription`, because guessing here is how a bill arrives
-that nobody chose.
+**A seat is a licensed occupant, and the token says which kind and on what
+basis.** The canonical definition is `shippin/docs/platform/NAMING-AND-SSOT.md`
+§1.1; this contract is where it becomes wire format.
+
+| claim | values | means |
+|---|---|---|
+| `occupant` | `human` · `agent` | who is in the seat |
+| `basis` | `subscription` · `usage` · `local` · `unknown` | how its capacity is paid for |
+
+`occupant: agent` is the customer-legible half of *non-human identity*. It is
+not a lesser seat — an agent seat authenticates, carries scopes and appears in
+an audit trail exactly as a human one does.
+
+**`unknown` is never promoted to `subscription`.** A basis nobody measured is
+not a subscription, and guessing is how a per-usage bill arrives that nobody
+chose. Automaton enforces this on the consuming side
+(`engine/abstract/seat.mjs`) and will refuse a token that asserts otherwise
+without evidence.
+
+`provider.access_class` in the seam envelope carries the same axis and the same
+values; Automaton's older internal spelling (`subscription_oauth`, `api_key`)
+is read as an alias so neither side has to migrate before the other.
+
+**Delegation is `act`, and it is not impersonation.** When an agent seat acts
+for a human one, `sub` stays the human and RFC 8693's `act` names the actor.
+The distinction is the RFC's: under impersonation the actor is
+"indistinguishable" from the subject, under delegation it "still has its own
+identity". `PRODUCT-ARCHITECTURE.md` §7 requires a persistent visible indicator
+and a complete audit trail for act-as-you mode — both are only possible under
+the second, because an impersonated session has nothing left to indicate.
+Nested `act` claims express a chain, outermost being the current actor.
 
 **A missing entitlement is not a failed login.** Consumers answer `403` with a
 typed body naming what is missing, never a bare `401`. "You are not signed in"
