@@ -25,6 +25,23 @@ gets recorded for identity.
 take a version from memory — including mine. Read the `LICENSE` in the revision
 you are actually looking at, and note the revision.
 
+That caution earned itself immediately. Zitadel was Apache 2.0 and **is now
+AGPL-3.0-only**, changed at v3; a roadmap written from recollection would have
+planned code intake that carries a network copyleft clause into a network
+product. Checked at source: `zitadel/LICENSING.md`.
+
+| upstream | licence today | what that permits |
+|---|---|---|
+| Zitadel core | **AGPL-3.0-only** | study the architecture; take no code |
+| Zitadel `proto/`, `apps/docs/` | Apache 2.0 | usable with attribution |
+| Zitadel `apps/login/`, `packages/zitadel-client/`, `packages/zitadel-proto/` | MIT | usable with attribution |
+| authentik core | MIT | usable with attribution |
+| authentik enterprise features | separate licence | check before depending on one |
+
+AGPL §13 triggers on **users interacting over a network**, not on sale. "We are
+not reselling it" does not avoid it, because a Shippin workspace is precisely
+network interaction by users.
+
 ## What is worth taking from each
 
 Recorded as design intent, not as a claim that anything has been taken.
