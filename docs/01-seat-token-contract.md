@@ -157,12 +157,42 @@ Consumers cache the JWKS with a TTL and refetch on an unknown `kid` **at most
 once per cooldown** — refetching on every miss turns key rotation into an
 outbound-request amplifier that anyone holding a made-up `kid` can pull.
 
+## How one is asked for
+
+Nothing in this section is a consumer's problem — a consumer verifies, and never
+mints. It is here because the answer turned out to constrain the contract.
+
+A workspace reaches `aud` through one scope and only that scope:
+
+```
+scope=openid urn:shippin:audience:automaton:ws-0001
+   →  aud: ["automaton:ws-0001"],  workspace_id: "ws-0001"
+```
+
+It has to work this way rather than by asking for an audience directly. RFC
+8693's token exchange refuses any requested audience that was not already in the
+subject token — deliberately, because a caller naming its own audience is
+privilege escalation — so a workspace audience cannot be introduced at exchange
+time. It has to originate at the first mint, from a scope.
+
+**Naming the scope is a request, not a permission.** The scope adds an entry to
+`aud` and grants nothing; whether the member may occupy that workspace is decided
+at mint time against their stored entitlement. A member who asks for a workspace
+they do not occupy gets `invalid_target` and no token — not a smaller one. A
+token issued quietly without the workspace would fail later, at a consumer, as an
+audience mismatch, and the operator would go looking in the wrong repository.
+
 ## Open
 
 1. Refresh: does the control plane mint a new seat token on a schedule, or does
    the consumer redirect to a handoff again? (Automaton's Stage 2 assumes the
    second, which needs no new endpoint.)
 2. Revocation transport — a published list, a short-TTL check, or `exp` alone.
-3. Whether `workspace_id` and `aud` can ever disagree, and what that would mean.
+3. ~~Whether `workspace_id` and `aud` can ever disagree, and what that would
+   mean.~~ **Settled: they cannot.** `workspace_id` is *derived from* `aud` at
+   mint rather than carried beside it, so there is no state in which the two
+   disagree and no rule anybody has to remember. An audience naming two
+   workspaces is refused rather than resolved — that is the tenant boundary
+   missing, and there is no safe way to guess which half was meant.
 4. Organizations: `account_id` is the tenant today; multi-org membership needs a
    claim before it needs an implementation.

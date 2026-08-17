@@ -28,7 +28,7 @@ for example the v2 code exchange and refresh token.
 */
 
 func (s *Server) accessTokenResponseFromSession(ctx context.Context, client op.Client, session *command.OIDCSession, state, projectID string, projectRoleAssertion, accessTokenRoleAssertion, idTokenRoleAssertion, userInfoAssertion bool) (_ *oidc.AccessTokenResponse, err error) {
-	getUserInfo := s.getUserInfo(session.UserID, projectID, client.GetID(), projectRoleAssertion, userInfoAssertion, session.Scope)
+	getUserInfo, getRawUserInfo := s.getUserInfo(session.UserID, projectID, client.GetID(), projectRoleAssertion, userInfoAssertion, session.Scope)
 	getSigner := s.getSignerOnce()
 
 	resp := &oidc.AccessTokenResponse{
@@ -41,7 +41,7 @@ func (s *Server) accessTokenResponseFromSession(ctx context.Context, client op.C
 	// If the session does not have a token ID, it is an implicit ID-Token only response.
 	if session.TokenID != "" {
 		if client.AccessTokenType() == op.AccessTokenTypeJWT {
-			resp.AccessToken, err = s.createJWT(ctx, client, session, getUserInfo, accessTokenRoleAssertion, getSigner)
+			resp.AccessToken, err = s.createJWT(ctx, client, session, getUserInfo, getRawUserInfo, accessTokenRoleAssertion, getSigner)
 		} else {
 			resp.AccessToken, err = op.CreateBearerToken(session.TokenID, session.UserID, s.opCrypto)
 		}
@@ -65,11 +65,11 @@ type userInfoFunc func(ctx context.Context, roleAssertion bool, triggerType doma
 
 // getUserInfo returns a function which retrieves userinfo from the database once.
 // However, each time, role claims are asserted and also action flows will trigger.
-func (s *Server) getUserInfo(userID, projectID, clientID string, projectRoleAssertion, userInfoAssertion bool, scope []string) userInfoFunc {
-	userInfo := s.userInfo(userID, scope, projectID, clientID, projectRoleAssertion, userInfoAssertion, false)
+func (s *Server) getUserInfo(userID, projectID, clientID string, projectRoleAssertion, userInfoAssertion bool, scope []string) (userInfoFunc, rawUserInfoFunc) {
+	userInfo, rawUserInfo := s.userInfo(userID, scope, projectID, clientID, projectRoleAssertion, userInfoAssertion, false)
 	return func(ctx context.Context, roleAssertion bool, triggerType domain.TriggerType, actor *domain.TokenActor) (*oidc.UserInfo, error) {
 		return userInfo(ctx, roleAssertion, triggerType, actor)
-	}
+	}, rawUserInfo
 }
 
 func (*Server) createIDToken(ctx context.Context, client op.Client, getUserInfo userInfoFunc, roleAssertion bool, getSigningKey sign.SignerFunc, sessionID, accessToken string, audience []string, authMethods []domain.UserAuthMethodType, authTime time.Time, nonce string, actor *domain.TokenActor) (idToken string, exp uint64, err error) {
@@ -116,7 +116,7 @@ func timeToOIDCExpiresIn(exp time.Time) uint64 {
 	return uint64(time.Until(exp) / time.Second)
 }
 
-func (s *Server) createJWT(ctx context.Context, client op.Client, session *command.OIDCSession, getUserInfo userInfoFunc, assertRoles bool, getSigner sign.SignerFunc) (_ string, err error) {
+func (s *Server) createJWT(ctx context.Context, client op.Client, session *command.OIDCSession, getUserInfo userInfoFunc, getRawUserInfo rawUserInfoFunc, assertRoles bool, getSigner sign.SignerFunc) (_ string, err error) {
 	ctx, span := tracing.NewSpan(ctx)
 	defer func() { span.EndWithError(err) }()
 
@@ -141,6 +141,14 @@ func (s *Server) createJWT(ctx context.Context, client op.Client, session *comma
 	)
 	claims.Actor = actorDomainToClaims(session.Actor)
 	claims.Claims = userInfo.Claims
+
+	// This is the whole of Tessera on the wire. Everything above is Zitadel
+	// minting an access token; this is the one call that makes it a seat token,
+	// and it is deliberately the last thing before the signature so there is
+	// exactly one place to look for what a consumer will see.
+	if err = setSeatClaims(claims, getRawUserInfo(), session.Audience, userInfo.Subject); err != nil {
+		return "", err
+	}
 
 	return crypto.Sign(claims, signer)
 }

@@ -52,17 +52,25 @@ this repository under `github.com/EonsofStupid/tessera`, and it builds.
 Still to strip, when it stops being useful rather than on principle: the console
 UI, the login-v1 assets, the SaaS onboarding and billing paths.
 
-### Phase 2 — it mints `shippin.seat-token.v1`
+### Phase 2 — it mints `shippin.seat-token.v1` ✅
 
-The contract already exists and Automaton already verifies against it
-(`engine/serve/identity.mjs`). This is the first thing that makes Tessera real.
+Done. Tessera mints seat tokens and Automaton's own verifier accepts them.
 
-- An OIDC provider path that emits our claims: `authorization.scopes`,
-  `account_id`, `workspace_id`, and `aud` naming exactly one workspace.
-- JWKS published; discovery at `/.well-known/openid-configuration`.
-- **Done when** Automaton accepts a Tessera-minted token and refuses one minted
-  for a different workspace. That test exists and currently runs against a fake
-  issuer; point it at this.
+- `internal/seat` holds the claim set and the rules, with no OIDC import — so
+  "`unknown` is never promoted" and "`aud` names exactly one workspace" are unit
+  tests rather than integration hopes.
+- `internal/api/oidc/seat_claims.go` gathers the facts and stamps them in
+  `createJWT`, the one call before the signature.
+- A workspace reaches `aud` through `urn:shippin:audience:<entry>`, and the
+  member's stored entitlement decides whether they may have it. See the token
+  contract, *How one is asked for*.
+- **Done:** `docs/05-minting-a-seat-token.md` walks the whole path, and
+  Automaton accepts a token for `ws-0001`, refuses one minted for `ws-0002`,
+  refuses a tampered payload and refuses `alg: none`.
+
+Still Phase 3's to fix: seat facts live in user metadata, which is where they
+are *stored*, not where they should be *authored*. Blueprints are what will
+write them.
 
 ### Phase 3 — blueprints
 

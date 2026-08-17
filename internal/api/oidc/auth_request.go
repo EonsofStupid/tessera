@@ -98,6 +98,7 @@ func (o *OPStorage) createAuthRequestScopeAndAudience(ctx context.Context, clien
 	}
 	audience, err = o.audienceFromProjectID(ctx, project.ID)
 	audience = domain.AddAudScopeToAudience(ctx, audience, scope)
+	audience = domain.AddSeatAudienceScopeToAudience(audience, scope)
 	if err != nil {
 		return nil, nil, "", err
 	}

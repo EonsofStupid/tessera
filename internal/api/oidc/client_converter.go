@@ -262,6 +262,19 @@ func isScopeAllowed(scope string, allowedScopes ...string) bool {
 	if strings.HasPrefix(scope, domain.OrgRoleIDScope) {
 		return true
 	}
+	// The seat audience scope, and it has to be declared here rather than
+	// merely understood downstream.
+	//
+	// op.ValidateAuthReqScopes drops every scope this function does not claim,
+	// and it drops them with slices.DeleteFunc — which compacts the caller's
+	// backing array in place. The client-credentials and jwt-profile paths then
+	// build their audience from r.Data.Scope, the *same* array, after that
+	// compaction has already happened. So an undeclared scope is not merely
+	// ignored: it is gone from the audience input too, and the token mints
+	// successfully without the workspace nobody notices is missing.
+	if strings.HasPrefix(scope, domain.SeatAudienceScope) {
+		return true
+	}
 	if scope == ScopeUserMetaData {
 		return true
 	}

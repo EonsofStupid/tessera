@@ -16,6 +16,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TRUNK="$ROOT"
 PGDATA="$ROOT/.pgdata"
 CONFIG="$ROOT/dev/dev.yaml"
+STEPS="$ROOT/dev/steps.yaml"
 BIN="$ROOT/.artifacts/tessera"
 PORT="${TESSERA_PORT:-8088}"
 # 32 characters exactly, and a dev value on purpose: a real one never lives in
@@ -100,8 +101,9 @@ cd "$TRUNK"
 if ! psql -h 127.0.0.1 -p 5433 -U tessera -d zitadel -tAc \
      "select 1 from information_schema.tables where table_name='events2'" | grep -q 1; then
   "$BIN" init --config "$CONFIG" >/dev/null
-  "$BIN" setup --config "$CONFIG" --masterkey "$MASTERKEY" --init-projections >/dev/null
+  "$BIN" setup --config "$CONFIG" --steps "$STEPS" --masterkey "$MASTERKEY" --init-projections >/dev/null
   ok "eventstore, projections and the first instance"
+  ok "admin PAT at .artifacts/admin.pat (gitignored, reissued whenever .pgdata is)"
 else
   ok "already initialised"
 fi

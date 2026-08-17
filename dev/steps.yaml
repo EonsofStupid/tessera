@@ -1,0 +1,19 @@
+# Tessera's first instance — a service account with an admin PAT, so the dev
+# loop can drive the management API without anybody clicking a console.
+#
+# Phase 3 (blueprints) needs exactly this: identity config applied from files by
+# something holding a token. This is that token, for one box, in dev.
+#
+# The PAT is written to `.artifacts/`, which is gitignored — a live credential
+# never enters this repository (`AGENTS.md`, `../../CLYFFY.md`). Delete
+# `.pgdata` and it is reissued.
+FirstInstance:
+  PatPath: .artifacts/admin.pat
+  Org:
+    Name: shippin
+    Machine:
+      Machine:
+        Username: tessera-admin
+        Name: Tessera dev admin
+      Pat:
+        ExpirationDate: 2100-01-01T00:00:00Z

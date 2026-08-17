@@ -22,3 +22,24 @@ TLS:
   Enabled: false
 Port: 8088
 MasterKey: "MasterkeyNeedsToHave32Characters"
+
+# Fifteen minutes, because the contract says so.
+#
+# `docs/01-seat-token-contract.md`: "Short exp. Fifteen minutes or less. These
+# are handoff and session tokens, not API keys; a long-lived one is a credential
+# in a cookie jar with no way to take it back."
+#
+# It has to be `DefaultInstance.OIDCSettings` and nothing else. `setup` writes
+# the instance's own OIDC settings from this block, and once written they
+# override the runtime `OIDC.Default*` values for every token the instance ever
+# mints — so configuring the lifetime there is read, accepted and ignored.
+# `FirstInstance.OIDCSettings` in a steps file is worse: that struct has no such
+# field, so it parses, matches nothing, and reports nothing.
+#
+# All four durations are required together or setup fails.
+DefaultInstance:
+  OIDCSettings:
+    AccessTokenLifetime: 15m
+    IdTokenLifetime: 15m
+    RefreshTokenIdleExpiration: 720h
+    RefreshTokenExpiration: 2160h

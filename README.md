@@ -54,6 +54,7 @@ specify a token: it either accepts yours or it does not.
 | `docs/01-seat-token-contract.md` | the claims every consumer verifies |
 | `docs/03-roadmap.md` | the sequence: Authentik infrastructure, Zitadel architecture |
 | `docs/04-building-the-trunk.md` | how the Zitadel source actually builds |
+| `docs/05-minting-a-seat-token.md` | how a token is asked for, and the three traps |
 
 House rules: `../AGENTS.md` first, then `AGENTS.md` here. Product law starts at
 `../shippin/docs/platform/PRODUCT-ARCHITECTURE.md`.

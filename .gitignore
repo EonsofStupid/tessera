@@ -28,3 +28,6 @@ upstream/
 pkg/grpc/
 openapi/v2/
 apps/docs/
+
+# chatmirror — local AI session mirrors (never commit: may contain tokens)
+.chat/
