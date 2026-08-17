@@ -1,0 +1,14 @@
+# Never under W: no private keys, client secrets, tokens, cookies, OAuth
+# sessions or application databases (../../CLYFFY.md). Test fixtures are
+# generated at run time, never committed.
+*.pem
+*.key
+*.p12
+*.pfx
+*.jwk
+*.jwks
+secrets/
+.env
+.env.*
+node_modules/
+target/
