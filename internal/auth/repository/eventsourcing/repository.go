@@ -1,0 +1,139 @@
+package eventsourcing
+
+import (
+	"context"
+
+	"github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/eventstore"
+	auth_handler "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/handler"
+	auth_view "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/view"
+	"github.com/EonsofStupid/tessera/internal/auth_request/repository/cache"
+	"github.com/EonsofStupid/tessera/internal/command"
+	sd "github.com/EonsofStupid/tessera/internal/config/systemdefaults"
+	"github.com/EonsofStupid/tessera/internal/crypto"
+	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/EonsofStupid/tessera/internal/domain"
+	eventstore2 "github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/EonsofStupid/tessera/internal/id"
+	"github.com/EonsofStupid/tessera/internal/query"
+)
+
+type Config struct {
+	SearchLimit                uint64
+	Spooler                    auth_handler.Config
+	AmountOfCachedAuthRequests uint16
+}
+
+type EsRepository struct {
+	eventstore.UserRepo
+	eventstore.AuthRequestRepo
+	eventstore.TokenRepo
+	eventstore.RefreshTokenRepo
+	eventstore.UserSessionRepo
+	eventstore.OrgRepository
+}
+
+func Start(ctx context.Context, conf Config, systemDefaults sd.SystemDefaults, command *command.Commands, queries *query.Queries, dbClient *database.DB, esV2 *eventstore2.Eventstore, oidcEncryption crypto.AuthAlgorithm, userEncryption crypto.EncryptionAlgorithm) (*EsRepository, error) {
+	view, err := auth_view.StartView(dbClient, oidcEncryption, queries, esV2)
+	if err != nil {
+		return nil, err
+	}
+
+	auth_handler.Register(ctx, conf.Spooler, view, queries)
+	auth_handler.Start(ctx)
+
+	authReq := cache.Start(dbClient, conf.AmountOfCachedAuthRequests)
+
+	userRepo := eventstore.UserRepo{
+		SearchLimit:    conf.SearchLimit,
+		Eventstore:     esV2,
+		View:           view,
+		Query:          queries,
+		SystemDefaults: systemDefaults,
+	}
+	//TODO: remove as soon as possible
+	queryView := queryViewWrapper{
+		queries,
+		view,
+	}
+	return &EsRepository{
+		userRepo,
+		eventstore.AuthRequestRepo{
+			PrivacyPolicyProvider:     queries,
+			LabelPolicyProvider:       queries,
+			Command:                   command,
+			Query:                     queries,
+			OrgViewProvider:           queries,
+			AuthRequests:              authReq,
+			View:                      view,
+			UserCodeAlg:               userEncryption,
+			UserSessionViewProvider:   view,
+			UserViewProvider:          view,
+			UserCommandProvider:       command,
+			UserEventProvider:         &userRepo,
+			IDPProviderViewProvider:   queries,
+			IDPUserLinksProvider:      queries,
+			LockoutPolicyViewProvider: queries,
+			LoginPolicyViewProvider:   queries,
+			PasswordAgePolicyProvider: queries,
+			UserGrantProvider:         queryView,
+			ProjectProvider:           queryView,
+			ApplicationProvider:       queries,
+			CustomTextProvider:        queries,
+			PasswordReset:             command,
+			PasswordChecker:           command,
+			IdGenerator:               id.SonyFlakeGenerator(),
+		},
+		eventstore.TokenRepo{
+			View:       view,
+			Eventstore: esV2,
+		},
+		eventstore.RefreshTokenRepo{
+			View:         view,
+			Eventstore:   esV2,
+			SearchLimit:  conf.SearchLimit,
+			KeyAlgorithm: oidcEncryption,
+		},
+		eventstore.UserSessionRepo{
+			View: view,
+		},
+		eventstore.OrgRepository{
+			SearchLimit:    conf.SearchLimit,
+			View:           view,
+			SystemDefaults: systemDefaults,
+			Eventstore:     esV2,
+			Query:          queries,
+		},
+	}, nil
+}
+
+type queryViewWrapper struct {
+	*query.Queries
+	*auth_view.View
+}
+
+func (q queryViewWrapper) UserGrantsByProjectAndUserID(ctx context.Context, projectID, userID string) ([]*query.UserGrant, error) {
+	userGrantProjectID, err := query.NewUserGrantProjectIDSearchQuery(projectID)
+	if err != nil {
+		return nil, err
+	}
+	userGrantUserID, err := query.NewUserGrantUserIDSearchQuery(userID)
+	if err != nil {
+		return nil, err
+	}
+	activeQuery, err := query.NewUserGrantStateQuery(domain.UserGrantStateActive)
+	if err != nil {
+		return nil, err
+	}
+	queries := &query.UserGrantsQueries{Queries: []query.SearchQuery{userGrantUserID, userGrantProjectID, activeQuery}}
+	grants, err := q.Queries.UserGrants(ctx, queries, true, nil)
+	if err != nil {
+		return nil, err
+	}
+	return grants.UserGrants, nil
+}
+func (repo *EsRepository) Health(ctx context.Context) error {
+	if err := repo.UserRepo.Health(ctx); err != nil {
+		return err
+	}
+	return repo.AuthRequestRepo.Health(ctx)
+}

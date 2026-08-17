@@ -63,12 +63,6 @@ revocation, MFA, and the one everybody underestimates — account recovery when 
 customer has lost their second factor. Recovery is where identity systems
 actually fail, and it is worth designing before anything else is built.
 
-## Not for resale
-
-This is infrastructure Shippin runs for Shippin. That is a licensing and
-support posture, not an engineering excuse: internal use widens what may be
-*studied and adapted*, and changes nothing about verifying licenses before code
-moves between repositories. See `02-provenance-and-licensing.md`.
 
 ## Current state
 

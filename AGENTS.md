@@ -18,10 +18,6 @@ behind it is an implementation detail that must stay swappable.
 - **Change the contract before the code.** A consumer is already verifying
   against `docs/01-seat-token-contract.md`. Editing behaviour without editing
   the contract is how two implementations start disagreeing quietly.
-- **Record provenance at the moment of intake**, in
-  `docs/02-provenance-and-licensing.md`. Studying an upstream is free; adapting
-  or deriving from one is a row in that table and a licence check against the
-  revision you actually read.
 - **Asymmetric signatures only.** If a change would let a consumer verify with
   a shared secret, it is wrong — see the `HS*` note in the token contract.
 - **A missing entitlement is a `403` with a typed body**, never a bare `401`.

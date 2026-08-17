@@ -13,7 +13,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-TRUNK="$ROOT/upstream/zitadel"
+TRUNK="$ROOT"
 PGDATA="$ROOT/.pgdata"
 CONFIG="$ROOT/dev/dev.yaml"
 BIN="$ROOT/.artifacts/tessera"
@@ -22,7 +22,7 @@ PORT="${TESSERA_PORT:-8088}"
 # a repository (../CLYFFY.md, and AGENTS.md here).
 MASTERKEY="MasterkeyNeedsToHave32Characters"
 
-export PATH="/usr/lib/postgresql/18/bin:$TRUNK/.artifacts/bin/linux/amd64:$PATH"
+export PATH="/usr/lib/postgresql/18/bin:$ROOT/.artifacts/bin:$ROOT/upstream/zitadel/.artifacts/bin/linux/amd64:$PATH"
 
 step() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 ok()   { printf '  ✓ %s\n' "$*"; }
@@ -68,13 +68,18 @@ if [[ ! -x "$BIN" || "${1:-}" == "--rebuild" ]]; then
   mkdir -p "$ROOT/.artifacts"
   cd "$TRUNK"
   if [[ ! -d pkg/grpc || "${1:-}" == "--rebuild" ]]; then
+    # Our own protoc plugins first: they emit import paths from templates in
+    # this tree, so a plugin built from upstream quietly emits upstream's paths
+    # into our generated code and nothing links.
+    GOBIN="$ROOT/.artifacts/bin" go install ./internal/protoc/protoc-gen-zitadel ./internal/protoc/protoc-gen-authoption
     # Three generators, and none of their output is committed upstream.
     buf generate
     mkdir -p pkg/grpc openapi/v2/zitadel
-    cp -r .artifacts/grpc/github.com/zitadel/zitadel/pkg/grpc/** pkg/grpc/
+    cp -r .artifacts/grpc/github.com/EonsofStupid/tessera/pkg/grpc/** pkg/grpc/
     cp .artifacts/grpc/zitadel/*.swagger.json openapi/v2/zitadel/
     # Run from its own directory: its docs path is relative to the working
     # directory and it truncates all three outputs before validating any.
+    mkdir -p apps/docs/content/apis/assets
     (cd internal/api/assets/generator && go run . -directory ./)
     # Without statik the binary compiles and then dies at startup with
     # "no zip data registered" — i18n is embedded, not read from disk.

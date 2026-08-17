@@ -1,0 +1,15 @@
+package domain
+
+import "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
+
+type MailTemplate struct {
+	models.ObjectRoot
+
+	State    PolicyState
+	Default  bool
+	Template []byte
+}
+
+func (m *MailTemplate) IsValid() bool {
+	return m.Template != nil
+}

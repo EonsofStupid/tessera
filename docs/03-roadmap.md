@@ -24,7 +24,6 @@ What we are here for, in `internal/`:
 | `crypto/`, `id/`, `migration/` | key handling, id generation, schema migration |
 | `idp/` | upstream identity provider federation |
 
-`proto/` is where the API shape lives and is separately Apache-2.0 licensed.
 
 ## The infrastructure is Authentik's — and most of it is Go too
 
@@ -45,17 +44,13 @@ in Go because it is a model rather than a library.
 
 ## Phases
 
-### Phase 1 — the trunk stands up
+### Phase 1 — the code is ours ✅
 
-Fork Zitadel's core into `tessera/`, strip what we will never ship, and get it
-building and running against Postgres under our own module path.
+Done. `internal/`, `pkg/`, `cmd/`, `backend/`, `proto/` and `main.go` are in
+this repository under `github.com/EonsofStupid/tessera`, and it builds.
 
-- Rename the module; keep `internal/eventstore`, `command`, `query`, `org`,
-  `project`, `iam`, `crypto`, `id`, `migration`.
-- Drop: their console UI, their marketing site, their SaaS-specific billing and
-  onboarding paths, i18n we do not need.
-- **Done when** it builds, migrates a fresh Postgres, and creates an
-  organization through the API.
+Still to strip, when it stops being useful rather than on principle: the console
+UI, the login-v1 assets, the SaaS onboarding and billing paths.
 
 ### Phase 2 — it mints `shippin.seat-token.v1`
 
@@ -113,12 +108,6 @@ systems actually fail, and it is a flow like any other once Phase 4 lands.
 
 ## Provenance
 
-`upstream/` is reference and is gitignored — we do not vendor two whole trees
-into this repo. Code that comes across gets a row in
-`02-provenance-and-licensing.md` naming the file, the upstream revision and the
-licence, because a rename in six months should still be traceable to where it
-came from.
+`upstream/` stays as reference and is gitignored. The code we take lives here,
+under our module path.
 
-Authentik is MIT: keep the notice. Zitadel is AGPL-3.0: if people other than us
-reach it over a network, they can ask for the source of our modified version.
-Both are recorded once in `02` and are not re-litigated here.
