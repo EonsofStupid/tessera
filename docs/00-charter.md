@@ -2,9 +2,21 @@
 
 ## One sentence
 
-**Shippin Identity** answers "who is this, and what may they do" once, for every
-service in the umbrella, and hands the answer over as a short-lived signed token
-that anyone can verify without calling it.
+**Tessera** answers "who is this, and what may they do" once, for every service
+in the umbrella, and hands the answer over as a short-lived signed token that
+anyone can verify without calling it.
+
+## The name
+
+A *tessera hospitalis* was a token broken in two, each party keeping a half;
+fitting the halves together proved identity and the bond between them. A
+*tessera* was also the tablet carrying a watchword for a sentry to check.
+
+Chosen over the obvious alternative for one reason worth writing down:
+"connection" is already the most loaded word in this product — §7 is *Guided
+connection*, Mesh Layer 2 is connectivity, MCP connectors ship — and all of that
+weight sits on networking. A name from that family would read as the mesh
+module to anyone arriving cold, including us in a year.
 
 ## Why it is its own project
 

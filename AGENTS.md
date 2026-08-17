@@ -1,4 +1,4 @@
-# AGENTS.md — Shippin Identity
+# AGENTS.md — Tessera
 
 Read `../AGENTS.md` first (workspace house rules), then this.
 

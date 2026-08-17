@@ -1,11 +1,11 @@
-// The identity project's working terminal.
+// Tessera's working terminal.
 //
 // zellij's global config sets `default_layout "automaton"` — the chat pane,
 // which is right for talking to Clyffy and wrong for writing a contract. A
 // project that wants its own shape says so in its own config dir rather than
 // changing a global.
 //
-//   zellij --config-dir .zellij attach --create auth
+//   zellij --config-dir .zellij attach --create tessera
 //
 // Plain panes on purpose. An earlier draft opened the token contract in `less`;
 // a pager with nothing attached to its input exits immediately and takes the
@@ -16,7 +16,7 @@
 // panes running, which is the whole point of the pty being a view.
 
 layout {
-    cwd "/workspace/warden-storage/projects/auth"
+    cwd "/workspace/warden-storage/projects/tessera"
     pane size=1 borderless=true {
         plugin location="zellij:tab-bar"
     }
