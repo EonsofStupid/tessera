@@ -12,3 +12,6 @@ secrets/
 .env.*
 node_modules/
 target/
+
+# Runtime state for the workspace terminal host — sockets and pids.
+.automaton/

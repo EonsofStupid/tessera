@@ -1,0 +1,30 @@
+// The identity project's working terminal.
+//
+// zellij's global config sets `default_layout "automaton"` — the chat pane,
+// which is right for talking to Clyffy and wrong for writing a contract. A
+// project that wants its own shape says so in its own config dir rather than
+// changing a global.
+//
+//   zellij --config-dir .zellij attach --create auth
+//
+// Plain panes on purpose. An earlier draft opened the token contract in `less`;
+// a pager with nothing attached to its input exits immediately and takes the
+// pane with it, which reads as "the terminal is broken". Panes here start a
+// shell and stay.
+//
+// The session outlives the host attached to it: closing a window leaves the
+// panes running, which is the whole point of the pty being a view.
+
+layout {
+    cwd "/workspace/warden-storage/projects/auth"
+    pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
+    }
+    pane split_direction="vertical" {
+        pane name="work" focus=true
+        pane name="docs" size="38%"
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}

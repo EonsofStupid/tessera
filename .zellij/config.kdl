@@ -1,0 +1,10 @@
+// zellij config for this project only, reached with `--config-dir .zellij`.
+//
+// The global config sets `default_layout "automaton"` — the chat pane, which is
+// right for talking to Clyffy and wrong for writing a contract. A project that
+// wants its own working shape says so here rather than changing a global.
+//
+// This matters for `attach --create`: that verb takes no --layout, so the only
+// way a re-attach lands on the same shape as the first create is for the
+// default to come from config.
+default_layout "dev"
