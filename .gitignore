@@ -15,3 +15,7 @@ target/
 
 # Runtime state for the workspace terminal host — sockets and pids.
 .automaton/
+
+# Upstream trees we build from — reference, not vendored.
+# Cloned with: git clone --depth 1 (see docs/03-roadmap.md)
+upstream/

@@ -1,174 +1,124 @@
-# 03 — Roadmap: Zitadel's architecture, Authentik's infrastructure
+# 03 — Roadmap: building Tessera from Zitadel and Authentik
 
-**Status:** proposed sequence. Phase 0 is in flight; nothing past it is committed.
+**Status:** build plan. Both trees are cloned under `upstream/`.
 
-Two intakes, and they are different in kind. From **Zitadel**, a *data and audit
-model* — ideas, written from scratch. From **Authentik**, *running
-infrastructure* — a service that already works, configured properly. Keeping
-those two straight is what makes this legal and cheap; confusing them is how a
-weekend becomes a licensing problem.
+Tessera is **built from** these two codebases, not operated alongside them.
+Nothing here deploys Authentik or Zitadel as a service; both are source we take
+from.
 
-## The licence line, checked at source
+## The trunk is Zitadel
 
-**Zitadel is AGPL-3.0-only.** It moved off Apache 2.0 at v3. AGPL §13 is a
-network clause: run a modified version that users reach over a network and you
-owe them the source. "We are not reselling it" does not avoid this — the trigger
-is *network interaction by users*, not sale, and Shippin workspaces are exactly
-network interaction by users.
+`upstream/zitadel` — Go 1.25, `github.com/zitadel/zitadel`. It is the trunk
+because the architecture is the part worth having and because Go matches the
+rest of the estate (GoClyffy, and Authentik's own outposts).
 
-So: **study Zitadel, copy nothing from its core.**
+What we are here for, in `internal/`:
 
-There is one precise exception worth knowing, because it is the useful part.
-`LICENSING.md` carves out directories:
+| path | what it gives us |
+|---|---|
+| `eventstore/` | the ledger: aggregates, events, push/query, `read_model.go`, the `handler/` projection machinery |
+| `command/` | the write side — how an intent becomes events |
+| `query/` | the read side, built from projections |
+| `org/`, `project/`, `iam/` | Instance → Organization → Project, the tenancy model |
+| `api/` | gRPC + REST surface, and `authz/` behind it |
+| `crypto/`, `id/`, `migration/` | key handling, id generation, schema migration |
+| `idp/` | upstream identity provider federation |
 
-| path | licence | usable? |
+`proto/` is where the API shape lives and is separately Apache-2.0 licensed.
+
+## The infrastructure is Authentik's — and most of it is Go too
+
+`upstream/authentik` — Go 1.26 module `goauthentik.io` **plus** a Django core.
+The split matters, and it is better than it looks: the parts we want are mostly
+Go and portable directly.
+
+| path | language | what it gives us |
 |---|---|---|
-| repository default | **AGPL-3.0-only** | architecture study only |
-| `proto/` | **Apache 2.0** | yes — API definitions, with attribution |
-| `apps/docs/` | Apache 2.0 | yes |
-| `apps/login/`, `packages/zitadel-client/`, `packages/zitadel-proto/` | **MIT** | yes |
+| `internal/outpost/proxyv2/` | **Go** | forward-auth proxy, session store, handlers — 150 Go files under `internal/` |
+| `internal/outpost/ldap/`, `radius/`, `rac/` | **Go** | protocol frontends for things that will never speak OIDC |
+| `blueprints/` + `schema.json` | **YAML/JSON** | declarative config as data — language-neutral, lift as-is |
+| `authentik/flows/` | Python | the flow/stage *model* (`planner.py`, `challenge.py`, `markers.py`) — ported, not copied |
 
-Their *API shape* is Apache 2.0 while their *server* is AGPL. If anything is
-ever taken from Zitadel, it is a protobuf definition — never an implementation.
+So: Go core from Zitadel, Go outposts from Authentik, YAML blueprint schema
+lifted whole, and one Python subsystem (the flow engine) that gets reimplemented
+in Go because it is a model rather than a library.
 
-**Authentik core is MIT**, with enterprise features under a separate licence.
-Blueprints, config and deployment shape can be adapted with attribution. Check
-which features are enterprise before depending on one.
+## Phases
 
-Every intake gets a row in `02-provenance-and-licensing.md`, with the revision
-actually read. That table is still empty and should stay empty until something
-is genuinely taken.
+### Phase 1 — the trunk stands up
 
-## Where Authentik actually stands today
+Fork Zitadel's core into `tessera/`, strip what we will never ship, and get it
+building and running against Postgres under our own module path.
 
-From `shippin-mesh/authentik/docker-compose.yml`, not from a wish:
+- Rename the module; keep `internal/eventstore`, `command`, `query`, `org`,
+  `project`, `iam`, `crypto`, `id`, `migration`.
+- Drop: their console UI, their marketing site, their SaaS-specific billing and
+  onboarding paths, i18n we do not need.
+- **Done when** it builds, migrates a fresh Postgres, and creates an
+  organization through the API.
 
-- `ghcr.io/goauthentik/server:2025.10`, server + worker, Postgres 16, Dragonfly
-  for Redis, published on 9000/9443.
-- **No `/blueprints` volume is mounted.** All configuration is therefore made by
-  hand in the UI, and exists only in that database. This is the gap Phase 1
-  closes and the single highest-value thing to take from Authentik.
-- **The worker runs `user: root` with `/var/run/docker.sock` mounted.** That is
-  how it manages outpost containers, and it is also host root by another name: a
-  compromise of the worker is a compromise of the host. Phase 2 decides whether
-  to keep it.
+### Phase 2 — it mints `shippin.seat-token.v1`
 
-## Phase 0 — run it behind the contract *(in flight)*
+The contract already exists and Automaton already verifies against it
+(`engine/serve/identity.mjs`). This is the first thing that makes Tessera real.
 
-Authentik is the identity provider. Tessera owns
-`01-seat-token-contract.md`; Automaton's Stage 2 verifies against it.
+- An OIDC provider path that emits our claims: `authorization.scopes`,
+  `account_id`, `workspace_id`, and `aud` naming exactly one workspace.
+- JWKS published; discovery at `/.well-known/openid-configuration`.
+- **Done when** Automaton accepts a Tessera-minted token and refuses one minted
+  for a different workspace. That test exists and currently runs against a fake
+  issuer; point it at this.
 
-- An OIDC provider in Authentik whose property mappings emit
-  `shippin.seat-token.v1` claims — `authorization.scopes`, `account_id`,
-  `workspace_id`, and an `aud` naming exactly one workspace.
-- Automaton verifies it with `engine/serve/identity.mjs` — generic OIDC
-  discovery and JWKS, no vendor knowledge.
+### Phase 3 — blueprints
 
-**Done when** a token minted by the real Authentik is accepted by Automaton, and
-one minted for another workspace is refused on the audience check.
+Take Authentik's blueprint model — YAML applied on a loop inside one atomic
+transaction, rolled back whole on any failure — and implement it over Tessera's
+command layer. The schema is JSON Schema and lifts directly.
 
-## Phase 1 — configuration becomes data *(Authentik: blueprints)*
+This is what makes fifty workspaces identical rather than fifty hand-built ones:
+identity config becomes reviewed files instead of something somebody clicked.
 
-Blueprints are Authentik's infrastructure-as-code: YAML applied on a 60-minute
-loop, discovered from `/blueprints`, an OCI registry or the database, and each
-applied "within a single **atomic database transaction**" that rolls the whole
-blueprint back if any entry fails.
+- **Done when** a fresh database reaches known state from `blueprints/` alone,
+  and re-applying is a no-op.
 
-That transactional, repeatedly-applied shape is what turns identity config from
-something clicked once into something reviewed, diffed and reproduced. It is the
-piece that makes fifty workspaces identical rather than fifty hand-built ones.
+### Phase 4 — flows
 
-- Mount `/blueprints`; move today's hand-made config into `tessera/blueprints/`.
-- Provider, scope mappings, flows and groups become reviewed files.
-- A fresh Authentik on an empty database reaches known state unattended.
+Port Authentik's flow/stage engine: a flow is an ordered set of stages, a
+planner decides which apply to this request, and a stage returns a challenge the
+client renders. Identity, MFA, recovery and consent all become the same object.
 
-**Done when** the running instance can be destroyed and rebuilt from the
-repository, and Phase 0's test still passes against it.
+`planner.py`, `challenge.py` and `markers.py` are the model to read; the
+implementation is ours, in Go, over the eventstore.
 
-## Phase 2 — harden the deployment *(Authentik: outposts, and the socket)*
+- **Done when** password + TOTP + recovery are three configurations of one
+  engine rather than three code paths.
 
-An outpost is "a single deployment of an authentik component… that can be
-deployed anywhere that allows for a connection to the authentik API",
-configured over websockets and needing no internet access.
+### Phase 5 — outposts
 
-- **Decide on the docker socket.** Either accept it and treat that host as
-  identity-critical with nothing else on it, or deploy outposts declaratively
-  and drop the mount. It should be a decision with a date, not an inheritance.
-- Evaluate a **forward-auth proxy outpost** in front of workspaces as defence in
-  depth — it authenticates in front of a service that does not have to change,
-  which is useful independently of who mints tokens.
+Bring `internal/outpost/proxyv2` across as the forward-auth proxy. It already
+speaks OIDC to a core and configures itself over websockets; it needs pointing
+at ours.
 
-**Done when** the identity host's blast radius is written down and matches how
-it is actually deployed.
+Gives workspaces authenticated ingress without each service implementing
+anything, and gives LDAP/RADIUS to things that will never speak OIDC.
 
-## Phase 3 — adopt the tenancy model *(Zitadel: architecture, no code)*
+- **Done when** a workspace sits behind the proxy and Automaton still
+  authenticates through it unchanged.
 
-Zitadel's hierarchy is **Instance → Organization → Project**. An Instance gives
-"full data isolation and independent settings"; an Organization "is the vessel
-where your projects and users live… comparable to a tenant in a SaaS system".
-**Project Grants** let one organization delegate role assignment to another,
-which is the B2B case: a partner manages their own users against your roles.
+### Phase 6 — recovery
 
-Tenancy in the data model rather than a column on a user is the thing that is
-painful to retrofit at five hundred customers and nearly free to decide now.
+Left last deliberately, and it is the one that decides whether this is real.
+Account recovery when a customer has lost their second factor is where identity
+systems actually fail, and it is a flow like any other once Phase 4 lands.
 
-- Map it: Shippin **account** ≙ Organization, **workspace** ≙ the audience a
-  token is scoped to, **member** ≙ user. Write the mapping into
-  `01-seat-token-contract.md` so `account_id` has a defined meaning.
-- Decide whether multi-org membership is a v1 claim. It is cheap as a claim now
-  and a migration later.
+## Provenance
 
-**Done when** the contract states the tenancy model and Automaton's entitlement
-gate reads it.
+`upstream/` is reference and is gitignored — we do not vendor two whole trees
+into this repo. Code that comes across gets a row in
+`02-provenance-and-licensing.md` naming the file, the upstream revision and the
+licence, because a rename in six months should still be traceable to where it
+came from.
 
-## Phase 4 — event-sourced authorization *(Zitadel: architecture, no code)*
-
-Zitadel stores changes "as events in an Event Store… a ledger that gets new
-entries over time", with **projections** as "computed objects, that will be used
-on the query side", giving "a built-in audit trail that tracks all changes over
-an unlimited period of time".
-
-That is the property §8's reliability law wants and the seam's
-`audit/{correlation_id}` assumes: *who granted this, when, and what revoked it*
-becomes answerable by construction rather than by having remembered to log it.
-
-**Start narrow.** Not all of identity — only the **authorization aggregate**:
-grants, revocations, scope changes, policy versions. It is the lowest-volume
-part of the system and the part where "we cannot reconstruct what happened" is
-least acceptable. Sessions and credentials stay wherever the provider keeps
-them.
-
-**Done when** a grant and its revocation can be replayed from events, and a
-projection rebuilt from scratch matches the live read model.
-
-## Phase 5 — the swap, if it is still wanted
-
-Nothing above requires replacing Authentik, and that is the design. If a
-Tessera-native provider is ever built, it emits the same tokens against the same
-JWKS discovery, and consumers change nothing. In Automaton it is one flag
-(`--auth-strict`), not a migration.
-
-The honest cost of going native, so it is a real decision when it arrives: token
-lifecycle, key rotation, session revocation, MFA, and account recovery when a
-customer has lost their second factor. Recovery is where identity systems
-actually fail.
-
-## What this roadmap will not do
-
-- Copy Zitadel server code. AGPL, network clause, and Shippin is a network
-  service. Architecture only.
-- Fork Authentik. Adapt configuration, not the codebase — a fork owns every CVE
-  in it forever.
-- Adopt either project's token claims. `shippin.seat-token.v1` follows the
-  Shippin seam so no vendor is visible to a consumer.
-- Run two identity authorities at once, which `CONFLICTS-DECISIONS.md` already
-  warns against. Authentik is the one that runs; Zitadel is read, not deployed.
-
-## Sources
-
-- Zitadel eventstore — https://zitadel.com/docs/concepts/eventstore/overview
-- Zitadel organizations — https://zitadel.com/docs/concepts/structure/organizations
-- Zitadel licensing — https://github.com/zitadel/zitadel/blob/main/LICENSING.md
-- authentik blueprints — https://docs.goauthentik.io/customize/blueprints/
-- authentik outposts — https://docs.goauthentik.io/add-secure-apps/outposts/
-- The deployed stack — `shippin-mesh/authentik/docker-compose.yml`
+Authentik is MIT: keep the notice. Zitadel is AGPL-3.0: if people other than us
+reach it over a network, they can ask for the source of our modified version.
+Both are recorded once in `02` and are not re-litigated here.
