@@ -61,6 +61,15 @@
       "reason": "Tessera-owned provider-neutral management protocol."
     },
     {
+      "id": "tessera-shippin-contract-fixtures",
+      "patterns": [
+        "testdata/shippin/**"
+      ],
+      "source_id": "tessera-native",
+      "relationship": "native",
+      "reason": "Provider-neutral fixtures consumed by the Shippin server-side adapter."
+    },
+    {
       "id": "authentik-blueprint-inspiration",
       "patterns": [
         "backend/v1/domain/blueprint*.go",

@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3871,
-  "classification_sha256": "3d8d54256d52096e01c2a3f893a433b2ffded7a501fc08d09ce51fee4137ae42",
+  "path_count": 3878,
+  "classification_sha256": "7fae5023f5cf488eb0952d227d0e7fd876a7ac7faa9ae9a1aa4e1c83246ed965",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 77
+      "paths": 84
     },
     {
       "source_id": "zitadel-core",
@@ -111,6 +111,7 @@
       "relationship": "native",
       "license_expression": "LicenseRef-Tessera-Pending",
       "paths": [
+        "proto/tessera/management/v1/error.proto",
         "proto/tessera/management/v1/operation.proto"
       ]
     },
@@ -149,6 +150,7 @@
         "docs/12-execution-worklist.md",
         "docs/13-deployment-lifecycle-contract.md",
         "docs/14-operation-contract.md",
+        "docs/15-management-error-contract.md",
         "prefetch-embedded",
         "provenance/README.md",
         "provenance/source-bom.json",
@@ -176,6 +178,15 @@
       ]
     },
     {
+      "rule_id": "tessera-shippin-contract-fixtures",
+      "source_id": "tessera-native",
+      "relationship": "native",
+      "license_expression": "LicenseRef-Tessera-Pending",
+      "paths": [
+        "testdata/shippin/management-error-remedies.json"
+      ]
+    },
+    {
       "rule_id": "tessera-v1-domain",
       "source_id": "tessera-native",
       "relationship": "native",
@@ -183,6 +194,10 @@
       "paths": [
         "backend/v1/domain/deployment_lifecycle.go",
         "backend/v1/domain/deployment_lifecycle_test.go",
+        "backend/v1/domain/management_error.go",
+        "backend/v1/domain/management_error_fixture_test.go",
+        "backend/v1/domain/management_error_test.go",
+        "backend/v1/domain/management_error_wire_contract_test.go",
         "backend/v1/domain/operation.go",
         "backend/v1/domain/operation_test.go",
         "backend/v1/domain/operation_wire_contract_test.go",
