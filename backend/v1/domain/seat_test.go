@@ -1,4 +1,4 @@
-package seat
+package domain
 
 import (
 	"encoding/json"

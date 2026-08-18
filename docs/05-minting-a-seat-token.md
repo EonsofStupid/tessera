@@ -61,8 +61,8 @@ Asking for a workspace this seat does not occupy is refused, and says so:
 
 ## Where it lives
 
-`internal/seat` is the claim set and the rules, and imports nothing from OIDC or
-the eventstore — the contract is the product boundary, and a boundary you can
+`backend/v1/domain` is the claim set and the rules, and imports nothing from
+OIDC or the eventstore — the contract is the product boundary, and a boundary you can
 only exercise by standing up a provider is one nobody exercises.
 `internal/api/oidc/seat_claims.go` gathers the facts; `createJWT` calls it once,
 immediately before the signature, so there is exactly one place to look for what

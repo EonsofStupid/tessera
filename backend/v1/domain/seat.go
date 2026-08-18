@@ -1,4 +1,15 @@
-// Package seat mints the claim set of `shippin.seat-token.v1`.
+// Package domain is Tessera's own domain layer.
+//
+// The v1 is ours and is not a continuation of the v3 next door. `backend/v3` is
+// Zitadel's third backend architecture, inherited whole and already
+// load-bearing — `internal/` takes its logging, database, repositories and
+// domain objects. This is the first architecture *this* project has, so it
+// starts at one, and the number says which of the two a file belongs to without
+// anybody having to remember.
+//
+// Seat tokens are the first thing to live here because they are the first thing
+// Tessera owns outright rather than inherits: `shippin.seat-token.v1` is the
+// product boundary, and nothing upstream has a concept of it.
 //
 // It is deliberately free of any OIDC or eventstore import. The token contract
 // (`docs/01-seat-token-contract.md`) is the product boundary, and a boundary
@@ -10,7 +21,7 @@
 // The provider behind the contract stays swappable because this package is the
 // only thing that knows what a seat token looks like. `internal/api/oidc`
 // gathers facts and hands them over; it does not build claims.
-package seat
+package domain
 
 import (
 	"errors"

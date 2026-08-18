@@ -6,8 +6,8 @@ import (
 
 	"github.com/zitadel/oidc/v3/pkg/oidc"
 
+	seat "github.com/EonsofStupid/tessera/backend/v1/domain"
 	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/seat"
 )
 
 func userInfoWith(orgID string, md map[string]string) *query.OIDCUserInfo {

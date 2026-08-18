@@ -56,9 +56,9 @@ UI, the login-v1 assets, the SaaS onboarding and billing paths.
 
 Done. Tessera mints seat tokens and Automaton's own verifier accepts them.
 
-- `internal/seat` holds the claim set and the rules, with no OIDC import — so
-  "`unknown` is never promoted" and "`aud` names exactly one workspace" are unit
-  tests rather than integration hopes.
+- `backend/v1/domain` holds the claim set and the rules, with no OIDC import —
+  so "`unknown` is never promoted" and "`aud` names exactly one workspace" are
+  unit tests rather than integration hopes.
 - `internal/api/oidc/seat_claims.go` gathers the facts and stamps them in
   `createJWT`, the one call before the signature.
 - A workspace reaches `aud` through `urn:shippin:audience:<entry>`, and the
@@ -119,3 +119,24 @@ systems actually fail, and it is a flow like any other once Phase 4 lands.
 `upstream/` stays as reference and is gitignored. The code we take lives here,
 under our module path.
 
+
+## The two backends
+
+`backend/v3` is Zitadel's third backend architecture, inherited whole. It is not
+dead weight and it is not a parallel tree — it is already the substrate under the
+legacy one: `internal/` imports its logging (67 files), its database and SQL
+dialect layers (67), its domain objects (32) and its repositories (31).
+
+`backend/v1` is ours, and it starts at one because it is the first architecture
+*this* project has rather than the third somebody else had. The number is the
+whole point: it says which of the two a file belongs to without anybody having
+to remember.
+
+New Tessera-owned domain code goes in `v1`. Seat tokens are there because they
+are the first thing Tessera owns outright rather than inherits — nothing
+upstream has a concept of `shippin.seat-token.v1`.
+
+What has *not* moved, and why: `SeatAudienceScope` stays in `internal/domain`
+next to `ProjectIDScope`, because it is not domain vocabulary — it is OIDC scope
+plumbing that has to sit beside the scope machinery it extends, and it uses that
+package's unexported audience append.

@@ -8,8 +8,12 @@ import (
 
 	"github.com/zitadel/oidc/v3/pkg/oidc"
 
+	// Tessera's own domain layer. Aliased because the package is `domain` and
+	// every other file in this package means `internal/domain` by that name —
+	// two different domains under one spelling is how the wrong one gets
+	// imported at three in the morning.
+	seat "github.com/EonsofStupid/tessera/backend/v1/domain"
 	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/seat"
 )
 
 // Where the seat's facts are stored today.
