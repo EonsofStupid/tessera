@@ -1,0 +1,146 @@
+// Package blueprint is how declared state reaches a database.
+//
+//	tessera blueprint validate --dir ./blueprints
+//	tessera blueprint apply    --dir ./blueprints --instance <id>
+//
+// validate needs no database and no configuration — it is the CI check and the
+// editor's loop. apply is one transaction per file: a file that fails on its
+// last entry applies none of itself, proven in the storage tests against a
+// real Postgres.
+package blueprint
+
+import (
+	"context"
+	"errors"
+	"fmt"
+
+	"github.com/mitchellh/mapstructure"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	old_logging "github.com/zitadel/logging" //nolint:staticcheck
+
+	seatdomain "github.com/EonsofStupid/tessera/backend/v1/domain"
+	blueprintstorage "github.com/EonsofStupid/tessera/backend/v1/storage/blueprint"
+	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
+	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
+	v3db "github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	v3_postgres "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
+	"github.com/EonsofStupid/tessera/internal/database"
+)
+
+// engine builds the one registry there is. A new model means a new applier
+// registered here, and nowhere else has an opinion.
+func engine() *seatdomain.BlueprintEngine {
+	return seatdomain.NewBlueprintEngine(seatstorage.NewApplier())
+}
+
+func New() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "blueprint",
+		Short: "Validate and apply declared identity state",
+	}
+	cmd.AddCommand(newValidateCmd(), newApplyCmd())
+	return cmd
+}
+
+func newValidateCmd() *cobra.Command {
+	var dir string
+	cmd := &cobra.Command{
+		Use:   "validate",
+		Short: "Parse and check a blueprint directory — no database, no writes",
+		RunE: func(cmd *cobra.Command, _ []string) error {
+			files, err := blueprintstorage.Load(dir)
+			if err != nil {
+				return err
+			}
+			// Load validated structure; the engine adds the one question
+			// structure cannot answer — does every model have an applier.
+			eng := engine()
+			var errs []error
+			for _, f := range files {
+				if err := eng.Check(f.Blueprint); err != nil {
+					errs = append(errs, fmt.Errorf("%s:\n%w", f.Path, err))
+				}
+			}
+			if err := errors.Join(errs...); err != nil {
+				return err
+			}
+			fmt.Fprintf(cmd.OutOrStdout(), "%d file(s) valid\n", len(files))
+			return nil
+		},
+	}
+	cmd.Flags().StringVar(&dir, "dir", "./blueprints", "directory of *.yaml blueprints")
+	return cmd
+}
+
+type config struct {
+	Database database.Config
+	Log      *old_logging.Config
+}
+
+func newApplyCmd() *cobra.Command {
+	var dir, instance string
+	cmd := &cobra.Command{
+		Use:   "apply",
+		Short: "Make a blueprint directory true for one instance",
+		Long: "Files apply in name order, each in its own transaction — a failing file " +
+			"applies none of itself, and files before it stay applied. Re-applying a " +
+			"converged directory reports every entry unchanged.",
+		RunE: func(cmd *cobra.Command, _ []string) error {
+			if instance == "" {
+				return errors.New("--instance is required — a blueprint declares state for one tenant at a time")
+			}
+			files, err := blueprintstorage.Load(dir)
+			if err != nil {
+				return err
+			}
+
+			cfg := new(config)
+			if err := viper.Unmarshal(cfg, viper.DecodeHook(mapstructure.ComposeDecodeHookFunc(
+				database.DecodeHook(false),
+				mapstructure.StringToTimeDurationHookFunc(),
+				mapstructure.TextUnmarshallerHookFunc(),
+			))); err != nil {
+				return fmt.Errorf("unable to read config: %w", err)
+			}
+			db, err := database.Connect(cfg.Database, false)
+			if err != nil {
+				return fmt.Errorf("cannot connect: %w", err)
+			}
+			defer func() { _ = db.Close() }()
+			if err := tesseramigration.Migrate(cmd.Context(), db.Pool); err != nil {
+				return fmt.Errorf("cannot migrate the tessera schema: %w", err)
+			}
+
+			return Apply(cmd.Context(), v3_postgres.PGxPool(db.Pool), instance, files, func(format string, a ...any) {
+				fmt.Fprintf(cmd.OutOrStdout(), format, a...)
+			})
+		},
+	}
+	cmd.Flags().StringVar(&dir, "dir", "./blueprints", "directory of *.yaml blueprints")
+	cmd.Flags().StringVar(&instance, "instance", "", "instance id to apply to")
+	return cmd
+}
+
+// Apply runs loaded files in order and narrates one line per file. Exported
+// because startup apply (3.4b) is the same loop with a different reporter, and
+// two loops would drift.
+func Apply(ctx context.Context, db v3db.Beginner, instance string, files []blueprintstorage.File, printf func(string, ...any)) error {
+	eng := engine()
+	changed := false
+	for _, f := range files {
+		report, err := eng.Apply(ctx, db, instance, f.Blueprint)
+		if err != nil {
+			return fmt.Errorf("%s: %w", f.Path, err)
+		}
+		counts := report.Counts()
+		printf("%s: %d created, %d updated, %d removed, %d unchanged\n",
+			f.Path, counts[seatdomain.OutcomeCreated], counts[seatdomain.OutcomeUpdated],
+			counts[seatdomain.OutcomeRemoved], counts[seatdomain.OutcomeUnchanged])
+		changed = changed || report.Changed()
+	}
+	if !changed {
+		printf("converged: nothing to change\n")
+	}
+	return nil
+}

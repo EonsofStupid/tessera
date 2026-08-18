@@ -14,6 +14,7 @@ import (
 
 	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
 	"github.com/EonsofStupid/tessera/cmd/admin"
+	"github.com/EonsofStupid/tessera/cmd/blueprint"
 	"github.com/EonsofStupid/tessera/cmd/build"
 	"github.com/EonsofStupid/tessera/cmd/initialise"
 	"github.com/EonsofStupid/tessera/cmd/key"
@@ -67,6 +68,7 @@ func New(out io.Writer, in io.Reader, args []string, server chan<- *start.Server
 		key.New(),
 		ready.New(),
 		seat.New(),
+		blueprint.New(),
 	)
 
 	cmd.InitDefaultVersionFlag()

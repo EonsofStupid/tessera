@@ -1,0 +1,22 @@
+# The dev workspace's seats, as a reviewed file.
+#
+# This is a template only because dev ids are minted per database — delete
+# .pgdata and every id changes. dev/seat-probe.sh renders @MEMBER_ID@ and
+# @ACCOUNT_ID@ from the live instance and applies the result, which is the
+# same pipeline the panel will run with real ids: render, validate, apply,
+# and a second apply reports nothing to change.
+schema: tessera.blueprint.v1
+name: dev — the probe seat
+
+entries:
+  - model: tessera/seat
+    id: probe
+    identifiers:
+      member: "@MEMBER_ID@"
+    attrs:
+      account: "@ACCOUNT_ID@"
+      occupant: agent
+      basis: subscription
+      workspaces: [ws-0001, ws-0002]
+      scopes: [hosting:active, terminal:advanced, chat:unified]
+      policy_version: pol_2026_08_17

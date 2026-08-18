@@ -24,11 +24,24 @@ ok()   { printf '  ✓ %s\n' "$*"; }
 api()  { curl -sf -X "$1" "$API$2" -H "Authorization: Bearer $PAT" -H 'Content-Type: application/json' "${@:3}"; }
 jqp()  { python3 -c "import json,sys; d=json.load(sys.stdin); print(d$1)"; }
 
+step "0 · the API answers"
+# On a first boot the management API exists before its projections have caught
+# up, and a request in that window fails as if the server were broken. Waiting
+# on a real management call — not on OIDC discovery, which comes up earlier —
+# is the difference between a probe that works and one that works usually.
+for _ in $(seq 60); do
+  api POST /management/v1/users/_search -d '{"queries":[]}' >/dev/null 2>&1 && break
+  sleep 0.5
+done
+api POST /management/v1/users/_search -d '{"queries":[]}' >/dev/null 2>&1 || {
+  printf '  ✗ management API did not become ready — see .artifacts/run.log\n'; exit 1; }
+ok "management API ready"
+
 step "1 · the seat"
 USER_ID="$(api POST /management/v1/users/machine -d '{
   "userName":"seat-probe","name":"Seat probe",
   "description":"proves the mint path; docs/05-minting-a-seat-token.md",
-  "accessTokenType":"ACCESS_TOKEN_TYPE_JWT"}' 2>/dev/null | jqp '["userId"]' || true)"
+  "accessTokenType":"ACCESS_TOKEN_TYPE_JWT"}' 2>/dev/null | jqp '["userId"]' 2>/dev/null || true)"
 if [[ -z "${USER_ID:-}" ]]; then
   # Already there from a previous run — find it rather than fail.
   USER_ID="$(api POST /management/v1/users/_search -d '{"queries":[{"userNameQuery":{"userName":"seat-probe"}}]}' \
@@ -38,24 +51,29 @@ else
   ok "created ($USER_ID)"
 fi
 
-step "2 · its facts"
-# Seats live in `tessera.seats` now, not in Zitadel user metadata, and they are
-# written through the same repository blueprints will use — so this script
-# cannot pass a test the real path would fail.
-#
-# The ids come from the database because a dev box has one instance and one
-# organization and there is no API that hands them over more cheaply.
+step "2 · its facts — declared, not typed"
+# Seats arrive as a blueprint now: rendered from the reviewed template, checked
+# by `blueprint validate` (no database), applied atomically, and applied AGAIN —
+# because a blueprint that is not a no-op the second time is not declarative,
+# and the probe should be the first thing to notice.
 PSQL="psql -h 127.0.0.1 -p 5433 -U tessera -d zitadel -tAc"
 INSTANCE="$($PSQL "select id from zitadel.instances limit 1")"
 ACCOUNT="$($PSQL "select id from zitadel.organizations limit 1")"
 TESSERA="$ROOT/.artifacts/tessera"
+BPDIR="$ROOT/.artifacts/blueprints"
 
-"$TESSERA" seat set --config "$ROOT/dev/dev.yaml" \
-  --instance "$INSTANCE" --member "$USER_ID" --account "$ACCOUNT" \
-  --occupant agent --basis subscription \
-  --workspaces "$WS_A,$WS_B" \
-  --scopes 'hosting.active,terminal:advanced,chat.unified' \
-  --policy-version pol_2026_08_17 2>/dev/null | sed 's/^/  ✓ /'
+mkdir -p "$BPDIR"
+sed -e "s/@MEMBER_ID@/$USER_ID/" -e "s/@ACCOUNT_ID@/$ACCOUNT/" \
+  "$ROOT/blueprints/dev/seats.yaml.tmpl" > "$BPDIR/seats.yaml"
+
+"$TESSERA" blueprint validate --dir "$BPDIR" >/dev/null 2>&1 && ok "blueprint validates (no database needed)"
+"$TESSERA" blueprint apply --config "$ROOT/dev/dev.yaml" --dir "$BPDIR" --instance "$INSTANCE" 2>/dev/null | sed 's/^/  ✓ /'
+SECOND="$("$TESSERA" blueprint apply --config "$ROOT/dev/dev.yaml" --dir "$BPDIR" --instance "$INSTANCE" 2>/dev/null)"
+if printf '%s' "$SECOND" | grep -q "converged: nothing to change"; then
+  ok "second apply converged — the blueprint is a no-op, as declared state must be"
+else
+  printf '  ✗ second apply was not a no-op:\n%s\n' "$SECOND"; exit 1
+fi
 
 # Prove the old source is gone rather than merely unused: if a single seat fact
 # were still readable from metadata, every assertion below would pass for the
