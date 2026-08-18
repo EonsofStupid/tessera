@@ -182,3 +182,13 @@ func TestSplitNUL(t *testing.T) {
 		t.Fatalf("splitNUL() = %#v", got)
 	}
 }
+
+func TestNormalizeLineEndings(t *testing.T) {
+	t.Parallel()
+	want := []byte("one\ntwo\n")
+	for _, input := range [][]byte{want, []byte("one\r\ntwo\r\n")} {
+		if got := normalizeLineEndings(input); string(got) != string(want) {
+			t.Fatalf("normalizeLineEndings() = %q, want %q", got, want)
+		}
+	}
+}

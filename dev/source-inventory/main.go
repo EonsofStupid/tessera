@@ -170,7 +170,7 @@ func run(manifestPath, outputPath string, check bool) error {
 		if err != nil {
 			return fmt.Errorf("read checked-in BOM: %w", err)
 		}
-		if !bytes.Equal(actual, wanted) {
+		if !bytes.Equal(normalizeLineEndings(actual), wanted) {
 			return errors.New("source-bom.json is stale; run `go run ./dev/source-inventory` and commit the result")
 		}
 		fmt.Printf("source provenance verified: %d tracked paths, sha256 %s\n", generated.PathCount, generated.ClassificationSHA256)
@@ -182,6 +182,10 @@ func run(manifestPath, outputPath string, check bool) error {
 	}
 	fmt.Printf("wrote %s: %d tracked paths, sha256 %s\n", outputPath, generated.PathCount, generated.ClassificationSHA256)
 	return nil
+}
+
+func normalizeLineEndings(value []byte) []byte {
+	return bytes.ReplaceAll(value, []byte("\r\n"), []byte("\n"))
 }
 
 func validateManifest(m manifest) error {
