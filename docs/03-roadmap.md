@@ -166,6 +166,11 @@ The control-surface contract and vertical slice are
 `docs/08-control-surface-and-federation.md`; the outcome-first guide and its
 normalized API mapping are `docs/09-guided-identity-experience.md`.
 
+The service ships in this phase as one cloud-neutral, OCI-runtime-compatible
+container image. Its database, ingress and secret injection remain deployment
+concerns; the exact runtime and Podman boundary is
+`docs/10-container-runtime.md`.
+
 - **Done when** clicking Tessera changes the Shippin shell into a coherent
   identity dashboard, upstream/downstream trust are visibly distinct, and a
   Zuul installer can authenticate and enroll one workspace without an embedded
