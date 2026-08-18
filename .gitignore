@@ -31,3 +31,6 @@ apps/docs/
 
 # chatmirror — local AI session mirrors (never commit: may contain tokens)
 .chat/
+
+# agent worktrees — local scratch, never part of the tree
+.claude/worktrees/
