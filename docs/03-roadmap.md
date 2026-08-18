@@ -148,7 +148,28 @@ Design and the planner seam (where Authentik's policies land when needed):
 - **Done when** password + TOTP + recovery are three configurations of one
   engine rather than three code paths. ✓
 
-### Phase 5 — outposts
+### Phase 5 — control surface and federation
+
+Make Tessera a first-class module inside the persistent Shippin member shell,
+not a vendor console beside it. The first slice is a provider-neutral overview
+API and `/member/tessera`: three identity lenses (infrastructure attachments,
+AI/agent identities and customers), upstream providers and downstream clients,
+sign-in posture, sessions, trust and audit.
+
+Federation is the product center. Tessera both trusts upstream OIDC/OAuth2,
+SAML and LDAP providers and acts as the OIDC/SAML identity provider for
+Shippin, Zuul, Automaton, DevForge and customer applications. Zuul uses Tessera
+for PKCE/device or guided one-time enrollment, then owns the mesh it creates;
+Tessera never becomes a peer or infrastructure inventory.
+
+The contract and vertical slice are `docs/08-control-surface-and-federation.md`.
+
+- **Done when** clicking Tessera changes the Shippin shell into a coherent
+  identity dashboard, upstream/downstream trust are visibly distinct, and a
+  Zuul installer can authenticate and enroll one workspace without an embedded
+  reusable secret.
+
+### Phase 6 — outposts
 
 Bring `internal/outpost/proxyv2` across as the forward-auth proxy. It already
 speaks OIDC to a core and configures itself over websockets; it needs pointing
@@ -160,7 +181,7 @@ anything, and gives LDAP/RADIUS to things that will never speak OIDC.
 - **Done when** a workspace sits behind the proxy and Automaton still
   authenticates through it unchanged.
 
-### Phase 6 — recovery
+### Phase 7 — recovery
 
 Left last deliberately, and it is the one that decides whether this is real.
 Account recovery when a customer has lost their second factor is where identity
