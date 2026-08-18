@@ -26,6 +26,7 @@ import (
 	"golang.org/x/net/http2/h2c"
 	"golang.org/x/text/language"
 
+	flowstorage "github.com/EonsofStupid/tessera/backend/v1/storage/flow"
 	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
 	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
 	new_domain "github.com/EonsofStupid/tessera/backend/v3/domain"
@@ -41,6 +42,7 @@ import (
 	"github.com/EonsofStupid/tessera/internal/api"
 	"github.com/EonsofStupid/tessera/internal/api/assets"
 	internal_authz "github.com/EonsofStupid/tessera/internal/api/authz"
+	flows_api "github.com/EonsofStupid/tessera/internal/api/flows"
 	action_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/action/v2"
 	action_v2_beta "github.com/EonsofStupid/tessera/internal/api/grpc/action/v2beta"
 	"github.com/EonsofStupid/tessera/internal/api/grpc/admin"
@@ -286,6 +288,12 @@ func startZitadel(ctx context.Context, config *Config, masterKey string, server 
 	if err != nil {
 		return fmt.Errorf("error starting authz repo: %w", err)
 	}
+	// The flow executor's own role: exactly what a login client holds, nothing
+	// more. Registered here, before the permission closure captures the
+	// mappings — a role added after that line would silently not exist.
+	config.SystemAuthZ.RolePermissionMappings = append(config.SystemAuthZ.RolePermissionMappings,
+		internal_authz.RoleMapping{Role: flows_api.SystemRole, Permissions: flows_api.Permissions})
+
 	permissionCheck := func(ctx context.Context, permission, orgID, resourceID string) (err error) {
 		return internal_authz.CheckPermission(ctx, authZRepo, config.SystemAuthZ.RolePermissionMappings, config.InternalAuthZ.RolePermissionMappings, permission, orgID, resourceID)
 	}
@@ -672,6 +680,13 @@ func startAPIs(
 	}
 
 	apis.RegisterHandlerOnPrefix(idp.HandlerPrefix, idp.NewHandler(commands, queries, keys.IDPConfig, instanceInterceptor.Handler, federatedLogoutsCache))
+
+	// Tessera's flow executor: login, MFA and recovery as declared flows.
+	apis.RegisterHandlerOnPrefix(flows_api.HandlerPrefix, instanceInterceptor.Handler(
+		flows_api.NewHandler(flows_api.Config{
+			ExecutionTTL:    10 * time.Minute,
+			SessionLifetime: 24 * time.Hour,
+		}, commands, queries, flowstorage.NewRepository(v3_postgres.PGxPool(dbClient.Pool)))))
 
 	userAgentInterceptor, err := middleware.NewUserAgentHandler(config.UserAgentCookie, keys.UserAgentCookieKey, id.SonyFlakeGenerator(), config.ExternalSecure, login.EndpointResources, login.EndpointExternalLoginCallbackFormPost, login.EndpointSAMLACS)
 	if err != nil {
