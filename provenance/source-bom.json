@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3863,
-  "classification_sha256": "967bde8aa44abb07e1280bc9e1f093d8971396c2f12450ac84a943f96376842e",
+  "path_count": 3866,
+  "classification_sha256": "56766870f33f7fd1c7facb3e4989db821ab5dbc5881bf2321b5ea8384d3742cc",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 69
+      "paths": 72
     },
     {
       "source_id": "zitadel-core",
@@ -138,6 +138,7 @@
         "docs/09-guided-identity-experience.md",
         "docs/11-operational-blueprint.md",
         "docs/12-execution-worklist.md",
+        "docs/13-deployment-lifecycle-contract.md",
         "prefetch-embedded",
         "provenance/README.md",
         "provenance/source-bom.json",
@@ -170,6 +171,8 @@
       "relationship": "native",
       "license_expression": "LicenseRef-Tessera-Pending",
       "paths": [
+        "backend/v1/domain/deployment_lifecycle.go",
+        "backend/v1/domain/deployment_lifecycle_test.go",
         "backend/v1/domain/seat.go",
         "backend/v1/domain/seat_repository.go",
         "backend/v1/domain/seat_test.go",
