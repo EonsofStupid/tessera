@@ -52,6 +52,15 @@
   ],
   "path_rules": [
     {
+      "id": "tessera-management-proto",
+      "patterns": [
+        "proto/tessera/**"
+      ],
+      "source_id": "tessera-native",
+      "relationship": "native",
+      "reason": "Tessera-owned provider-neutral management protocol."
+    },
+    {
       "id": "authentik-blueprint-inspiration",
       "patterns": [
         "backend/v1/domain/blueprint*.go",

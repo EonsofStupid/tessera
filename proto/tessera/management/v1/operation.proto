@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package tessera.management.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/EonsofStupid/tessera/pkg/grpc/management/v1;management";
+
+enum OperationKind {
+  OPERATION_KIND_UNSPECIFIED = 0;
+  OPERATION_KIND_INSTALLATION = 1;
+  OPERATION_KIND_GUIDE = 2;
+  OPERATION_KIND_BACKUP = 3;
+  OPERATION_KIND_RESTORE = 4;
+  OPERATION_KIND_UPGRADE = 5;
+  OPERATION_KIND_TRUST_ROTATION = 6;
+}
+
+enum OperationPhase {
+  OPERATION_PHASE_UNSPECIFIED = 0;
+  OPERATION_PHASE_PLAN = 1;
+  OPERATION_PHASE_APPLY = 2;
+  OPERATION_PHASE_VERIFY = 3;
+}
+
+enum OperationStatus {
+  OPERATION_STATUS_UNSPECIFIED = 0;
+  OPERATION_STATUS_QUEUED = 1;
+  OPERATION_STATUS_RUNNING = 2;
+  OPERATION_STATUS_SUCCEEDED = 3;
+  OPERATION_STATUS_FAILED = 4;
+  OPERATION_STATUS_CANCELING = 5;
+  OPERATION_STATUS_CANCELED = 6;
+}
+
+enum RetryDirective {
+  RETRY_DIRECTIVE_UNSPECIFIED = 0;
+  RETRY_DIRECTIVE_NONE = 1;
+  RETRY_DIRECTIVE_SAME_REQUEST = 2;
+  RETRY_DIRECTIVE_REPLAN = 3;
+  RETRY_DIRECTIVE_OPERATOR_ACTION = 4;
+}
+
+enum EffectAction {
+  EFFECT_ACTION_UNSPECIFIED = 0;
+  EFFECT_ACTION_CREATE = 1;
+  EFFECT_ACTION_UPDATE = 2;
+  EFFECT_ACTION_REMOVE = 3;
+}
+
+enum OperationRefusalReason {
+  OPERATION_REFUSAL_REASON_UNSPECIFIED = 0;
+  OPERATION_REFUSAL_REASON_INVALID_PLAN = 1;
+  OPERATION_REFUSAL_REASON_PLAN_EXPIRED = 2;
+  OPERATION_REFUSAL_REASON_PLAN_DIGEST_MISMATCH = 3;
+  OPERATION_REFUSAL_REASON_STALE_BASE_REVISION = 4;
+  OPERATION_REFUSAL_REASON_IDEMPOTENCY_KEY_REQUIRED = 5;
+  OPERATION_REFUSAL_REASON_INVALID_IDEMPOTENCY_KEY = 6;
+  OPERATION_REFUSAL_REASON_IDEMPOTENCY_KEY_REUSED = 7;
+  OPERATION_REFUSAL_REASON_PROGRESS_SEQUENCE_INVALID = 8;
+  OPERATION_REFUSAL_REASON_PROGRESS_PHASE_REGRESSED = 9;
+  OPERATION_REFUSAL_REASON_OPERATION_TERMINAL = 10;
+}
+
+message OperationScope {
+  string account_id = 1;
+  string workspace_id = 2;
+}
+
+message OperationEffect {
+  string id = 1;
+  EffectAction action = 2;
+  string resource_type = 3;
+  string resource_id = 4;
+  string summary = 5;
+  bool irreversible = 6;
+  string required_permission = 7;
+}
+
+message OperationRequirement {
+  string code = 1;
+  bool satisfied = 2;
+  string consequence = 3;
+  string remediation = 4;
+  string secret_slot = 5;
+}
+
+message PlannedVerification {
+  string code = 1;
+  bool required = 2;
+  string summary = 3;
+}
+
+message OperationPlan {
+  string plan_id = 1;
+  OperationKind kind = 2;
+  OperationScope scope = 3;
+  string base_revision = 4;
+  string desired_revision = 5;
+  string plan_digest = 6;
+  repeated OperationEffect effects = 7;
+  repeated OperationRequirement requirements = 8;
+  repeated string required_permissions = 9;
+  repeated PlannedVerification verifications = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp expires_at = 12;
+}
+
+message OperationProgressEvent {
+  uint64 sequence = 1;
+  OperationPhase phase = 2;
+  OperationStatus status = 3;
+  string step_code = 4;
+  string summary = 5;
+  uint64 completed_units = 6;
+  uint64 total_units = 7;
+  RetryDirective retry = 8;
+  string diagnostic_ref = 9;
+  google.protobuf.Timestamp observed_at = 10;
+}
+
+message OperationFailure {
+  OperationRefusalReason reason = 1;
+  string field = 2;
+  string detail = 3;
+  RetryDirective retry = 4;
+}
+
+message Operation {
+  string operation_id = 1;
+  string plan_id = 2;
+  OperationKind kind = 3;
+  OperationScope scope = 4;
+  string base_revision = 5;
+  string desired_revision = 6;
+  string plan_digest = 7;
+  OperationPhase phase = 8;
+  OperationStatus status = 9;
+  repeated OperationProgressEvent progress = 10;
+  bool cancelable = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
+  google.protobuf.Timestamp completed_at = 14;
+  OperationFailure failure = 15;
+}
+
+message ProtectedSecretBinding {
+  string slot = 1;
+  string reference = 2;
+}
+
+message ApplyPlanRequest {
+  string plan_id = 1;
+  string reviewed_plan_digest = 2;
+  string idempotency_key = 3;
+  repeated ProtectedSecretBinding secret_bindings = 4;
+}
+
+message VerifyOperationRequest {
+  string operation_id = 1;
+  string idempotency_key = 2;
+}
+
+message GetOperationRequest {
+  string operation_id = 1;
+}
