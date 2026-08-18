@@ -21,6 +21,7 @@ import (
 
 	seatdomain "github.com/EonsofStupid/tessera/backend/v1/domain"
 	blueprintstorage "github.com/EonsofStupid/tessera/backend/v1/storage/blueprint"
+	flowstorage "github.com/EonsofStupid/tessera/backend/v1/storage/flow"
 	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
 	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
 	v3db "github.com/EonsofStupid/tessera/backend/v3/storage/database"
@@ -31,7 +32,10 @@ import (
 // engine builds the one registry there is. A new model means a new applier
 // registered here, and nowhere else has an opinion.
 func engine() *seatdomain.BlueprintEngine {
-	return seatdomain.NewBlueprintEngine(seatstorage.NewApplier())
+	return seatdomain.NewBlueprintEngine(
+		seatstorage.NewApplier(),
+		flowstorage.NewApplier(),
+	)
 }
 
 func New() *cobra.Command {
