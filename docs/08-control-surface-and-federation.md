@@ -41,23 +41,25 @@ identity”; it may not decide where the peer runs or whether a machine exists.
 
 ## Dashboard information architecture
 
-The first viewport answers four questions without requiring a settings hunt:
+The first viewport starts with the outcome-oriented guide defined in
+`09-guided-identity-experience.md`. A customer chooses what they want to set up
+before seeing identity-domain vocabulary. Alongside that guide, the overview
+answers four questions without requiring a settings hunt:
 
 1. **Can people and agents sign in?** Issuer, JWKS, flow and federation health.
 2. **Who has access?** Human seats, agent seats and workspace bindings.
 3. **What trusts what?** Upstream providers and downstream clients, separated.
 4. **What just changed?** Session, federation, key and policy audit activity.
 
-The module navigation is:
+The module navigation leads with customer jobs while retaining an advanced
+operator layer:
 
 | area | purpose |
 |---|---|
-| Overview | readiness, identity counts, trust summary and recent activity |
+| Start | guided setup and readiness |
 | Directory | humans, agents, organizations, workspace bindings and service identities |
-| Federation | upstream IdPs, downstream clients, domain routing and attribute/role mapping |
-| Sign-in | flows, stages, MFA, passkeys when enabled, and recovery posture |
-| Sessions | active sessions, factor evidence and revocation |
-| Trust & audit | signing keys, JWKS rotation, policy revisions and immutable activity |
+| People & access | directory, sign-in posture, recovery and active sessions |
+| Advanced | upstream/downstream federation, flows, keys, policy and immutable audit |
 
 ## Federation is two directional
 
@@ -177,7 +179,8 @@ The first implementation is intentionally read-first:
    for the member route and management adapter;
 2. implement `GET /tessera/v1/overview` as a provider-neutral projection;
 3. add `/member/tessera` and a Tessera-aware shell context;
-4. render overview, the three identity lenses, upstream/downstream trust and
+4. render the six-outcome non-mutating setup guide, overview, the three
+   identity lenses, upstream/downstream trust and
    recent activity from a typed fixture behind an integration boundary;
 5. replace each fixture lane with the real management projection without
    changing domain components;

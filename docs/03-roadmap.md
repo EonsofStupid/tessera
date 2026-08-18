@@ -162,7 +162,9 @@ Shippin, Zuul, Automaton, DevForge and customer applications. Zuul uses Tessera
 for PKCE/device or guided one-time enrollment, then owns the mesh it creates;
 Tessera never becomes a peer or infrastructure inventory.
 
-The contract and vertical slice are `docs/08-control-surface-and-federation.md`.
+The control-surface contract and vertical slice are
+`docs/08-control-surface-and-federation.md`; the outcome-first guide and its
+normalized API mapping are `docs/09-guided-identity-experience.md`.
 
 - **Done when** clicking Tessera changes the Shippin shell into a coherent
   identity dashboard, upstream/downstream trust are visibly distinct, and a
