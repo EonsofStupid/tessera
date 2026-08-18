@@ -1,0 +1,27 @@
+.git
+.github
+.chat
+.claude
+.artifacts
+.pgdata
+upstream
+node_modules
+/target
+
+# A clean image build regenerates these protocol artifacts from proto/. The
+# tracked helper files under pkg/grpc are still part of the build context.
+pkg/grpc/**/*.pb*.go
+pkg/grpc/**/*connect/*.connect.go
+openapi/v2
+apps/docs
+
+# Local credentials and runtime state are never build context.
+.env
+.env.*
+secrets
+*.pem
+*.key
+*.p12
+*.pfx
+*.jwk
+*.jwks

@@ -1,0 +1,39 @@
+[Unit]
+Description=Tessera identity and authorization
+Documentation=https://github.com/EonsofStupid/tessera/blob/main/docs/10-container-runtime.md
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+Image=localhost/shippin/tessera:dev
+ContainerName=shippin-tessera
+Exec=start-from-init --masterkeyFromEnv --tlsMode external --init-projections
+
+EnvironmentFile=./tessera.env
+Secret=tessera-masterkey,type=env,target=ZITADEL_MASTERKEY
+Secret=tessera-database-dsn,type=env,target=ZITADEL_DATABASE_POSTGRES_DSN
+Secret=tessera-bootstrap-password,type=env,target=ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD
+
+Network=shippin-control-plane.network
+PublishPort=127.0.0.1:8080:8080
+Volume=./blueprints:/etc/tessera/blueprints:ro,Z
+
+ReadOnly=true
+ReadOnlyTmpfs=true
+NoNewPrivileges=true
+DropCapability=all
+
+HealthCmd=/usr/local/bin/tessera ready
+HealthInterval=10s
+HealthTimeout=3s
+HealthRetries=12
+HealthStartPeriod=60s
+
+[Service]
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=15min
+TimeoutStopSec=60s
+
+[Install]
+WantedBy=default.target

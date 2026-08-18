@@ -56,6 +56,8 @@ it does not define Tessera's product limits.
 | `docs/03-roadmap.md` | the evidence-driven worklist to reach that release |
 | `docs/01-seat-token-contract.md` | the optional Shippin token profile |
 | `docs/05-minting-a-seat-token.md` | how that optional profile is exercised |
+| `docs/10-container-runtime.md` | the standalone container and Podman boundary |
 
 House rules: `../AGENTS.md` first, then `AGENTS.md` here. Tessera product law
 lives in this repository. Host-product documents govern only their adapters.
+
