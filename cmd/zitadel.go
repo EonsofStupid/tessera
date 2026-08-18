@@ -47,9 +47,7 @@ func New(out io.Writer, in io.Reader, args []string, server chan<- *start.Server
 		SilenceUsage: true,
 	}
 
-	viper.AutomaticEnv()
-	viper.SetEnvPrefix("ZITADEL")
-	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+	configureEnvironment(viper.GetViper())
 	viper.SetConfigType("yaml")
 	err := loadDefaultConfig()
 	logging.OnError(context.Background(), err).Fatal("unable to read default config")
@@ -74,6 +72,12 @@ func New(out io.Writer, in io.Reader, args []string, server chan<- *start.Server
 	cmd.InitDefaultVersionFlag()
 
 	return cmd
+}
+
+func configureEnvironment(v *viper.Viper) {
+	v.AutomaticEnv()
+	v.SetEnvPrefix("TESSERA")
+	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 }
 
 func loadDefaultConfig() error {
