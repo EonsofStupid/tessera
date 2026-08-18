@@ -12,6 +12,7 @@ import (
 
 	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
 	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
+	tessera_blueprint "github.com/EonsofStupid/tessera/cmd/blueprint"
 	"github.com/EonsofStupid/tessera/cmd/encryption"
 	"github.com/EonsofStupid/tessera/cmd/hooks"
 	"github.com/EonsofStupid/tessera/internal/actions"
@@ -58,39 +59,42 @@ type Config struct {
 	HTTP1HostHeader     string
 	WebAuthNName        string
 	Database            database.Config
-	Caches              *connector.CachesConfig
-	Tracing             *instrumentation.LegacyTraceConfig
-	Metrics             *instrumentation.LegacyMetricConfig
-	Profiler            *instrumentation.LegacyProfileConfig
-	Projections         projection.Config
-	Notifications       handlers.WorkerConfig
-	Executions          execution.WorkerConfig
-	Auth                auth_es.Config
-	Admin               admin_es.Config
-	UserAgentCookie     *middleware.UserAgentCookieConfig
-	OIDC                oidc.Config
-	SAML                saml.Config
-	SCIM                scim_config.Config
-	Login               login.Config
-	Console             console.Config
-	WellKnown           well_known.Config
-	AssetStorage        static_config.AssetStorageConfig
-	InternalAuthZ       authz.Config
-	SystemAuthZ         authz.Config
-	SystemDefaults      systemdefaults.SystemDefaults
-	EncryptionKeys      *encryption.EncryptionKeyConfig
-	DefaultInstance     command.InstanceSetup
-	AuditLogRetention   time.Duration
-	SystemAPIUsers      map[string]*authz.SystemAPIUser
-	CustomerPortal      string
-	Machine             *id.Config
-	Actions             *actions.Config
-	Eventstore          *eventstore.Config
-	LogStore            *logstore.Configs
-	Quotas              *QuotasConfig
-	Telemetry           *handlers.TelemetryPusherConfig
-	ServicePing         *serviceping.Config
-	HTTPClient          *http.ClientConfig
+	// Blueprints.Dir, when set, is applied to every instance on every start —
+	// declared identity state, from reviewed files, with no human in the loop.
+	Blueprints        tessera_blueprint.StartupConfig
+	Caches            *connector.CachesConfig
+	Tracing           *instrumentation.LegacyTraceConfig
+	Metrics           *instrumentation.LegacyMetricConfig
+	Profiler          *instrumentation.LegacyProfileConfig
+	Projections       projection.Config
+	Notifications     handlers.WorkerConfig
+	Executions        execution.WorkerConfig
+	Auth              auth_es.Config
+	Admin             admin_es.Config
+	UserAgentCookie   *middleware.UserAgentCookieConfig
+	OIDC              oidc.Config
+	SAML              saml.Config
+	SCIM              scim_config.Config
+	Login             login.Config
+	Console           console.Config
+	WellKnown         well_known.Config
+	AssetStorage      static_config.AssetStorageConfig
+	InternalAuthZ     authz.Config
+	SystemAuthZ       authz.Config
+	SystemDefaults    systemdefaults.SystemDefaults
+	EncryptionKeys    *encryption.EncryptionKeyConfig
+	DefaultInstance   command.InstanceSetup
+	AuditLogRetention time.Duration
+	SystemAPIUsers    map[string]*authz.SystemAPIUser
+	CustomerPortal    string
+	Machine           *id.Config
+	Actions           *actions.Config
+	Eventstore        *eventstore.Config
+	LogStore          *logstore.Configs
+	Quotas            *QuotasConfig
+	Telemetry         *handlers.TelemetryPusherConfig
+	ServicePing       *serviceping.Config
+	HTTPClient        *http.ClientConfig
 }
 
 type QuotasConfig struct {

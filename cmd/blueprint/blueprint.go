@@ -144,3 +144,50 @@ func Apply(ctx context.Context, db v3db.Beginner, instance string, files []bluep
 	}
 	return nil
 }
+
+// StartupConfig is the `Blueprints:` block of the start configuration.
+type StartupConfig struct {
+	// Dir is a blueprint directory applied to every instance on every start.
+	// Empty means the feature is off — the only default that cannot surprise.
+	Dir string
+}
+
+// ApplyOnStart applies a configured directory to every instance in the
+// database. It is the same loop the CLI runs — one transaction per file,
+// advisory-locked per instance — with the instance list coming from the
+// database instead of a flag, because on boot nobody is there to type one.
+func ApplyOnStart(ctx context.Context, cfg StartupConfig, db v3db.Pool) error {
+	if cfg.Dir == "" {
+		return nil
+	}
+	files, err := blueprintstorage.Load(cfg.Dir)
+	if err != nil {
+		return err
+	}
+
+	rows, err := db.Query(ctx, "SELECT id FROM zitadel.instances ORDER BY id")
+	if err != nil {
+		return fmt.Errorf("listing instances: %w", err)
+	}
+	defer func() { _ = rows.Close() }()
+	var instances []string
+	for rows.Next() {
+		var id string
+		if err := rows.Scan(&id); err != nil {
+			return err
+		}
+		instances = append(instances, id)
+	}
+	if err := rows.Err(); err != nil {
+		return err
+	}
+
+	for _, instance := range instances {
+		if err := Apply(ctx, db, instance, files, func(format string, a ...any) {
+			fmt.Printf("blueprint[%s] "+format, append([]any{instance}, a...)...)
+		}); err != nil {
+			return fmt.Errorf("instance %s: %w", instance, err)
+		}
+	}
+	return nil
+}

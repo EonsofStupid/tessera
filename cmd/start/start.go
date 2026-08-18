@@ -31,6 +31,7 @@ import (
 	new_domain "github.com/EonsofStupid/tessera/backend/v3/domain"
 	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
 	v3_postgres "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
+	tessera_blueprint "github.com/EonsofStupid/tessera/cmd/blueprint"
 	"github.com/EonsofStupid/tessera/cmd/build"
 	"github.com/EonsofStupid/tessera/cmd/encryption"
 	"github.com/EonsofStupid/tessera/cmd/key"
@@ -201,6 +202,14 @@ func startZitadel(ctx context.Context, config *Config, masterKey string, server 
 	// migration 002 an ordinary act rather than an operational event.
 	if err := tesseramigration.Migrate(ctx, dbClient.Pool); err != nil {
 		return fmt.Errorf("cannot migrate the tessera schema: %w", err)
+	}
+
+	// Declared state, on every boot. A configured directory that cannot apply
+	// fails the start rather than starting anyway: the operator declared what
+	// this box's identity state is, and running while not in that state is the
+	// drift no one notices until a customer does. Unset means off.
+	if err := tessera_blueprint.ApplyOnStart(ctx, config.Blueprints, v3_postgres.PGxPool(dbClient.Pool)); err != nil {
+		return fmt.Errorf("blueprints did not apply: %w", err)
 	}
 
 	keyStorage, err := cryptoDB.NewKeyStorage(dbClient, masterKey)

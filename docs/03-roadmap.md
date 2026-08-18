@@ -95,7 +95,7 @@ instead. Had it been a step, migration 002 would never reach a database that had
 already been set up, every deployment in the fleet would silently keep the old
 schema, and the failure would surface as a missing column a long way from here.
 
-### Phase 3 — blueprints
+### Phase 3 — blueprints ✅ (seats; more models plug into the same engine)
 
 Take Authentik's blueprint model — YAML applied on a loop inside one atomic
 transaction, rolled back whole on any failure — and implement it over Tessera's
@@ -106,6 +106,20 @@ identity config becomes reviewed files instead of something somebody clicked.
 
 - **Done when** a fresh database reaches known state from `blueprints/` alone,
   and re-applying is a no-op.
+
+Done, for everything Tessera owns: `tessera blueprint validate|apply`, one
+transaction per file, advisory-locked per instance, `Blueprints.Dir` applied to
+every instance on every start — a deleted seat comes back on the next boot as
+`1 created`, and the boot after that reports `converged: nothing to change`.
+The atomicity proof runs against an embedded real PostgreSQL 16: a blueprint
+whose last entry violates a real constraint leaves the database byte-identical,
+timestamps included. Design and traps: `docs/06-blueprints.md`.
+
+The honest boundary: `blueprints/` declares Tessera's own state (seats today;
+each new model is one applier registered in `cmd/blueprint`). The *user* a seat
+attaches to is still Zitadel's, created by setup or the management API — "known
+state from files alone" covers users only when a user applier joins the
+registry, which is the natural next model.
 
 ### Phase 4 — flows
 

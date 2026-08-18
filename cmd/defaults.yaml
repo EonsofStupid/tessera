@@ -231,6 +231,14 @@ PublicHostHeaders: # ZITADEL_PUBLICHOSTHEADERS
 
 WebAuthNName: ZITADEL # ZITADEL_WEBAUTHNNAME
 
+# Tessera — a blueprint directory applied to every instance on every start.
+# Declared identity state from reviewed files; empty means off.
+# The key MUST exist here for the env override to bind (viper's AutomaticEnv
+# does not reach Unmarshal for keys absent from the defaults) — which is why
+# every other key in this file is spelled out too.
+Blueprints:
+  Dir: # ZITADEL_BLUEPRINTS_DIR
+
 Database:
   # Postgres is the default database of ZITADEL
   postgres:

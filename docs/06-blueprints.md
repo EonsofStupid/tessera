@@ -1,7 +1,7 @@
 # 06 — Blueprints: the plan
 
-**Status:** plan. Phase 3.1 (seats in `tessera.seats`) is done; this is the
-sequence for 3.2 → 3.4.
+**Status:** built. Every step below landed as its own commit, each proven by
+its done-when before the next began; this document is now the design record.
 
 ## What a blueprint is here
 
