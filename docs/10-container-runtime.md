@@ -40,10 +40,10 @@ administrator.
 Provisioning may run the same image with `start-from-init` only when all three
 bootstrap secrets are attached:
 
-1. the 32-character Tessera master key as `ZITADEL_MASTERKEY`;
-2. a PostgreSQL DSN as `ZITADEL_DATABASE_POSTGRES_DSN`;
+1. the 32-character Tessera master key as `TESSERA_MASTERKEY`;
+2. a PostgreSQL DSN as `TESSERA_DATABASE_POSTGRES_DSN`;
 3. a deployment-generated first-administrator password as
-   `ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD`.
+   `TESSERA_FIRSTINSTANCE_ORG_HUMAN_PASSWORD`.
 
 The database and role named by DSN already exist and have the privileges needed
 for schema initialization. Managed Shippin provisions them; private cloud may
@@ -67,11 +67,11 @@ Non-secret runtime configuration is supplied through an external environment
 file. At minimum it declares:
 
 ```text
-ZITADEL_EXTERNALDOMAIN
-ZITADEL_EXTERNALPORT=443
-ZITADEL_EXTERNALSECURE=true
-ZITADEL_TLS_ENABLED=false
-ZITADEL_PORT=8080
+TESSERA_EXTERNALDOMAIN
+TESSERA_EXTERNALPORT=443
+TESSERA_EXTERNALSECURE=true
+TESSERA_TLS_ENABLED=false
+TESSERA_PORT=8080
 ```
 
 The public domain must be stable before the first instance is created because

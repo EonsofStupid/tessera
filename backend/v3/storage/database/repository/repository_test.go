@@ -51,7 +51,7 @@ func runTests(m *testing.M) int {
 
 func newEmbeddedDB(ctx context.Context) (pool database.PoolTest, stop func(), err error) {
 	var connector database.Connector
-	if url := os.Getenv("ZITADEL_TEST_POSTGRES_URL"); url != "" {
+	if url := os.Getenv("TESSERA_TEST_POSTGRES_URL"); url != "" {
 		log.Println("using database provided by env")
 		connector, err = postgres.DecodeConfig(url)
 		if err != nil {

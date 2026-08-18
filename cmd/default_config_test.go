@@ -30,6 +30,16 @@ func loadBaseDefaultConfig(t *testing.T, v *viper.Viper) {
 	require.NoError(t, v.ReadConfig(bytes.NewBuffer(defaultConfig)))
 }
 
+func TestConfigureEnvironmentUsesTesseraPrefix(t *testing.T) {
+	t.Setenv("TESSERA_PORT", "2345")
+
+	v := testViper(t)
+	v.SetDefault("Port", 8080)
+	configureEnvironment(v)
+
+	assert.Equal(t, 2345, v.GetInt("Port"))
+}
+
 func TestLoadDefaultConfig_NonFIPSPasswordHasher(t *testing.T) {
 	v := testViper(t)
 	require.NoError(t, loadDefaultConfigInto(v))

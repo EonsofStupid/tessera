@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	ZitadelKeyPath = "ZITADEL_KEY_PATH"
+	ZitadelKeyPath = "TESSERA_KEY_PATH"
 )
 
 type Storage struct{}

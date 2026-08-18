@@ -200,7 +200,7 @@ type Steps struct {
 
 func NewSteps(ctx context.Context, v *viper.Viper) (*Steps, error) {
 	v.AutomaticEnv()
-	v.SetEnvPrefix("ZITADEL")
+	v.SetEnvPrefix("TESSERA")
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.SetConfigType("yaml")
 	err := v.ReadConfig(bytes.NewBuffer(defaultSteps))

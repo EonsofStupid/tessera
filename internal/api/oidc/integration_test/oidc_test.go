@@ -57,7 +57,7 @@ func TestMain(m *testing.M) {
 	}())
 }
 
-func Test_ZITADEL_API_missing_audience_scope(t *testing.T) {
+func Test_TESSERA_API_missing_audience_scope(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreateVerifiedWebAuthNSession(t, CTXLOGIN, User.GetUserId())
@@ -86,7 +86,7 @@ func Test_ZITADEL_API_missing_audience_scope(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_ZITADEL_API_missing_authentication(t *testing.T) {
+func Test_TESSERA_API_missing_authentication(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, zitadelAudienceScope)
 	createResp, err := Instance.Client.SessionV2.CreateSession(CTXLOGIN, &session.CreateSessionRequest{
@@ -120,7 +120,7 @@ func Test_ZITADEL_API_missing_authentication(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_ZITADEL_API_missing_mfa_2fa_setup(t *testing.T) {
+func Test_TESSERA_API_missing_mfa_2fa_setup(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	org := Instance.CreateOrganization(CTXIAM, integration.OrganizationName(), integration.Email())
 	userID := org.CreatedAdmins[0].GetUserId()
@@ -152,7 +152,7 @@ func Test_ZITADEL_API_missing_mfa_2fa_setup(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_ZITADEL_API_missing_mfa_policy(t *testing.T) {
+func Test_TESSERA_API_missing_mfa_policy(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	org := Instance.CreateOrganization(CTXIAM, integration.OrganizationName(), integration.Email())
 	userID := org.CreatedAdmins[0].GetUserId()
@@ -208,7 +208,7 @@ func Test_ZITADEL_API_missing_mfa_policy(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_ZITADEL_API_success(t *testing.T) {
+func Test_TESSERA_API_success(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, zitadelAudienceScope)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreateVerifiedWebAuthNSession(t, CTXLOGIN, User.GetUserId())
@@ -237,7 +237,7 @@ func Test_ZITADEL_API_success(t *testing.T) {
 	require.Equal(t, User.GetUserId(), myUserResp.GetUser().GetId())
 }
 
-func Test_ZITADEL_API_glob_redirects(t *testing.T) {
+func Test_TESSERA_API_glob_redirects(t *testing.T) {
 	const redirectURI = "https://my-org-1yfnjl2xj-my-app.vercel.app/api/auth/callback/zitadel"
 	clientID, _ := createClientWithOpts(t, Instance, clientOpts{
 		redirectURI: "https://my-org-*-my-app.vercel.app/api/auth/callback/zitadel",
@@ -271,7 +271,7 @@ func Test_ZITADEL_API_glob_redirects(t *testing.T) {
 	require.Equal(t, User.GetUserId(), myUserResp.GetUser().GetId())
 }
 
-func Test_ZITADEL_API_inactive_access_token(t *testing.T) {
+func Test_TESSERA_API_inactive_access_token(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, oidc.ScopeOfflineAccess, zitadelAudienceScope)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreateVerifiedWebAuthNSession(t, CTXLOGIN, User.GetUserId())
@@ -311,7 +311,7 @@ func Test_ZITADEL_API_inactive_access_token(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_ZITADEL_API_terminated_session(t *testing.T) {
+func Test_TESSERA_API_terminated_session(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	provider, err := Instance.CreateRelyingParty(CTX, clientID, redirectURI)
 	require.NoError(t, err)
@@ -353,7 +353,7 @@ func Test_ZITADEL_API_terminated_session(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_ZITADEL_API_terminated_session_user_disabled(t *testing.T) {
+func Test_TESSERA_API_terminated_session_user_disabled(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	tests := []struct {
 		name    string
