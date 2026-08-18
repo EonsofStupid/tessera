@@ -335,7 +335,7 @@ func validateTokenExchangeAudience(requestedAudience, subjectAudience, actorAudi
 // Both tokens may point to the same object (subjectToken) in case of a regular Token Exchange.
 // When the subject and actor Tokens point to different objects, the new tokens will be for impersonation / delegation.
 func (s *Server) createExchangeTokens(ctx context.Context, tokenType oidc.TokenType, client *Client, subjectToken, actorToken *exchangeToken, audience, scopes []string) (_ *oidc.TokenExchangeResponse, err error) {
-	getUserInfo, getRawUserInfo := s.getUserInfo(subjectToken.userID, client.client.ProjectID, client.GetID(), client.client.ProjectRoleAssertion, client.IDTokenUserinfoClaimsAssertion(), scopes)
+	getUserInfo := s.getUserInfo(subjectToken.userID, client.client.ProjectID, client.GetID(), client.client.ProjectRoleAssertion, client.IDTokenUserinfoClaimsAssertion(), scopes)
 	getSigner := s.getSignerOnce()
 
 	resp := &oidc.TokenExchangeResponse{
@@ -357,7 +357,7 @@ func (s *Server) createExchangeTokens(ctx context.Context, tokenType oidc.TokenT
 		resp.IssuedTokenType = oidc.AccessTokenType
 
 	case oidc.JWTTokenType:
-		resp.AccessToken, resp.RefreshToken, resp.ExpiresIn, err = s.createExchangeJWT(ctx, client, getUserInfo, getRawUserInfo, client.client.AccessTokenRoleAssertion, getSigner, subjectToken.userID, subjectToken.resourceOwner, audience, scopes, actorToken.authMethods, actorToken.authTime, subjectToken.preferredLanguage, reason, actor)
+		resp.AccessToken, resp.RefreshToken, resp.ExpiresIn, err = s.createExchangeJWT(ctx, client, getUserInfo, client.client.AccessTokenRoleAssertion, getSigner, subjectToken.userID, subjectToken.resourceOwner, audience, scopes, actorToken.authMethods, actorToken.authTime, subjectToken.preferredLanguage, reason, actor)
 		resp.TokenType = oidc.BearerToken
 		resp.IssuedTokenType = oidc.JWTTokenType
 
@@ -433,7 +433,6 @@ func (s *Server) createExchangeJWT(
 	ctx context.Context,
 	client *Client,
 	getUserInfo userInfoFunc,
-	getRawUserInfo rawUserInfoFunc,
 	roleAssertion bool,
 	getSigner sign.SignerFunc,
 	userID,
@@ -470,7 +469,7 @@ func (s *Server) createExchangeJWT(
 	if err != nil {
 		return "", "", 0, err
 	}
-	accessToken, err = s.createJWT(ctx, client, session, getUserInfo, getRawUserInfo, roleAssertion, getSigner)
+	accessToken, err = s.createJWT(ctx, client, session, getUserInfo, roleAssertion, getSigner)
 	if err != nil {
 		return "", "", 0, err
 	}

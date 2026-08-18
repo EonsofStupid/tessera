@@ -26,6 +26,8 @@ import (
 	"golang.org/x/net/http2/h2c"
 	"golang.org/x/text/language"
 
+	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
+	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
 	new_domain "github.com/EonsofStupid/tessera/backend/v3/domain"
 	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
 	v3_postgres "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
@@ -184,6 +186,22 @@ func startZitadel(ctx context.Context, config *Config, masterKey string, server 
 		return fmt.Errorf("cannot start DB client for queries: %w", err)
 	}
 	new_domain.SetPool(v3_postgres.PGxPool(dbClient.Pool))
+
+	// Tessera's own schema, on every start.
+	//
+	// Not as a setup step, which is where Zitadel runs its transactional-tables
+	// migration — a setup step is recorded once and skipped forever after, so a
+	// migration added later would never reach a database that had already been
+	// set up. Every deployment in the fleet would silently keep the old schema
+	// and the failure would surface as a column that does not exist, a long way
+	// from here.
+	//
+	// tern records its own version in `tessera.migrations`, so this is a cheap
+	// no-op when the schema is current, and the only thing that makes adding
+	// migration 002 an ordinary act rather than an operational event.
+	if err := tesseramigration.Migrate(ctx, dbClient.Pool); err != nil {
+		return fmt.Errorf("cannot migrate the tessera schema: %w", err)
+	}
 
 	keyStorage, err := cryptoDB.NewKeyStorage(dbClient, masterKey)
 	if err != nil {
@@ -687,6 +705,10 @@ func startAPIs(
 		config.SystemDefaults.SecretHasher,
 		federatedLogoutsCache,
 		httpClient,
+		// Tessera's seats, over the same pool everything else uses. Passed in
+		// rather than reached for, so the OIDC server's dependency on our
+		// storage is visible in its signature.
+		seatstorage.NewRepository(v3_postgres.PGxPool(dbClient.Pool)),
 	)
 	if err != nil {
 		return nil, fmt.Errorf("unable to start oidc provider: %w", err)

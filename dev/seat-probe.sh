@@ -39,21 +39,33 @@ else
 fi
 
 step "2 · its facts"
-# The seat's stored truth. `shippin:seat:workspaces` is the entitlement behind
-# the audience scope: naming a workspace in a request is not permission to have
-# it.
-set_md() {
-  local key="$1" val="$2"
-  local enc; enc="$(python3 -c 'import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1], safe=""))' "$key")"
-  api POST "/management/v1/users/$USER_ID/metadata/$enc" \
-    -d "{\"value\":\"$(printf '%s' "$val" | base64 -w0)\"}" >/dev/null
-  ok "$key = $val"
-}
-set_md "shippin:seat:workspaces"            "$WS_A $WS_B"
-set_md "shippin:seat:occupant"              "agent"
-set_md "shippin:seat:basis"                 "subscription"
-set_md "shippin:entitlement:scopes"         "hosting.active terminal:advanced chat.unified"
-set_md "shippin:entitlement:policy_version" "pol_2026_08_17"
+# Seats live in `tessera.seats` now, not in Zitadel user metadata, and they are
+# written through the same repository blueprints will use — so this script
+# cannot pass a test the real path would fail.
+#
+# The ids come from the database because a dev box has one instance and one
+# organization and there is no API that hands them over more cheaply.
+PSQL="psql -h 127.0.0.1 -p 5433 -U tessera -d zitadel -tAc"
+INSTANCE="$($PSQL "select id from zitadel.instances limit 1")"
+ACCOUNT="$($PSQL "select id from zitadel.organizations limit 1")"
+TESSERA="$ROOT/.artifacts/tessera"
+
+"$TESSERA" seat set --config "$ROOT/dev/dev.yaml" \
+  --instance "$INSTANCE" --member "$USER_ID" --account "$ACCOUNT" \
+  --occupant agent --basis subscription \
+  --workspaces "$WS_A,$WS_B" \
+  --scopes 'hosting.active,terminal:advanced,chat.unified' \
+  --policy-version pol_2026_08_17 2>/dev/null | sed 's/^/  ✓ /'
+
+# Prove the old source is gone rather than merely unused: if a single seat fact
+# were still readable from metadata, every assertion below would pass for the
+# wrong reason.
+LEFTOVER="$($PSQL "select count(*) from zitadel.user_metadata where key like 'shippin%'")"
+if [[ "$LEFTOVER" != "0" ]]; then
+  printf '  ✗ %s seat facts still in user metadata — the old path is still live\n' "$LEFTOVER"
+  exit 1
+fi
+ok "no seat facts remain in user metadata"
 
 step "3 · credentials"
 # Returned exactly once, so it is always reissued rather than cached.

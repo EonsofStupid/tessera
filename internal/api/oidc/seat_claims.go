@@ -11,23 +11,17 @@ import (
 	// two different domains under one spelling is how the wrong one gets
 	// imported at three in the morning.
 	seat "github.com/EonsofStupid/tessera/backend/v1/domain"
-	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/EonsofStupid/tessera/internal/api/authz"
 )
-
-// rawUserInfoFunc hands back the query result the userinfo closure already
-// fetched, so seat facts read from the same row the claims were built from
-// rather than from a second query that could disagree with it.
-type rawUserInfoFunc func() *query.OIDCUserInfo
 
 // setSeatClaims stamps `shippin.seat-token.v1` onto an access token, or leaves
 // it alone.
 //
-// This is an adapter and holds no rules. It fetches a seat through the port and
+// This is an adapter and holds no rules. It reads a seat through the port and
 // asks the seat for a token; which workspaces a member may occupy, what
 // `unknown` may become and how an audience maps to a workspace are all decided
 // in `backend/v1/domain`, because a rule enforced here would be a rule enforced
-// on one of the mint paths.
+// on one mint path out of four.
 //
 // Two outcomes are both correct and only one is an error:
 //
@@ -38,23 +32,28 @@ type rawUserInfoFunc func() *query.OIDCUserInfo
 //     the contract's claims.
 //
 // Everything else is refused.
-func setSeatClaims(ctx context.Context, claims *oidc.AccessTokenClaims, qu *query.OIDCUserInfo, audience []string, subject string) error {
-	repo := seatstorage.NewUserInfoRepository(qu)
-	s, err := repo.SeatByMember(ctx, subject)
+func (s *Server) setSeatClaims(ctx context.Context, claims *oidc.AccessTokenClaims, audience []string, subject string) error {
+	// The instance is the tenant root and every seat lookup is scoped by it.
+	// Reading it from the request context rather than from the token means a
+	// seat in one instance can never answer for a member id that collides with
+	// one in another.
+	instanceID := authz.GetInstance(ctx).InstanceID()
+
+	seated, err := s.seats.SeatByMember(ctx, instanceID, subject)
 	if err != nil {
 		return err
 	}
 
-	seatClaims, err := s.Token(audience, nil)
+	seatClaims, err := seated.Token(audience, nil)
 	if err != nil {
 		if errors.Is(err, seat.ErrNoWorkspaceAudience) {
 			return nil // not a seat token; not a problem
 		}
 		// RFC 8693's `invalid_target`: the audience the caller asked for is one
-		// this issuer will not mint. Anything else here surfaces as
-		// `server_error`, which tells an operator that Tessera broke rather
-		// than that they asked for a workspace nobody granted them — and they
-		// would go read our logs instead of their own configuration.
+		// this issuer will not mint. Anything else surfaces as `server_error`,
+		// which tells an operator that Tessera broke rather than that they
+		// asked for a workspace nobody granted them — and they would go read
+		// our logs instead of their own configuration.
 		return oidc.ErrInvalidTarget().WithParent(err).WithDescription("%s", err.Error())
 	}
 
@@ -74,14 +73,15 @@ func setSeatClaims(ctx context.Context, claims *oidc.AccessTokenClaims, qu *quer
 	// from the token-exchange actor and marshals it correctly. We add the one
 	// claim the contract puts on top of the RFC, and only that — rebuilding the
 	// chain here would mean two implementations of it disagreeing later.
-	//
-	// Everything this estate delegates *through* is an agent seat; a human
-	// acting for another human is not a case that exists, and if it ever does
-	// it should arrive as a stored fact rather than as a default changed here.
 	annotateActor(claims.Actor)
 	return nil
 }
 
+// annotateActor names every actor in a delegation chain an agent.
+//
+// Everything this estate delegates *through* is an agent seat; a human acting
+// for another human is not a case that exists, and if it ever does it should
+// arrive as a stored fact rather than as a default changed here.
 func annotateActor(actor *oidc.ActorClaims) {
 	if actor == nil {
 		return

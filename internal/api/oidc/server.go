@@ -10,6 +10,7 @@ import (
 	"github.com/zitadel/oidc/v3/pkg/oidc"
 	"github.com/zitadel/oidc/v3/pkg/op"
 
+	seatdomain "github.com/EonsofStupid/tessera/backend/v1/domain"
 	"github.com/EonsofStupid/tessera/internal/api/authz"
 	"github.com/EonsofStupid/tessera/internal/auth/repository"
 	"github.com/EonsofStupid/tessera/internal/command"
@@ -23,9 +24,14 @@ type Server struct {
 	http.Handler
 	*op.LegacyServer
 
-	repo              repository.Repository
-	query             *query.Queries
-	command           *command.Commands
+	repo    repository.Repository
+	query   *query.Queries
+	command *command.Commands
+	// seats is Tessera's own. Injected as the port rather than reached for
+	// through a package-level pool, so this server can be constructed in a
+	// test with a fake and so the dependency is visible in the signature
+	// instead of discovered at first call.
+	seats             seatdomain.SeatRepository
 	accessTokenKeySet *oidcKeySet
 	idTokenHintKeySet *oidcKeySet
 

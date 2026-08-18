@@ -19,6 +19,7 @@ import (
 	"github.com/EonsofStupid/tessera/cmd/key"
 	"github.com/EonsofStupid/tessera/cmd/mirror"
 	"github.com/EonsofStupid/tessera/cmd/ready"
+	"github.com/EonsofStupid/tessera/cmd/seat"
 	"github.com/EonsofStupid/tessera/cmd/setup"
 	"github.com/EonsofStupid/tessera/cmd/start"
 )
@@ -65,6 +66,7 @@ func New(out io.Writer, in io.Reader, args []string, server chan<- *start.Server
 		mirror.New(&configFiles),
 		key.New(),
 		ready.New(),
+		seat.New(),
 	)
 
 	cmd.InitDefaultVersionFlag()

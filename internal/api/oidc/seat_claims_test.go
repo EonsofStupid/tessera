@@ -2,32 +2,50 @@ package oidc
 
 import (
 	"context"
+	"errors"
 	"testing"
 
 	"github.com/zitadel/oidc/v3/pkg/oidc"
 
 	seat "github.com/EonsofStupid/tessera/backend/v1/domain"
-	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/EonsofStupid/tessera/internal/api/authz"
 )
 
-// The rules are tested in `backend/v1/domain` and the fact-reading in
+// The rules are tested in `backend/v1/domain` and the SQL in
 // `backend/v1/storage/seat`. What is left here is what this adapter itself
 // decides: which refusals become which OIDC error, and what happens to a
 // request that is not about seats at all.
+//
+// A fake standing in for the repository is the point of the port. Before it
+// existed, testing any of this needed a userinfo read model built by hand.
 
-func userInfoWith(orgID string, md map[string]string) *query.OIDCUserInfo {
-	qu := &query.OIDCUserInfo{Org: &query.UserInfoOrg{ID: orgID}}
-	for k, v := range md {
-		qu.Metadata = append(qu.Metadata, query.UserMetadata{Key: k, Value: []byte(v)})
-	}
-	return qu
+type fakeSeats struct {
+	seat *seat.Seat
+	err  error
 }
+
+func (f fakeSeats) SeatByMember(context.Context, string, string) (*seat.Seat, error) {
+	return f.seat, f.err
+}
+func (fakeSeats) SetSeat(context.Context, string, *seat.Seat) error { return nil }
+func (fakeSeats) RemoveSeat(context.Context, string, string) error  { return nil }
+func (fakeSeats) SeatsInWorkspace(context.Context, string, string) ([]*seat.Seat, error) {
+	return nil, nil
+}
+
+// The instance interceptor is not in play in a unit test, so give the context
+// the instance the adapter will ask it for.
+func ctxWithInstance() context.Context {
+	return authz.WithInstanceID(context.Background(), "inst-1")
+}
+
+func serverWith(s *seat.Seat) *Server { return &Server{seats: fakeSeats{seat: s}} }
 
 // Tessera is still an ordinary identity provider for things that are not seats.
 // If this regresses, every non-seat integration breaks at once and the error
 // looks like it came from somewhere else.
 func TestSetSeatClaims_AudienceWithoutAWorkspaceIsLeftAlone(t *testing.T) {
+	srv := serverWith(&seat.Seat{MemberID: "mem_1", Workspaces: []string{"ws-0001"}})
 	for _, aud := range [][]string{
 		{"280895440851832833"},         // a Zitadel project id
 		{"280895440851832833@tessera"}, // a client id
@@ -35,7 +53,7 @@ func TestSetSeatClaims_AudienceWithoutAWorkspaceIsLeftAlone(t *testing.T) {
 		{"https://some.api.example/"},  // an ordinary resource server
 	} {
 		claims := &oidc.AccessTokenClaims{}
-		if err := setSeatClaims(context.Background(), claims, userInfoWith("org1", nil), aud, "user1"); err != nil {
+		if err := srv.setSeatClaims(ctxWithInstance(), claims, aud, "mem_1"); err != nil {
 			t.Fatalf("aud=%q: %v — a non-seat token must still mint", aud, err)
 		}
 		if len(claims.Claims) != 0 {
@@ -48,19 +66,21 @@ func TestSetSeatClaims_AudienceWithoutAWorkspaceIsLeftAlone(t *testing.T) {
 // `server_error` — the second sends an operator to read our logs instead of
 // their own configuration.
 func TestSetSeatClaims_RefusalsBecomeInvalidTarget(t *testing.T) {
-	occupies := userInfoWith("org1", map[string]string{seatstorage.KeyWorkspaces: "ws-0001"})
+	occupies := &seat.Seat{MemberID: "mem_1", AccountID: "acc", Workspaces: []string{"ws-0001"}}
+	unprovisioned := &seat.Seat{MemberID: "mem_1"}
+
 	for name, tc := range map[string]struct {
-		qu  *query.OIDCUserInfo
-		aud []string
+		seat *seat.Seat
+		aud  []string
 	}{
 		"a workspace the seat does not occupy": {occupies, []string{"automaton:ws-0009"}},
-		"an unprovisioned member":              {userInfoWith("org1", nil), []string{"automaton:ws-0001"}},
+		"an unprovisioned member":              {unprovisioned, []string{"automaton:ws-0001"}},
 		"an audience naming two workspaces":    {occupies, []string{"automaton:ws-0001", "devforge:ws-0002"}},
 	} {
 		claims := &oidc.AccessTokenClaims{}
-		err := setSeatClaims(context.Background(), claims, tc.qu, tc.aud, "mem_1")
+		err := serverWith(tc.seat).setSeatClaims(ctxWithInstance(), claims, tc.aud, "mem_1")
 		var oErr *oidc.Error
-		if !asOIDCError(err, &oErr) || oErr.ErrorType != oidc.InvalidTarget {
+		if !errors.As(err, &oErr) || oErr.ErrorType != oidc.InvalidTarget {
 			t.Errorf("%s: err = %v, want an *oidc.Error of type invalid_target", name, err)
 		}
 		if len(claims.Claims) != 0 {
@@ -69,21 +89,39 @@ func TestSetSeatClaims_RefusalsBecomeInvalidTarget(t *testing.T) {
 	}
 }
 
+// A repository failure is not a refusal. It must not be dressed up as
+// `invalid_target`, which would tell an operator their configuration is wrong
+// when in fact the database is unreachable.
+func TestSetSeatClaims_ALookupFailureIsNotARefusal(t *testing.T) {
+	boom := errors.New("connection refused")
+	srv := &Server{seats: fakeSeats{err: boom}}
+	err := srv.setSeatClaims(ctxWithInstance(), &oidc.AccessTokenClaims{}, []string{"automaton:ws-0001"}, "mem_1")
+	if !errors.Is(err, boom) {
+		t.Fatalf("err = %v, want the underlying failure to survive", err)
+	}
+	var oErr *oidc.Error
+	if errors.As(err, &oErr) {
+		t.Error("a database failure was reported as an OIDC protocol error")
+	}
+}
+
 func TestSetSeatClaims_StampsTheContract(t *testing.T) {
-	claims := &oidc.AccessTokenClaims{}
-	qu := userInfoWith("org-tenant-1", map[string]string{
-		seatstorage.KeyWorkspaces:    "ws-0001 ws-0002",
-		seatstorage.KeyOccupant:      "human",
-		seatstorage.KeyBasis:         "subscription",
-		seatstorage.KeyScopes:        "hosting.active terminal:advanced chat.unified",
-		seatstorage.KeyPolicyVersion: "pol_2026_08_17",
+	srv := serverWith(&seat.Seat{
+		MemberID:      "mem_01J8",
+		AccountID:     "acc_01J8",
+		Occupant:      seat.OccupantHuman,
+		Basis:         seat.BasisSubscription,
+		Workspaces:    []string{"ws-0001", "ws-0002"},
+		Scopes:        []string{"hosting.active", "terminal:advanced", "chat.unified"},
+		PolicyVersion: "pol_2026_08_17",
 	})
-	if err := setSeatClaims(context.Background(), claims, qu, []string{"automaton:ws-0001"}, "mem_01J8"); err != nil {
+	claims := &oidc.AccessTokenClaims{}
+	if err := srv.setSeatClaims(ctxWithInstance(), claims, []string{"automaton:ws-0001"}, "mem_01J8"); err != nil {
 		t.Fatal(err)
 	}
 	for k, v := range map[string]any{
 		"schema":       seat.Schema,
-		"account_id":   "org-tenant-1",
+		"account_id":   "acc_01J8",
 		"member_id":    "mem_01J8",
 		"workspace_id": "ws-0001",
 		"occupant":     "human",
@@ -97,7 +135,6 @@ func TestSetSeatClaims_StampsTheContract(t *testing.T) {
 	if !ok {
 		t.Fatalf("authorization claim is %T", claims.Claims["authorization"])
 	}
-	// Dotted spellings arrive from DevForge's contract and leave canonical.
 	want := []string{"chat:unified", "hosting:active", "terminal:advanced"}
 	if len(authz.Scopes) != len(want) {
 		t.Fatalf("scopes = %q, want %q", authz.Scopes, want)
@@ -120,11 +157,13 @@ func TestSetSeatClaims_AnnotatesTheDelegationChain(t *testing.T) {
 			},
 		},
 	}
-	qu := userInfoWith("org1", map[string]string{
-		seatstorage.KeyWorkspaces: "ws-0001",
-		seatstorage.KeyOccupant:   "human",
+	srv := serverWith(&seat.Seat{
+		MemberID:   "mem_01J8",
+		AccountID:  "acc",
+		Occupant:   seat.OccupantHuman,
+		Workspaces: []string{"ws-0001"},
 	})
-	if err := setSeatClaims(context.Background(), claims, qu, []string{"automaton:ws-0001"}, "mem_01J8"); err != nil {
+	if err := srv.setSeatClaims(ctxWithInstance(), claims, []string{"automaton:ws-0001"}, "mem_01J8"); err != nil {
 		t.Fatal(err)
 	}
 	if claims.Actor.Subject != "clyffy" || claims.Actor.Claims["occupant"] != "agent" {
@@ -136,12 +175,4 @@ func TestSetSeatClaims_AnnotatesTheDelegationChain(t *testing.T) {
 	if claims.Claims["occupant"] != "human" {
 		t.Errorf("the subject's occupant = %v, want human — delegation is not impersonation", claims.Claims["occupant"])
 	}
-}
-
-func asOIDCError(err error, target **oidc.Error) bool {
-	e, ok := err.(*oidc.Error)
-	if ok {
-		*target = e
-	}
-	return ok
 }

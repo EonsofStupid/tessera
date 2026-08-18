@@ -72,6 +72,29 @@ Still Phase 3's to fix: seat facts live in user metadata, which is where they
 are *stored*, not where they should be *authored*. Blueprints are what will
 write them.
 
+### Phase 3.1 — seats get a table ✅
+
+Done. Seat facts left Zitadel user metadata for `tessera.seats`, in Tessera's own
+schema with its own migration series starting at one — separate from the
+`zitadel` schema next door, whose 001–018 belong upstream and whose next number
+would collide with ours on any sync.
+
+The shape is a scale decision rather than a storage chore. Workspaces are a
+child table because the relation is read in both directions and only one of them
+is the token path: `seat → workspaces` on every mint, and `workspace → seats`
+for the panel, which an array column cannot answer without scanning the
+instance. Scopes stay an array because they are only ever read *with* the seat.
+
+`tessera seat set|show|list` is the operator's way in, and drives the same
+repository blueprints will. **Done when** the mint path reads from the table and
+no seat fact remains in metadata — `dev/seat-probe.sh` now fails if one does.
+
+One trap worth the ink: Zitadel runs its own schema migration as a *setup step*,
+and a setup step is recorded once and skipped forever. Ours runs on every start
+instead. Had it been a step, migration 002 would never reach a database that had
+already been set up, every deployment in the fleet would silently keep the old
+schema, and the failure would surface as a missing column a long way from here.
+
 ### Phase 3 — blueprints
 
 Take Authentik's blueprint model — YAML applied on a loop inside one atomic

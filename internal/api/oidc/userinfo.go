@@ -52,7 +52,7 @@ func (s *Server) UserInfo(ctx context.Context, r *op.Request[oidc.UserInfoReques
 		}
 	}
 
-	getUserInfo, _ := s.userInfo(
+	userInfo, err := s.userInfo(
 		token.userID,
 		token.scope,
 		projectID,
@@ -60,8 +60,7 @@ func (s *Server) UserInfo(ctx context.Context, r *op.Request[oidc.UserInfoReques
 		assertion,
 		true,
 		false,
-	)
-	userInfo, err := getUserInfo(ctx, true, domain.TriggerTypePreUserinfoCreation, token.actor)
+	)(ctx, true, domain.TriggerTypePreUserinfoCreation, token.actor)
 	if err != nil {
 		if !zerrors.IsNotFound(err) {
 			return nil, err
@@ -92,7 +91,7 @@ func (s *Server) userInfo(
 	projectID string,
 	clientID string,
 	projectRoleAssertion, userInfoAssertion, currentProjectOnly bool,
-) (userInfoFunc, rawUserInfoFunc) {
+) userInfoFunc {
 	var (
 		once                         sync.Once
 		rawUserInfo                  *oidc.UserInfo
@@ -126,7 +125,7 @@ func (s *Server) userInfo(
 		}
 		assertRoles(projectID, qu, roleAudience, requestedRoles, roleAssertion, userInfo)
 		return userInfo, s.userinfoFlows(ctx, qu, userInfo, triggerType, clientID, actor)
-	}, func() *query.OIDCUserInfo { return qu }
+	}
 }
 
 // prepareRoles scans the requested scopes and builds the requested roles

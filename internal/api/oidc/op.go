@@ -11,6 +11,7 @@ import (
 	"github.com/zitadel/oidc/v3/pkg/oidc"
 	"github.com/zitadel/oidc/v3/pkg/op"
 
+	seatdomain "github.com/EonsofStupid/tessera/backend/v1/domain"
 	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
 	"github.com/EonsofStupid/tessera/internal/api/assets"
 	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
@@ -130,6 +131,7 @@ func NewServer(
 	hashConfig crypto.HashConfig,
 	federatedLogoutCache cache.Cache[federatedlogout.Index, string, *federatedlogout.FederatedLogout],
 	httpClient *http.Client,
+	seats seatdomain.SeatRepository,
 ) (*Server, error) {
 	opConfig, err := createOPConfig(config, defaultLogoutRedirectURI, cryptoKey)
 	if err != nil {
@@ -178,6 +180,7 @@ func NewServer(
 		repo:                       repo,
 		query:                      query,
 		command:                    command,
+		seats:                      seats,
 		accessTokenKeySet:          accessTokenKeySet,
 		idTokenHintKeySet:          idTokenHintKeySet,
 		defaultLoginURL:            fmt.Sprintf("%s%s?%s=", login.HandlerPrefix, login.EndpointLogin, login.QueryAuthRequestID),
