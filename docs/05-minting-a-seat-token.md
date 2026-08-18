@@ -62,7 +62,11 @@ Asking for a workspace this seat does not occupy is refused, and says so:
 ## Where it lives
 
 `backend/v1/domain` is the claim set and the rules, and imports nothing from
-OIDC or the eventstore — the contract is the product boundary, and a boundary you can
+OIDC or the eventstore. `backend/v1/storage/seat` is the only thing that knows
+the metadata keys, and it is what blueprints will replace.
+`internal/api/oidc/seat_claims.go` decides nothing: it fetches a seat through
+the port, asks the seat for a token, and translates a refusal into
+`invalid_target` — the contract is the product boundary, and a boundary you can
 only exercise by standing up a provider is one nobody exercises.
 `internal/api/oidc/seat_claims.go` gathers the facts; `createJWT` calls it once,
 immediately before the signature, so there is exactly one place to look for what

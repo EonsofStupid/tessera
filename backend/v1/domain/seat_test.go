@@ -41,7 +41,11 @@ func TestParseBasis_KnownSpellings(t *testing.T) {
 	}
 }
 
-func TestMint_RefusesAudienceThatNamesNoWorkspace(t *testing.T) {
+func seatIn(workspaces ...string) *Seat {
+	return &Seat{MemberID: "mem_1", Workspaces: workspaces}
+}
+
+func TestToken_RefusesAudienceThatNamesNoWorkspace(t *testing.T) {
 	// Zitadel puts project and client ids in `aud` as a matter of course.
 	// None of them is a tenant boundary.
 	for _, aud := range [][]string{
@@ -52,42 +56,36 @@ func TestMint_RefusesAudienceThatNamesNoWorkspace(t *testing.T) {
 		{"automaton:"},
 		{"ws-"},
 	} {
-		_, err := Mint(Facts{MemberID: "mem_1", Audience: aud})
+		_, err := seatIn("ws-0001").Token(aud, nil)
 		if !errors.Is(err, ErrNoWorkspaceAudience) {
-			t.Errorf("Mint(aud=%q) err = %v, want ErrNoWorkspaceAudience", aud, err)
+			t.Errorf("Token(aud=%q) err = %v, want ErrNoWorkspaceAudience", aud, err)
 		}
 	}
 }
 
-func TestMint_RefusesAudienceNamingTwoWorkspaces(t *testing.T) {
-	_, err := Mint(Facts{
-		MemberID: "mem_1",
-		Audience: []string{"automaton:ws-0001", "devforge:ws-0002"},
-	})
+func TestToken_RefusesAudienceNamingTwoWorkspaces(t *testing.T) {
+	_, err := seatIn("ws-0001", "ws-0002").Token([]string{"automaton:ws-0001", "devforge:ws-0002"}, nil)
 	if !errors.Is(err, ErrAmbiguousWorkspaceAudience) {
 		t.Fatalf("err = %v, want ErrAmbiguousWorkspaceAudience — a token audible to two workspaces is the tenant boundary with a hole in it", err)
 	}
 }
 
-func TestMint_WorkspaceIsDerivedSoItCannotDisagreeWithAud(t *testing.T) {
+func TestToken_WorkspaceIsDerivedSoItCannotDisagreeWithAud(t *testing.T) {
 	// Several services, one workspace, and a project id alongside them — the
 	// ordinary shape of a real audience.
-	c, err := Mint(Facts{
-		MemberID: "mem_01J8",
-		Audience: []string{"automaton:ws-0001", "devforge:ws-0001", "280895440851832833"},
-	})
+	c, err := seatIn("ws-0001").Token([]string{"automaton:ws-0001", "devforge:ws-0001", "280895440851832833"}, nil)
 	if err != nil {
-		t.Fatalf("Mint: %v", err)
+		t.Fatalf("Token: %v", err)
 	}
 	if c.WorkspaceID != "ws-0001" {
 		t.Errorf("WorkspaceID = %q, want ws-0001", c.WorkspaceID)
 	}
 }
 
-func TestMint_DefaultsAreTheSafeOnes(t *testing.T) {
-	c, err := Mint(Facts{MemberID: "mem_1", Audience: []string{"automaton:ws-0001"}})
+func TestToken_DefaultsAreTheSafeOnes(t *testing.T) {
+	c, err := seatIn("ws-0001").Token([]string{"automaton:ws-0001"}, nil)
 	if err != nil {
-		t.Fatalf("Mint: %v", err)
+		t.Fatalf("Token: %v", err)
 	}
 	if c.Basis != BasisUnknown {
 		t.Errorf("Basis = %q, want %q for a seat nobody measured", c.Basis, BasisUnknown)
@@ -104,15 +102,16 @@ func TestMint_DefaultsAreTheSafeOnes(t *testing.T) {
 	}
 }
 
-func TestMint_StoredGarbageDoesNotReachTheWire(t *testing.T) {
-	c, err := Mint(Facts{
-		MemberID: "mem_1",
-		Audience: []string{"automaton:ws-0001"},
-		Basis:    Basis("subscription_pending"),
-		Occupant: Occupant("robot"),
-	})
+func TestToken_StoredGarbageDoesNotReachTheWire(t *testing.T) {
+	s := &Seat{
+		MemberID:   "mem_1",
+		Workspaces: []string{"ws-0001"},
+		Basis:      Basis("subscription_pending"),
+		Occupant:   Occupant("robot"),
+	}
+	c, err := s.Token([]string{"automaton:ws-0001"}, nil)
 	if err != nil {
-		t.Fatalf("Mint: %v", err)
+		t.Fatalf("Token: %v", err)
 	}
 	if c.Basis != BasisUnknown {
 		t.Errorf("Basis = %q, want %q — an unrecognised stored value must land on unknown here, not on the wire", c.Basis, BasisUnknown)
@@ -122,8 +121,9 @@ func TestMint_StoredGarbageDoesNotReachTheWire(t *testing.T) {
 	}
 }
 
-func TestMint_RequiresASubject(t *testing.T) {
-	if _, err := Mint(Facts{Audience: []string{"automaton:ws-0001"}}); err == nil {
+func TestToken_RequiresASubject(t *testing.T) {
+	s := &Seat{Workspaces: []string{"ws-0001"}}
+	if _, err := s.Token([]string{"automaton:ws-0001"}, nil); err == nil {
 		t.Fatal("want an error for a token with no subject")
 	}
 }
@@ -158,17 +158,18 @@ func TestNormalizeScopes_EmptyIsAnEmptyListNotNull(t *testing.T) {
 // The wire format, checked against the contract's own example rather than
 // against the struct — a JSON tag typo is exactly the bug this catches.
 func TestClaims_WireFormatMatchesTheContract(t *testing.T) {
-	c, err := Mint(Facts{
+	s := &Seat{
 		MemberID:      "mem_01J8",
 		AccountID:     "acc_01J8",
-		Audience:      []string{"automaton:ws-0001"},
+		Workspaces:    []string{"ws-0001"},
 		Occupant:      OccupantHuman,
 		Basis:         BasisSubscription,
 		Scopes:        []string{"hosting:active", "terminal:advanced", "chat:unified"},
 		PolicyVersion: "pol_2026_08_17",
-	})
+	}
+	c, err := s.Token([]string{"automaton:ws-0001"}, nil)
 	if err != nil {
-		t.Fatalf("Mint: %v", err)
+		t.Fatalf("Token: %v", err)
 	}
 	b, err := json.Marshal(c)
 	if err != nil {
@@ -201,14 +202,10 @@ func TestClaims_WireFormatMatchesTheContract(t *testing.T) {
 // own identity alongside. An impersonated session has nothing left to indicate,
 // which is why §7's visible indicator is only possible under this shape.
 func TestClaims_DelegationKeepsTheActorsOwnIdentity(t *testing.T) {
-	c, err := Mint(Facts{
-		MemberID: "mem_01J8",
-		Audience: []string{"automaton:ws-0001"},
-		Occupant: OccupantHuman,
-		Actor:    &Actor{Subject: "clyffy", Occupant: OccupantAgent},
-	})
+	s := &Seat{MemberID: "mem_01J8", Workspaces: []string{"ws-0001"}, Occupant: OccupantHuman}
+	c, err := s.Token([]string{"automaton:ws-0001"}, &Actor{Subject: "clyffy", Occupant: OccupantAgent})
 	if err != nil {
-		t.Fatalf("Mint: %v", err)
+		t.Fatalf("Token: %v", err)
 	}
 	b, _ := json.Marshal(c)
 	var got map[string]any
@@ -226,5 +223,32 @@ func TestClaims_DelegationKeepsTheActorsOwnIdentity(t *testing.T) {
 	}
 	if got["occupant"] != "human" {
 		t.Errorf("occupant = %v, want the subject's (human) — delegation is not impersonation", got["occupant"])
+	}
+}
+
+// The gate, and it lives with the rule rather than with a caller.
+func TestToken_RefusesAWorkspaceTheSeatDoesNotOccupy(t *testing.T) {
+	_, err := seatIn("ws-0001", "ws-0002").Token([]string{"automaton:ws-0009"}, nil)
+	if !errors.Is(err, ErrWorkspaceNotOccupied) {
+		t.Fatalf("err = %v, want ErrWorkspaceNotOccupied", err)
+	}
+}
+
+// An unprovisioned member is not a member with universal access. This is the
+// one that fails open if the check is written as "no list means no restriction",
+// which is the tempting way to write it.
+func TestToken_NoRecordedWorkspacesMeansNone(t *testing.T) {
+	s := &Seat{MemberID: "mem_1"}
+	if _, err := s.Token([]string{"automaton:ws-0001"}, nil); !errors.Is(err, ErrWorkspaceNotOccupied) {
+		t.Fatalf("err = %v, want ErrWorkspaceNotOccupied — an unprovisioned member occupies nothing", err)
+	}
+}
+
+// A seat occupying ws-0001 must not reach ws-00010 by prefix.
+func TestToken_WorkspaceMatchIsExact(t *testing.T) {
+	for _, ws := range []string{"ws-00010", "ws-000", "ws-0001x"} {
+		if _, err := seatIn("ws-0001").Token([]string{"automaton:" + ws}, nil); !errors.Is(err, ErrWorkspaceNotOccupied) {
+			t.Errorf("%s: err = %v, want ErrWorkspaceNotOccupied", ws, err)
+		}
 	}
 }

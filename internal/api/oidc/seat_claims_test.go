@@ -1,14 +1,20 @@
 package oidc
 
 import (
-	"errors"
+	"context"
 	"testing"
 
 	"github.com/zitadel/oidc/v3/pkg/oidc"
 
 	seat "github.com/EonsofStupid/tessera/backend/v1/domain"
+	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
 	"github.com/EonsofStupid/tessera/internal/query"
 )
+
+// The rules are tested in `backend/v1/domain` and the fact-reading in
+// `backend/v1/storage/seat`. What is left here is what this adapter itself
+// decides: which refusals become which OIDC error, and what happens to a
+// request that is not about seats at all.
 
 func userInfoWith(orgID string, md map[string]string) *query.OIDCUserInfo {
 	qu := &query.OIDCUserInfo{Org: &query.UserInfoOrg{ID: orgID}}
@@ -18,10 +24,9 @@ func userInfoWith(orgID string, md map[string]string) *query.OIDCUserInfo {
 	return qu
 }
 
-// Tessera is still an ordinary identity provider for things that are not
-// seats. A client asking for an ordinary token must get one, unchanged — if
-// this regresses, every non-seat integration breaks at once and the error will
-// look like it came from somewhere else.
+// Tessera is still an ordinary identity provider for things that are not seats.
+// If this regresses, every non-seat integration breaks at once and the error
+// looks like it came from somewhere else.
 func TestSetSeatClaims_AudienceWithoutAWorkspaceIsLeftAlone(t *testing.T) {
 	for _, aud := range [][]string{
 		{"280895440851832833"},         // a Zitadel project id
@@ -30,7 +35,7 @@ func TestSetSeatClaims_AudienceWithoutAWorkspaceIsLeftAlone(t *testing.T) {
 		{"https://some.api.example/"},  // an ordinary resource server
 	} {
 		claims := &oidc.AccessTokenClaims{}
-		if err := setSeatClaims(claims, userInfoWith("org1", nil), aud, "user1"); err != nil {
+		if err := setSeatClaims(context.Background(), claims, userInfoWith("org1", nil), aud, "user1"); err != nil {
 			t.Fatalf("aud=%q: %v — a non-seat token must still mint", aud, err)
 		}
 		if len(claims.Claims) != 0 {
@@ -39,123 +44,73 @@ func TestSetSeatClaims_AudienceWithoutAWorkspaceIsLeftAlone(t *testing.T) {
 	}
 }
 
-// The one case that must fail closed.
-func TestSetSeatClaims_RefusesAnAmbiguousWorkspace(t *testing.T) {
-	claims := &oidc.AccessTokenClaims{}
-	err := setSeatClaims(claims, userInfoWith("org1", nil), []string{"automaton:ws-0001", "devforge:ws-0002"}, "user1")
-	if err == nil {
-		t.Fatal("want a refusal: a token audible to two workspaces has no tenant boundary")
-	}
-	if len(claims.Claims) != 0 {
-		t.Errorf("claims were stamped despite the refusal: %v", claims.Claims)
+// Every domain refusal has to reach the caller as `invalid_target`, not as
+// `server_error` — the second sends an operator to read our logs instead of
+// their own configuration.
+func TestSetSeatClaims_RefusalsBecomeInvalidTarget(t *testing.T) {
+	occupies := userInfoWith("org1", map[string]string{seatstorage.KeyWorkspaces: "ws-0001"})
+	for name, tc := range map[string]struct {
+		qu  *query.OIDCUserInfo
+		aud []string
+	}{
+		"a workspace the seat does not occupy": {occupies, []string{"automaton:ws-0009"}},
+		"an unprovisioned member":              {userInfoWith("org1", nil), []string{"automaton:ws-0001"}},
+		"an audience naming two workspaces":    {occupies, []string{"automaton:ws-0001", "devforge:ws-0002"}},
+	} {
+		claims := &oidc.AccessTokenClaims{}
+		err := setSeatClaims(context.Background(), claims, tc.qu, tc.aud, "mem_1")
+		var oErr *oidc.Error
+		if !asOIDCError(err, &oErr) || oErr.ErrorType != oidc.InvalidTarget {
+			t.Errorf("%s: err = %v, want an *oidc.Error of type invalid_target", name, err)
+		}
+		if len(claims.Claims) != 0 {
+			t.Errorf("%s: claims stamped despite the refusal: %v", name, claims.Claims)
+		}
 	}
 }
 
 func TestSetSeatClaims_StampsTheContract(t *testing.T) {
 	claims := &oidc.AccessTokenClaims{}
 	qu := userInfoWith("org-tenant-1", map[string]string{
-		metadataKeyWorkspaces:    "ws-0001 ws-0002",
-		metadataKeyOccupant:      "human",
-		metadataKeyBasis:         "subscription",
-		metadataKeyScopes:        "hosting.active terminal:advanced chat.unified",
-		metadataKeyPolicyVersion: "pol_2026_08_17",
+		seatstorage.KeyWorkspaces:    "ws-0001 ws-0002",
+		seatstorage.KeyOccupant:      "human",
+		seatstorage.KeyBasis:         "subscription",
+		seatstorage.KeyScopes:        "hosting.active terminal:advanced chat.unified",
+		seatstorage.KeyPolicyVersion: "pol_2026_08_17",
 	})
-	if err := setSeatClaims(claims, qu, []string{"automaton:ws-0001"}, "mem_01J8"); err != nil {
+	if err := setSeatClaims(context.Background(), claims, qu, []string{"automaton:ws-0001"}, "mem_01J8"); err != nil {
 		t.Fatal(err)
 	}
-
-	want := map[string]any{
+	for k, v := range map[string]any{
 		"schema":       seat.Schema,
-		"account_id":   "org-tenant-1", // the resource-owner org, since no override
+		"account_id":   "org-tenant-1",
 		"member_id":    "mem_01J8",
 		"workspace_id": "ws-0001",
 		"occupant":     "human",
 		"basis":        "subscription",
-	}
-	for k, v := range want {
+	} {
 		if claims.Claims[k] != v {
 			t.Errorf("claim %q = %v, want %v", k, claims.Claims[k], v)
 		}
 	}
-
 	authz, ok := claims.Claims["authorization"].(seat.Authorization)
 	if !ok {
 		t.Fatalf("authorization claim is %T", claims.Claims["authorization"])
 	}
-	// Dotted spellings arrive from DevForge's contract and leave in the
-	// canonical colon form, sorted.
-	wantScopes := []string{"chat:unified", "hosting:active", "terminal:advanced"}
-	if len(authz.Scopes) != len(wantScopes) {
-		t.Fatalf("scopes = %q, want %q", authz.Scopes, wantScopes)
+	// Dotted spellings arrive from DevForge's contract and leave canonical.
+	want := []string{"chat:unified", "hosting:active", "terminal:advanced"}
+	if len(authz.Scopes) != len(want) {
+		t.Fatalf("scopes = %q, want %q", authz.Scopes, want)
 	}
-	for i, s := range wantScopes {
-		if authz.Scopes[i] != s {
-			t.Errorf("scopes = %q, want %q", authz.Scopes, wantScopes)
-			break
+	for i := range want {
+		if authz.Scopes[i] != want[i] {
+			t.Fatalf("scopes = %q, want %q", authz.Scopes, want)
 		}
 	}
-	if authz.PolicyVersion != "pol_2026_08_17" {
-		t.Errorf("policy_version = %q", authz.PolicyVersion)
-	}
-
-	prov, ok := claims.Claims["provider"].(seat.Provider)
-	if !ok || prov.AccessClass != seat.BasisSubscription {
-		t.Errorf("provider = %v", claims.Claims["provider"])
-	}
 }
 
-// A seat whose facts were never written is a seat nobody measured, and the
-// token has to say so rather than omit it.
-func TestSetSeatClaims_NoMetadataIsUnknownNotAbsent(t *testing.T) {
-	claims := &oidc.AccessTokenClaims{}
-	qu := userInfoWith("org1", map[string]string{metadataKeyWorkspaces: "ws-0001"})
-	if err := setSeatClaims(claims, qu, []string{"automaton:ws-0001"}, "mem_1"); err != nil {
-		t.Fatal(err)
-	}
-	if claims.Claims["basis"] != "unknown" {
-		t.Errorf("basis = %v, want unknown", claims.Claims["basis"])
-	}
-	if claims.Claims["occupant"] != "agent" {
-		t.Errorf("occupant = %v, want agent", claims.Claims["occupant"])
-	}
-}
-
-// Metadata that says "subscription" in a spelling nobody defined must not
-// become a subscription just because it starts with the right letters.
-func TestSetSeatClaims_UnknownIsNeverPromotedThroughMetadata(t *testing.T) {
-	claims := &oidc.AccessTokenClaims{}
-	qu := userInfoWith("org1", map[string]string{
-		metadataKeyWorkspaces: "ws-0001",
-		metadataKeyBasis:      "subscription_pending",
-	})
-	if err := setSeatClaims(claims, qu, []string{"automaton:ws-0001"}, "mem_1"); err != nil {
-		t.Fatal(err)
-	}
-	if claims.Claims["basis"] != "unknown" {
-		t.Errorf("basis = %v, want unknown", claims.Claims["basis"])
-	}
-	if claims.Claims["provider"].(seat.Provider).AccessClass != seat.BasisUnknown {
-		t.Error("provider.access_class drifted from basis")
-	}
-}
-
-func TestSetSeatClaims_AccountIDOverridesTheOrg(t *testing.T) {
-	claims := &oidc.AccessTokenClaims{}
-	qu := userInfoWith("org1", map[string]string{
-		metadataKeyWorkspaces: "ws-0001",
-		metadataKeyAccountID:  "acc_01J8",
-	})
-	if err := setSeatClaims(claims, qu, []string{"automaton:ws-0001"}, "mem_1"); err != nil {
-		t.Fatal(err)
-	}
-	if claims.Claims["account_id"] != "acc_01J8" {
-		t.Errorf("account_id = %v, want the override", claims.Claims["account_id"])
-	}
-}
-
-// Delegation: the chain the OIDC layer built is kept, and every actor in it is
-// named as an agent. `sub` is untouched — that is what makes it delegation
-// rather than impersonation.
+// The delegation chain the OIDC layer built is kept, and every actor in it is
+// named an agent. `sub` is untouched — that is what makes it delegation.
 func TestSetSeatClaims_AnnotatesTheDelegationChain(t *testing.T) {
 	claims := &oidc.AccessTokenClaims{
 		TokenClaims: oidc.TokenClaims{
@@ -166,10 +121,10 @@ func TestSetSeatClaims_AnnotatesTheDelegationChain(t *testing.T) {
 		},
 	}
 	qu := userInfoWith("org1", map[string]string{
-		metadataKeyWorkspaces: "ws-0001",
-		metadataKeyOccupant:   "human",
+		seatstorage.KeyWorkspaces: "ws-0001",
+		seatstorage.KeyOccupant:   "human",
 	})
-	if err := setSeatClaims(claims, qu, []string{"automaton:ws-0001"}, "mem_01J8"); err != nil {
+	if err := setSeatClaims(context.Background(), claims, qu, []string{"automaton:ws-0001"}, "mem_01J8"); err != nil {
 		t.Fatal(err)
 	}
 	if claims.Actor.Subject != "clyffy" || claims.Actor.Claims["occupant"] != "agent" {
@@ -183,38 +138,10 @@ func TestSetSeatClaims_AnnotatesTheDelegationChain(t *testing.T) {
 	}
 }
 
-// The gate: naming a workspace in a scope is a request, not a permission.
-func TestSetSeatClaims_RefusesAWorkspaceTheMemberDoesNotOccupy(t *testing.T) {
-	claims := &oidc.AccessTokenClaims{}
-	qu := userInfoWith("org1", map[string]string{metadataKeyWorkspaces: "ws-0001 ws-0002"})
-	err := setSeatClaims(claims, qu, []string{"automaton:ws-0009"}, "mem_1")
-	if !errors.Is(err, ErrWorkspaceNotOccupied) {
-		t.Fatalf("err = %v, want ErrWorkspaceNotOccupied", err)
+func asOIDCError(err error, target **oidc.Error) bool {
+	e, ok := err.(*oidc.Error)
+	if ok {
+		*target = e
 	}
-	if len(claims.Claims) != 0 {
-		t.Errorf("claims stamped despite the refusal: %v", claims.Claims)
-	}
-}
-
-// An unprovisioned member is not a member with universal access. This is the
-// one that would fail open if the check were written as "no list means no
-// restriction", which is the tempting way to write it.
-func TestSetSeatClaims_NoRecordedWorkspacesMeansNone(t *testing.T) {
-	claims := &oidc.AccessTokenClaims{}
-	err := setSeatClaims(claims, userInfoWith("org1", nil), []string{"automaton:ws-0001"}, "mem_1")
-	if !errors.Is(err, ErrWorkspaceNotOccupied) {
-		t.Fatalf("err = %v, want ErrWorkspaceNotOccupied — an unprovisioned member occupies nothing", err)
-	}
-}
-
-// A member occupying ws-0001 must not reach ws-00010 by prefix, nor ws-0001 by
-// naming a substring of it.
-func TestSetSeatClaims_WorkspaceMatchIsExact(t *testing.T) {
-	qu := userInfoWith("org1", map[string]string{metadataKeyWorkspaces: "ws-0001"})
-	for _, ws := range []string{"ws-00010", "ws-000", "ws-0001x"} {
-		claims := &oidc.AccessTokenClaims{}
-		if err := setSeatClaims(claims, qu, []string{"automaton:" + ws}, "mem_1"); !errors.Is(err, ErrWorkspaceNotOccupied) {
-			t.Errorf("%s: err = %v, want ErrWorkspaceNotOccupied", ws, err)
-		}
-	}
+	return ok
 }

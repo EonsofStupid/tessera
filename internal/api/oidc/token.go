@@ -146,7 +146,7 @@ func (s *Server) createJWT(ctx context.Context, client op.Client, session *comma
 	// minting an access token; this is the one call that makes it a seat token,
 	// and it is deliberately the last thing before the signature so there is
 	// exactly one place to look for what a consumer will see.
-	if err = setSeatClaims(claims, getRawUserInfo(), session.Audience, userInfo.Subject); err != nil {
+	if err = setSeatClaims(ctx, claims, getRawUserInfo(), session.Audience, userInfo.Subject); err != nil {
 		return "", err
 	}
 

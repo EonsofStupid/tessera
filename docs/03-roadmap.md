@@ -132,9 +132,25 @@ dialect layers (67), its domain objects (32) and its repositories (31).
 whole point: it says which of the two a file belongs to without anybody having
 to remember.
 
-New Tessera-owned domain code goes in `v1`. Seat tokens are there because they
-are the first thing Tessera owns outright rather than inherits — nothing
-upstream has a concept of `shippin.seat-token.v1`.
+New Tessera-owned code goes in `v1`, in v3's shape, because pre-release is
+exactly when structure is cheap and there is no legacy to keep working:
+
+| layer | holds | seat |
+|---|---|---|
+| `v1/domain` | entities, rules, and the ports they need as interfaces | `Seat`, `Seat.Token`, `SeatRepository` |
+| `v1/storage` | adapters implementing those ports | `storage/seat` over user metadata |
+| the API surface | nothing but translation | `internal/api/oidc/seat_claims.go` |
+
+The rule that matters is which way the arrows point. `v1/domain` imports no
+storage and no OIDC; storage imports the domain; the API layer imports both and
+decides nothing. So "may this member occupy this workspace" is answered in one
+method on one type, and every mint path — auth code, client credentials, jwt
+profile, token exchange — reaches the same answer rather than four adapters each
+remembering to ask.
+
+Seat tokens went first because they are the first thing Tessera owns outright
+rather than inherits: nothing upstream has a concept of
+`shippin.seat-token.v1`.
 
 What has *not* moved, and why: `SeatAudienceScope` stays in `internal/domain`
 next to `ProjectIDScope`, because it is not domain vocabulary — it is OIDC scope

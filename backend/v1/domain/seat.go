@@ -26,6 +26,7 @@ package domain
 import (
 	"errors"
 	"fmt"
+	"slices"
 	"sort"
 	"strings"
 )
@@ -151,87 +152,90 @@ type Claims struct {
 	Actor *Actor `json:"act,omitempty"`
 }
 
-// Facts is what the provider knows at mint time. Every field is something the
-// OIDC layer already has; nothing here requires a new query.
-type Facts struct {
-	// MemberID is the subject — who the token is about, even when an agent is
-	// the one acting.
+// Seat is a licensed occupant of one or more workspaces, as stored.
+//
+// This is what a [SeatRepository] returns and what the rest of the estate means
+// by "a seat". It is deliberately not the token: a seat outlives any token
+// minted from it, occupies several workspaces where a token names exactly one,
+// and carries the entitlement a token only cites.
+type Seat struct {
+	// MemberID is who the seat is, and becomes the token's subject even when an
+	// agent is the one acting.
 	MemberID string
 	// AccountID is the tenant. Today this is the resource-owner organization.
 	AccountID string
-	// Audience is the token's `aud` exactly as the session recorded it. The
-	// workspace is derived from it rather than carried alongside it, so the
-	// two cannot disagree.
-	Audience []string
-	// Occupant and Basis come from the seat's stored facts. An empty Basis is
-	// `unknown`, which is a valid answer and the correct one when nothing has
-	// been measured.
+	// Occupant and Basis are the two axes of NAMING-AND-SSOT §1.1.
 	Occupant Occupant
 	Basis    Basis
+	// Workspaces are the ones this seat may occupy. A seat with none occupies
+	// none — an unprovisioned member is not a member with universal access, and
+	// this being a plain empty slice rather than a nil-means-all is the whole
+	// difference between failing closed and failing open.
+	Workspaces []string
 	// Scopes is the entitlement, in either the colon or the dotted spelling.
 	Scopes []string
 	// PolicyVersion names the decision the scopes cite. A scope without one is
 	// an entitlement nobody can trace back to a policy.
 	PolicyVersion string
-	// Actor is set only for a delegated token.
-	Actor *Actor
 }
 
-// The two ways an audience can fail to name exactly one workspace. They are
-// separate errors because the caller must treat them differently: a token whose
-// audience names *no* workspace is simply not a seat token — an ordinary OIDC
-// client asking for an ordinary token — and minting it unchanged is correct. A
-// token naming *two* is a seat token with the tenant boundary missing, and
-// there is no safe way to mint that.
+// The three ways minting can be refused. They are separate errors because a
+// caller must treat them differently.
+//
+// An audience naming *no* workspace is not a failure at all to the OIDC layer:
+// it is an ordinary client asking for an ordinary token, and minting it
+// unchanged is correct. The other two are refusals — one is the tenant boundary
+// missing, the other is a seat reaching past its entitlement — and neither has a
+// safe smaller answer.
 var (
 	ErrNoWorkspaceAudience        = errors.New("seat: audience names no workspace")
 	ErrAmbiguousWorkspaceAudience = errors.New("seat: audience names more than one workspace")
+	ErrWorkspaceNotOccupied       = errors.New("seat: this member does not occupy that workspace")
 )
 
-// Mint turns facts into the contract's claim set, or refuses.
+// Token mints the contract's claim set for one workspace, or refuses.
 //
-// It refuses rather than degrades. A seat token that cannot say which workspace
-// it is for is not a weaker token, it is the multi-tenant boundary missing —
-// and the failure mode of minting it anyway is the worst kind: the wrong
-// customer's token opens a door and nothing anywhere says so.
-func Mint(f Facts) (*Claims, error) {
-	workspace, err := WorkspaceFromAudience(f.Audience)
+// The occupancy check lives here rather than in whatever adapter happens to be
+// calling, because it is the rule that decides whether a tenant boundary holds
+// and a rule enforced in an adapter is a rule enforced in one adapter. Every
+// path that can mint a seat token goes through this method, so there is exactly
+// one place where "may this seat have this workspace" is answered.
+//
+// It refuses rather than degrades. A token issued quietly without the workspace
+// would fail later, at a consumer, as an audience mismatch — and the operator
+// would go reading the wrong repository's logs.
+func (s *Seat) Token(audience []string, actor *Actor) (*Claims, error) {
+	workspace, err := WorkspaceFromAudience(audience)
 	if err != nil {
 		return nil, err
 	}
-	if f.MemberID == "" {
+	if s.MemberID == "" {
 		return nil, errors.New("seat: a token needs a subject")
 	}
+	if !slices.Contains(s.Workspaces, workspace) {
+		return nil, fmt.Errorf("%w: %s is not among %v", ErrWorkspaceNotOccupied, workspace, s.Workspaces)
+	}
 
-	basis := f.Basis
-	if basis == "" {
-		basis = BasisUnknown
-	} else {
-		// Round-trip through the parser so an unrecognised value that reached
-		// us from storage lands on `unknown` here rather than on the wire.
-		basis = ParseBasis(string(basis))
-	}
-	occupant := f.Occupant
-	if occupant == "" {
-		occupant = OccupantAgent
-	} else {
-		occupant = ParseOccupant(string(occupant))
-	}
+	// Round-trip both axes through their parsers so an unrecognised value that
+	// reached us from storage lands on its safe default here rather than on the
+	// wire. Storage is not trusted to have been written by this version.
+	basis := ParseBasis(string(s.Basis))
+	occupant := ParseOccupant(string(s.Occupant))
 
 	return &Claims{
 		Schema:      Schema,
-		AccountID:   f.AccountID,
-		MemberID:    f.MemberID,
+		AccountID:   s.AccountID,
+		MemberID:    s.MemberID,
 		WorkspaceID: workspace,
 		Occupant:    occupant,
 		Basis:       basis,
 		Authorization: Authorization{
-			Subject:       f.MemberID,
-			Scopes:        NormalizeScopes(f.Scopes),
-			PolicyVersion: f.PolicyVersion,
+			Subject:       s.MemberID,
+			Scopes:        NormalizeScopes(s.Scopes),
+			PolicyVersion: s.PolicyVersion,
 		},
 		Provider: Provider{AccessClass: basis},
-		Actor:    f.Actor,
+		Actor:    actor,
 	}, nil
 }
 
