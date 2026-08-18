@@ -1,0 +1,39 @@
+package domain
+
+import (
+	"os"
+	"strings"
+	"testing"
+
+	"github.com/stretchr/testify/require"
+)
+
+func TestCapabilityWireContractMatchesDomain(t *testing.T) {
+	t.Parallel()
+
+	contents, err := os.ReadFile("../../../proto/tessera/management/v1/capability.proto")
+	require.NoError(t, err)
+	wire := string(contents)
+
+	for _, value := range []ComponentRole{ComponentTessera, ComponentShippinAdapter, ComponentZuul} {
+		require.Contains(t, wire, "COMPONENT_ROLE_"+strings.ToUpper(string(value)))
+	}
+	for _, value := range []CompatibilityState{CompatibilityCompatible, CompatibilityIncompatible, CompatibilityNotPresent, CompatibilityUnknown} {
+		require.Contains(t, wire, "COMPATIBILITY_STATE_"+strings.ToUpper(string(value)))
+	}
+	for _, value := range []CapabilityStatus{CapabilityUnsupported, CapabilityPreview, CapabilityAvailable, CapabilityDegraded} {
+		require.Contains(t, wire, "CAPABILITY_STATUS_"+strings.ToUpper(string(value)))
+	}
+	for _, value := range []UIExposure{UIExposureHidden, UIExposureDisabled, UIExposureEnabled} {
+		require.Contains(t, wire, "UI_EXPOSURE_"+strings.ToUpper(string(value)))
+	}
+	for _, field := range []string{
+		"schema_version",
+		"resource_revision",
+		"bundle_manifest_digest",
+		"required_components",
+		"operation_kinds",
+	} {
+		require.Contains(t, wire, field)
+	}
+}
