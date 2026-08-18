@@ -11,7 +11,18 @@ permissions:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    name: verify (${{ matrix.os }})
+    # Tessera is private and PR authors are trusted operators. If that changes,
+    # detach these runners before accepting untrusted pull-request code.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            runner_label: tessera-linux
+          - os: windows
+            runner_label: tessera-windows
+    runs-on: [self-hosted, "${{ matrix.runner_label }}"]
     steps:
       - name: Check out full history
         uses: actions/checkout@v7
@@ -25,4 +36,6 @@ jobs:
           cache: false
 
       - name: Verify source provenance
-        run: ./dev/check-source-provenance.sh
+        run: |
+          go test ./dev/source-inventory
+          go run ./dev/source-inventory -check
