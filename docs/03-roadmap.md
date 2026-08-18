@@ -166,6 +166,16 @@ The control-surface contract and vertical slice are
 `docs/08-control-surface-and-federation.md`; the outcome-first guide and its
 normalized API mapping are `docs/09-guided-identity-experience.md`.
 
+### Operationalization program
+
+Phase 5 becomes a maintainable private-community product through
+`docs/11-operational-blueprint.md`. That document defines the lifecycle,
+reconciliation, delegation, recovery and release quality bar. The complete
+dependency-ordered delivery queue is `docs/12-execution-worklist.md`; its first
+four slices deliberately establish provenance and operation contracts, then
+read-only truth, repeatable installation and one real guided federation path
+before the team fans out.
+
 - **Done when** clicking Tessera changes the Shippin shell into a coherent
   identity dashboard, upstream/downstream trust are visibly distinct, and a
   Zuul installer can authenticate and enroll one workspace without an embedded
