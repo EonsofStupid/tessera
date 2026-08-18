@@ -1,6 +1,6 @@
 # 07 — Flows: the plan
 
-**Status:** build plan for Phase 4. The model is Authentik's
+**Status:** built — every step landed as its own commit; this is the design record. The model is Authentik's
 (`authentik/flows/planner.py`, `challenge.py`, `stage.py`); the implementation
 is ours, in Go, over `backend/v1`.
 

@@ -121,17 +121,32 @@ attaches to is still Zitadel's, created by setup or the management API — "know
 state from files alone" covers users only when a user applier joins the
 registry, which is the natural next model.
 
-### Phase 4 — flows
+### Phase 4 — flows ✅
 
-Port Authentik's flow/stage engine: a flow is an ordered set of stages, a
-planner decides which apply to this request, and a stage returns a challenge the
-client renders. Identity, MFA, recovery and consent all become the same object.
+Done, and the done-when is literal on this box: `blueprints/dev/flows.yaml`
+declares login-password, login-mfa and recovery as three YAML entries, one
+engine executes all three, and `dev/flow-probe.sh` drives login-password over
+HTTP as a customer would — start, identify, wrong password (fails closed,
+stays, re-asks with a field error), right password, done. The resulting
+session carries `session.user.checked` and `session.password.checked` in the
+eventstore — the same factor events the session v2 API writes, because stages
+delegate to the same SessionCommands and never verify anything themselves.
+The wrong attempt lands as `user.human.password.check.failed` on the user
+aggregate, where lockout counts it.
 
-`planner.py`, `challenge.py` and `markers.py` are the model to read; the
-implementation is ours, in Go, over the eventstore.
+The engine's own rules, each with a test: a wrong answer re-asks and moves
+nothing; infrastructure failure is never a field error; every identify
+failure answers with one vague sentence (account enumeration is harvested on
+login pages); unknown execution and wrong token answer identically; the
+session token crosses the wire exactly once because completion consumes the
+execution. The executor's in-process calls run as TESSERA_FLOWS with exactly
+session.read + session.write — what a login client holds, not SYSTEM_OWNER.
+
+Design and the planner seam (where Authentik's policies land when needed):
+`docs/07-flows.md`.
 
 - **Done when** password + TOTP + recovery are three configurations of one
-  engine rather than three code paths.
+  engine rather than three code paths. ✓
 
 ### Phase 5 — outposts
 

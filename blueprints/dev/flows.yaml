@@ -1,0 +1,36 @@
+# The three flows, as reviewed files — the roadmap's Phase 4 sentence made
+# literal: password, TOTP and recovery are configurations of one engine.
+#
+# No template here, unlike seats: flows carry no per-database ids, so this is
+# a plain committed file, identical on every box.
+schema: tessera.blueprint.v1
+name: dev — login, MFA and recovery as flows
+
+entries:
+  - model: tessera/flow
+    identifiers: {slug: login-password}
+    attrs:
+      title: Sign in
+      designation: authentication
+      stages:
+        - {kind: identify}
+        - {kind: password}
+
+  - model: tessera/flow
+    identifiers: {slug: login-mfa}
+    attrs:
+      title: Sign in (MFA)
+      designation: authentication
+      stages:
+        - {kind: identify}
+        - {kind: password}
+        - {kind: totp}
+
+  - model: tessera/flow
+    identifiers: {slug: recovery}
+    attrs:
+      title: Recover your account
+      designation: recovery
+      stages:
+        - {kind: identify}
+        - {kind: recovery_code}

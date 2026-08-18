@@ -65,6 +65,7 @@ BPDIR="$ROOT/.artifacts/blueprints"
 mkdir -p "$BPDIR"
 sed -e "s/@MEMBER_ID@/$USER_ID/" -e "s/@ACCOUNT_ID@/$ACCOUNT/" \
   "$ROOT/blueprints/dev/seats.yaml.tmpl" > "$BPDIR/seats.yaml"
+cp "$ROOT/blueprints/dev/flows.yaml" "$BPDIR/flows.yaml"
 
 "$TESSERA" blueprint validate --dir "$BPDIR" >/dev/null 2>&1 && ok "blueprint validates (no database needed)"
 "$TESSERA" blueprint apply --config "$ROOT/dev/dev.yaml" --dir "$BPDIR" --instance "$INSTANCE" 2>/dev/null | sed 's/^/  ✓ /'
