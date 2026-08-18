@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package tessera.management.v1;
+
+import "google/protobuf/timestamp.proto";
+import "tessera/management/v1/operation.proto";
+
+option go_package = "github.com/EonsofStupid/tessera/pkg/grpc/management/v1;management";
+
+enum ComponentRole {
+  COMPONENT_ROLE_UNSPECIFIED = 0;
+  COMPONENT_ROLE_TESSERA = 1;
+  COMPONENT_ROLE_SHIPPIN_ADAPTER = 2;
+  COMPONENT_ROLE_ZUUL = 3;
+}
+
+enum CompatibilityState {
+  COMPATIBILITY_STATE_UNSPECIFIED = 0;
+  COMPATIBILITY_STATE_COMPATIBLE = 1;
+  COMPATIBILITY_STATE_INCOMPATIBLE = 2;
+  COMPATIBILITY_STATE_NOT_PRESENT = 3;
+  COMPATIBILITY_STATE_UNKNOWN = 4;
+}
+
+enum CapabilityStatus {
+  CAPABILITY_STATUS_UNSPECIFIED = 0;
+  CAPABILITY_STATUS_UNSUPPORTED = 1;
+  CAPABILITY_STATUS_PREVIEW = 2;
+  CAPABILITY_STATUS_AVAILABLE = 3;
+  CAPABILITY_STATUS_DEGRADED = 4;
+}
+
+enum UIExposure {
+  UI_EXPOSURE_UNSPECIFIED = 0;
+  UI_EXPOSURE_HIDDEN = 1;
+  UI_EXPOSURE_DISABLED = 2;
+  UI_EXPOSURE_ENABLED = 3;
+}
+
+message ComponentCompatibility {
+  ComponentRole role = 1;
+  string version = 2;
+  uint32 api_major = 3;
+  CompatibilityState state = 4;
+  string reason = 5;
+  google.protobuf.Timestamp observed_at = 6;
+}
+
+message CapabilityFact {
+  string id = 1;
+  CapabilityStatus status = 2;
+  UIExposure exposure = 3;
+  string reason = 4;
+  repeated ComponentRole required_components = 5;
+  repeated OperationKind operation_kinds = 6;
+}
+
+message CapabilityDiscovery {
+  uint32 schema_version = 1;
+  string resource_revision = 2;
+  string bundle_manifest_digest = 3;
+  google.protobuf.Timestamp observed_at = 4;
+  repeated ComponentCompatibility components = 5;
+  repeated CapabilityFact capabilities = 6;
+}
+
+message GetCapabilitiesRequest {}
