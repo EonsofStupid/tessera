@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3862,
-  "classification_sha256": "06644ddf5bbae1a63a23a55750b231073758d69d7c76c25439fa3d063b9c2e03",
+  "path_count": 3863,
+  "classification_sha256": "967bde8aa44abb07e1280bc9e1f093d8971396c2f12450ac84a943f96376842e",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 68
+      "paths": 69
     },
     {
       "source_id": "zitadel-core",
@@ -111,6 +111,7 @@
       "relationship": "native",
       "license_expression": "LicenseRef-Tessera-Pending",
       "paths": [
+        ".github/workflows/source-provenance.yml",
         ".gitignore",
         ".zellij/config.kdl",
         ".zellij/layouts/dev.kdl",
