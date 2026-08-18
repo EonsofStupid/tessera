@@ -43,21 +43,27 @@ GROUP BY s.account_id, s.occupant, s.basis, s.scopes, s.policy_version`
 
 // SeatByMember implements [domain.SeatRepository].
 func (r *Repository) SeatByMember(ctx context.Context, instanceID, memberID string) (*domain.Seat, error) {
+	seat, _, err := seatByMember(ctx, r.pool, instanceID, memberID)
+	return seat, err
+}
+
+// seatByMember is the read against whatever executor the caller holds — the
+// pool on the token path, the engine's transaction during a blueprint apply.
+// It also reports whether a row existed, which the public method deliberately
+// hides (an unprovisioned member is a seat that occupies nothing, not an
+// error) and the applier needs (created and updated are different outcomes).
+func seatByMember(ctx context.Context, qe database.QueryExecutor, instanceID, memberID string) (*domain.Seat, bool, error) {
 	seat := &domain.Seat{MemberID: memberID}
 	var occupant, basis string
 
-	err := r.pool.QueryRow(ctx, selectSeat, instanceID, memberID).Scan(
+	err := qe.QueryRow(ctx, selectSeat, instanceID, memberID).Scan(
 		&seat.AccountID, &occupant, &basis, &seat.Scopes, &seat.PolicyVersion, &seat.Workspaces,
 	)
 	if err != nil {
 		if isNoRows(err) {
-			// Not an error: a member nobody has provisioned is a seat that
-			// occupies nothing, and Seat.Token will refuse every workspace it
-			// is asked for. An error here would make an unprovisioned member
-			// look like a broken lookup.
-			return &domain.Seat{MemberID: memberID}, nil
+			return &domain.Seat{MemberID: memberID}, false, nil
 		}
-		return nil, err
+		return nil, false, err
 	}
 
 	// Parsed rather than cast. The column is an enum and cannot hold anything
@@ -66,7 +72,7 @@ func (r *Repository) SeatByMember(ctx context.Context, instanceID, memberID stri
 	// here rather than on the wire.
 	seat.Occupant = domain.ParseOccupant(occupant)
 	seat.Basis = domain.ParseBasis(basis)
-	return seat, nil
+	return seat, true, nil
 }
 
 // SetSeat implements [domain.SeatRepository].
@@ -91,10 +97,18 @@ func (r *Repository) SetSeat(ctx context.Context, instanceID string, seat *domai
 	}
 	defer func() { err = tx.End(ctx, err) }()
 
+	return upsertSeat(ctx, tx, instanceID, seat)
+}
+
+// upsertSeat is the write against whatever executor the caller holds. SetSeat
+// wraps it in its own transaction for callers that arrive without one; the
+// blueprint engine passes its own, so the whole file commits or none of it
+// does.
+func upsertSeat(ctx context.Context, qe database.QueryExecutor, instanceID string, seat *domain.Seat) (err error) {
 	// The whole seat, not a patch — a blueprint declares what should be true,
 	// so the columns it does not mention must land on their defaults rather
 	// than on whatever a previous run left behind.
-	if _, err = tx.Exec(ctx, `
+	if _, err = qe.Exec(ctx, `
 INSERT INTO tessera.seats (instance_id, member_id, account_id, occupant, basis, scopes, policy_version)
 VALUES ($1, $2, $3, $4::tessera.seat_occupant, $5::tessera.seat_basis, $6, $7)
 ON CONFLICT (instance_id, member_id) DO UPDATE SET
@@ -113,7 +127,7 @@ ON CONFLICT (instance_id, member_id) DO UPDATE SET
 
 	// Replaced, not merged. Removing a workspace from a blueprint has to remove
 	// the entitlement, or revoking access becomes something only a human can do.
-	if _, err = tx.Exec(ctx,
+	if _, err = qe.Exec(ctx,
 		`DELETE FROM tessera.seat_workspaces
 		 WHERE instance_id = $1 AND member_id = $2 AND workspace_id <> ALL($3)`,
 		instanceID, seat.MemberID, nonNilScopes(seat.Workspaces),
@@ -121,7 +135,7 @@ ON CONFLICT (instance_id, member_id) DO UPDATE SET
 		return err
 	}
 	for _, ws := range seat.Workspaces {
-		if _, err = tx.Exec(ctx,
+		if _, err = qe.Exec(ctx,
 			`INSERT INTO tessera.seat_workspaces (instance_id, member_id, workspace_id)
 			 VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`,
 			instanceID, seat.MemberID, ws,
@@ -136,10 +150,16 @@ ON CONFLICT (instance_id, member_id) DO UPDATE SET
 // cascade. Removing a seat that is not there is success — `absent` is a desired
 // state, and reaching it twice is reaching it.
 func (r *Repository) RemoveSeat(ctx context.Context, instanceID, memberID string) error {
-	_, err := r.pool.Exec(ctx,
+	_, err := removeSeat(ctx, r.pool, instanceID, memberID)
+	return err
+}
+
+// removeSeat reports how many rows went, which the applier turns into the
+// difference between `removed` and `unchanged`.
+func removeSeat(ctx context.Context, qe database.QueryExecutor, instanceID, memberID string) (int64, error) {
+	return qe.Exec(ctx,
 		`DELETE FROM tessera.seats WHERE instance_id = $1 AND member_id = $2`,
 		instanceID, memberID)
-	return err
 }
 
 // SeatsInWorkspace implements [domain.SeatRepository] — the panel's question,
