@@ -1,7 +1,7 @@
 # 09 — Guided identity experience
 
-**Status:** accepted experience contract; the first implementation is a
-non-mutating panel mock.
+**Status:** accepted production experience contract. A non-mutating prototype
+may validate composition, but it is not a completion milestone.
 **Depends on:** `08-control-surface-and-federation.md`.
 
 ## Product rule
@@ -50,9 +50,11 @@ Every setup follows the same five-part grammar:
    finish with an outcome test such as a discovery check, test sign-in or Zuul
    enrollment check.
 
-The initial mock implements steps one through four locally and says explicitly
-that it is a preview. It must not imply that fixture interactions changed live
-identity state.
+A prototype may implement steps one through four against typed fixtures only
+when it is explicitly labeled preview. Production work does not stop there:
+the same components must consume live provider-neutral projections, submit the
+shared P1.2 operation contract, resume durable progress and verify the outcome.
+Fixture interactions must never imply that live identity state changed.
 
 ## Progressive disclosure
 
@@ -108,11 +110,14 @@ state changed after review. A missing permission remains a typed `403`.
 
 - A new customer can reach a correct recommended plan from any of the six
   outcomes without identity-domain vocabulary.
+- The production path plans, applies, resumes and verifies through Tessera; a
+  polished fixture-only or vendor-console-backed screen does not satisfy this
+  contract.
 - The review states the trust direction, affected workspace, access granted,
   recovery posture and rollback before a mutation.
 - An expert can inspect the exact provider-neutral resources and standards
   without leaving the guide.
 - A successful apply is followed by an outcome verification, not merely a
   green API response.
-- The mock is visibly non-mutating; the production path is server-side,
+- Any prototype is visibly non-mutating; the production path is server-side,
   authorized, audited, secret-safe and idempotent.

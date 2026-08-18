@@ -29,6 +29,75 @@ The panel route is `/member/tessera`. Selecting it updates the persistent shell
 with the Tessera module name, its navigation and an identity-scoped account
 control. The shell remains Shippin-owned; Tessera owns the data and actions.
 
+### Shell module contract
+
+Tessera is a first-class Shippin module, not a standalone application embedded
+after login. Shippin publishes a versioned `shippin.tessera` module descriptor
+from its service catalog. The descriptor supplies the mount path, route ids,
+sublinks, required capabilities and member permissions; it does not download
+arbitrary administration code from the identity service.
+
+The initial route tree is:
+
+| route id | member path | shell label |
+|---|---|---|
+| `tessera.start` | `/member/tessera` | Start |
+| `tessera.directory` | `/member/tessera/directory` | Directory |
+| `tessera.access` | `/member/tessera/access` | People & access |
+| `tessera.infrastructure` | `/member/tessera/infrastructure` | Infrastructure |
+| `tessera.ai` | `/member/tessera/ai` | AI |
+| `tessera.customers` | `/member/tessera/customers` | Customers |
+| `tessera.federation.upstreams` | `/member/tessera/advanced/upstreams` | Identity providers |
+| `tessera.federation.clients` | `/member/tessera/advanced/clients` | Connected applications |
+| `tessera.flows` | `/member/tessera/advanced/flows` | Sign-in flows |
+| `tessera.trust` | `/member/tessera/advanced/trust` | Trust & keys |
+| `tessera.audit` | `/member/tessera/advanced/audit` | Audit |
+
+Shippin keeps its header, account/workspace context, global navigation and
+member session mounted while the content outlet changes. Tessera owns the
+module title, local subnavigation, breadcrumbs and content beneath that
+outlet. An iframe, full-page vendor-console redirect, second login shell or
+independently drifting navigation tree violates this contract.
+
+Every sublink names a capability-discovery id and optional permission. The
+server-side adapter resolves those facts before returning the member module
+descriptor. Unsupported routes are absent, unavailable routes are disabled
+with a typed remedy, and neither the browser nor a cached descriptor promotes
+a route that Tessera did not advertise.
+
+Direct URLs, refresh, forward/back history and copied deep links resolve to the
+same shell and selected sublink. A route-level error boundary contains Tessera
+failures inside the content outlet: the Shippin shell and account controls
+remain usable, and the content renders loading, empty, degraded, unauthorized,
+not-entitled or unavailable states from typed responses instead of a blank
+page.
+
+### Reliability and quality bar
+
+Visual polish cannot substitute for identity-system reliability. A route is
+production-ready only when its provider-neutral contract, authorization,
+loading/empty/degraded behavior, audit result and recovery path are tested.
+The inherited ZITADEL and authentik suites remain valuable implementation
+evidence, but Shippin/Tessera conformance tests prove the product boundary.
+
+For every released module version:
+
+- service-catalog validation rejects duplicate paths, unknown parents and
+  routes without capability gates;
+- browser tests cover selection, direct entry, refresh, history, expired
+  member authentication, typed entitlement denial and dependency loss;
+- adapter tests prove timeouts, bounded retries, cancellation and redaction;
+- contract tests run against fixtures and a live Tessera deployment without
+  changing the component model;
+- upgrade tests prove the oldest supported Shippin descriptor against the
+  newest supported Tessera API and the reverse supported combination;
+- route availability and operation success are measured separately, so a
+  rendered dashboard cannot hide broken sign-in, federation or recovery.
+
+A capability stays preview, disabled or degraded until those checks pass. It
+does not become production-ready because the equivalent inherited vendor page
+works.
+
 | lens | shows | authority |
 |---|---|---|
 | **Infrastructure** | identity attachments for workspaces, services, runtimes and Zuul installers; issuer/client health | Tessera for identity; Shippin/Zuul for referenced inventory |
@@ -191,6 +260,12 @@ The first implementation is intentionally read-first:
 
 - Selecting Tessera in the Shippin panel changes the persistent shell and opens
   a coherent identity dashboard without exposing a vendor console.
+- The service catalog, server-side adapter and browser agree on one versioned
+  route tree; deep links and browser history preserve shell and sublink state.
+- Capability and permission changes hide or disable the correct sublinks from
+  server facts without a frontend deployment or a guessed version rule.
+- Loss of Tessera data or one route never unmounts the Shippin shell, traps the
+  member in a spinner or breaks unrelated Shippin modules.
 - Humans, agents and infrastructure attachments are distinguishable views over
   one authority, not three databases.
 - Upstream IdPs and downstream clients are visibly different and safely

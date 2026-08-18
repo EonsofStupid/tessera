@@ -94,11 +94,12 @@ block local research or read-only mocks.
 | id | work | depends on | done when |
 |---|---|---|---|
 | P4.1 | Implement `GET /tessera/v1/overview` with source revision and observation times. | P2.2, P2.5 | fixture and live projection satisfy one schema and missing facts never appear healthy |
-| P4.2 | Publish `shippin.tessera` in the service catalog and add the server-side management adapter. | P1.3, P1.4, P4.1 | browser traffic contains only member-scoped calls and no operator credential |
-| P4.3 | Implement `/member/tessera` shell context and Start dashboard. | P4.2 | clicking Tessera updates the persistent shell without opening a vendor console |
+| P4.2 | Publish the versioned `shippin.tessera` route/sublink descriptor in the service catalog and add the server-side management adapter. | P1.3, P1.4, P4.1 | browser traffic contains only member-scoped calls and no operator credential; every route names its capability and permission gate |
+| P4.3 | Implement `/member/tessera` shell context, deep-link routing and Start dashboard. | P4.2 | clicking, refreshing or directly opening a Tessera route preserves the Shippin shell and selects the correct sublink without opening a vendor console |
 | P4.4 | Implement Infrastructure, AI and Customers lenses over one authority. | P4.1, P4.3 | the views share stable subject/workspace ids and do not duplicate identity state |
 | P4.5 | Implement consequence-first health, activity and remediation components. | P1.3, P4.1 | every degraded card links to a safe next action and optional diagnostics |
 | P4.6 | Add accessibility, responsive behavior and empty/loading/degraded states. | P4.3–P4.5 | keyboard, screen-reader and narrow-layout acceptance tests pass |
+| P4.7 | Add shell/module conformance, route error boundaries and failure-isolation tests. | P4.2–P4.6 | every declared route, capability gate and browser-history transition passes; loss of Tessera never unmounts or breaks the Shippin shell |
 
 ## P5 — Turn the six guides into real operations
 
