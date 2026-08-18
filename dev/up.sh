@@ -28,6 +28,13 @@ export PATH="/usr/lib/postgresql/18/bin:$ROOT/.artifacts/bin:$ROOT/upstream/zita
 step() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 ok()   { printf '  ✓ %s\n' "$*"; }
 
+# Fail before half-running: the quick preflight proves binaries, ports and
+# writability, and every failure it prints names its exact fix (sudo included
+# where root is really needed). Full version: bash dev/preflight.sh
+if [[ "${1:-}" != "--down" ]]; then
+  bash "$ROOT/dev/preflight.sh" --quick || exit 1
+fi
+
 if [[ "${1:-}" == "--down" ]]; then
   pkill -f "[t]essera --config $CONFIG" 2>/dev/null || true
   pg_ctl -D "$PGDATA" stop -m fast 2>/dev/null || true

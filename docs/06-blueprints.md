@@ -136,11 +136,26 @@ blueprint-instances status table, hot-reload, and multi-instance fan-out (the
 CLI takes one `--instance`; iterating a fleet is the panel's job, one apply per
 tenant, each atomic on its own).
 
-## Risks
+## Preflight, instead of a risk list
 
-- **embedded-postgres downloads its binary on first use.** If the sandbox
-  blocks it, 3.3b's proof moves to the dev-cluster probe — same assertions,
-  less hermetic.
-- **Read-compare cost** on large blueprints is one SELECT per entry. Fine at
-  panel scale (entries per tenant are tens, not thousands); revisit only if a
-  blueprint ever grows past that.
+A risk you can check for is not a risk, it is a missing check.
+`dev/preflight.sh` proves the environment before anything half-runs: Go 1.25+,
+postgres server binaries, ports 5433/8088 free or ours, writable state dirs,
+and the embedded-postgres PG 16 cache. `dev/up.sh` runs the quick subset before
+touching anything.
+
+The rule for failures: every ✗ prints the exact command that fixes it — `sudo`
+spelled out where root is genuinely required, never run by the script itself.
+Whether a person or an AI is driving, the output is the runbook.
+
+The one formerly-listed risk — embedded-postgres downloading its binary on
+first use — is now the preflight's last check, with three remediations by
+cause: `--fetch-embedded` for a one-time download, `HTTPS_PROXY=…` behind a
+proxy, and copying `~/.embedded-postgres-go` from any machine that has it when
+air-gapped. On this box the cache is already populated, so 3.3b's test runs
+with no network at all. Until a blocked environment is fixed,
+`dev/blueprint-probe.sh` covers the same assertions against the dev cluster.
+
+What remains an actual trade-off: **read-compare cost** is one SELECT per
+entry. Fine at panel scale (entries per tenant are tens, not thousands);
+revisit only if a blueprint ever grows past that.
