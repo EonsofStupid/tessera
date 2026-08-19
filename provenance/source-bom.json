@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3883,
-  "classification_sha256": "cf13aaf6924766f31909acd3546ba79ce221609a795baab1e9c7d5113251462d",
+  "path_count": 3893,
+  "classification_sha256": "441a9ff312e17308b157707a2c1a6c3be13b7f54395919896112866532204a87",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 89
+      "paths": 99
     },
     {
       "source_id": "zitadel-core",
@@ -153,6 +153,7 @@
         "docs/14-operation-contract.md",
         "docs/15-management-error-contract.md",
         "docs/16-capability-discovery-contract.md",
+        "docs/17-overview-projection-contract.md",
         "prefetch-embedded",
         "provenance/README.md",
         "provenance/source-bom.json",
@@ -194,6 +195,9 @@
       "relationship": "native",
       "license_expression": "LicenseRef-Tessera-Pending",
       "paths": [
+        "backend/v1/api/management/authorizer.go",
+        "backend/v1/api/management/handler.go",
+        "backend/v1/api/management/handler_test.go",
         "backend/v1/domain/capability.go",
         "backend/v1/domain/capability_test.go",
         "backend/v1/domain/capability_wire_contract_test.go",
@@ -206,13 +210,19 @@
         "backend/v1/domain/operation.go",
         "backend/v1/domain/operation_test.go",
         "backend/v1/domain/operation_wire_contract_test.go",
+        "backend/v1/domain/overview.go",
+        "backend/v1/domain/overview_test.go",
         "backend/v1/domain/seat.go",
         "backend/v1/domain/seat_repository.go",
         "backend/v1/domain/seat_test.go",
+        "backend/v1/management/overview.go",
+        "backend/v1/management/overview_test.go",
         "backend/v1/storage/migration/001_seats.go",
         "backend/v1/storage/migration/001_seats/down.sql",
         "backend/v1/storage/migration/001_seats/up.sql",
         "backend/v1/storage/migration/migrations.go",
+        "backend/v1/storage/overview/postgres.go",
+        "backend/v1/storage/overview/postgres_test.go",
         "backend/v1/storage/seat/postgres.go"
       ]
     },

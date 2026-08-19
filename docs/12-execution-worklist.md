@@ -32,7 +32,7 @@ Every implementation pull request must state:
 | P1 — contracts/security | ready | this plan is accepted |
 | P2 — control plane | waiting | P1 operation contracts are merged |
 | P3 — installation | waiting | P2 operation foundation is proven |
-| P4 — read surface | waiting | overview and adapter schemas are stable |
+| P4 — read surface | active | overview and adapter schemas are stable |
 | P5 — guided writes | waiting | common guide grammar and relevant domain adapter exist |
 | P6 — federation | waiting | secret and threat-model gates pass |
 | P7 — delegation | waiting | permission and audit contracts pass |
@@ -93,7 +93,7 @@ block local research or read-only mocks.
 
 | id | work | depends on | done when |
 |---|---|---|---|
-| P4.1 | Implement `GET /tessera/v1/overview` with source revision and observation times. | P2.2, P2.5 | fixture and live projection satisfy one schema and missing facts never appear healthy |
+| P4.1 | Implement `GET /tessera/v1/overview` with source revision and observation times. Contract: `17-overview-projection-contract.md`. | P2.2, P2.5 | fixture and live projection satisfy one schema and missing facts never appear healthy |
 | P4.2 | Publish `shippin.tessera` in the service catalog and add the server-side management adapter. | P1.3, P1.4, P4.1 | browser traffic contains only member-scoped calls and no operator credential |
 | P4.3 | Implement `/member/tessera` shell context and Start dashboard. | P4.2 | clicking Tessera updates the persistent shell without opening a vendor console |
 | P4.4 | Implement Infrastructure, AI and Customers lenses over one authority. | P4.1, P4.3 | the views share stable subject/workspace ids and do not duplicate identity state |

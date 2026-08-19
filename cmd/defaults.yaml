@@ -1609,6 +1609,7 @@ InternalAuthZ:
         - "system.iam.member.read"
     - Role: "IAM_OWNER"
       Permissions:
+        - "tessera:overview:read"
         - "iam.read"
         - "iam.write"
         - "iam.policy.read"
@@ -1714,6 +1715,7 @@ InternalAuthZ:
         - "group.user.delete"
     - Role: "IAM_OWNER_VIEWER"
       Permissions:
+        - "tessera:overview:read"
         - "iam.read"
         - "iam.policy.read"
         - "iam.member.read"
@@ -2208,6 +2210,7 @@ SystemAuthZ:
         - "system.iam.member.read"
     - Role: "IAM_OWNER"
       Permissions:
+        - "tessera:overview:read"
         - "iam.read"
         - "iam.write"
         - "iam.policy.read"
@@ -2313,6 +2316,7 @@ SystemAuthZ:
         - "group.user.delete"
     - Role: "IAM_OWNER_VIEWER"
       Permissions:
+        - "tessera:overview:read"
         - "iam.read"
         - "iam.policy.read"
         - "iam.member.read"

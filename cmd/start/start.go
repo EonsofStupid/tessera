@@ -26,8 +26,11 @@ import (
 	"golang.org/x/net/http2/h2c"
 	"golang.org/x/text/language"
 
+	tessera_management_api "github.com/EonsofStupid/tessera/backend/v1/api/management"
+	tessera_management "github.com/EonsofStupid/tessera/backend/v1/management"
 	flowstorage "github.com/EonsofStupid/tessera/backend/v1/storage/flow"
 	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
+	overviewstorage "github.com/EonsofStupid/tessera/backend/v1/storage/overview"
 	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
 	new_domain "github.com/EonsofStupid/tessera/backend/v3/domain"
 	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
@@ -738,6 +741,22 @@ func startAPIs(
 		return nil, fmt.Errorf("unable to start oidc provider: %w", err)
 	}
 	apis.RegisterHandlerPrefixes(oidcServer, oidcPrefixes...)
+
+	// Tessera's native management boundary. The instance interceptor resolves
+	// the tenant before authorization or storage reads, and the handler emits
+	// only Tessera's typed management errors.
+	apis.RegisterHandlerOnPrefix(tessera_management_api.HandlerPrefix, instanceInterceptor.Handler(
+		tessera_management_api.NewHandler(
+			tessera_management.NewOverviewService(
+				overviewstorage.NewRepository(v3_postgres.PGxPool(dbClient.Pool)),
+				tessera_management.NewQuerySigningKeyCounter(queries),
+				time.Now,
+			),
+			tessera_management_api.NewTesseraAuthorizer(verifier, config.SystemAuthZ, config.InternalAuthZ),
+			func(ctx context.Context) string { return internal_authz.GetInstance(ctx).InstanceID() },
+			oidcServer.IssuerFromRequest,
+		),
+	))
 
 	samlProvider, err := saml.NewProvider(
 		config.SAML,
