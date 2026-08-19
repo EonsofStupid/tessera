@@ -1,0 +1,142 @@
+{
+  "$schema": "./manifest.schema.json",
+  "schemaVersion": "tessera.engineering-workspace.v1",
+  "stateRoot": ".artifacts/workspace",
+  "baseBranch": "agent/tessera-private-cloud",
+  "components": [
+    {
+      "id": "tessera",
+      "location": "self",
+      "authority": "identity, authorization, federation, journeys, and identity-edge policy",
+      "requiredFiles": [
+        "go.mod",
+        "docs/18-identity-edge-and-vaultix-contract.md",
+        "proto/tessera/management/v1/capability.proto"
+      ]
+    },
+    {
+      "id": "vaultix",
+      "location": "sibling",
+      "authority": "secrets, certificates, privileged access, and custody audit",
+      "requiredFiles": [
+        "README.md",
+        "schemas/shippin.vaultix.api.v1.json",
+        "docs/0006-wire-protocol-verification.md"
+      ]
+    },
+    {
+      "id": "shippin",
+      "location": "sibling",
+      "authority": "persistent shell, tenant and product context, and commercial policy",
+      "requiredFiles": [
+        "AGENTS.md",
+        "docs/platform/PRODUCT-ARCHITECTURE.md"
+      ]
+    },
+    {
+      "id": "zuul",
+      "location": "sibling",
+      "authority": "installer, peers, routes, and private-mesh policy",
+      "requiredFiles": [
+        "README.md",
+        "docs/0006-identity-tessera.md",
+        "contracts/shippin.zuul.panel.v0.json"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": "authentik-concepts",
+      "repository": "https://github.com/goauthentik/authentik.git",
+      "revision": "64d4b97dbd81a65a3dbe8e0e3dc7d13cb8831ff8",
+      "destination": "upstream/authentik",
+      "sparsePaths": ["internal/outpost/proxyv2", "internal/outpost/ldap", "authentik/flows", "blueprints"],
+      "requiredPaths": ["internal/outpost/proxyv2", "internal/outpost/ldap", "authentik/flows", "blueprints", "go.mod", "LICENSE"]
+    }
+  ],
+  "profiles": [
+    {
+      "id": "core",
+      "operatingSystems": ["linux", "windows"],
+      "requiredTools": ["git", "go"],
+      "requiredComponents": ["tessera"],
+      "capabilities": ["visual_flow_engine"]
+    },
+    {
+      "id": "workspace",
+      "operatingSystems": ["linux"],
+      "requiredTools": ["git", "go", "node", "podman", "jq", "openssl"],
+      "requiredComponents": ["tessera", "vaultix", "shippin", "zuul"],
+      "requiredReferences": ["authentik-concepts"]
+    },
+    {
+      "id": "linux-integration",
+      "operatingSystems": ["linux"],
+      "requiredTools": ["git", "go", "podman", "curl", "jq", "openssl"],
+      "requiredComponents": ["tessera", "vaultix"],
+      "requiredReferences": ["authentik-concepts"],
+      "capabilities": ["ldap_outbound", "ldap_inbound", "forward_auth", "identity_aware_proxy", "visual_flow_engine", "vaultix_secret_custody"]
+    },
+    {
+      "id": "windows-ad",
+      "operatingSystems": ["windows"],
+      "requiredTools": ["git", "go", "powershell"],
+      "requiredComponents": ["tessera"],
+      "capabilities": ["ldap_outbound"]
+    },
+    {
+      "id": "release",
+      "operatingSystems": ["linux", "windows"],
+      "requiredTools": ["git", "go"],
+      "requiredComponents": ["tessera"],
+      "capabilities": ["ldap_outbound", "ldap_inbound", "forward_auth", "identity_aware_proxy", "visual_flow_engine", "vaultix_secret_custody"]
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "ldap_outbound",
+      "conformanceId": "tessera.conformance.ldap-outbound.v1",
+      "profiles": ["linux-integration", "windows-ad"]
+    },
+    {
+      "id": "ldap_inbound",
+      "conformanceId": "tessera.conformance.ldap-inbound.v1",
+      "profiles": ["linux-integration"]
+    },
+    {
+      "id": "forward_auth",
+      "conformanceId": "tessera.conformance.forward-auth.v1",
+      "profiles": ["linux-integration"]
+    },
+    {
+      "id": "identity_aware_proxy",
+      "conformanceId": "tessera.conformance.identity-aware-proxy.v1",
+      "profiles": ["linux-integration"]
+    },
+    {
+      "id": "visual_flow_engine",
+      "conformanceId": "tessera.conformance.visual-flow-engine.v1",
+      "profiles": ["core", "linux-integration"]
+    },
+    {
+      "id": "vaultix_secret_custody",
+      "conformanceId": "tessera.conformance.vaultix-secret-custody.v1",
+      "profiles": ["linux-integration"]
+    }
+  ],
+  "ports": [
+    {"name": "postgres", "port": 5433, "bind": "127.0.0.1"},
+    {"name": "tessera", "port": 8088, "bind": "127.0.0.1"},
+    {"name": "ldap", "port": 8389, "bind": "127.0.0.1"},
+    {"name": "ldaps", "port": 8636, "bind": "127.0.0.1"},
+    {"name": "reference-app", "port": 9080, "bind": "127.0.0.1"},
+    {"name": "identity-edge", "port": 9081, "bind": "127.0.0.1"},
+    {"name": "vaultix-adapter", "port": 8201, "bind": "127.0.0.1"}
+  ],
+  "secretPolicy": {
+    "generatedAtRuntime": true,
+    "directoryMode": "0700",
+    "fileMode": "0600",
+    "forbiddenTrackedPatterns": ["*.pem", "*.key", "*.p12", "*.pfx", ".env", ".env.*", "secrets/**"]
+  }
+}

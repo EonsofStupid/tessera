@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.shippin.cloud/tessera/engineering-workspace.v1.json",
+  "title": "Tessera engineering workspace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "stateRoot", "baseBranch", "components", "references", "profiles", "capabilities", "ports", "secretPolicy"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schemaVersion": {"const": "tessera.engineering-workspace.v1"},
+    "stateRoot": {"const": ".artifacts/workspace"},
+    "baseBranch": {"type": "string", "pattern": "^agent/[a-z0-9-]+$"},
+    "components": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "location", "authority", "requiredFiles"],
+        "properties": {
+          "id": {"enum": ["tessera", "vaultix", "shippin", "zuul"]},
+          "location": {"enum": ["self", "sibling"]},
+          "authority": {"type": "string", "minLength": 1},
+          "requiredFiles": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "repository", "revision", "destination", "sparsePaths", "requiredPaths"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]+$"},
+          "repository": {"type": "string", "pattern": "^https://github\\.com/"},
+          "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "destination": {"type": "string", "pattern": "^upstream/[a-z][a-z0-9-]+$"},
+          "sparsePaths": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "requiredPaths": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "operatingSystems", "requiredTools", "requiredComponents"],
+        "properties": {
+          "id": {"enum": ["core", "workspace", "linux-integration", "windows-ad", "release"]},
+          "operatingSystems": {"type": "array", "minItems": 1, "items": {"enum": ["linux", "windows"]}},
+          "requiredTools": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "requiredComponents": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "requiredReferences": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "capabilities": {"type": "array", "items": {"$ref": "#/$defs/capabilityId"}}
+        }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "conformanceId", "profiles"],
+        "properties": {
+          "id": {"$ref": "#/$defs/capabilityId"},
+          "conformanceId": {"type": "string", "pattern": "^tessera\\.conformance\\.[a-z0-9-]+\\.v1$"},
+          "profiles": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "ports": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "port", "bind"],
+        "properties": {
+          "name": {"type": "string", "pattern": "^[a-z][a-z0-9-]+$"},
+          "port": {"type": "integer", "minimum": 1024, "maximum": 65535},
+          "bind": {"const": "127.0.0.1"}
+        }
+      }
+    },
+    "secretPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generatedAtRuntime", "directoryMode", "fileMode", "forbiddenTrackedPatterns"],
+      "properties": {
+        "generatedAtRuntime": {"const": true},
+        "directoryMode": {"const": "0700"},
+        "fileMode": {"const": "0600"},
+        "forbiddenTrackedPatterns": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "$defs": {
+    "capabilityId": {
+      "enum": ["ldap_outbound", "ldap_inbound", "forward_auth", "identity_aware_proxy", "visual_flow_engine", "vaultix_secret_custody"]
+    }
+  }
+}

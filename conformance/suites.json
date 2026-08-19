@@ -1,0 +1,91 @@
+{
+  "$schema": "./suites.schema.json",
+  "schemaVersion": "tessera.conformance-suites.v1",
+  "suites": [
+    {
+      "capabilityId": "ldap_outbound",
+      "conformanceId": "tessera.conformance.ldap-outbound.v1",
+      "status": "planned",
+      "profiles": ["linux-integration", "windows-ad"],
+      "cases": [
+        {"id": "openldap-starttls-bind-search", "class": "positive", "profile": "linux-integration", "requirement": "Validate certificate trust, bind, search, and attribute mapping over StartTLS."},
+        {"id": "active-directory-nested-groups", "class": "positive", "profile": "windows-ad", "requirement": "Resolve the supported Active Directory nested-group profile without role inflation."},
+        {"id": "disabled-user-refused", "class": "negative", "profile": "windows-ad", "requirement": "Refuse authentication and lifecycle promotion for a disabled directory user."},
+        {"id": "cross-tenant-mapping-refused", "class": "negative", "profile": "linux-integration", "requirement": "Prevent one tenant connector from resolving or mapping another tenant."},
+        {"id": "directory-timeout-failover", "class": "failure", "profile": "linux-integration", "requirement": "Fail closed, emit a safe degraded fact, and recover through the configured failover target."},
+        {"id": "vaultix-bind-credential-rotation", "class": "recovery", "profile": "linux-integration", "requirement": "Rotate a Vaultix-backed bind credential with overlap and no value in Tessera evidence."}
+      ]
+    },
+    {
+      "capabilityId": "ldap_inbound",
+      "conformanceId": "tessera.conformance.ldap-inbound.v1",
+      "status": "planned",
+      "profiles": ["linux-integration"],
+      "cases": [
+        {"id": "client-bind-search-groups", "class": "positive", "profile": "linux-integration", "requirement": "A standard LDAP client binds, searches, and resolves allowed group membership."},
+        {"id": "tenant-base-dn-isolation", "class": "negative", "profile": "linux-integration", "requirement": "A tenant bind cannot search another tenant base DN or infer its entries."},
+        {"id": "write-shadow-directory-refused", "class": "negative", "profile": "linux-integration", "requirement": "Mutation operations cannot turn the edge into a writable shadow authority."},
+        {"id": "session-and-user-revocation", "class": "recovery", "profile": "linux-integration", "requirement": "Revoked sessions and disabled subjects stop binding within the stated propagation window."},
+        {"id": "core-loss-fails-closed", "class": "failure", "profile": "linux-integration", "requirement": "Loss of Tessera authority refuses new binds without serving stale password-equivalent data."},
+        {"id": "tls-restart-reconnect", "class": "recovery", "profile": "linux-integration", "requirement": "TLS-only edge restart preserves configuration revision and accepts clean client reconnects."}
+      ]
+    },
+    {
+      "capabilityId": "forward_auth",
+      "conformanceId": "tessera.conformance.forward-auth.v1",
+      "status": "planned",
+      "profiles": ["linux-integration"],
+      "cases": [
+        {"id": "allow-deny-step-up", "class": "positive", "profile": "linux-integration", "requirement": "Exercise allowed, denied, and step-up-required decisions through the reference proxy."},
+        {"id": "original-target-preserved", "class": "positive", "profile": "linux-integration", "requirement": "Preserve the original method, scheme, host, path, and query through authorization."},
+        {"id": "spoofed-identity-headers-stripped", "class": "negative", "profile": "linux-integration", "requirement": "Strip caller-supplied identity headers before emitting minimal Tessera assertions."},
+        {"id": "cross-tenant-route-refused", "class": "negative", "profile": "linux-integration", "requirement": "Reject a valid session used against a route owned by another tenant."},
+        {"id": "session-revocation", "class": "recovery", "profile": "linux-integration", "requirement": "Honor revocation without waiting for an unsafe session lifetime."},
+        {"id": "authority-loss-fails-closed", "class": "failure", "profile": "linux-integration", "requirement": "Dependency loss refuses protected traffic and emits no identity headers."}
+      ]
+    },
+    {
+      "capabilityId": "identity_aware_proxy",
+      "conformanceId": "tessera.conformance.identity-aware-proxy.v1",
+      "status": "planned",
+      "profiles": ["linux-integration"],
+      "cases": [
+        {"id": "browser-login-and-upstream", "class": "positive", "profile": "linux-integration", "requirement": "Complete browser login and reach an allowlisted upstream with the reviewed claims."},
+        {"id": "websocket-session", "class": "positive", "profile": "linux-integration", "requirement": "Maintain supported websocket traffic under the same policy and session."},
+        {"id": "csrf-and-open-redirect-refused", "class": "negative", "profile": "linux-integration", "requirement": "Reject forged state, unsafe return targets, and cross-origin mutation attempts."},
+        {"id": "upstream-host-escape-refused", "class": "negative", "profile": "linux-integration", "requirement": "Prevent host-header or path manipulation from escaping the configured upstream allowlist."},
+        {"id": "logout-and-revocation", "class": "recovery", "profile": "linux-integration", "requirement": "Logout and operator revocation invalidate browser and upstream access."},
+        {"id": "authority-loss-fails-closed", "class": "failure", "profile": "linux-integration", "requirement": "Dependency loss cannot fall through to an unprotected upstream."}
+      ]
+    },
+    {
+      "capabilityId": "visual_flow_engine",
+      "conformanceId": "tessera.conformance.visual-flow-engine.v1",
+      "status": "planned",
+      "profiles": ["core", "linux-integration"],
+      "cases": [
+        {"id": "graph-schema-round-trip", "class": "positive", "profile": "core", "requirement": "Graph, management payload, blueprint, and runtime schema round-trip without semantic loss."},
+        {"id": "success-refusal-cancel-simulation", "class": "positive", "profile": "core", "requirement": "Simulate success, refusal, cancellation, and dependency-failure outcomes deterministically."},
+        {"id": "unsafe-graph-refused", "class": "negative", "profile": "core", "requirement": "Reject cycles, unreachable stages, missing refusal paths, and unsafe terminals."},
+        {"id": "stale-publish-refused", "class": "negative", "profile": "linux-integration", "requirement": "Return a typed conflict when the reviewed base revision is stale."},
+        {"id": "dependency-failure-simulation", "class": "failure", "profile": "core", "requirement": "A dependency failure reaches a reviewed refusal or recovery outcome and never an implicit success terminal."},
+        {"id": "publish-and-rollback", "class": "recovery", "profile": "linux-integration", "requirement": "Publish idempotently, verify behavior, and restore the prior revision with audit."},
+        {"id": "keyboard-and-screen-reader", "class": "accessibility", "profile": "core", "requirement": "Complete template selection, graph editing, review, and validation without pointer-only interaction."}
+      ]
+    },
+    {
+      "capabilityId": "vaultix_secret_custody",
+      "conformanceId": "tessera.conformance.vaultix-secret-custody.v1",
+      "status": "planned",
+      "profiles": ["linux-integration"],
+      "cases": [
+        {"id": "workload-auth-and-resolve-use", "class": "positive", "profile": "linux-integration", "requirement": "Authenticate a Tessera workload and resolve a purpose-bound value only inside the authorized operation."},
+        {"id": "certificate-status-and-renewal", "class": "positive", "profile": "linux-integration", "requirement": "Request safe certificate status and complete renewal without returning its private key."},
+        {"id": "over-scoped-reference-refused", "class": "negative", "profile": "linux-integration", "requirement": "Reject references outside the workload's tenant, path, purpose, or operation policy."},
+        {"id": "seeded-secret-leak-scan", "class": "negative", "profile": "linux-integration", "requirement": "Find no seeded value in Tessera database, events, API, logs, evidence, or support bundle."},
+        {"id": "vaultix-denial-and-outage", "class": "failure", "profile": "linux-integration", "requirement": "Degrade only the dependent capability and never extend a cached value past policy."},
+        {"id": "rotation-revocation-recovery", "class": "recovery", "profile": "linux-integration", "requirement": "Rotate with overlap, honor revocation/expiry, and preserve an independently documented owner-recovery path."}
+      ]
+    }
+  ]
+}
