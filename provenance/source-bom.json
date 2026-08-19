@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3893,
-  "classification_sha256": "441a9ff312e17308b157707a2c1a6c3be13b7f54395919896112866532204a87",
+  "path_count": 3931,
+  "classification_sha256": "7b03abc4da7ba95eb89658e78d419e5aa03462d07a1dc781dd4edb4a0f06d08d",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 99
+      "paths": 137
     },
     {
       "source_id": "zitadel-core",
@@ -106,6 +106,44 @@
       ]
     },
     {
+      "rule_id": "tessera-container-build-compatibility",
+      "source_id": "tessera-native",
+      "relationship": "native",
+      "license_expression": "LicenseRef-Tessera-Pending",
+      "paths": [
+        "internal/execution/target/router.go",
+        "internal/execution/target/router_test.go",
+        "internal/execution/target/target.go",
+        "internal/repository/target/aggregate.go",
+        "internal/repository/target/constraints.go",
+        "internal/repository/target/eventstore.go",
+        "internal/repository/target/key.go",
+        "internal/repository/target/target.go",
+        "pkg/grpc/action/action.go",
+        "pkg/grpc/admin/event.go",
+        "pkg/grpc/admin/oneof.go",
+        "pkg/grpc/app/application.go",
+        "pkg/grpc/app/v2beta/application.go",
+        "pkg/grpc/application/v2/application.go",
+        "pkg/grpc/auth/changes.go",
+        "pkg/grpc/idp/idp.go",
+        "pkg/grpc/idp/v2/idp.go",
+        "pkg/grpc/internal_permission/v2/resource.go",
+        "pkg/grpc/internal_permission/v2beta/resource.go",
+        "pkg/grpc/management/action.go",
+        "pkg/grpc/management/app.go",
+        "pkg/grpc/management/changes.go",
+        "pkg/grpc/management/oneof.go",
+        "pkg/grpc/message/message.go",
+        "pkg/grpc/protoc/v2/doc.go",
+        "pkg/grpc/saml/v2/saml.go",
+        "pkg/grpc/settings/settings.go",
+        "pkg/grpc/user/user.go",
+        "pkg/grpc/user/v2/user.go",
+        "pkg/grpc/user/v2beta/user.go"
+      ]
+    },
+    {
       "rule_id": "tessera-management-proto",
       "source_id": "tessera-native",
       "relationship": "native",
@@ -122,12 +160,19 @@
       "relationship": "native",
       "license_expression": "LicenseRef-Tessera-Pending",
       "paths": [
+        ".containerignore",
         ".github/workflows/source-provenance.yml",
         ".gitignore",
         ".zellij/config.kdl",
         ".zellij/layouts/dev.kdl",
         "AGENTS.md",
+        "Containerfile",
         "README.md",
+        "buf.gen.bootstrap.yaml",
+        "deploy/podman/README.md",
+        "deploy/podman/shippin-control-plane.network",
+        "deploy/podman/tessera.container",
+        "deploy/podman/tessera.env.example",
         "dev/check-source-provenance.sh",
         "dev/dev.yaml",
         "dev/prefetch-embedded/main.go",
@@ -147,6 +192,7 @@
         "docs/07-flows.md",
         "docs/08-control-surface-and-federation.md",
         "docs/09-guided-identity-experience.md",
+        "docs/10-container-runtime.md",
         "docs/11-operational-blueprint.md",
         "docs/12-execution-worklist.md",
         "docs/13-deployment-lifecycle-contract.md",

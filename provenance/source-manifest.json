@@ -132,6 +132,17 @@
       "source_id": "tessera-native",
       "relationship": "native",
       "reason": "Tessera seat-token minting and workspace audience rules."
+    },
+    {
+      "id": "tessera-container-build-compatibility",
+      "patterns": [
+        "internal/execution/target/**",
+        "internal/repository/target/**",
+        "pkg/grpc/**"
+      ],
+      "source_id": "tessera-native",
+      "relationship": "native",
+      "reason": "Tessera-owned target routing and handwritten protocol helpers required for reproducible clean container builds."
     }
   ],
   "reviewed_path_patterns": [
