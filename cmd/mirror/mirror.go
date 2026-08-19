@@ -23,9 +23,9 @@ var (
 func New(configFiles *[]string) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "mirror",
-		Short: "mirrors all data of ZITADEL from one database to another",
-		Long: `mirrors all data of ZITADEL from one database to another
-ZITADEL needs to be initialized and set up with --for-mirror
+		Short: "mirrors all Tessera data from one database to another",
+		Long: `mirrors all Tessera data from one database to another
+Tessera needs to be initialized and set up with --for-mirror
 
 The command does mirror all data needed and recomputes the projections.
 For more details call the help functions of the sub commands.
@@ -38,7 +38,7 @@ Order of execution:
 5. verify`,
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel mirror (sub)command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera mirror (sub)command failed")
 			}()
 
 			err = viper.MergeConfig(bytes.NewBuffer(defaultConfig))
@@ -54,7 +54,7 @@ Order of execution:
 		},
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel mirror command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera mirror command failed")
 			}()
 
 			config, shutdown, err := newMigrationConfig(cmd, viper.GetViper())

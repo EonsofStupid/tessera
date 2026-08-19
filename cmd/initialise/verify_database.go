@@ -18,7 +18,7 @@ func newDatabase() *cobra.Command {
 	return &cobra.Command{
 		Use:   "database",
 		Short: "initialize only the database",
-		Long: `Sets up the ZITADEL database.
+		Long: `Sets up the Tessera database.
 
 Prerequisites:
 - postgreSQL
@@ -26,11 +26,11 @@ Prerequisites:
 The user provided by flags needs privileges to 
 - create the database if it does not exist
 - see other users and create a new one if the user does not exist
-- grant all rights of the ZITADEL database to the user created if not yet set
+- grant all rights of the Tessera database to the user created if not yet set
 `,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel init verify database command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera init verify database command failed")
 			}()
 			config, shutdown, err := NewConfig(cmd, viper.GetViper())
 			if err != nil {

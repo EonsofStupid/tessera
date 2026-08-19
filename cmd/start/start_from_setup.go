@@ -15,10 +15,10 @@ import (
 func NewStartFromSetup(server chan<- *Server) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "start-from-setup",
-		Short: "cold starts zitadel",
-		Long: `cold starts ZITADEL.
+		Short: "cold starts Tessera",
+		Long: `cold starts Tessera.
 First the initial events are created.
-Last ZITADEL starts.
+Last Tessera starts.
 
 Requirements:
 - database
@@ -26,7 +26,7 @@ Requirements:
 `,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel start-from-setup command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera start-from-setup command failed")
 			}()
 
 			err = tls.ModeFromFlag(cmd)

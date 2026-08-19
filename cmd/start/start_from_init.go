@@ -18,17 +18,17 @@ import (
 func NewStartFromInit(server chan<- *Server) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "start-from-init",
-		Short: "cold starts zitadel",
-		Long: `cold starts ZITADEL.
-First the minimum requirements to start ZITADEL are set up.
+		Short: "cold starts Tessera",
+		Long: `cold starts Tessera.
+First the minimum requirements to start Tessera are set up.
 Second the initial events are created.
-Last ZITADEL starts.
+Last Tessera starts.
 
 Requirements:
 - postgreSQL`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel start-from-init command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera start-from-init command failed")
 			}()
 
 			err = tls.ModeFromFlag(cmd)

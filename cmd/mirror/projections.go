@@ -56,7 +56,7 @@ func projectionsCmd() *cobra.Command {
 		Short: "calls the projections synchronously",
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel mirror projections command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera mirror projections command failed")
 			}()
 			config, shutdown, err := newProjectionsConfig(cmd, viper.GetViper())
 			if err != nil {

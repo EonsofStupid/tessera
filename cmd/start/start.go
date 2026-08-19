@@ -133,13 +133,13 @@ import (
 func New(server chan<- *Server) *cobra.Command {
 	start := &cobra.Command{
 		Use:   "start",
-		Short: "starts ZITADEL instance",
-		Long: `starts ZITADEL.
+		Short: "starts Tessera instance",
+		Long: `starts Tessera.
 Requirements:
 - postgreSQL`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel start command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera start command failed")
 			}()
 
 			err = cmd_tls.ModeFromFlag(cmd)
@@ -886,7 +886,7 @@ func shutdownServer(ctx context.Context, server *http.Server) error {
 }
 
 func showBasicInformation(startConfig *Config) {
-	fmt.Println(color.MagentaString(figure.NewFigure("ZITADEL", "", true).String()))
+	fmt.Println(color.MagentaString(figure.NewFigure("TESSERA", "", true).String()))
 	http := "http"
 	if startConfig.TLS.Enabled || startConfig.ExternalSecure {
 		http = "https"
@@ -908,7 +908,7 @@ func showBasicInformation(startConfig *Config) {
 	if insecure {
 		fmt.Printf("\n %s: you're using plain http without TLS. Be aware this is \n", color.RedString("Warning"))
 		fmt.Printf(" not a secure setup and should only be used for test systems.         \n")
-		fmt.Printf(" Visit: %s    \n", color.CyanString("https://zitadel.com/docs/self-hosting/manage/tls_modes"))
+		fmt.Printf(" Configure TLS at the Shippin ingress before production.    \n")
 	}
 	fmt.Printf("\n ===============================================================\n\n")
 }

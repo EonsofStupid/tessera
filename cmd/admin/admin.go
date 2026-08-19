@@ -16,13 +16,13 @@ import (
 func New() *cobra.Command {
 	adminCMD := &cobra.Command{
 		Use:        "admin",
-		Short:      "The ZITADEL admin CLI lets you interact with your instance",
-		Long:       `The ZITADEL admin CLI lets you interact with your instance`,
-		Deprecated: "please use subcommands directly, e.g. `zitadel start`",
+		Short:      "The Tessera admin CLI lets you interact with your instance",
+		Long:       `The Tessera admin CLI lets you interact with your instance`,
+		Deprecated: "please use subcommands directly, e.g. `tessera start`",
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
 				if err != nil {
-					slog.Error("zitadel admin command failed", "err", err)
+					slog.Error("tessera admin command failed", "err", err)
 				}
 			}()
 			return errors.New("no additional command provided")

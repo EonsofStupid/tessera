@@ -17,13 +17,13 @@ import (
 func New() *cobra.Command {
 	return &cobra.Command{
 		Use:   "ready",
-		Short: "Checks if zitadel is ready",
-		Long:  "Checks if zitadel is ready",
+		Short: "Checks if Tessera is ready",
+		Long:  "Checks if Tessera is ready",
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Overwrite context with ready stream for logging
 			cmd.SetContext(logging.NewCtx(cmd.Context(), logging.StreamReady))
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel ready command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera ready command failed")
 			}()
 			config, shutdown, err := newConfig(cmd, viper.GetViper())
 			if err != nil {
