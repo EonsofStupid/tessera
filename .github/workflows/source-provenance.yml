@@ -42,3 +42,9 @@ jobs:
 
       - name: Verify Tessera product language
         run: go test ./dev/product-language
+
+      - name: Verify capability-gap workspace
+        run: |
+          go test ./contracts/capabilities ./dev/workspace ./conformance ./backend/v1/domain
+          go run ./dev/workspace init
+          go run ./dev/workspace doctor --profile core
