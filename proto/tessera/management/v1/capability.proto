@@ -12,6 +12,7 @@ enum ComponentRole {
   COMPONENT_ROLE_TESSERA = 1;
   COMPONENT_ROLE_SHIPPIN_ADAPTER = 2;
   COMPONENT_ROLE_ZUUL = 3;
+  COMPONENT_ROLE_VAULTIX = 4;
 }
 
 enum CompatibilityState {
@@ -37,6 +38,12 @@ enum UIExposure {
   UI_EXPOSURE_ENABLED = 3;
 }
 
+enum ConformanceResult {
+  CONFORMANCE_RESULT_UNSPECIFIED = 0;
+  CONFORMANCE_RESULT_PASSED = 1;
+  CONFORMANCE_RESULT_FAILED = 2;
+}
+
 message ComponentCompatibility {
   ComponentRole role = 1;
   string version = 2;
@@ -53,6 +60,15 @@ message CapabilityFact {
   string reason = 4;
   repeated ComponentRole required_components = 5;
   repeated OperationKind operation_kinds = 6;
+  CapabilityProof proof = 7;
+}
+
+message CapabilityProof {
+  string conformance_id = 1;
+  string bundle_manifest_digest = 2;
+  ConformanceResult result = 3;
+  google.protobuf.Timestamp verified_at = 4;
+  string evidence_digest = 5;
 }
 
 message CapabilityDiscovery {

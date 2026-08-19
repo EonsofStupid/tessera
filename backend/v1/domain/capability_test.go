@@ -37,6 +37,13 @@ func TestCapabilityDiscoveryValidate(t *testing.T) {
 		}, "duplicate capability"},
 		{"disabled reason", func(value *CapabilityDiscovery) { value.Capabilities[1].Reason = "" }, "requires a reason"},
 		{"unsupported enabled", func(value *CapabilityDiscovery) { value.Capabilities[1].Exposure = UIExposureEnabled }, "cannot enable status"},
+		{"available without proof", func(value *CapabilityDiscovery) { value.Capabilities[0].Proof = nil }, "requires passing conformance proof"},
+		{"failed proof", func(value *CapabilityDiscovery) { value.Capabilities[0].Proof.Result = ConformanceFailed }, "requires passing conformance proof"},
+		{"proof identity", func(value *CapabilityDiscovery) { value.Capabilities[0].Proof.ConformanceID = "" }, "incomplete conformance proof"},
+		{"proof bundle", func(value *CapabilityDiscovery) {
+			value.Capabilities[0].Proof.BundleManifestDigest = "sha256:" + strings.Repeat("b", 64)
+		}, "does not match installed bundle"},
+		{"proof evidence", func(value *CapabilityDiscovery) { value.Capabilities[0].Proof.EvidenceDigest = "sha256:no" }, "proof digests"},
 		{"component required", func(value *CapabilityDiscovery) {
 			value.Capabilities[0].RequiredComponents = append(value.Capabilities[0].RequiredComponents, "future")
 		}, "unknown required component"},
@@ -78,6 +85,19 @@ func TestCapabilityDiscoveryAllowsAbsentOptionalZuul(t *testing.T) {
 	require.NoError(t, value.Validate())
 }
 
+func TestCapabilityDiscoveryAllowsAbsentOptionalVaultix(t *testing.T) {
+	t.Parallel()
+
+	value := validCapabilityDiscovery()
+	value.Components[3] = ComponentCompatibility{
+		Role:       ComponentVaultix,
+		State:      CompatibilityNotPresent,
+		Reason:     "not installed",
+		ObservedAt: capabilityTestNow,
+	}
+	require.NoError(t, value.Validate())
+}
+
 func TestResolveCapability(t *testing.T) {
 	t.Parallel()
 
@@ -112,7 +132,7 @@ func TestResolveCapability(t *testing.T) {
 func TestCapabilityVocabulary(t *testing.T) {
 	t.Parallel()
 
-	for _, value := range []ComponentRole{ComponentTessera, ComponentShippinAdapter, ComponentZuul} {
+	for _, value := range []ComponentRole{ComponentTessera, ComponentShippinAdapter, ComponentZuul, ComponentVaultix} {
 		assert.True(t, value.Valid())
 	}
 	assert.False(t, ComponentRole("future").Valid())
@@ -128,23 +148,45 @@ func TestCapabilityVocabulary(t *testing.T) {
 		assert.True(t, value.Valid())
 	}
 	assert.False(t, UIExposure("future").Valid())
+	for _, value := range []ConformanceResult{ConformancePassed, ConformanceFailed} {
+		assert.True(t, value.Valid())
+	}
+	assert.False(t, ConformanceResult("future").Valid())
+	assert.Equal(t, "ldap_outbound", CapabilityIDLDAPOutbound)
+	assert.Equal(t, "ldap_inbound", CapabilityIDLDAPInbound)
+	assert.Equal(t, "forward_auth", CapabilityIDForwardAuth)
+	assert.Equal(t, "identity_aware_proxy", CapabilityIDIdentityAwareProxy)
+	assert.Equal(t, "visual_flow_engine", CapabilityIDVisualFlowEngine)
+	assert.Equal(t, "vaultix_secret_custody", CapabilityIDVaultixSecretCustody)
 }
 
 func validCapabilityDiscovery() CapabilityDiscovery {
+	bundleDigest := "sha256:" + strings.Repeat("a", 64)
 	return CapabilityDiscovery{
 		SchemaVersion:        1,
 		ResourceRevision:     "capabilities-01",
-		BundleManifestDigest: "sha256:" + strings.Repeat("a", 64),
+		BundleManifestDigest: bundleDigest,
 		ObservedAt:           capabilityTestNow,
 		Components: []ComponentCompatibility{
 			{Role: ComponentTessera, Version: "1.4.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
 			{Role: ComponentShippinAdapter, Version: "2.1.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
 			{Role: ComponentZuul, Version: "0.8.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
+			{Role: ComponentVaultix, Version: "0.1.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
 		},
 		Capabilities: []CapabilityFact{
-			{ID: "installation", Status: CapabilityAvailable, Exposure: UIExposureEnabled, RequiredComponents: []ComponentRole{ComponentTessera, ComponentShippinAdapter}, OperationKinds: []OperationKind{OperationInstallation}},
+			{ID: "installation", Status: CapabilityAvailable, Exposure: UIExposureEnabled, RequiredComponents: []ComponentRole{ComponentTessera, ComponentShippinAdapter}, OperationKinds: []OperationKind{OperationInstallation}, Proof: passingCapabilityProof("tessera.conformance.installation.v1", bundleDigest)},
 			{ID: "backup", Status: CapabilityUnsupported, Exposure: UIExposureHidden, Reason: "not_configured", RequiredComponents: []ComponentRole{ComponentTessera}, OperationKinds: []OperationKind{OperationBackup}},
-			{ID: "zuul_enrollment", Status: CapabilityAvailable, Exposure: UIExposureEnabled, RequiredComponents: []ComponentRole{ComponentTessera, ComponentShippinAdapter, ComponentZuul}, OperationKinds: []OperationKind{OperationGuide}},
+			{ID: "zuul_enrollment", Status: CapabilityAvailable, Exposure: UIExposureEnabled, RequiredComponents: []ComponentRole{ComponentTessera, ComponentShippinAdapter, ComponentZuul}, OperationKinds: []OperationKind{OperationGuide}, Proof: passingCapabilityProof("tessera.conformance.zuul-enrollment.v1", bundleDigest)},
 		},
+	}
+}
+
+func passingCapabilityProof(conformanceID, bundleDigest string) *CapabilityProof {
+	return &CapabilityProof{
+		ConformanceID:        conformanceID,
+		BundleManifestDigest: bundleDigest,
+		Result:               ConformancePassed,
+		VerifiedAt:           capabilityTestNow,
+		EvidenceDigest:       "sha256:" + strings.Repeat("c", 64),
 	}
 }
