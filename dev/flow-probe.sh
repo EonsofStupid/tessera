@@ -13,7 +13,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 API="http://localhost:${TESSERA_PORT:-8088}"
 PAT="$(cat "$ROOT/.artifacts/admin.pat")"
-PSQL="psql -h 127.0.0.1 -p 5433 -U tessera -d zitadel -tAc"
+PSQL="psql -h 127.0.0.1 -p 5433 -U tessera_app -d tessera -tAc"
 HUMAN="flow-probe-human"
 PASSWORD="Fl0w-probe-Passw0rd!"
 

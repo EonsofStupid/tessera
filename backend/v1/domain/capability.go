@@ -5,6 +5,8 @@ import (
 	"slices"
 	"strings"
 	"time"
+
+	capabilitycontract "github.com/EonsofStupid/tessera/contracts/capabilities"
 )
 
 type ComponentRole string
@@ -21,12 +23,12 @@ func (r ComponentRole) Valid() bool {
 }
 
 const (
-	CapabilityIDLDAPOutbound         = "ldap_outbound"
-	CapabilityIDLDAPInbound          = "ldap_inbound"
-	CapabilityIDForwardAuth          = "forward_auth"
-	CapabilityIDIdentityAwareProxy   = "identity_aware_proxy"
-	CapabilityIDVisualFlowEngine     = "visual_flow_engine"
-	CapabilityIDVaultixSecretCustody = "vaultix_secret_custody"
+	CapabilityIDLDAPOutbound         = capabilitycontract.LDAPOutbound
+	CapabilityIDLDAPInbound          = capabilitycontract.LDAPInbound
+	CapabilityIDForwardAuth          = capabilitycontract.ForwardAuth
+	CapabilityIDIdentityAwareProxy   = capabilitycontract.IdentityAwareProxy
+	CapabilityIDVisualFlowEngine     = capabilitycontract.VisualFlowEngine
+	CapabilityIDVaultixSecretCustody = capabilitycontract.VaultixSecretCustody
 )
 
 type CompatibilityState string

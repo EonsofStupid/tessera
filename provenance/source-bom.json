@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3933,
-  "classification_sha256": "9993c7202ec30c4aafd676be927074ca4e68cbd54007f56ee4a73baf9b5556b7",
+  "path_count": 3944,
+  "classification_sha256": "5eea45c8f21af173749ab4f1b09e2d7d5aee87b24beb6aa0ca0c4243574568ce",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 139
+      "paths": 150
     },
     {
       "source_id": "zitadel-core",
@@ -169,6 +169,11 @@
         "Containerfile",
         "README.md",
         "buf.gen.bootstrap.yaml",
+        "conformance/README.md",
+        "conformance/spec_test.go",
+        "conformance/suites.json",
+        "conformance/suites.schema.json",
+        "contracts/capabilities/ids.go",
         "deploy/podman/README.md",
         "deploy/podman/shippin-control-plane.network",
         "deploy/podman/tessera.container",
@@ -184,6 +189,10 @@
         "dev/steps.yaml",
         "dev/up.sh",
         "dev/verify-seat-token.mjs",
+        "dev/workspace/main.go",
+        "dev/workspace/main_test.go",
+        "dev/workspace/manifest.json",
+        "dev/workspace/manifest.schema.json",
         "docs/00-charter.md",
         "docs/01-seat-token-contract.md",
         "docs/03-roadmap.md",
@@ -202,6 +211,8 @@
         "docs/16-capability-discovery-contract.md",
         "docs/17-overview-projection-contract.md",
         "docs/18-identity-edge-and-vaultix-contract.md",
+        "docs/19-engineering-workspace.md",
+        "docs/20-capability-gap-ledger.md",
         "prefetch-embedded",
         "provenance/README.md",
         "provenance/source-bom.json",

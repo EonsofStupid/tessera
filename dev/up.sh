@@ -19,9 +19,8 @@ CONFIG="$ROOT/dev/dev.yaml"
 STEPS="$ROOT/dev/steps.yaml"
 BIN="$ROOT/.artifacts/tessera"
 PORT="${TESSERA_PORT:-8088}"
-# 32 characters exactly, and a dev value on purpose: a real one never lives in
-# a repository (../CLYFFY.md, and AGENTS.md here).
-MASTERKEY="MasterkeyNeedsToHave32Characters"
+WORKSPACE_STATE="$ROOT/.artifacts/workspace"
+MASTERKEY_FILE="$WORKSPACE_STATE/secrets/tessera-masterkey"
 
 export PATH="/usr/lib/postgresql/18/bin:$ROOT/.artifacts/bin:$ROOT/upstream/zitadel/.artifacts/bin/linux/amd64:$PATH"
 
@@ -33,6 +32,10 @@ ok()   { printf '  ✓ %s\n' "$*"; }
 # where root is really needed). Full version: bash dev/preflight.sh
 if [[ "${1:-}" != "--down" ]]; then
   bash "$ROOT/dev/preflight.sh" --quick || exit 1
+  # Creates a 0600, runtime-generated key if one does not exist. The command
+  # never prints the value and starts no service.
+  (cd "$ROOT" && go run ./dev/workspace init)
+  (cd "$ROOT" && go run ./dev/workspace doctor --profile core)
 fi
 
 if [[ "${1:-}" == "--down" ]]; then
@@ -63,11 +66,11 @@ for _ in $(seq 30); do
   sleep 0.3
 done
 psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -tAc \
-  "select 1 from pg_roles where rolname='zitadel'" | grep -q 1 ||
-  psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c "CREATE ROLE zitadel LOGIN SUPERUSER" >/dev/null
+  "select 1 from pg_roles where rolname='tessera_app'" | grep -q 1 ||
+  psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c "CREATE ROLE tessera_app LOGIN SUPERUSER" >/dev/null
 psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -tAc \
-  "select 1 from pg_database where datname='zitadel'" | grep -q 1 ||
-  psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c "CREATE DATABASE zitadel" >/dev/null
+  "select 1 from pg_database where datname='tessera'" | grep -q 1 ||
+  psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c "CREATE DATABASE tessera OWNER tessera_app" >/dev/null
 ok "listening, role and database present"
 
 # ---- 2 · the binary --------------------------------------------------------
@@ -105,10 +108,10 @@ fi
 # ---- 3 · schema and instance ----------------------------------------------
 step "3 · init and setup"
 cd "$TRUNK"
-if ! psql -h 127.0.0.1 -p 5433 -U tessera -d zitadel -tAc \
+if ! psql -h 127.0.0.1 -p 5433 -U tessera_app -d tessera -tAc \
      "select 1 from information_schema.tables where table_name='events2'" | grep -q 1; then
   "$BIN" init --config "$CONFIG" >/dev/null
-  "$BIN" setup --config "$CONFIG" --steps "$STEPS" --masterkey "$MASTERKEY" --init-projections >/dev/null
+  "$BIN" setup --config "$CONFIG" --steps "$STEPS" --masterkeyFile "$MASTERKEY_FILE" --init-projections >/dev/null
   ok "eventstore, projections and the first instance"
   ok "admin PAT at .artifacts/admin.pat (gitignored, reissued whenever .pgdata is)"
 else
@@ -117,7 +120,7 @@ fi
 
 # ---- 4 · run ---------------------------------------------------------------
 step "4 · serving"
-nohup "$BIN" start --config "$CONFIG" --masterkey "$MASTERKEY" \
+nohup "$BIN" start --config "$CONFIG" --masterkeyFile "$MASTERKEY_FILE" \
   > "$ROOT/.artifacts/run.log" 2>&1 &
 for _ in $(seq 40); do
   curl -sf "http://localhost:$PORT/.well-known/openid-configuration" >/dev/null 2>&1 && break

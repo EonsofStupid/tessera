@@ -56,7 +56,7 @@ step "2 · its facts — declared, not typed"
 # by `blueprint validate` (no database), applied atomically, and applied AGAIN —
 # because a blueprint that is not a no-op the second time is not declarative,
 # and the probe should be the first thing to notice.
-PSQL="psql -h 127.0.0.1 -p 5433 -U tessera -d zitadel -tAc"
+PSQL="psql -h 127.0.0.1 -p 5433 -U tessera_app -d tessera -tAc"
 INSTANCE="$($PSQL "select id from zitadel.instances limit 1")"
 ACCOUNT="$($PSQL "select id from zitadel.organizations limit 1")"
 TESSERA="$ROOT/.artifacts/tessera"

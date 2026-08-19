@@ -3,9 +3,9 @@ Database:
   postgres:
     Host: 127.0.0.1
     Port: 5433
-    Database: zitadel
+    Database: tessera
     User:
-      Username: zitadel
+      Username: tessera_app
       Password: ""
       SSL:
         Mode: disable
@@ -21,8 +21,6 @@ ExternalSecure: false
 TLS:
   Enabled: false
 Port: 8088
-MasterKey: "MasterkeyNeedsToHave32Characters"
-
 # Fifteen minutes, because the contract says so.
 #
 # `docs/01-seat-token-contract.md`: "Short exp. Fifteen minutes or less. These
