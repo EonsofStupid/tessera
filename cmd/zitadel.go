@@ -37,9 +37,9 @@ var (
 
 func New(out io.Writer, in io.Reader, args []string, server chan<- *start.Server) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "zitadel",
-		Short: "The ZITADEL CLI lets you interact with ZITADEL",
-		Long:  `The ZITADEL CLI lets you interact with ZITADEL`,
+		Use:   "tessera",
+		Short: "Manage the Tessera identity and authorization service",
+		Long:  `Manage the Tessera identity and authorization service`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return errors.New("no additional command provided")
 		},

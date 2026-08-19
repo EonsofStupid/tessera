@@ -15,9 +15,9 @@ var (
 )
 
 func init() {
-	startFlagSet.Uint16("port", 0, "port to run ZITADEL on")
-	startFlagSet.String("externalDomain", "", "domain ZITADEL will be exposed on")
-	startFlagSet.String("externalPort", "", "port ZITADEL will be exposed on")
+	startFlagSet.Uint16("port", 0, "port to run Tessera on")
+	startFlagSet.String("externalDomain", "", "domain Tessera will be exposed on")
+	startFlagSet.String("externalPort", "", "port Tessera will be exposed on")
 }
 
 func startFlags(cmd *cobra.Command) {

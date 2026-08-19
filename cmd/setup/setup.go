@@ -57,13 +57,13 @@ var (
 func New() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "setup",
-		Short: "setup ZITADEL instance",
-		Long: `sets up data to start ZITADEL.
+		Short: "setup Tessera instance",
+		Long: `sets up data to start Tessera.
 Requirements:
 - postgreSQL`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel setup command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera setup command failed")
 			}()
 
 			err = tls.ModeFromFlag(cmd)

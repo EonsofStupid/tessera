@@ -25,7 +25,7 @@ Prerequisites:
 `,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel verify grant command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera verify grant command failed")
 			}()
 			config, shutdown, err := NewConfig(cmd, viper.GetViper())
 			if err != nil {

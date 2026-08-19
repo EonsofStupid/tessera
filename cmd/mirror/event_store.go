@@ -31,11 +31,11 @@ func eventstoreCmd() *cobra.Command {
 		Use:   "eventstore",
 		Short: "mirrors the eventstore of an instance from one database to another",
 		Long: `mirrors the eventstore of an instance from one database to another
-ZITADEL needs to be initialized and set up with the --for-mirror flag
+Tessera needs to be initialized and set up with the --for-mirror flag
 Migrate only copies events2 and unique constraints`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel mirror eventstore command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera mirror eventstore command failed")
 			}()
 
 			config, shutdown, err := newMigrationConfig(cmd, viper.GetViper())

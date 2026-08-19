@@ -17,24 +17,23 @@ import (
 
 func newSchema() *cobra.Command {
 	return &cobra.Command{
-		Use:     "schema",
-		Aliases: []string{"zitadel"},
-		Short:   "bootstrap the ZITADEL database schema without admin/superuser privileges",
-		Long: `Bootstrap the ZITADEL database schema.
+		Use:   "schema",
+		Short: "bootstrap the Tessera database schema without admin/superuser privileges",
+		Long: `Bootstrap the Tessera database schema.
 
 Creates all required schemas (eventstore, projections, system) and base tables
 using the service user credentials. No admin/superuser privileges are required.
 
 Use this command when you have provisioned the database user and database
 yourself (e.g. on a managed PostgreSQL service) and want to skip the
-admin-credential requirement of the full 'zitadel init' command.
+admin-credential requirement of the full 'tessera init' command.
 
 Prerequisites:
 - PostgreSQL user exists and has ownership of the target database
 `,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel init schema command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera init schema command failed")
 			}()
 			config, shutdown, err := NewConfig(cmd, viper.GetViper())
 			if err != nil {
@@ -94,7 +93,7 @@ func VerifyZitadel(ctx context.Context, db *database.DB, config database.Config)
 }
 
 func verifyZitadel(ctx context.Context, config database.Config) error {
-	logging.Info(ctx, "verify zitadel", "database", config.DatabaseName())
+	logging.Info(ctx, "verify tessera", "database", config.DatabaseName())
 
 	db, err := database.Connect(config, false)
 	if err != nil {

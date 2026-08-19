@@ -48,7 +48,7 @@ new -f keys.yaml key2=anotherkey`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
 				if err != nil {
-					slog.Error("zitadel keys new command failed", "err", err)
+					slog.Error("tessera keys new command failed", "err", err)
 				}
 			}()
 

@@ -23,7 +23,7 @@ func verifyCmd() *cobra.Command {
 		Short: "counts if source and dest have the same amount of entries",
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("zitadel mirror verify command failed")
+				logging.OnError(cmd.Context(), err).Error("tessera mirror verify command failed")
 			}()
 			config, shutdown, err := newMigrationConfig(cmd, viper.GetViper())
 			if err != nil {

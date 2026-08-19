@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3932,
-  "classification_sha256": "0a142eb1115965374ab2c49c9a892b54129f63944e46ec3c02a3cc19fcc94a0d",
+  "path_count": 3933,
+  "classification_sha256": "9993c7202ec30c4aafd676be927074ca4e68cbd54007f56ee4a73baf9b5556b7",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 138
+      "paths": 139
     },
     {
       "source_id": "zitadel-core",
@@ -177,6 +177,7 @@
         "dev/dev.yaml",
         "dev/prefetch-embedded/main.go",
         "dev/preflight.sh",
+        "dev/product-language/product_language_test.go",
         "dev/seat-probe.sh",
         "dev/source-inventory/main.go",
         "dev/source-inventory/main_test.go",
