@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3878,
-  "classification_sha256": "7fae5023f5cf488eb0952d227d0e7fd876a7ac7faa9ae9a1aa4e1c83246ed965",
+  "path_count": 3883,
+  "classification_sha256": "cf13aaf6924766f31909acd3546ba79ce221609a795baab1e9c7d5113251462d",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 84
+      "paths": 89
     },
     {
       "source_id": "zitadel-core",
@@ -111,6 +111,7 @@
       "relationship": "native",
       "license_expression": "LicenseRef-Tessera-Pending",
       "paths": [
+        "proto/tessera/management/v1/capability.proto",
         "proto/tessera/management/v1/error.proto",
         "proto/tessera/management/v1/operation.proto"
       ]
@@ -151,6 +152,7 @@
         "docs/13-deployment-lifecycle-contract.md",
         "docs/14-operation-contract.md",
         "docs/15-management-error-contract.md",
+        "docs/16-capability-discovery-contract.md",
         "prefetch-embedded",
         "provenance/README.md",
         "provenance/source-bom.json",
@@ -192,6 +194,9 @@
       "relationship": "native",
       "license_expression": "LicenseRef-Tessera-Pending",
       "paths": [
+        "backend/v1/domain/capability.go",
+        "backend/v1/domain/capability_test.go",
+        "backend/v1/domain/capability_wire_contract_test.go",
         "backend/v1/domain/deployment_lifecycle.go",
         "backend/v1/domain/deployment_lifecycle_test.go",
         "backend/v1/domain/management_error.go",
