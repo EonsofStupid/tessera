@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3931,
-  "classification_sha256": "7b03abc4da7ba95eb89658e78d419e5aa03462d07a1dc781dd4edb4a0f06d08d",
+  "path_count": 3932,
+  "classification_sha256": "0a142eb1115965374ab2c49c9a892b54129f63944e46ec3c02a3cc19fcc94a0d",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 137
+      "paths": 138
     },
     {
       "source_id": "zitadel-core",
@@ -200,6 +200,7 @@
         "docs/15-management-error-contract.md",
         "docs/16-capability-discovery-contract.md",
         "docs/17-overview-projection-contract.md",
+        "docs/18-identity-edge-and-vaultix-contract.md",
         "prefetch-embedded",
         "provenance/README.md",
         "provenance/source-bom.json",

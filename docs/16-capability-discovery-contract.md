@@ -34,9 +34,10 @@ construct compatibility ranges. Tessera reports the management API major and
 the compatibility result already evaluated against its signed bundle policy.
 This keeps compatibility policy in one tested place.
 
-The mandatory component roles are `tessera` and `shippin_adapter`. `zuul` is
-reported as `not_present` when it is intentionally absent and is required only
-by capabilities that name it.
+The mandatory component roles are `tessera` and `shippin_adapter`. `zuul` and
+`vaultix` are reported as `not_present` when intentionally absent and are
+required only by capabilities that name them. Vaultix is a custody dependency,
+not an identity authority or infrastructure inventory.
 
 Component compatibility is one of:
 
@@ -49,6 +50,11 @@ Component compatibility is one of:
 
 A capability has a stable id, support status, UI exposure, safe reason,
 required components, supported operation kinds and conformance proof.
+
+The proof contains `conformance_id`, `bundle_manifest_digest`, `result`,
+`verified_at` and `evidence_digest`. Raw evidence remains in the protected
+release-evidence store; discovery exposes only the immutable digest and safe
+status needed to prevent an unproved UI claim.
 
 Support status is `unsupported`, `preview`, `available` or `degraded`. UI
 exposure is `hidden`, `disabled` or `enabled`. The server decides both; clients

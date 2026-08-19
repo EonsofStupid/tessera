@@ -13,11 +13,21 @@ const (
 	ComponentTessera        ComponentRole = "tessera"
 	ComponentShippinAdapter ComponentRole = "shippin_adapter"
 	ComponentZuul           ComponentRole = "zuul"
+	ComponentVaultix        ComponentRole = "vaultix"
 )
 
 func (r ComponentRole) Valid() bool {
-	return r == ComponentTessera || r == ComponentShippinAdapter || r == ComponentZuul
+	return r == ComponentTessera || r == ComponentShippinAdapter || r == ComponentZuul || r == ComponentVaultix
 }
+
+const (
+	CapabilityIDLDAPOutbound         = "ldap_outbound"
+	CapabilityIDLDAPInbound          = "ldap_inbound"
+	CapabilityIDForwardAuth          = "forward_auth"
+	CapabilityIDIdentityAwareProxy   = "identity_aware_proxy"
+	CapabilityIDVisualFlowEngine     = "visual_flow_engine"
+	CapabilityIDVaultixSecretCustody = "vaultix_secret_custody"
+)
 
 type CompatibilityState string
 
@@ -57,6 +67,17 @@ func (e UIExposure) Valid() bool {
 	return e == UIExposureHidden || e == UIExposureDisabled || e == UIExposureEnabled
 }
 
+type ConformanceResult string
+
+const (
+	ConformancePassed ConformanceResult = "passed"
+	ConformanceFailed ConformanceResult = "failed"
+)
+
+func (r ConformanceResult) Valid() bool {
+	return r == ConformancePassed || r == ConformanceFailed
+}
+
 type ComponentCompatibility struct {
 	Role       ComponentRole      `json:"role"`
 	Version    string             `json:"version"`
@@ -73,6 +94,15 @@ type CapabilityFact struct {
 	Reason             string           `json:"reason,omitempty"`
 	RequiredComponents []ComponentRole  `json:"required_components"`
 	OperationKinds     []OperationKind  `json:"operation_kinds"`
+	Proof              *CapabilityProof `json:"proof,omitempty"`
+}
+
+type CapabilityProof struct {
+	ConformanceID        string            `json:"conformance_id"`
+	BundleManifestDigest string            `json:"bundle_manifest_digest"`
+	Result               ConformanceResult `json:"result"`
+	VerifiedAt           time.Time         `json:"verified_at"`
+	EvidenceDigest       string            `json:"evidence_digest"`
 }
 
 type CapabilityDiscovery struct {
@@ -106,7 +136,7 @@ func (d CapabilityDiscovery) Validate() error {
 	if err := validateComponents(d.Components); err != nil {
 		return err
 	}
-	return validateCapabilities(d.Capabilities)
+	return validateCapabilities(d.Capabilities, d.BundleManifestDigest)
 }
 
 func ResolveCapability(discovery CapabilityDiscovery, supportedSchemas []uint32, capabilityID string) CapabilityResolution {
@@ -168,7 +198,7 @@ func validateComponents(components []ComponentCompatibility) error {
 	return nil
 }
 
-func validateCapabilities(capabilities []CapabilityFact) error {
+func validateCapabilities(capabilities []CapabilityFact, bundleManifestDigest string) error {
 	seen := make(map[string]struct{}, len(capabilities))
 	for _, capability := range capabilities {
 		if strings.TrimSpace(capability.ID) == "" || !capability.Status.Valid() || !capability.Exposure.Valid() {
@@ -183,6 +213,16 @@ func validateCapabilities(capabilities []CapabilityFact) error {
 		}
 		if capability.Exposure == UIExposureEnabled && (capability.Status == CapabilityUnsupported || capability.Status == CapabilityPreview) {
 			return fmt.Errorf("capability %s cannot enable status %s", capability.ID, capability.Status)
+		}
+		if capability.Proof != nil {
+			if err := validateCapabilityProof(capability.ID, *capability.Proof, bundleManifestDigest); err != nil {
+				return err
+			}
+		}
+		if capability.Status == CapabilityAvailable || capability.Status == CapabilityDegraded {
+			if capability.Proof == nil || capability.Proof.Result != ConformancePassed {
+				return fmt.Errorf("capability %s requires passing conformance proof", capability.ID)
+			}
 		}
 		componentSeen := make(map[ComponentRole]struct{}, len(capability.RequiredComponents))
 		for _, role := range capability.RequiredComponents {
@@ -204,6 +244,19 @@ func validateCapabilities(capabilities []CapabilityFact) error {
 			}
 			operationSeen[kind] = struct{}{}
 		}
+	}
+	return nil
+}
+
+func validateCapabilityProof(capabilityID string, proof CapabilityProof, bundleManifestDigest string) error {
+	if strings.TrimSpace(proof.ConformanceID) == "" || proof.VerifiedAt.IsZero() || !proof.Result.Valid() {
+		return fmt.Errorf("capability %s has incomplete conformance proof", capabilityID)
+	}
+	if !validPlanDigest(proof.BundleManifestDigest) || !validPlanDigest(proof.EvidenceDigest) {
+		return fmt.Errorf("capability %s proof digests must be lowercase sha256 digests", capabilityID)
+	}
+	if bundleManifestDigest == "" || proof.BundleManifestDigest != bundleManifestDigest {
+		return fmt.Errorf("capability %s proof does not match installed bundle", capabilityID)
 	}
 	return nil
 }
