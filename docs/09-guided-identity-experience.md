@@ -24,11 +24,16 @@ offers six stable jobs:
 | customer outcome | plain-language questions | provider-neutral result |
 |---|---|---|
 | Invite my team | who, which workspace, what can they use? | people, membership, human seats and a sign-in flow |
-| Use company sign-in | which company and verified domain? | upstream provider, domain routing and account-link policy |
-| Connect an app | browser, server or device; who uses it? | downstream client, redirect/origin policy, grants, audience and scopes |
+| Use company sign-in | which company and verified domain; modern IdP or LDAP/AD? | upstream provider or outbound LDAP connector, domain routing and account-link policy |
+| Connect an app | modern protocol, existing reverse proxy, proxied app or LDAP client; who uses it? | downstream client, forward-auth edge, identity-aware proxy or inbound LDAP edge with audience and policy |
 | Add an AI agent | acts alone or for a person; which workspace? | agent seat, service identity, delegation policy and narrow scopes |
 | Set up private access | laptop, server or both; which workspace? | one-time Tessera enrollment handed to Zuul; mesh state remains in Zuul |
 | Secure or recover access | passkey/MFA, recovery or active-session concern? | authenticators, recovery flow or session revocation plan |
+
+When a journey needs customization, the guide starts from a proven template
+and opens the visual flow engine only at the decision being changed. The
+operator can inspect the whole graph, simulate outcomes and review a revision;
+they never have to translate a visual edit into YAML by hand.
 
 The panel recommends the safest compatible posture. Protocol choice is only
 shown when it changes an external requirement or the customer opens advanced
@@ -86,6 +91,10 @@ normalizes capabilities proven in both inherited APIs:
 | active access and evidence | sessions, factor checks and events | sessions, tokens and events |
 | portable access edge | provider adapters | outposts, endpoints, agents and enrollment |
 | desired state | evented commands and projections | blueprint-driven configuration |
+
+Vaultix is the native custody path for any connector credential, certificate
+private key or privileged-access lease introduced by a plan. The review names
+the purpose and Vaultix location/status but never contains the protected value.
 
 The browser never calls these inherited vendor-shaped administration APIs.
 The Shippin server-side adapter submits one provider-neutral intent to Tessera,

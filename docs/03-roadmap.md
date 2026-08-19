@@ -25,7 +25,7 @@ What we are here for, in `internal/`:
 | `idp/` | upstream identity provider federation |
 
 
-## The infrastructure is Authentik's — and most of it is Go too
+## The portable identity edges come from Authentik — and most are Go
 
 `upstream/authentik` — Go 1.26 module `goauthentik.io` **plus** a Django core.
 The split matters, and it is better than it looks: the parts we want are mostly
@@ -38,9 +38,13 @@ Go and portable directly.
 | `blueprints/` + `schema.json` | **YAML/JSON** | declarative config as data — language-neutral, lift as-is |
 | `authentik/flows/` | Python | the flow/stage *model* (`planner.py`, `challenge.py`, `markers.py`) — ported, not copied |
 
-So: Go core from Zitadel, Go outposts from Authentik, YAML blueprint schema
-lifted whole, and one Python subsystem (the flow engine) that gets reimplemented
-in Go because it is a model rather than a library.
+So: Go core from Zitadel, Go identity edges from Authentik, YAML blueprint
+schema lifted whole, and one Python subsystem (the flow engine) that gets
+reimplemented in Go because it is a model rather than a library. These are
+identity capabilities, not Tessera's secrets infrastructure. Vaultix is the
+separate Infisical-derived product that owns secrets, certificates and
+privileged-access custody and integrates with Tessera through protected
+references.
 
 ## Phases
 
@@ -197,6 +201,23 @@ anything, and gives LDAP/RADIUS to things that will never speak OIDC.
 
 - **Done when** a workspace sits behind the proxy and Automaton still
   authenticates through it unchanged.
+
+This phase is not complete when code merely compiles. Inbound and outbound
+LDAP, forward-auth, identity-aware proxy behavior and their isolated failure
+modes must pass the conformance proofs in
+`18-identity-edge-and-vaultix-contract.md`.
+
+### Phase 6.1 — visual flow control surface
+
+The execution engine in Phase 4 is the runtime foundation, not the finished
+operator experience. Add a visual graph editor over the same versioned flow
+schema: templates, typed stage configuration, validation, simulation, diff,
+publish, rollback and audit. YAML and the visual editor round-trip through one
+canonical model so they cannot become competing sources of truth.
+
+- **Done when** a non-specialist can customize a login and recovery journey,
+  prove every reachable outcome in simulation, review the exact diff, publish
+  a revision and roll it back without shell or YAML work.
 
 ### Phase 7 — recovery
 

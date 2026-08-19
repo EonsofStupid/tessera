@@ -50,6 +50,7 @@ its effects, authority, rollback and recovery path before a write.
 |---|---|---|
 | Shippin | member shell, account/workspace context, service catalog, commercial decisions and cross-product navigation | identity truth, credentials or mesh inventory |
 | Tessera | subjects, organizations, authentication, federation, sessions, identity policy, keys, audit and identity desired state | billing rules, host inventory or network routes |
+| Vaultix | application secrets, certificate lifecycle, privileged-access credentials and their policy/audit; Infisical-derived implementation behind Vaultix product contracts | identity decisions, user directory, sessions, entitlement or mesh inventory |
 | Zuul | installation, nodes, peers, routes and private-mesh policy | a second user directory or reusable identity credential |
 | Automaton and other consumers | local token verification and resource enforcement | token minting or provider-specific identity integration |
 
@@ -170,8 +171,8 @@ The first run is complete only when all of these are true:
 
 1. deployment target, public domain, TLS boundary and PostgreSQL ownership are
    validated without exposing credentials;
-2. protected master-key and database-secret references exist outside the
-   repository and browser;
+2. protected master-key and database-secret references resolve through
+   Vaultix outside the repository and browser;
 3. the first owner signs in and enrolls a passkey plus an independent recovery
    method;
 4. at least two recovery contacts or an explicit single-owner risk acceptance
@@ -275,6 +276,13 @@ audit reason. Tessera never makes the original owner the only recovery path.
 - Portable proxy, LDAP and RADIUS edges are independently supervised adapters.
   They receive narrowly scoped identity configuration and do not become a
   second authority or a hidden part of Zuul's mesh inventory.
+- Tessera authenticates to Vaultix as a workload with short-lived,
+  purpose-scoped authority. It stores only an opaque reference, purpose,
+  version/status metadata and audit correlation; it never persists or returns
+  the resolved value.
+- Vaultix certificate issuance/renewal/revocation and privileged-access leases
+  remain Vaultix operations. Tessera may request or consume them for an
+  identity operation, but does not duplicate their lifecycle state.
 
 ### Security
 
@@ -354,7 +362,16 @@ A release candidate passes only when an automated environment can demonstrate:
 13. provider-neutral export and previewed import preserve identity references
     and tenant boundaries;
 14. the source bill of materials and required notices match the shipped
-    artifact.
+    artifact;
+15. outbound LDAP authenticates and maps a reference directory while inbound
+    LDAP serves a tenant-isolated legacy client, including disable/revoke
+    behavior;
+16. forward-auth and identity-aware proxy modes reject spoofed identity
+    headers, preserve the intended destination and honor session revocation;
+17. a visual flow revision round-trips through the canonical schema, rejects
+    unsafe graphs, simulates every branch, publishes and rolls back;
+18. connector credentials and edge certificates resolve through Vaultix with
+    no secret value in Tessera storage, API payloads, logs or support bundles.
 
 Until every line passes, the dashboard must describe the capability as preview,
 degraded or incomplete rather than operational.

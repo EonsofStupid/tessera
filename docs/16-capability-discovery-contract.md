@@ -48,7 +48,7 @@ Component compatibility is one of:
 ## Capability facts
 
 A capability has a stable id, support status, UI exposure, safe reason,
-required components and supported operation kinds.
+required components, supported operation kinds and conformance proof.
 
 Support status is `unsupported`, `preview`, `available` or `degraded`. UI
 exposure is `hidden`, `disabled` or `enabled`. The server decides both; clients
@@ -62,13 +62,21 @@ Required invariants:
 - every required component must be present and `compatible` before a client
   may honor `enabled`;
 - operation kinds use the P1.2 vocabulary and are unique;
+- `available` and `degraded` capabilities carry a passing proof from the
+  conformance suite for the exact installed bundle; inherited source,
+  configured state and process health are not proof;
+- proof names a stable conformance id, verification time and immutable evidence
+  digest; an unproved capability is at most `preview` and cannot be enabled;
 - missing capability ids mean `hidden/not_advertised`, never “probably
   supported.”
 
 Initial stable ids include `overview`, `installation`, `guided_setup`,
 `backup`, `restore`, `upgrade`, `trust_rotation`, `upstream_oidc`,
-`upstream_saml`, `upstream_ldap`, `downstream_oidc`, `downstream_saml`, and
-`zuul_enrollment`. New ids are additive.
+`upstream_saml`, `ldap_outbound`, `ldap_inbound`, `downstream_oidc`,
+`downstream_saml`, `forward_auth`, `identity_aware_proxy`,
+`visual_flow_engine`, `vaultix_secret_custody`, and `zuul_enrollment`. New ids
+are additive. LDAP direction is always from Tessera's point of view, as defined
+in `18-identity-edge-and-vaultix-contract.md`.
 
 ## Client resolution
 

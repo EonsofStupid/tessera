@@ -40,6 +40,12 @@ this repository is what it names.
 - The guided sign-in surfaces that belong to identity rather than to a product.
 - Federation in both directions: upstream identity providers Tessera trusts and
   downstream applications for which Tessera is the identity provider.
+- Built-in identity edges: outbound LDAP federation, inbound LDAP directory
+  service, forward-auth and identity-aware proxy integration. Edge processes
+  may be supervised separately, but their policy and identity authority remain
+  Tessera's.
+- Versioned authentication journeys and the visual flow model used to plan,
+  simulate, review and publish them.
 - A provider-neutral management API for directory, sessions, federation,
   authentication flows, trust and audit. The Shippin panel projects that API;
   Tessera does not ship a second customer shell.
@@ -52,6 +58,9 @@ this repository is what it names.
 - Infrastructure inventory, workspace lifecycle, provider capability facts.
 - Mesh topology, peer lifecycle and installation. Zuul owns those facts and
   uses Tessera for human, agent and installer identity.
+- Secret values, certificate private keys and privileged-access credentials.
+  Vaultix owns their custody, issuance and rotation; Tessera stores only
+  purpose-bound references and non-secret status needed for identity policy.
 - Conversation and orchestration. Automaton is a consumer.
 - Live secrets of any kind under `W:` — the workspace rule, unchanged.
 
@@ -101,3 +110,7 @@ seat-token contract Automaton verifies, converges declared identity state from
 blueprints, and executes password, TOTP and recovery-code configurations on
 one flow engine. The next product slice is the management/federation contract
 and its Shippin panel projection; outposts and full account recovery follow it.
+
+The required LDAP, forward-auth/proxy, visual-flow and Vaultix integration
+proofs are frozen in `18-identity-edge-and-vaultix-contract.md`. None may be
+advertised as available merely because inherited source exists.

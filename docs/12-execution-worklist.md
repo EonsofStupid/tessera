@@ -76,12 +76,15 @@ block local research or read-only mocks.
 | P2.4 | Implement protected secret references and write-only secret slots. | P1.5, P2.1 | reads expose presence/age only and scans find no value in logs, events or browser payloads |
 | P2.5 | Implement capability and operation endpoints. | P1.4, P2.1, P2.2 | management clients can resume an operation after disconnect without guessing state |
 | P2.6 | Add operation cancellation and compensating-action rules. | P2.3 | each cancellable step is proven safe; non-cancellable steps explain why and how to recover |
+| P2.7 | Define the Vaultix adapter contract for opaque secret references, certificates, privileged leases and correlated audit. | P1.5, P2.4 | contract tests prove Tessera models custody metadata without a field capable of returning the protected value |
+| P2.8 | Implement short-lived Tessera workload authentication and least-privilege Vaultix path policy. | P2.7 | expired, over-scoped and replayed credentials fail; no reusable root/operator token is required |
+| P2.9 | Implement Vaultix resolve/use, rotation, expiry, revocation and degraded-state handling. | P2.7, P2.8 | seeded-secret scans find no value in Tessera DB, events, API, logs or support bundles and outage affects only dependent capabilities |
 
 ## P3 — Make installation repeatable
 
 | id | work | depends on | done when |
 |---|---|---|---|
-| P3.1 | Model deployment prerequisites: supported runtime, PostgreSQL, domain, TLS boundary, ports, storage and secret provider. | P1.4, P1.5 | preflight is read-only and returns typed, actionable failures |
+| P3.1 | Model deployment prerequisites: supported runtime, PostgreSQL, domain, TLS boundary, ports, storage and Vaultix custody. | P1.4, P1.5, P2.7 | preflight is read-only and returns typed, actionable failures |
 | P3.2 | Implement installation plan/apply/verify using the operation engine. | P2.2–P2.5, P3.1 | empty supported host reaches `needs_owner`; retry with same id changes nothing unexpectedly |
 | P3.3 | Support Shippin Cloud supervision and rootless private Podman from one signed image and version manifest. | P0.3, P1.4, P3.2 | both targets pass the same conformance suite and use `TESSERA_*` configuration |
 | P3.4 | Implement resumable owner enrollment with passkey and independent recovery. | P1.5, P1.6, P3.2 | closing the browser mid-setup and resuming elsewhere is tested |
@@ -111,6 +114,9 @@ block local research or read-only mocks.
 | P5.5 | Implement “Add an AI agent.” | P1.6, P5.1 | service identity, agent seat, scopes and `act` policy are reviewed and audited |
 | P5.6 | Implement “Set up private access.” | P8.1–P8.4, P5.1 | one Zuul target enrolls without reusable embedded credentials |
 | P5.7 | Implement “Secure or recover access.” | P3.4, P7.4, P9.3, P5.1 | passkey/MFA, session concern and recovery branch to tested outcome checks |
+| P5.8 | Freeze the canonical versioned flow-graph schema shared by blueprints, API, editor and executor. | P1.2, P2.3 | graph/schema round trips preserve semantics and invalid cycles, unreachable nodes and unsafe terminals are rejected |
+| P5.9 | Build the template-first visual flow editor with typed stages, progressive disclosure, keyboard access, simulation and revision diff. | P4.3, P5.8 | a non-specialist modifies and proves login plus recovery branches without YAML and accessibility acceptance passes |
+| P5.10 | Implement idempotent publish, audit and rollback for flow revisions. | P1.6, P1.7, P5.9 | stale publish is a typed `409`; published behavior matches simulation; rollback restores the prior verified revision |
 
 ## P6 — Complete federation safely
 
@@ -126,6 +132,7 @@ block local research or read-only mocks.
 | P6.8 | Implement client verification for discovery, redirect and seat-token consumption. | P6.6, P6.7 | Automaton and a reference customer app pass positive and negative token tests |
 | P6.9 | Add federation health jobs, expiry warnings and safe diagnostics. | P6.2–P6.8 | simulated outage and expiring certificate produce actionable degraded states |
 | P6.10 | Normalize SCIM provisioning separately from sign-in and implement previewed create/update/suspend/deprovision operations. | P1.5, P2.3, P6.1 | provisioning failure cannot silently leave a removed upstream user active |
+| P6.11 | Implement outbound LDAP/Active Directory connection, mapping and explicit authentication/provisioning lifecycle modes. | P2.9, P6.1–P6.5 | OpenLDAP and the supported AD profile pass StartTLS/LDAPS, bind/search, nested group, disabled-user, failover, tenant-isolation and Vaultix-custody tests |
 
 ## P7 — Make community delegation calm
 
@@ -150,6 +157,10 @@ block local research or read-only mocks.
 | P8.5 | Expose Zuul identity attachment health in the Infrastructure lens. | P4.4, P8.4 | UI links correlated identity/enrollment state without copying peer/routes state |
 | P8.6 | Define the portable identity-edge contract for forward-auth proxy, LDAP and RADIUS adapters. | P1.4, P1.5, P6.6 | adapters receive narrow, versioned configuration and never become identity authorities |
 | P8.7 | Package, supervise, rotate and health-check portable identity edges independently from Zuul mesh state. | P2.4, P3.3, P8.6 | loss or upgrade of one edge degrades only its named capability and preserves core sign-in |
+| P8.8 | Implement the inbound LDAP edge as a tenant-scoped virtual directory over Tessera authority. | P2.9, P7.1, P8.6, P8.7 | a standard LDAP client passes bind/search/group/revoke and restart tests while cross-tenant and writable-shadow-directory tests fail closed |
+| P8.9 | Implement forward-auth mode for existing reverse proxies. | P6.6–P6.8, P8.6, P8.7 | allow/deny/step-up, original-target, spoofed-header, revocation and dependency-loss conformance tests pass |
+| P8.10 | Implement identity-aware proxy mode for applications without native integration. | P6.6–P6.8, P8.6, P8.7 | callback, cookie, CSRF, open-redirect, upstream-allowlist, websocket, revocation and tenant-isolation tests pass |
+| P8.11 | Publish immutable per-bundle conformance evidence for LDAP inbound/outbound, forward-auth and proxy capabilities. | P6.11, P8.8–P8.10 | discovery refuses `available` without a passing proof bound to the installed bundle digest |
 
 ## P9 — Build recovery, maintenance and support
 
@@ -188,9 +199,17 @@ slices are:
    shows real, sourced health and access state without a dangerous write path.
 3. **Repeatable private install:** P2.6 plus P3.1–P3.7 and P9.1–P9.2. A clean
    host reaches a delegated, restore-verified `ready` state.
-4. **One real guide:** P5.1, P6.1–P6.5 and P5.3. “Use company sign-in” becomes
-   the reference plan/apply/verify workflow before the other five guides copy
-   its grammar.
+4. **One real guide:** P2.7–P2.9, P5.1, P6.1–P6.5 and P5.3. “Use company
+   sign-in” becomes the reference plan/apply/verify workflow with Vaultix
+   custody before the other guides copy its grammar.
+
+The next two slices are deliberately proof-led:
+
+5. **Visual journey authority:** P5.8–P5.10. The editor and runtime prove one
+   canonical model before visual customization is advertised.
+6. **Identity edges:** P6.11 and P8.6–P8.11. LDAP outbound/inbound,
+   forward-auth and proxy are promoted independently only after their bundle-
+   bound conformance evidence exists.
 
 Only after slice four should the team fan out across the remaining guide,
 delegation, Zuul and maintenance work.

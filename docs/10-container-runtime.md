@@ -10,9 +10,10 @@ Shippin Cloud and in a customer's Shippin private cloud. Podman, Kubernetes or
 another OCI runtime may supervise it; the image does not contain cloud-specific
 orchestration.
 
-The container owns the Tessera process. It does not own PostgreSQL, ingress,
-DNS, certificates, billing or mesh inventory. Those remain deployment and
-Shippin concerns.
+The container owns the Tessera core process. It does not own PostgreSQL,
+ingress, DNS, certificate private-key custody, billing or mesh inventory.
+Vaultix owns secret, certificate and privileged-access custody; Shippin and
+Zuul retain their existing deployment and mesh responsibilities.
 
 ## Runtime shape
 
@@ -79,9 +80,11 @@ it becomes issuer and WebAuthn origin state. Changing it is a migration, not a
 container restart option.
 
 Shippin-owned deployment configuration names the image digest, network,
-database endpoint, resource limits and secret provider. Tessera-owned
-configuration names identity policy, flows, providers and blueprints. Neither
-side copies live credential values into the other.
+database endpoint and resource limits. Vaultix is the production custody
+provider for secret values, certificate private keys and privileged-access
+credentials. Tessera-owned configuration names identity policy, flows,
+providers, blueprints and purpose-bound Vaultix references. No side copies a
+live credential value into another domain.
 
 ## Podman and private-cloud boundary
 

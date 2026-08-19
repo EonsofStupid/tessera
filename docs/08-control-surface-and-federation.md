@@ -59,7 +59,9 @@ operator layer:
 | Start | guided setup and readiness |
 | Directory | humans, agents, organizations, workspace bindings and service identities |
 | People & access | directory, sign-in posture, recovery and active sessions |
-| Advanced | upstream/downstream federation, flows, keys, policy and immutable audit |
+| Access edges | outbound/inbound LDAP, forward-auth and identity-aware proxy deployments |
+| Journeys | guided templates and the visual flow engine; version, simulate, publish and roll back |
+| Advanced | protocol details, keys, policy, Vaultix custody status and immutable audit |
 
 ## Federation is two directional
 
@@ -82,6 +84,9 @@ Every provider exposes:
 Secrets are accepted only through a protected write path and are never
 returned by reads, logs, browser fixtures or blueprint exports. A read may say
 that a credential is configured and when it was rotated, never what it is.
+Production secret and certificate custody belongs to Vaultix. Tessera stores a
+purpose-bound Vaultix reference and safe status, not the value. Development
+adapters must satisfy the same no-read/no-log contract.
 
 ### Downstream — they trust Tessera
 
@@ -98,6 +103,28 @@ relying parties. Every client exposes:
 
 OIDC discovery and JWKS remain the default integration. SAML service-provider
 support is a standards adapter; it does not change Tessera's internal model.
+
+## Built-in access edges and visual journeys
+
+Tessera's access-edge promise is part of the product, not a deployment note:
+
+- **LDAP outbound** means Tessera connects to an organization's LDAP or Active
+  Directory service for authentication, lookup, mapping and lifecycle input.
+- **LDAP inbound** means a legacy application connects to a Tessera-managed
+  LDAP edge and receives only the directory view and bind behavior its tenant
+  policy allows.
+- **Forward auth** means an existing reverse proxy asks Tessera to authorize
+  each protected request and receives a minimal, integrity-protected identity
+  assertion.
+- **Identity-aware proxy** means the Tessera edge owns the browser session and
+  proxies the application when the application cannot integrate itself.
+- **Visual flow engine** means the operator edits the same versioned flow graph
+  the runtime executes, with validation, simulation, diff, publish and
+  rollback—not an unrelated drag-and-drop representation.
+
+These capabilities are independently discoverable and independently
+degradable. Their proof contract is
+`18-identity-edge-and-vaultix-contract.md`.
 
 ## Zuul boundary
 
