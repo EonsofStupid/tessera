@@ -39,3 +39,6 @@ jobs:
         run: |
           go test ./dev/source-inventory
           go run ./dev/source-inventory -check
+
+      - name: Verify Tessera product language
+        run: go test ./dev/product-language
