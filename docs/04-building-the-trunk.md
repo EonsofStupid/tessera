@@ -59,10 +59,17 @@ go build -o tessera .
 
 ## The four traps
 
-**`pkg/grpc` is generated, not committed.** Every `internal/api/grpc/**` package
-imports it, so nothing builds until `buf generate` has run and the output has
-been *copied* out of `.artifacts/`. The copy is a separate step; generating
-alone is not enough.
+**`pkg/grpc` mixes generated output and handwritten adapters.** Every
+`internal/api/grpc/**` package imports it, so nothing builds until `buf
+generate` has run and the output has been *copied* out of `.artifacts/`. The
+copy is a separate step; generating alone is not enough. The small handwritten
+aliases/localizers remain tracked while `.pb*.go` and Connect output are
+ignored. Ignoring the entire directory makes a workstation with old generated
+files appear healthy while a clean container build fails.
+
+The custom `protoc-gen-zitadel` imports its own generated option type. A clean
+build therefore runs `buf.gen.bootstrap.yaml` for that one option with the
+standard Go plugin, builds the custom plugin, then runs the full graph.
 
 **`openapi/handler.go` embeds `v2/zitadel/*`.** A `go:embed` with no matching
 files is a compile error, not a warning — the swagger JSON has to be copied too.

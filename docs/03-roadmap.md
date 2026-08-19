@@ -176,6 +176,11 @@ four slices deliberately establish provenance and operation contracts, then
 read-only truth, repeatable installation and one real guided federation path
 before the team fans out.
 
+The service ships in this phase as one cloud-neutral, OCI-runtime-compatible
+container image. Its database, ingress and secret injection remain deployment
+concerns; the exact runtime and Podman boundary is
+`docs/10-container-runtime.md`.
+
 - **Done when** clicking Tessera changes the Shippin shell into a coherent
   identity dashboard, upstream/downstream trust are visibly distinct, and a
   Zuul installer can authenticate and enroll one workspace without an embedded

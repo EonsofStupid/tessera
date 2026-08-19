@@ -28,12 +28,12 @@ func getEnv(key, fallback string) string {
 
 var ConnString = fmt.Sprintf(
 	"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-	getEnv("ZITADEL_DATABASE_POSTGRES_HOST", "localhost"),
-	getEnv("ZITADEL_DATABASE_POSTGRES_PORT", "5433"),
-	getEnv("ZITADEL_DATABASE_POSTGRES_USER", "zitadel"),
-	getEnv("ZITADEL_DATABASE_POSTGRES_PASSWORD", "zitadel"),
-	getEnv("ZITADEL_DATABASE_POSTGRES_DATABASE", "zitadel"),
-	getEnv("ZITADEL_DATABASE_POSTGRES_SSL_MODE", "disable"),
+	getEnv("TESSERA_DATABASE_POSTGRES_HOST", "localhost"),
+	getEnv("TESSERA_DATABASE_POSTGRES_PORT", "5433"),
+	getEnv("TESSERA_DATABASE_POSTGRES_USER", "zitadel"),
+	getEnv("TESSERA_DATABASE_POSTGRES_PASSWORD", "zitadel"),
+	getEnv("TESSERA_DATABASE_POSTGRES_DATABASE", "zitadel"),
+	getEnv("TESSERA_DATABASE_POSTGRES_SSL_MODE", "disable"),
 )
 
 var (
