@@ -134,6 +134,16 @@
       "reason": "Tessera seat-token minting and workspace audience rules."
     },
     {
+      "id": "tessera-generated-integration-keys",
+      "patterns": [
+        "internal/integration/system.go",
+        "internal/integration/system_key_test.go"
+      ],
+      "source_id": "tessera-native",
+      "relationship": "native",
+      "reason": "Tessera-owned integration signing-key generation and protected external-path tests."
+    },
+    {
       "id": "tessera-container-build-compatibility",
       "patterns": [
         "internal/execution/target/**",
