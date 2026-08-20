@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3964,
-  "classification_sha256": "e178796d4547ebe6206023c127a59c2f386bc441890a8c5f34bf45d87a488852",
+  "path_count": 3967,
+  "classification_sha256": "79f0efc982f229a3dcc9806f532eacb6805bfd2e9d97c51e816ca086e532bd49",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 171
+      "paths": 174
     },
     {
       "source_id": "zitadel-core",
@@ -282,6 +282,8 @@
         "backend/v1/domain/capability_wire_contract_test.go",
         "backend/v1/domain/deployment_lifecycle.go",
         "backend/v1/domain/deployment_lifecycle_test.go",
+        "backend/v1/domain/ldap_lifecycle.go",
+        "backend/v1/domain/ldap_lifecycle_test.go",
         "backend/v1/domain/ldap_outbound.go",
         "backend/v1/domain/ldap_outbound_test.go",
         "backend/v1/domain/management_error.go",
@@ -300,6 +302,7 @@
         "backend/v1/domain/secret_reference_test.go",
         "backend/v1/domain/secret_reference_wire_contract_test.go",
         "backend/v1/federation/ldapoutbound/client.go",
+        "backend/v1/federation/ldapoutbound/lifecycle_test.go",
         "backend/v1/federation/ldapoutbound/openldap_conformance_test.go",
         "backend/v1/management/capabilities.go",
         "backend/v1/management/capabilities_test.go",

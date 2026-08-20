@@ -91,6 +91,35 @@ func TestOpenLDAPConformance(t *testing.T) {
 		_, err := client.Preview(context.Background(), connector, "alice", "ldap-group-limit-01")
 		assertLDAPReason(t, err, domain.LDAPRefusalResultLimit)
 	})
+	t.Run("paged lifecycle snapshot", func(t *testing.T) {
+		connector := conformanceConnector("ldaps://localhost:1636", string(caPEM))
+		connector.Effects = domain.LDAPOutboundEffects{Authenticate: true, Import: true, Reconcile: true, Deprovision: true}
+		connector.LifecyclePageSize = 1
+		connector.MaxSyncUsers = 10
+		users, err := client.Snapshot(context.Background(), connector, "ldap-snapshot-01")
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(users) != 2 || users[0].Username != "alice" || users[0].Disabled || users[1].Username != "disabled" || !users[1].Disabled {
+			t.Fatalf("lifecycle snapshot = %#v", users)
+		}
+		target := newAtomicMemoryTarget()
+		plan, err := client.PlanLifecycle(context.Background(), connector, target, "ldap-plan-01", now)
+		if err != nil || len(plan.Actions) != 2 {
+			t.Fatalf("lifecycle plan = %#v, %v", plan, err)
+		}
+		applied, err := client.ApplyLifecycle(context.Background(), connector, target, plan, now.Add(time.Minute))
+		if err != nil || applied.Created != 2 || applied.Revision != "r2" {
+			t.Fatalf("lifecycle apply = %#v, %v", applied, err)
+		}
+		settled, err := client.PlanLifecycle(context.Background(), connector, target, "ldap-plan-settled-01", now.Add(2*time.Minute))
+		if err != nil || len(settled.Actions) != 0 {
+			t.Fatalf("settled lifecycle plan = %#v, %v", settled, err)
+		}
+		connector.MaxSyncUsers = 1
+		_, err = client.Snapshot(context.Background(), connector, "ldap-snapshot-limit-01")
+		assertLDAPReason(t, err, domain.LDAPRefusalResultLimit)
+	})
 	t.Run("removed and tenant isolation", func(t *testing.T) {
 		connector := conformanceConnector("ldaps://localhost:1636", string(caPEM))
 		for _, login := range []string{"removed", "bob"} {

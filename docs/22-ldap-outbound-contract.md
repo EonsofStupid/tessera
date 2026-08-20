@@ -19,6 +19,8 @@ until the bundle-bound OpenLDAP and supported Active Directory proofs pass.
 - disabled-user attribute/value or bit-mask policy;
 - independent `authenticate`, `import`, `reconcile` and `deprovision` effects;
 - bounded connect/search timeouts and result limits;
+- bounded lifecycle page size and maximum snapshot users when lifecycle effects
+  are enabled;
 - optional public PEM trust anchors.
 
 Plain LDAP without StartTLS is not representable. Endpoint URLs may not carry
@@ -58,6 +60,30 @@ successful login never implies provisioning or suspension. Deprovision cannot
 be enabled without reconcile, and the emergency local-owner path is outside
 this connector.
 
+## Lifecycle reconciliation
+
+A lifecycle run first obtains a complete, paged directory snapshot beneath the
+configured user base. Every page is bounded and the run stops without producing
+a plan if the configured maximum user count, mapping rules, group limits,
+deadline or directory availability is violated. A partial scan is never treated
+as evidence that an upstream user was removed.
+
+The planner keys ownership by connector id plus mapped immutable subject and
+compares usernames against the complete tenant target namespace, rejecting
+duplicate subjects or usernames before apply. `import` permits creation of missing
+connector-owned users. `reconcile` permits profile/group updates, suspends a
+present but disabled directory user and reactivates an enabled user previously
+suspended by the same connector. `deprovision` permits suspension—not hard
+deletion—of a connector-owned user absent from a complete snapshot. Users owned
+by another connector and local users, including the emergency owner, are never
+changed.
+
+Plans are sorted, content-addressed, revision-bound and short-lived. Preview has
+no side effect. Apply must verify the plan hash, connector revision, expiry and
+expected target revision, then commit every action atomically or none. Replaying
+an already committed plan is an idempotent success. A target revision race,
+tampered/expired plan or duplicate identity fails closed with a typed refusal.
+
 ## Promotion gate
 
 The capability remains preview until one immutable suite proves:
@@ -66,6 +92,8 @@ The capability remains preview until one immutable suite proves:
 - service bind, lookup and user bind with injection-resistant filters;
 - direct and nested groups plus mapping preview;
 - disabled and removed user behavior;
+- paged import plus deterministic create/update/reactivate/suspend previews,
+  idempotent atomic apply and stale-revision rejection;
 - ordered failover, timeout and dependency-loss behavior;
 - cross-tenant base-DN isolation;
 - a `ldap_bind` Vaultix reference with no seeded value in state, API, logs or

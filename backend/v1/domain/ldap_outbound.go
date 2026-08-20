@@ -116,6 +116,8 @@ type LDAPOutboundConnector struct {
 	SearchTimeout         time.Duration          `json:"search_timeout"`
 	ResultLimit           uint32                 `json:"result_limit"`
 	TrustAnchorsPEM       string                 `json:"trust_anchors_pem,omitempty"`
+	LifecyclePageSize     uint32                 `json:"lifecycle_page_size,omitempty"`
+	MaxSyncUsers          uint32                 `json:"max_sync_users,omitempty"`
 }
 
 func (c LDAPOutboundConnector) Validate() error {
@@ -156,6 +158,13 @@ func (c LDAPOutboundConnector) Validate() error {
 		return ldapOutboundError(LDAPRefusalInvalidConnector, "search_timeout", "search timeout must be between one and thirty seconds")
 	case c.ResultLimit == 0 || c.ResultLimit > 1000:
 		return ldapOutboundError(LDAPRefusalInvalidConnector, "result_limit", "result limit must be between one and one thousand")
+	}
+	lifecycle := c.Effects.Import || c.Effects.Reconcile || c.Effects.Deprovision
+	if lifecycle && (c.LifecyclePageSize == 0 || c.LifecyclePageSize > 1000) {
+		return ldapOutboundError(LDAPRefusalInvalidConnector, "lifecycle_page_size", "lifecycle page size must be between one and one thousand")
+	}
+	if lifecycle && (c.MaxSyncUsers == 0 || c.MaxSyncUsers > 100000) {
+		return ldapOutboundError(LDAPRefusalInvalidConnector, "max_sync_users", "maximum sync users must be between one and one hundred thousand")
 	}
 	for _, endpoint := range c.Endpoints {
 		if !validLDAPTLSEndpoint(endpoint) {
@@ -244,6 +253,9 @@ const (
 	LDAPRefusalSearch            LDAPOutboundRefusal = "directory_search_failed"
 	LDAPRefusalInvalidMapping    LDAPOutboundRefusal = "invalid_mapping"
 	LDAPRefusalResultLimit       LDAPOutboundRefusal = "result_limit_exceeded"
+	LDAPRefusalSyncConflict      LDAPOutboundRefusal = "sync_conflict"
+	LDAPRefusalStaleTarget       LDAPOutboundRefusal = "stale_target"
+	LDAPRefusalInvalidPlan       LDAPOutboundRefusal = "invalid_plan"
 )
 
 type LDAPOutboundError struct {

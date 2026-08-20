@@ -30,6 +30,9 @@ enum LDAPOutboundRefusal {
   LDAP_OUTBOUND_REFUSAL_DIRECTORY_SEARCH_FAILED = 9;
   LDAP_OUTBOUND_REFUSAL_INVALID_MAPPING = 10;
   LDAP_OUTBOUND_REFUSAL_RESULT_LIMIT_EXCEEDED = 11;
+  LDAP_OUTBOUND_REFUSAL_SYNC_CONFLICT = 12;
+  LDAP_OUTBOUND_REFUSAL_STALE_TARGET = 13;
+  LDAP_OUTBOUND_REFUSAL_INVALID_PLAN = 14;
 }
 
 message LDAPOutboundEffects {
@@ -85,6 +88,34 @@ message LDAPOutboundConnector {
   uint32 search_timeout_ms = 19;
   uint32 result_limit = 20;
   string trust_anchors_pem = 21;
+  uint32 lifecycle_page_size = 22;
+  uint32 max_sync_users = 23;
+}
+
+enum LDAPLifecycleActionType {
+  LDAP_LIFECYCLE_ACTION_TYPE_UNSPECIFIED = 0;
+  LDAP_LIFECYCLE_ACTION_TYPE_CREATE = 1;
+  LDAP_LIFECYCLE_ACTION_TYPE_UPDATE = 2;
+  LDAP_LIFECYCLE_ACTION_TYPE_REACTIVATE = 3;
+  LDAP_LIFECYCLE_ACTION_TYPE_SUSPEND = 4;
+}
+
+message LDAPLifecycleAction {
+  LDAPLifecycleActionType type = 1;
+  string target_user_id = 2;
+  LDAPOutboundUser user = 3;
+}
+
+message LDAPLifecyclePlan {
+  string plan_hash = 1;
+  string connector_id = 2;
+  string connector_revision = 3;
+  string account_id = 4;
+  string workspace_id = 5;
+  string expected_target_revision = 6;
+  int64 generated_at_unix = 7;
+  int64 expires_at_unix = 8;
+  repeated LDAPLifecycleAction actions = 9;
 }
 
 message LDAPOutboundUser {

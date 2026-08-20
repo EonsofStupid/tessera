@@ -53,6 +53,7 @@ func TestLDAPOutboundConnectorValidation(t *testing.T) {
 		{"invalid group base dn", func(value *LDAPOutboundConnector) { value.GroupBaseDN = "ou=groups,dc" }},
 		{"invalid group class", func(value *LDAPOutboundConnector) { value.Groups.ObjectClasses = []string{"group)(objectClass=*"} }},
 		{"unbounded nesting", func(value *LDAPOutboundConnector) { value.Groups.MaxDepth = 11 }},
+		{"lifecycle without paging", func(value *LDAPOutboundConnector) { value.Effects.Import = true }},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
