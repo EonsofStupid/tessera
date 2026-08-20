@@ -6,14 +6,17 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/EonsofStupid/tessera/backend/v1/domain"
 )
 
 const (
-	HandlerPrefix        = "/tessera/v1"
-	OverviewPermission   = "tessera.overview.read"
-	CapabilityPermission = "tessera.capabilities.read"
+	HandlerPrefix            = "/tessera/v1"
+	OverviewPermission       = "tessera.overview.read"
+	CapabilityPermission     = "tessera.capabilities.read"
+	OperatorEventPermission  = "tessera.operator_events.write"
+	OperatorActionPermission = "tessera.operator_actions.read"
 )
 
 type OverviewGetter interface {
@@ -24,23 +27,47 @@ type CapabilityGetter interface {
 	Get(ctx context.Context) (domain.CapabilityDiscovery, error)
 }
 
+type OperatorActionGetter interface {
+	Get(ctx context.Context) (domain.OperatorActionCatalog, error)
+}
+
 type Authorizer interface {
 	Authorize(r *http.Request, permission string) (*http.Request, *domain.ManagementError)
 }
 
 type InstanceResolver func(context.Context) string
 type IssuerResolver func(*http.Request) string
+type OperatorActorResolver func(context.Context) domain.OperatorActor
+
+type OperatorEventRecorder interface {
+	Record(ctx context.Context, actor domain.OperatorActor, batch domain.OperatorEventBatch) error
+}
 
 type Handler struct {
-	overview     OverviewGetter
-	capabilities CapabilityGetter
-	authorizer   Authorizer
-	instance     InstanceResolver
-	issuer       IssuerResolver
+	overview        OverviewGetter
+	capabilities    CapabilityGetter
+	authorizer      Authorizer
+	instance        InstanceResolver
+	issuer          IssuerResolver
+	operatorEvents  OperatorEventRecorder
+	operatorActor   OperatorActorResolver
+	operatorActions OperatorActionGetter
+	clock           func() time.Time
 }
 
 func NewHandler(overview OverviewGetter, authorizer Authorizer, instance InstanceResolver, issuer IssuerResolver) *Handler {
-	return &Handler{overview: overview, authorizer: authorizer, instance: instance, issuer: issuer}
+	return &Handler{overview: overview, authorizer: authorizer, instance: instance, issuer: issuer, clock: time.Now}
+}
+
+func (h *Handler) WithOperatorEvents(recorder OperatorEventRecorder, actor OperatorActorResolver) *Handler {
+	h.operatorEvents = recorder
+	h.operatorActor = actor
+	return h
+}
+
+func (h *Handler) WithOperatorActions(actions OperatorActionGetter) *Handler {
+	h.operatorActions = actions
+	return h
 }
 
 func (h *Handler) WithCapabilities(capabilities CapabilityGetter) *Handler {
@@ -55,9 +82,83 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		h.serveOverview(w, r)
 	case "/capabilities":
 		h.serveCapabilities(w, r)
+	case "/operator/events":
+		h.serveOperatorEvents(w, r)
+	case "/operator/actions":
+		h.serveOperatorActions(w, r)
 	default:
 		writeError(w, notFoundError())
 	}
+}
+
+func (h *Handler) serveOperatorActions(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.Header().Set("Allow", http.MethodGet)
+		writeError(w, invalidMethodError())
+		return
+	}
+	if h.operatorActions == nil || h.authorizer == nil {
+		writeError(w, unavailableError("operator-action-handler"))
+		return
+	}
+	authorized, managementError := h.authorizer.Authorize(r, OperatorActionPermission)
+	if managementError != nil {
+		writeError(w, *managementError)
+		return
+	}
+	catalog, err := h.operatorActions.Get(authorized.Context())
+	if err != nil {
+		writeError(w, unavailableError("operator-action-discovery"))
+		return
+	}
+	if err := catalog.Validate(); err != nil {
+		writeError(w, unavailableError("operator-action-validation"))
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	_ = json.NewEncoder(w).Encode(catalog)
+}
+
+func (h *Handler) serveOperatorEvents(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		w.Header().Set("Allow", http.MethodPost)
+		writeError(w, invalidMethodError())
+		return
+	}
+	if h.operatorEvents == nil || h.operatorActor == nil || h.authorizer == nil || h.clock == nil {
+		writeError(w, unavailableError("operator-event-handler"))
+		return
+	}
+	authorized, managementError := h.authorizer.Authorize(r, OperatorEventPermission)
+	if managementError != nil {
+		writeError(w, *managementError)
+		return
+	}
+	defer r.Body.Close()
+	decoder := json.NewDecoder(http.MaxBytesReader(w, r.Body, 128<<10))
+	decoder.DisallowUnknownFields()
+	var batch domain.OperatorEventBatch
+	if err := decoder.Decode(&batch); err != nil {
+		writeError(w, invalidOperatorEventError("body", "operator_event_invalid"))
+		return
+	}
+	if err := batch.Validate(h.clock().UTC()); err != nil {
+		writeError(w, invalidOperatorEventError("events", "operator_event_invalid"))
+		return
+	}
+	actor := h.operatorActor(authorized.Context())
+	if err := actor.Validate(); err != nil {
+		writeError(w, unavailableError("operator-event-actor"))
+		return
+	}
+	if err := h.operatorEvents.Record(authorized.Context(), actor, batch); err != nil {
+		writeError(w, unavailableError("operator-event-record"))
+		return
+	}
+	w.WriteHeader(http.StatusAccepted)
+	_ = json.NewEncoder(w).Encode(struct {
+		Accepted int `json:"accepted"`
+	}{Accepted: len(batch.Events)})
 }
 
 func (h *Handler) serveOverview(w http.ResponseWriter, r *http.Request) {
@@ -180,6 +281,17 @@ func invalidMethodError() domain.ManagementError {
 		Remedy:  domain.ManagementRemedy{Kind: domain.ManagementRemedyCorrectRequest, Label: "Review request"},
 		Retry:   domain.RetryOperatorAction,
 		Field:   "method",
+	}
+}
+
+func invalidOperatorEventError(field, reason string) domain.ManagementError {
+	return domain.ManagementError{
+		Type:    domain.ManagementErrorInvalidRequest,
+		Reason:  reason,
+		Message: "The semantic operator event does not match the public schema.",
+		Remedy:  domain.ManagementRemedy{Kind: domain.ManagementRemedyCorrectRequest, Label: "Correct event"},
+		Retry:   domain.RetryOperatorAction,
+		Field:   field,
 	}
 }
 

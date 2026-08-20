@@ -1611,6 +1611,8 @@ InternalAuthZ:
       Permissions:
         - "tessera.overview.read"
         - "tessera.capabilities.read"
+        - "tessera.operator_events.write"
+        - "tessera.operator_actions.read"
         - "iam.read"
         - "iam.write"
         - "iam.policy.read"
@@ -1718,6 +1720,8 @@ InternalAuthZ:
       Permissions:
         - "tessera.overview.read"
         - "tessera.capabilities.read"
+        - "tessera.operator_events.write"
+        - "tessera.operator_actions.read"
         - "iam.read"
         - "iam.policy.read"
         - "iam.member.read"
@@ -2214,6 +2218,8 @@ SystemAuthZ:
       Permissions:
         - "tessera.overview.read"
         - "tessera.capabilities.read"
+        - "tessera.operator_events.write"
+        - "tessera.operator_actions.read"
         - "iam.read"
         - "iam.write"
         - "iam.policy.read"
@@ -2321,6 +2327,8 @@ SystemAuthZ:
       Permissions:
         - "tessera.overview.read"
         - "tessera.capabilities.read"
+        - "tessera.operator_events.write"
+        - "tessera.operator_actions.read"
         - "iam.read"
         - "iam.policy.read"
         - "iam.member.read"

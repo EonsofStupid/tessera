@@ -1,6 +1,7 @@
 package management
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -24,6 +25,15 @@ type capabilityGetterStub struct {
 	err       error
 }
 
+type operatorActionGetterStub struct {
+	catalog domain.OperatorActionCatalog
+	err     error
+}
+
+func (s operatorActionGetterStub) Get(context.Context) (domain.OperatorActionCatalog, error) {
+	return s.catalog, s.err
+}
+
 func (s capabilityGetterStub) Get(context.Context) (domain.CapabilityDiscovery, error) {
 	return s.discovery, s.err
 }
@@ -36,6 +46,18 @@ type authorizerStub struct{ failure *domain.ManagementError }
 
 func (s authorizerStub) Authorize(r *http.Request, _ string) (*http.Request, *domain.ManagementError) {
 	return r, s.failure
+}
+
+type operatorEventRecorderStub struct {
+	actor domain.OperatorActor
+	batch domain.OperatorEventBatch
+	err   error
+}
+
+func (s *operatorEventRecorderStub) Record(_ context.Context, actor domain.OperatorActor, batch domain.OperatorEventBatch) error {
+	s.actor = actor
+	s.batch = batch
+	return s.err
 }
 
 func TestHandlerReturnsValidatedOverview(t *testing.T) {
@@ -100,6 +122,28 @@ func TestHandlerReturnsProtectedCapabilityDiscovery(t *testing.T) {
 	assert.Equal(t, discovery.ResourceRevision, got.ResourceRevision)
 }
 
+func TestHandlerReturnsFailClosedOperatorActionCatalog(t *testing.T) {
+	now := time.Now().UTC()
+	catalog := domain.OperatorActionCatalog{
+		SchemaVersion: 1, ResourceRevision: "sha256:catalog", ObservedAt: now,
+		Actions: []domain.OperatorAction{{
+			ID: "action.provider_plan", Title: "Plan provider", Consequence: "Creates a reviewed provider plan.",
+			Stage: domain.OperatorActionPlan, Method: http.MethodPost, Href: "/tessera/v1/providers:plan",
+			IntentSchema: json.RawMessage(`{"type":"object"}`), RequiredPermissions: []string{"tessera.providers.plan"},
+			CapabilityID: domain.CapabilityIDUpstreamOIDC, Exposure: domain.UIExposureDisabled, Reason: "conformance_pending",
+		}},
+	}
+	handler := NewHandler(overviewGetterStub{}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.tessera.test" }).WithOperatorActions(operatorActionGetterStub{catalog: catalog})
+	recorder := httptest.NewRecorder()
+	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, "/operator/actions", nil))
+
+	require.Equal(t, http.StatusOK, recorder.Code)
+	var got domain.OperatorActionCatalog
+	require.NoError(t, json.NewDecoder(recorder.Body).Decode(&got))
+	require.Len(t, got.Actions, 1)
+	assert.Equal(t, domain.UIExposureDisabled, got.Actions[0].Exposure)
+}
+
 func TestHandlerRedactsProjectionFailure(t *testing.T) {
 	handler := NewHandler(overviewGetterStub{err: errors.New("SELECT token='do-not-leak'")}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.tessera.test" })
 	recorder := httptest.NewRecorder()
@@ -120,4 +164,34 @@ func TestHandlerRejectsMethodWithTypedBody(t *testing.T) {
 
 	require.Equal(t, http.StatusUnprocessableEntity, recorder.Code)
 	assert.Equal(t, http.MethodGet, recorder.Header().Get("Allow"))
+}
+
+func TestHandlerRecordsValidatedOperatorEventWithServerActor(t *testing.T) {
+	now := time.Now().UTC()
+	body := []byte(`{"events":[{"schema_version":1,"event_id":"9a5af3d5-5456-4266-8b24-c0b954db6819","session_id":"ce46aa0d-bc16-42e7-9975-1476ec5734f8","sequence":1,"occurred_at":"` + now.Format(time.RFC3339Nano) + `","route_id":"route.federation","control_id":"control.provider_create","event_type":"control_activated","outcome":"observed"}]}`)
+	repository := &operatorEventRecorderStub{}
+	actor := domain.OperatorActor{InstanceID: "instance-1", TenantID: "tenant-1", ActorID: "owner-1"}
+	handler := NewHandler(overviewGetterStub{}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.tessera.test" }).WithOperatorEvents(repository, func(context.Context) domain.OperatorActor { return actor })
+	recorder := httptest.NewRecorder()
+	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodPost, "/operator/events", bytes.NewReader(body)))
+
+	require.Equal(t, http.StatusAccepted, recorder.Code)
+	assert.Equal(t, actor, repository.actor)
+	require.Len(t, repository.batch.Events, 1)
+	assert.Equal(t, domain.OperatorEventControlActivated, repository.batch.Events[0].EventType)
+}
+
+func TestHandlerRejectsSensitiveOperatorEventAttribute(t *testing.T) {
+	now := time.Now().UTC()
+	body := []byte(`{"events":[{"schema_version":1,"event_id":"9a5af3d5-5456-4266-8b24-c0b954db6819","session_id":"ce46aa0d-bc16-42e7-9975-1476ec5734f8","sequence":1,"occurred_at":"` + now.Format(time.RFC3339Nano) + `","route_id":"route.security","control_id":"control.secret","event_type":"control_activated","attributes":{"password":"canary"}}]}`)
+	repository := &operatorEventRecorderStub{}
+	handler := NewHandler(overviewGetterStub{}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.tessera.test" }).WithOperatorEvents(repository, func(context.Context) domain.OperatorActor {
+		return domain.OperatorActor{InstanceID: "instance-1", TenantID: "tenant-1", ActorID: "owner-1"}
+	})
+	recorder := httptest.NewRecorder()
+	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodPost, "/operator/events", bytes.NewReader(body)))
+
+	require.Equal(t, http.StatusUnprocessableEntity, recorder.Code)
+	assert.Empty(t, repository.batch.Events)
+	assert.NotContains(t, recorder.Body.String(), "canary")
 }

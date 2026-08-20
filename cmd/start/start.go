@@ -27,9 +27,11 @@ import (
 	"golang.org/x/text/language"
 
 	tessera_management_api "github.com/EonsofStupid/tessera/backend/v1/api/management"
+	tessera_domain "github.com/EonsofStupid/tessera/backend/v1/domain"
 	tessera_management "github.com/EonsofStupid/tessera/backend/v1/management"
 	flowstorage "github.com/EonsofStupid/tessera/backend/v1/storage/flow"
 	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
+	operatoreventstorage "github.com/EonsofStupid/tessera/backend/v1/storage/operator_event"
 	overviewstorage "github.com/EonsofStupid/tessera/backend/v1/storage/overview"
 	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
 	new_domain "github.com/EonsofStupid/tessera/backend/v3/domain"
@@ -745,6 +747,7 @@ func startAPIs(
 	// Tessera's native management boundary. The instance interceptor resolves
 	// the tenant before authorization or storage reads, and the handler emits
 	// only Tessera's typed management errors.
+	capabilityService := tessera_management.NewCapabilityService(time.Now)
 	apis.RegisterHandlerOnPrefix(tessera_management_api.HandlerPrefix, instanceInterceptor.Handler(
 		tessera_management_api.NewHandler(
 			tessera_management.NewOverviewService(
@@ -755,7 +758,25 @@ func startAPIs(
 			tessera_management_api.NewTesseraAuthorizer(verifier, config.SystemAuthZ, config.InternalAuthZ),
 			func(ctx context.Context) string { return internal_authz.GetInstance(ctx).InstanceID() },
 			oidcServer.IssuerFromRequest,
-		).WithCapabilities(tessera_management.NewCapabilityService(time.Now)),
+		).WithCapabilities(capabilityService).WithOperatorActions(
+			tessera_management.NewOperatorActionService(capabilityService, time.Now),
+		).WithOperatorEvents(
+			operatoreventstorage.NewRepository(v3_postgres.PGxPool(dbClient.Pool)),
+			func(ctx context.Context) tessera_domain.OperatorActor {
+				instanceID := internal_authz.GetInstance(ctx).InstanceID()
+				contextData := internal_authz.GetCtxData(ctx)
+				tenantID := contextData.OrgID
+				if tenantID == "" {
+					tenantID = "deployment." + instanceID
+				}
+				return tessera_domain.OperatorActor{
+					InstanceID: instanceID,
+					TenantID:   tenantID,
+					ActorID:    contextData.UserID,
+					AgentID:    contextData.AgentID,
+				}
+			},
+		),
 	))
 
 	samlProvider, err := saml.NewProvider(
@@ -908,7 +929,7 @@ func showBasicInformation(startConfig *Config) {
 	if insecure {
 		fmt.Printf("\n %s: you're using plain http without TLS. Be aware this is \n", color.RedString("Warning"))
 		fmt.Printf(" not a secure setup and should only be used for test systems.         \n")
-		fmt.Printf(" Configure TLS at the Shippin ingress before production.    \n")
+		fmt.Printf(" Configure TLS at the deployment ingress before production.  \n")
 	}
 	fmt.Printf("\n ===============================================================\n\n")
 }
