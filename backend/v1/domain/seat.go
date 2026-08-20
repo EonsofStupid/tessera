@@ -1,9 +1,8 @@
 // Package domain is Tessera's own domain layer.
 //
-// The v1 is ours and is not a continuation of the v3 next door. `backend/v3` is
-// Zitadel's third backend architecture, inherited whole and already
-// load-bearing — `internal/` takes its logging, database, repositories and
-// domain objects. This is the first architecture *this* project has, so it
+// The v1 is ours and is not a continuation of the compatibility backend next
+// door, which remains load-bearing while Tessera replaces its boundaries.
+// This is the first product architecture *this* project has, so it
 // starts at one, and the number says which of the two a file belongs to without
 // anybody having to remember.
 //
@@ -270,7 +269,7 @@ func WorkspaceFromAudience(audience []string) (string, error) {
 
 // workspaceOf reads the workspace half of one audience entry.
 //
-// Zitadel puts project ids and client ids in `aud` as a matter of course, and
+// Tessera puts project ids and client ids in `aud` as a matter of course, and
 // those are numeric. Requiring the `ws-` prefix is what keeps a project id from
 // being mistaken for a workspace and silently becoming the tenant boundary.
 func workspaceOf(entry string) string {

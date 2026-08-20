@@ -13,8 +13,8 @@ learns the answer from a vendor's SDK, the vendor becomes load-bearing and
 swapping it is a migration across every repo.
 
 So the boundary is a **token**, not a product. Anything that can mint one of
-these correctly can be the identity provider — Authentik today, Zitadel,
-something Shippin-native later. Consumers never find out which.
+these correctly can be the identity provider. Consumers never find out which
+implementation sits behind Tessera.
 
 This is also why the contract is written before the service: Automaton is
 already building the verifier, and a verifier is the most honest specification
@@ -102,6 +102,8 @@ like an issuer misconfiguration.)
 | `terminal:advanced` | the workspace terminal and multi-pane surfaces |
 | `chat:unified` | the same providers as panel chat, through brokers |
 | `workflows:guided` | guided workflow surfaces and deep links |
+| `tessera:manage` | enter the Tessera private-cloud management surface |
+| `tessera:overview:read` | read the member-safe Tessera overview and capability projection |
 
 `03-control-plane-contract.md` in DevForge names these as dotted booleans
 (`hosting.active`). Consumers accept both spellings; the colon form is

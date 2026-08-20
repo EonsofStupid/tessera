@@ -1,16 +1,14 @@
-# 03 — Roadmap: building Tessera from Zitadel and Authentik
+# 03 — Roadmap: Tessera identity core and portable edges
 
 **Status:** build plan. Both trees are cloned under `upstream/`.
 
-Tessera is **built from** these two codebases, not operated alongside them.
-Nothing here deploys Authentik or Zitadel as a service; both are source we take
-from.
+Tessera incorporates two design references; neither is operated alongside it.
+The shipped product, process names, APIs and operator experience are Tessera.
 
-## The trunk is Zitadel
+## The trunk is Tessera's compatibility core
 
-`upstream/zitadel` — Go 1.25, `github.com/zitadel/zitadel`. It is the trunk
-because the architecture is the part worth having and because Go matches the
-rest of the estate (GoClyffy, and Authentik's own outposts).
+The evented Go compatibility core is the trunk because the architecture is the
+part worth preserving and Go matches the rest of the estate.
 
 What we are here for, in `internal/`:
 
@@ -38,7 +36,7 @@ Go and portable directly.
 | `blueprints/` + `schema.json` | **YAML/JSON** | declarative config as data — language-neutral, lift as-is |
 | `authentik/flows/` | Python | the flow/stage *model* (`planner.py`, `challenge.py`, `markers.py`) — ported, not copied |
 
-So: Go core from Zitadel, Go identity edges from Authentik, YAML blueprint
+So: evented Go core, portable Go identity edges, YAML blueprint
 schema lifted whole, and one Python subsystem (the flow engine) that gets
 reimplemented in Go because it is a model rather than a library. These are
 identity capabilities, not Tessera's secrets infrastructure. Vaultix is the
@@ -78,9 +76,9 @@ write them.
 
 ### Phase 3.1 — seats get a table ✅
 
-Done. Seat facts left Zitadel user metadata for `tessera.seats`, in Tessera's own
+Done. Seat facts left compatibility metadata for `tessera.seats`, in Tessera's own
 schema with its own migration series starting at one — separate from the
-`zitadel` schema next door, whose 001–018 belong upstream and whose next number
+compatibility schema next door, whose 001–018 belong to the imported migration series and whose next number
 would collide with ours on any sync.
 
 The shape is a scale decision rather than a storage chore. Workspaces are a
@@ -93,7 +91,7 @@ instance. Scopes stay an array because they are only ever read *with* the seat.
 repository blueprints will. **Done when** the mint path reads from the table and
 no seat fact remains in metadata — `dev/seat-probe.sh` now fails if one does.
 
-One trap worth the ink: Zitadel runs its own schema migration as a *setup step*,
+One trap worth the ink: the compatibility core runs its schema migration as a *setup step*,
 and a setup step is recorded once and skipped forever. Ours runs on every start
 instead. Had it been a step, migration 002 would never reach a database that had
 already been set up, every deployment in the fleet would silently keep the old
@@ -121,7 +119,7 @@ timestamps included. Design and traps: `docs/06-blueprints.md`.
 
 The honest boundary: `blueprints/` declares Tessera's own state (seats today;
 each new model is one applier registered in `cmd/blueprint`). The *user* a seat
-attaches to is still Zitadel's, created by setup or the management API — "known
+attaches to is still owned by the compatibility core, created by setup or the management API — "known
 state from files alone" covers users only when a user applier joins the
 registry, which is the natural next model.
 
@@ -233,7 +231,7 @@ under our module path.
 
 ## The two backends
 
-`backend/v3` is Zitadel's third backend architecture, inherited whole. It is not
+`backend/v3` is the imported compatibility architecture. It is not
 dead weight and it is not a parallel tree — it is already the substrate under the
 legacy one: `internal/` imports its logging (67 files), its database and SQL
 dialect layers (67), its domain objects (32) and its repositories (31).

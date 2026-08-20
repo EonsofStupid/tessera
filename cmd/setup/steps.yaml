@@ -1,5 +1,5 @@
 Instrumentation:
-  ServiceName: "zitadel-setup" # TESSERA_INSTRUMENTATION_SERVICENAME
+  ServiceName: "tessera-setup" # TESSERA_INSTRUMENTATION_SERVICENAME
   Trace:
     Fraction: 1.0 # TESSERA_INSTRUMENTATION_TRACE_FRACTION
     # Trust incoming trace context from remote services for distributed tracing.
@@ -49,7 +49,7 @@ Instrumentation:
     # Streams enable logging for specific parts of the application.
     Streams: # TESSERA_INSTRUMENTATION_LOG_STREAMS (comma separated list)
       - runtime # General runtime logs, such as startup and shutdown messages.
-      - ready # Logs related to readiness and health checks. (zitadel ready command)
+      - ready # Logs related to readiness and health checks. (tessera ready command)
       - request # Logs for incoming API and HTTP requests.
       - event_handler # Logs for event handling in projections.
       - queue # Logs for the job queue processing.
@@ -111,32 +111,32 @@ Instrumentation:
       # Project ID for Google Cloud Profiler
       GoogleProjectID: "" # TESSERA_INSTRUMENTATION_PROFILE_GOOGLEPROJECTID
 
-# By using the FirstInstance section, you can overwrite the DefaultInstance configuration for the first instance created by zitadel setup.
+# By using the FirstInstance section, you can overwrite the DefaultInstance configuration for the first instance created by tessera setup.
 FirstInstance:
-  # If set to true zitadel is setup without initial data
+  # If set to true Tessera is set up without initial data
   Skip: false
   # The machine key from the section FirstInstance.Org.Machine.MachineKey is written to the MachineKeyPath.
   MachineKeyPath: # TESSERA_FIRSTINSTANCE_MACHINEKEYPATH
   # The personal access token from the section FirstInstance.Org.Machine.Pat is written to the PatPath.
   PatPath: # TESSERA_FIRSTINSTANCE_PATPATH
   LoginClientPatPath: # TESSERA_FIRSTINSTANCE_LOGINCLIENTPATPATH
-  InstanceName: ZITADEL # TESSERA_FIRSTINSTANCE_INSTANCENAME
+  InstanceName: Tessera # TESSERA_FIRSTINSTANCE_INSTANCENAME
   # A list of trusted domains, which are allowed to be used for public responses like email links or when running
-  # ZITADEL or the login UI behind a reverse proxy. If no trusted domain is set, the instance domain is used.
+  # Tessera or the login UI behind a reverse proxy. If no trusted domain is set, the instance domain is used.
   TrustedDomains: # TESSERA_FIRSTINSTANCE_TRUSTEDDOMAINS
   #  - login.example.com
   #  - api.example.com
   DefaultLanguage: en # TESSERA_FIRSTINSTANCE_DEFAULTLANGUAGE
   Org:
-    Name: ZITADEL # TESSERA_FIRSTINSTANCE_ORG_NAME
+    Name: Tessera # TESSERA_FIRSTINSTANCE_ORG_NAME
     # In the FirstInstance.Org.Human section, the initial organization's admin user with the role IAM_OWNER is defined.
     # If FirstInstance.Org.Machine.Machine is defined, a service account is created with the IAM_OWNER role.
     Human:
       # In case UserLoginMustBeDomain is false (default) and you don't overwrite the username with an email,
       # it will be suffixed by the Organization Domain (org-name + domain from config).
-      # for example zitadel-admin in org ZITADEL on domain.tld -> zitadel-admin@zitadel.domain.tld
-      UserName: zitadel-admin # TESSERA_FIRSTINSTANCE_ORG_HUMAN_USERNAME
-      FirstName: ZITADEL # TESSERA_FIRSTINSTANCE_ORG_HUMAN_FIRSTNAME
+      # for example tessera-admin in org Tessera on domain.tld -> tessera-admin@tessera.domain.tld
+      UserName: tessera-admin # TESSERA_FIRSTINSTANCE_ORG_HUMAN_USERNAME
+      FirstName: Tessera # TESSERA_FIRSTINSTANCE_ORG_HUMAN_FIRSTNAME
       LastName: Admin # TESSERA_FIRSTINSTANCE_ORG_HUMAN_LASTNAME
       NickName: # TESSERA_FIRSTINSTANCE_ORG_HUMAN_NICKNAME
       DisplayName: # TESSERA_FIRSTINSTANCE_ORG_HUMAN_DISPLAYNAME

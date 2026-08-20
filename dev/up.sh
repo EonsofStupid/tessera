@@ -22,7 +22,7 @@ PORT="${TESSERA_PORT:-8088}"
 WORKSPACE_STATE="$ROOT/.artifacts/workspace"
 MASTERKEY_FILE="$WORKSPACE_STATE/secrets/tessera-masterkey"
 
-export PATH="/usr/lib/postgresql/18/bin:$ROOT/.artifacts/bin:$ROOT/upstream/zitadel/.artifacts/bin/linux/amd64:$PATH"
+export PATH="/usr/lib/postgresql/18/bin:$ROOT/.artifacts/bin:$PATH"
 
 step() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 ok()   { printf '  ✓ %s\n' "$*"; }
@@ -49,22 +49,33 @@ fi
 step "1 · postgres on 5433"
 if [[ ! -d "$PGDATA" ]]; then
   initdb -D "$PGDATA" -U tessera --auth-local=trust --auth-host=trust >/dev/null
-  mkdir -p "$PGDATA/sockets"
   cat >> "$PGDATA/postgresql.conf" <<EOF
 
-# Our own cluster. 5433 so it never collides with the system one, and a socket
-# directory we own — /var/run/postgresql belongs to the system cluster's user.
+# Our own TCP-loopback cluster. Unix sockets are disabled because nested
+# worktree paths can exceed the operating system's socket path limit.
 port = 5433
 listen_addresses = '127.0.0.1'
-unix_socket_directories = '$PGDATA/sockets'
+unix_socket_directories = ''
 EOF
   ok "cluster created"
 fi
+# Migrate clusters created by an older launcher that used a worktree-relative
+# Unix socket. This changes only the disposable ignored development cluster.
+sed -i "/^unix_socket_directories = /c\\unix_socket_directories = ''" "$PGDATA/postgresql.conf"
 pg_ctl -D "$PGDATA" -l "$PGDATA/server.log" start >/dev/null 2>&1 || true
+database_ready=false
 for _ in $(seq 30); do
-  psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c 'select 1' >/dev/null 2>&1 && break
+  if psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c 'select 1' >/dev/null 2>&1; then
+    database_ready=true
+    break
+  fi
   sleep 0.3
 done
+if [[ "$database_ready" != true ]]; then
+  printf '\n  postgres did not become ready — database log follows\n\n' >&2
+  tail -20 "$PGDATA/server.log" >&2
+  exit 1
+fi
 psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -tAc \
   "select 1 from pg_roles where rolname='tessera_app'" | grep -q 1 ||
   psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c "CREATE ROLE tessera_app LOGIN SUPERUSER" >/dev/null
@@ -79,24 +90,7 @@ if [[ ! -x "$BIN" || "${1:-}" == "--rebuild" ]]; then
   mkdir -p "$ROOT/.artifacts"
   cd "$TRUNK"
   if [[ ! -d pkg/grpc || "${1:-}" == "--rebuild" ]]; then
-    # Our own protoc plugins first: they emit import paths from templates in
-    # this tree, so a plugin built from upstream quietly emits upstream's paths
-    # into our generated code and nothing links.
-    GOBIN="$ROOT/.artifacts/bin" go install ./internal/protoc/protoc-gen-zitadel ./internal/protoc/protoc-gen-authoption
-    # Three generators, and none of their output is committed upstream.
-    buf generate
-    mkdir -p pkg/grpc openapi/v2/zitadel
-    cp -r .artifacts/grpc/github.com/EonsofStupid/tessera/pkg/grpc/** pkg/grpc/
-    cp .artifacts/grpc/zitadel/*.swagger.json openapi/v2/zitadel/
-    # Run from its own directory: its docs path is relative to the working
-    # directory and it truncates all three outputs before validating any.
-    mkdir -p apps/docs/content/apis/assets
-    (cd internal/api/assets/generator && go run . -directory ./)
-    # Without statik the binary compiles and then dies at startup with
-    # "no zip data registered" — i18n is embedded, not read from disk.
-    go generate internal/api/ui/login/statik/generate.go
-    go generate internal/notification/statik/generate.go
-    go generate internal/statik/generate.go
+    bash "$ROOT/dev/generate.sh"
     ok "generated"
   fi
   go build -o "$BIN" .

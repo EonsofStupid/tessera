@@ -10,6 +10,12 @@ Tessera paths the Shippin panel offers. The browser and server-side adapter do
 not infer support from a version string, a successful health check, an
 inherited provider endpoint or a remembered deployment profile.
 
+This is a protected management read. Tessera requires
+`tessera.capabilities.read`; missing authentication is a typed `401`, while an
+authenticated caller without that permission receives a typed `403` naming
+the permission. The browser receives the resolved projection from Shippin and
+never receives the management credential.
+
 The response answers three different questions:
 
 1. Which discovery schema is this response using?

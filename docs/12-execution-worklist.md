@@ -48,7 +48,7 @@ block local research or read-only mocks.
 | id | work | depends on | done when |
 |---|---|---|---|
 | P0.1 | Inventory every retained/adapted upstream path and generate a machine-readable source bill of materials with source repository, commit and license expression. | — | a clean checkout reproduces the inventory and fails CI on an unmapped imported path |
-| P0.2 | Archive the operator-reported ZITADEL and authentik permissions in protected business records; store non-secret evidence ids, scope, dates and approved public wording in governance metadata. | — | a reviewer can resolve each evidence id without private correspondence entering Git |
+| P0.2 | Archive operator-reported upstream permissions in protected business records; store non-secret evidence ids, scope, dates and approved public wording in governance metadata. | — | a reviewer can resolve each evidence id without private correspondence entering Git |
 | P0.3 | Decide and add Tessera's top-level license, notices, source availability path and distribution obligations using P0.1/P0.2. | P0.1, P0.2 | source and container distributions carry the reviewed files and CI verifies them |
 | P0.4 | Approve the public provenance page and exact “powered/inspired by” wording; separately record any confirmed partner, referral or commission terms and disclosures. | P0.2, P0.3 | public copy cannot imply endorsement or partnership beyond archived approval |
 | P0.5 | Pin clean upstream source snapshots and document the current dirty-checkout differences before accepting further imports. | P0.1 | imported changes are reproducible from a clean commit plus reviewed patch series |

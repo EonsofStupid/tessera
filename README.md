@@ -52,8 +52,8 @@ specify a token: it either accepts yours or it does not.
 |---|---|
 | `docs/00-charter.md` | boundaries, and what "identity" means here |
 | `docs/01-seat-token-contract.md` | the claims every consumer verifies |
-| `docs/03-roadmap.md` | the sequence: Authentik infrastructure, Zitadel architecture |
-| `docs/04-building-the-trunk.md` | how the Zitadel source actually builds |
+| `docs/03-roadmap.md` | the Tessera product sequence and operational gates |
+| `docs/04-building-the-trunk.md` | the canonical clean Tessera build |
 | `docs/05-minting-a-seat-token.md` | how a token is asked for, and the three traps |
 | `docs/10-container-runtime.md` | the container, bootstrap and Podman runtime boundary |
 

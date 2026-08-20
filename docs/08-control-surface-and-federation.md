@@ -8,12 +8,12 @@
 
 Clicking **Tessera** in the Shippin panel opens a complete identity control
 surface. The Shippin shell stays mounted and changes module context; customers
-do not enter a repainted Zitadel console, an Authentik deployment, or a second
+do not enter a repainted compatibility console, a separate identity deployment, or a second
 navigation system.
 
 Tessera folds in the durable qualities of both sources:
 
-- Zitadel's evented identity core, organization/project model, sessions,
+- Tessera's evented identity core, organization/project model, sessions,
   standards support and provider federation;
 - Authentik's declarative blueprints, guided flow/stage model and portable
   outposts;
@@ -184,15 +184,20 @@ silently promotes a missing live fact into healthy.
 Management permissions are namespaced and narrow:
 
 ```text
-tessera:overview:read
-tessera:directory:read       tessera:directory:write
-tessera:federation:read      tessera:federation:write
-tessera:flows:read           tessera:flows:write
-tessera:sessions:read        tessera:sessions:revoke
-tessera:trust:read           tessera:trust:rotate
-tessera:audit:read
-zuul:mesh:enroll
+tessera.overview.read
+tessera.capabilities.read
+tessera.directory.read       tessera.directory.write
+tessera.federation.read      tessera.federation.write
+tessera.flows.read           tessera.flows.write
+tessera.sessions.read        tessera.sessions.revoke
+tessera.trust.read           tessera.trust.rotate
+tessera.audit.read
+zuul.mesh.enroll
 ```
+
+The colon separator is reserved for a resource-context suffix in Tessera's
+authorization engine. Management permission names therefore use dots; for
+example, `tessera.directory.read:organization-id` is the context-bound form.
 
 Not signed in is `401`. Signed in but missing one of these permissions is `403`
 with the existing typed body naming the missing permission. The panel renders

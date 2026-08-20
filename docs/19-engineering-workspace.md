@@ -21,6 +21,18 @@ go run ./dev/workspace sync-references
 go run ./dev/workspace doctor --profile workspace
 ```
 
+A clean checkout prepares every ignored protocol, API and embedded runtime
+artifact with one pinned repository-local command:
+
+```text
+bash dev/generate.sh
+go test ./...
+```
+
+The generator bootstraps the custom option type before compiling Tessera's
+custom protocol plugins. It installs no global tool and uses the same pinned
+versions as the container build.
+
 The machine-readable source of truth is `dev/workspace/manifest.json` and its
 schema is `dev/workspace/manifest.schema.json`.
 
@@ -128,6 +140,12 @@ workspace state root. Release proofs use a fresh network and state directory;
 they do not reuse the operator's development database or the live Vaultix
 instance.
 
+The local PostgreSQL cluster listens on TCP loopback only and disables its Unix
+socket. Nested worktree paths can exceed the operating system's socket-path
+limit; local processes already connect through the allocated loopback port, so
+creating a filesystem socket adds fragility without adding a supported access
+path. Startup must report the database log when readiness is not reached.
+
 The live `vaultix.shippin.cloud` service is never an automatic test target.
 Tests use a contract fake first and a dedicated Vaultix sandbox only when an
 operator explicitly supplies its endpoint and workload identity through the
@@ -164,6 +182,10 @@ bundle evidence cannot enable a UI capability.
 6. **Shippin projection:** guided plans and the visual editor consume only
    stable Tessera management contracts and capability facts.
 
+Cross-project checks must also work from a child worktree. Scripts resolve
+sibling consumers from Git's common repository path instead of assuming the
+current checkout sits directly below the workspace root.
+
 ## Workspace ready gate
 
 The foundation is ready when:
@@ -176,5 +198,8 @@ The foundation is ready when:
 - the manifest contains all six mandatory capability ids from contract 18;
 - sibling boundaries resolve without reading a credential or live database;
 - the existing dev loop contains no checked-in master key;
+- integration signing fixtures are generated in memory by default; an external
+  integration estate may supply protected key-file paths through environment
+  variables, but source compilation never embeds a private key;
 - source inventory and product-language checks remain green;
 - no production service is started as part of setup or validation.

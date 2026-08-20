@@ -19,6 +19,15 @@ type overviewGetterStub struct {
 	err      error
 }
 
+type capabilityGetterStub struct {
+	discovery domain.CapabilityDiscovery
+	err       error
+}
+
+func (s capabilityGetterStub) Get(context.Context) (domain.CapabilityDiscovery, error) {
+	return s.discovery, s.err
+}
+
 func (s overviewGetterStub) Get(context.Context, string, string) (domain.Overview, error) {
 	return s.overview, s.err
 }
@@ -66,6 +75,30 @@ func TestHandlerPreservesTypedAuthenticationAndPermissionFailures(t *testing.T) 
 			}
 		})
 	}
+}
+
+func TestHandlerReturnsProtectedCapabilityDiscovery(t *testing.T) {
+	now := time.Unix(100, 0)
+	discovery := domain.CapabilityDiscovery{
+		SchemaVersion:    1,
+		ResourceRevision: "sha256:development",
+		ObservedAt:       now,
+		Components: []domain.ComponentCompatibility{
+			{Role: domain.ComponentTessera, Version: "workspace", APIMajor: 1, State: domain.CompatibilityUnknown, Reason: "development_bundle_unattested", ObservedAt: now},
+			{Role: domain.ComponentShippinAdapter, State: domain.CompatibilityNotPresent, Reason: "adapter_not_connected", ObservedAt: now},
+		},
+		Capabilities: []domain.CapabilityFact{
+			{ID: domain.CapabilityIDLDAPInbound, Status: domain.CapabilityPreview, Exposure: domain.UIExposureDisabled, Reason: "conformance_pending", RequiredComponents: []domain.ComponentRole{domain.ComponentTessera}},
+		},
+	}
+	handler := NewHandler(overviewGetterStub{}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.shippin.ai" }).WithCapabilities(capabilityGetterStub{discovery: discovery})
+	recorder := httptest.NewRecorder()
+	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, "/capabilities", nil))
+
+	require.Equal(t, http.StatusOK, recorder.Code)
+	var got domain.CapabilityDiscovery
+	require.NoError(t, json.NewDecoder(recorder.Body).Decode(&got))
+	assert.Equal(t, discovery.ResourceRevision, got.ResourceRevision)
 }
 
 func TestHandlerRedactsProjectionFailure(t *testing.T) {

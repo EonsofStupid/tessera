@@ -3,13 +3,14 @@
 #
 #   bash dev/up.sh && bash dev/seat-probe.sh
 #
-# Provisions one seat, mints tokens for two workspaces and one it may not have,
-# then hands them to Automaton's own verifier. Everything it writes lands in
+# Provisions one seat, mints tokens for two workspaces, the Shippin panel, and
+# one workspace it may not have, then hands them to Automaton's own verifier.
+# Everything it writes lands in
 # `.artifacts/`, which is gitignored — the client secret it creates is a live
 # credential and never enters this repository (`AGENTS.md`).
 #
 # Re-runnable: the machine user is recreated only if it is missing, and the
-# secret is reissued every time because Zitadel returns it exactly once.
+# secret is reissued every time because Tessera returns it exactly once.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -95,9 +96,13 @@ ok "client_id $CID, secret reissued"
 
 step "4 · minting"
 mint() {
+  mint_for automaton "$1"
+}
+mint_for() {
+  local consumer="$1" workspace="$2"
   curl -s -X POST "$API/oauth/v2/token" -u "$CID:$CSE" \
     -d grant_type=client_credentials \
-    --data-urlencode "scope=openid urn:shippin:audience:automaton:$1"
+    --data-urlencode "scope=openid urn:shippin:audience:${consumer}:${workspace}"
 }
 for ws in "$WS_A" "$WS_B"; do
   mint "$ws" | jqp '["access_token"]' > "$ROOT/.artifacts/tok-${ws/ws-/ws}.txt"
@@ -110,6 +115,8 @@ print(f"  ✓ {d['workspace_id']}: {d['schema']}, aud={d['aud']}, "
       f"scopes={','.join(d['authorization']['scopes'])}")
 PY
 done
+mint_for shippin "$WS_A" | jqp '["access_token"]' > "$ROOT/.artifacts/tok-shippin-ws0001.txt"
+ok "minted short-lived Shippin panel handoff token for $WS_A"
 REFUSAL="$(mint "$WS_NONE")"
 if printf '%s' "$REFUSAL" | grep -q invalid_target; then
   ok "$WS_NONE refused: $(printf '%s' "$REFUSAL" | jqp '["error"]')"
@@ -118,4 +125,7 @@ else
 fi
 
 step "5 · the consumer decides"
-node "$ROOT/dev/verify-seat-token.mjs"
+COMMON_GIT_DIR="$(git -C "$ROOT" rev-parse --path-format=absolute --git-common-dir)"
+CANONICAL_REPO="$(dirname "$COMMON_GIT_DIR")"
+AUTOMATON_IDENTITY_MODULE="${AUTOMATON_IDENTITY_MODULE:-$(dirname "$CANONICAL_REPO")/automaton/engine/serve/identity.mjs}" \
+  node "$ROOT/dev/verify-seat-token.mjs"

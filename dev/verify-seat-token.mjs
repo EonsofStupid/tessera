@@ -1,8 +1,12 @@
 // Phase 2's "done when", run against the real consumer rather than a fake one.
 // The real consumer, imported rather than reimplemented. A verifier written
 // here to match would only ever prove that we agree with ourselves.
-import { createIdentity, TokenError } from "../../automaton/engine/serve/identity.mjs";
 import { readFileSync } from "node:fs";
+import { pathToFileURL } from "node:url";
+
+const identityModule = process.env.AUTOMATON_IDENTITY_MODULE
+  ?? new URL("../../automaton/engine/serve/identity.mjs", import.meta.url).pathname;
+const { createIdentity, TokenError } = await import(pathToFileURL(identityModule));
 
 const ISSUER = "http://localhost:8088";
 const tok = (n) => readFileSync(new URL(`../.artifacts/${n}.txt`, import.meta.url), "utf8").trim();

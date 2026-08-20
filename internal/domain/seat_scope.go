@@ -5,12 +5,12 @@ import "strings"
 // SeatAudienceScope is how a caller asks for a seat token, and it is the only
 // way a workspace ever reaches `aud`.
 //
-// Zitadel builds an audience out of project and client ids, and RFC 8693's
+// Tessera builds an audience out of project and client ids, and RFC 8693's
 // exchange refuses any requested audience that was not already in the subject
 // token — deliberately, because letting a caller name its own audience is
 // privilege escalation. So a workspace audience cannot be *asked for* at
 // exchange time; it has to originate at the first mint, from a scope, exactly
-// the way `urn:zitadel:iam:org:project:id:{id}:aud` already does.
+// the way its standard project-audience scope already does.
 //
 //	urn:shippin:audience:automaton:ws-0001  →  aud: ["automaton:ws-0001"]
 //

@@ -11,12 +11,17 @@ import (
 )
 
 const (
-	HandlerPrefix      = "/tessera/v1"
-	OverviewPermission = "tessera:overview:read"
+	HandlerPrefix        = "/tessera/v1"
+	OverviewPermission   = "tessera.overview.read"
+	CapabilityPermission = "tessera.capabilities.read"
 )
 
 type OverviewGetter interface {
 	Get(ctx context.Context, instanceID, issuer string) (domain.Overview, error)
+}
+
+type CapabilityGetter interface {
+	Get(ctx context.Context) (domain.CapabilityDiscovery, error)
 }
 
 type Authorizer interface {
@@ -27,22 +32,35 @@ type InstanceResolver func(context.Context) string
 type IssuerResolver func(*http.Request) string
 
 type Handler struct {
-	overview   OverviewGetter
-	authorizer Authorizer
-	instance   InstanceResolver
-	issuer     IssuerResolver
+	overview     OverviewGetter
+	capabilities CapabilityGetter
+	authorizer   Authorizer
+	instance     InstanceResolver
+	issuer       IssuerResolver
 }
 
 func NewHandler(overview OverviewGetter, authorizer Authorizer, instance InstanceResolver, issuer IssuerResolver) *Handler {
 	return &Handler{overview: overview, authorizer: authorizer, instance: instance, issuer: issuer}
 }
 
+func (h *Handler) WithCapabilities(capabilities CapabilityGetter) *Handler {
+	h.capabilities = capabilities
+	return h
+}
+
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	setJSONNoStore(w)
-	if r.URL.Path != "/overview" {
+	switch r.URL.Path {
+	case "/overview":
+		h.serveOverview(w, r)
+	case "/capabilities":
+		h.serveCapabilities(w, r)
+	default:
 		writeError(w, notFoundError())
-		return
 	}
+}
+
+func (h *Handler) serveOverview(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		w.Header().Set("Allow", http.MethodGet)
 		writeError(w, invalidMethodError())
@@ -75,6 +93,34 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	_ = json.NewEncoder(w).Encode(overview)
+}
+
+func (h *Handler) serveCapabilities(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		w.Header().Set("Allow", http.MethodGet)
+		writeError(w, invalidMethodError())
+		return
+	}
+	if h.capabilities == nil || h.authorizer == nil {
+		writeError(w, unavailableError("capability-handler"))
+		return
+	}
+	authorized, managementError := h.authorizer.Authorize(r, CapabilityPermission)
+	if managementError != nil {
+		writeError(w, *managementError)
+		return
+	}
+	discovery, err := h.capabilities.Get(authorized.Context())
+	if err != nil {
+		writeError(w, unavailableError("capability-discovery"))
+		return
+	}
+	if err := discovery.Validate(); err != nil {
+		writeError(w, unavailableError("capability-validation"))
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	_ = json.NewEncoder(w).Encode(discovery)
 }
 
 func setJSONNoStore(w http.ResponseWriter) {

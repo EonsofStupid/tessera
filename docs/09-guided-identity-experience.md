@@ -81,7 +81,7 @@ fixtures, exports, logs or browser responses.
 The guided layer is a composition surface, not a second identity model. It
 normalizes capabilities proven in both inherited APIs:
 
-| Tessera resource | Zitadel capability provenance | Authentik capability provenance |
+| Tessera resource | evented-core capability | portable-edge capability |
 |---|---|---|
 | people and teams | users, organizations, memberships | users, groups and group membership |
 | human sign-in | login policy, factors, sessions | flows, stages and authenticators |
