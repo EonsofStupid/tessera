@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3944,
-  "classification_sha256": "5eea45c8f21af173749ab4f1b09e2d7d5aee87b24beb6aa0ca0c4243574568ce",
+  "path_count": 3951,
+  "classification_sha256": "273f83f370e4987346756c5d2bb7a7132b512a580d4161217f5ba47304cd07ce",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,11 +45,11 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 150
+      "paths": 158
     },
     {
       "source_id": "zitadel-core",
-      "paths": 3627
+      "paths": 3626
     },
     {
       "source_id": "zitadel-proto",
@@ -144,6 +144,16 @@
       ]
     },
     {
+      "rule_id": "tessera-generated-integration-keys",
+      "source_id": "tessera-native",
+      "relationship": "native",
+      "license_expression": "LicenseRef-Tessera-Pending",
+      "paths": [
+        "internal/integration/system.go",
+        "internal/integration/system_key_test.go"
+      ]
+    },
+    {
       "rule_id": "tessera-management-proto",
       "source_id": "tessera-native",
       "relationship": "native",
@@ -178,8 +188,10 @@
         "deploy/podman/shippin-control-plane.network",
         "deploy/podman/tessera.container",
         "deploy/podman/tessera.env.example",
+        "dev/automaton-tty-probe.mjs",
         "dev/check-source-provenance.sh",
         "dev/dev.yaml",
+        "dev/generate.sh",
         "dev/prefetch-embedded/main.go",
         "dev/preflight.sh",
         "dev/product-language/product_language_test.go",
@@ -187,6 +199,7 @@
         "dev/source-inventory/main.go",
         "dev/source-inventory/main_test.go",
         "dev/steps.yaml",
+        "dev/toolchain.sh",
         "dev/up.sh",
         "dev/verify-seat-token.mjs",
         "dev/workspace/main.go",
@@ -213,6 +226,7 @@
         "docs/18-identity-edge-and-vaultix-contract.md",
         "docs/19-engineering-workspace.md",
         "docs/20-capability-gap-ledger.md",
+        "docs/21-automaton-session-tty-conformance.md",
         "prefetch-embedded",
         "provenance/README.md",
         "provenance/source-bom.json",
@@ -274,6 +288,8 @@
         "backend/v1/domain/seat.go",
         "backend/v1/domain/seat_repository.go",
         "backend/v1/domain/seat_test.go",
+        "backend/v1/management/capabilities.go",
+        "backend/v1/management/capabilities_test.go",
         "backend/v1/management/overview.go",
         "backend/v1/management/overview_test.go",
         "backend/v1/storage/migration/001_seats.go",
@@ -2901,7 +2917,6 @@
         "internal/integration/sink/sink.go",
         "internal/integration/sink/stub.go",
         "internal/integration/sink/subscription.go",
-        "internal/integration/system.go",
         "internal/integration/user.go",
         "internal/integration/usertype_enumer.go",
         "internal/logstore/config.go",
