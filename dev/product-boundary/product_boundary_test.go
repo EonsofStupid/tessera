@@ -48,6 +48,8 @@ func TestStandaloneProductBoundaryIsAuthoritative(t *testing.T) {
 		},
 		"docs/02-standalone-product-contract.md": {
 			"without installing or contacting Shippin",
+			"The first managed release supports two explicit isolation profiles",
+			"A transactional outbox projects redacted",
 			"The Shippin adapter and embedded shell are deliberately outside this gate.",
 		},
 	}

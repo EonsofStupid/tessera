@@ -57,6 +57,7 @@ These proofs are valuable but do not satisfy the standalone release gate.
 | P1.4 | Implement idempotent initialize/start lifecycle | P1.3 | interrupted initialization resumes safely and repeated start changes nothing |
 | P1.5 | Ship rootless Podman artifacts | P1.1–P1.4 | clean Linux host reaches readiness without Shippin, Zuul or Vaultix |
 | P1.6 | Ship orchestrator profile | P1.5 | the same image and conformance suite pass without a second behavior path |
+| P1.7 | Ship least-privilege Tessera operator | P1.3–P1.5 | it controls only named Tessera Podman resources and performs resumable install/backup/restore/upgrade operations |
 
 ## P2 — Canonical Tessera experience
 
@@ -68,6 +69,8 @@ These proofs are valuable but do not satisfy the standalone release gate.
 | P2.4 | Build guided organization and application setup | P2.1–P2.3 | a new operator completes first OIDC application without protocol jargon |
 | P2.5 | Build end-user account and security surface | P2.1 | profile, factors, sessions, consent and recovery are usable without admin access |
 | P2.6 | Add capability discovery | P2.1 | UI shows unsupported/preview/operational/degraded from server evidence only |
+| P2.7 | Export the canonical UI module | P2.2 | standalone runtime embeds it and a versioned `@tessera/ui` artifact exposes the same feature roots for later host composition |
+| P2.8 | Prove dedicated and community tenancy | P2.1–P2.6 | one dedicated customer and two community tenants pass the same identity journeys without cross-tenant leakage |
 
 ## P3 — IAM completeness and conformance
 
@@ -94,6 +97,7 @@ These proofs are valuable but do not satisfy the standalone release gate.
 | P4.5 | Signing and encryption key rotation | P3.1–P3.2 | overlap, cache, failure and recovery tests pass without accepting retired keys |
 | P4.6 | High availability and failure recovery | P4.1–P4.5 | node loss, PostgreSQL interruption and dependency degradation preserve stated guarantees |
 | P4.7 | Security release gate | all P1–P4 | threat model, dependency scan, provenance, secret scan, tenant-isolation and protocol suites pass |
+| P4.8 | Add ClickHouse OLAP projection | P4.2 | transactional outbox, replay, deduplication, tenant-scoped aggregate API and dependency-loss tests pass without placing analytics on the auth path |
 
 ## P5 — Managed customers
 
@@ -109,7 +113,7 @@ These proofs are valuable but do not satisfy the standalone release gate.
 
 | ID | Work | Depends on | Acceptance |
 |---|---|---|---|
-| P6.1 | Vaultix runtime secret adapter | P4.7 | workload authentication resolves value-blind references; unavailable custody fails closed |
+| P6.1 | Vaultix runtime secret adapter | P4.7 | workload authentication resolves value-blind references; unavailable custody fails closed; managed production requires the adapter while standalone bootstrap does not |
 | P6.2 | Zuul enrollment and private access | P4.7 | target enrolls without reusable embedded credentials; mesh loss does not corrupt identity state |
 | P6.3 | Shippin server-side adapter | P5 | adapter maps account/commercial context through versioned Tessera APIs only |
 | P6.4 | Shippin embedded Tessera module | P2.2, P6.3 | clicking Tessera mounts the same product module and capabilities without forked identity logic |
@@ -117,11 +121,13 @@ These proofs are valuable but do not satisfy the standalone release gate.
 
 ## Next execution tranche
 
-The next work is P0.3–P1.5: inventory and isolate host assumptions, lock the
-configuration namespace, build the standalone image, implement preflight and
-prove a rootless Podman installation without Shippin. In parallel only where it
-does not change that dependency direction, continue P3.5's Microsoft AD lab
-profile and the production lifecycle adapter required by P3.9.
+The next work is P0.3–P1.7 and P2.1–P2.2: inventory and isolate host
+assumptions, lock the configuration namespace, build the standalone image,
+implement preflight, expose truthful management discovery and load Tessera's
+own product shell from a rootless Podman installation without Shippin. In
+parallel only where it does not change that dependency direction, continue
+P3.5's Microsoft AD lab profile and the production lifecycle adapter required
+by P3.9.
 
 The first managed customer is not invited until P4.7 passes. Shippin UI work
 starts at P6.3, after Tessera has already proven itself as the product being

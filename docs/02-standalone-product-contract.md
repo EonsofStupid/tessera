@@ -49,6 +49,11 @@ The standalone web application is not a temporary console. It is the canonical
 guided product experience and must consume the same public management contracts
 available to managed operators and adapters.
 
+It is a Tessera-owned React, TypeScript and TanStack application served by the
+Tessera runtime. The same versioned feature module may later be composed into a
+host shell, but its routes, resources and behavior remain usable at Tessera's
+own origin.
+
 ## Deployment modes
 
 ### Standalone self-hosted
@@ -65,6 +70,17 @@ owners retain their own roles, recovery path, audit visibility and export path.
 Managed access is explicit, time-bounded and auditable; it is never silent
 impersonation.
 
+The first managed release supports two explicit isolation profiles:
+
+- **dedicated** — one Tessera runtime and logical PostgreSQL database for one
+  customer; databases may share a hardened PostgreSQL cluster; and
+- **community** — one Tessera deployment with multiple organization tenants,
+  invite-only onboarding and tenant-scoped authorization, caches, audit and
+  analytics.
+
+Both profiles run the same product build and IAM conformance suite. Community
+tenant owners cannot perform deployment-global operations.
+
 ### Embedded host integration
 
 After standalone promotion, a host product may mount the Tessera UI module and
@@ -80,14 +96,33 @@ remove any standalone IAM function.
 | Component | Requirement | Owner |
 |---|---|---|
 | PostgreSQL | required durable store | deployment operator |
+| ClickHouse | required OLAP projection for managed production; never identity truth | deployment operator through Tessera's analytics relay |
 | public DNS and TLS | required outside development | deployment operator |
 | SMTP or another notification transport | required before recovery is promoted | deployment operator through a Tessera adapter |
-| Vaultix | optional recommended secret custody | Vaultix; Tessera stores references |
+| Vaultix | required for managed production and optional for self-hosting | Vaultix; Tessera stores references |
 | Zuul | optional mesh and private-access integration | Zuul; Tessera owns identity and enrollment policy |
 | Shippin | optional commercial shell and ecosystem integration | Shippin adapter |
 
 No optional component may change the meaning of Tessera's core identity data or
 be required to recover a standalone owner.
+
+Tessera also ships a least-privilege deployment operator for its own rootless
+Podman resources. It owns preflight, initialization, backup, restore, upgrade
+and rollback for Tessera only; it is not a general infrastructure inventory or
+mesh controller.
+
+## Transactional and analytical data
+
+PostgreSQL is the only authority for identity, policy, configuration,
+operations and audit events. A transactional outbox projects redacted,
+tenant-scoped analytical facts into ClickHouse with event-id deduplication and
+resumable checkpoints. ClickHouse is rebuildable and never sits on an
+authentication or authorization request path. Its outage degrades analytics,
+not identity truth.
+
+The analytics API is Tessera-owned. Browsers and host integrations never query
+ClickHouse directly. Tokens, assertions, credentials, recovery material and
+secret values are forbidden from analytical facts.
 
 ## Security invariants
 
@@ -141,6 +176,16 @@ reproducible from a clean host:
 9. Demonstrate tenant isolation, least-privilege delegated administration,
    audit export and managed-access expiration.
 10. Pass Linux and Windows client conformance where a capability claims both.
+11. Pass the dedicated and community tenancy suites with identical IAM
+    behavior and no cross-tenant read, mutation, cache, invite or analytics
+    access.
+12. Rebuild ClickHouse projections from PostgreSQL audit/outbox truth and prove
+    that analytics loss never blocks authentication.
+
+The first managed customer also waits for outbound and inbound LDAP,
+forward-auth, the identity-aware proxy, visual-flow execution, Vaultix custody,
+backup/restore and upgrade conformance. Those capabilities may be reviewed in
+preview during development but cannot be promoted or used to waive this gate.
 
 The Shippin adapter and embedded shell are deliberately outside this gate. They
 begin only after the same build is operable as Tessera by itself.
