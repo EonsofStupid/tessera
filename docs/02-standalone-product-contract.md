@@ -42,6 +42,7 @@ configure, recover or operate Tessera.
 | Protocols | OIDC/OAuth 2.x, SAML and each promoted federation or directory profile with published metadata and conformance evidence |
 | Access edges | outbound/inbound LDAP, forward-auth and proxy capabilities promoted independently and failed closed when unavailable |
 | Automation | stable management API, CLI and declarative blueprints with idempotency and typed errors |
+| Operator intelligence | typed human/AI action discovery, semantic runtime events, JSON-guided teaching and privacy-safe optional replay |
 | Operations | health, readiness, metrics, structured logs, audit export, backup, restore, upgrade, rollback and key rotation |
 | Deployment | one signed OCI image tested rootless with Podman and through the supported orchestrator profile |
 
@@ -53,6 +54,11 @@ It is a Tessera-owned React, TypeScript and TanStack application served by the
 Tessera runtime. The same versioned feature module may later be composed into a
 host shell, but its routes, resources and behavior remain usable at Tessera's
 own origin.
+
+Every meaningful interaction uses the stable ids, semantic events and shared
+human/AI action grammar in `18-operator-interaction-contract.md`. Presentation
+may become more visual or animated without turning screen coordinates, display
+text or replay into an administrative API.
 
 ## Deployment modes
 
@@ -80,6 +86,11 @@ The first managed release supports two explicit isolation profiles:
 
 Both profiles run the same product build and IAM conformance suite. Community
 tenant owners cannot perform deployment-global operations.
+
+Product-owned storage, row-level security and local/central authority follow
+`19-tenancy-and-authority-contract.md`. Central management disables conflicting
+local writes explicitly; two control planes never become simultaneous sources
+of truth.
 
 ### Embedded host integration
 
@@ -181,6 +192,10 @@ reproducible from a clean host:
     access.
 12. Rebuild ClickHouse projections from PostgreSQL audit/outbox truth and prove
     that analytics loss never blocks authentication.
+13. Drive the same reviewed mutation through the browser and AI action surface,
+    then prove equivalent authorization, operation and audit evidence.
+14. Prove semantic-event and optional replay secret exclusion, tenant isolation,
+    retention deletion and central-authority behavior.
 
 The first managed customer also waits for outbound and inbound LDAP,
 forward-auth, the identity-aware proxy, visual-flow execution, Vaultix custody,

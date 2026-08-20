@@ -51,6 +51,22 @@ func TestStandaloneProductBoundaryIsAuthoritative(t *testing.T) {
 			"The first managed release supports two explicit isolation profiles",
 			"A transactional outbox projects redacted",
 			"The Shippin adapter and embedded shell are deliberately outside this gate.",
+			"semantic events and shared human/AI action grammar",
+			"two control planes never become simultaneous sources of truth",
+		},
+		"docs/18-operator-interaction-contract.md": {
+			"one operator model for humans, automation and dedicated AI specialists",
+			"pixels and DOM recordings are never the source of truth",
+			"AI may draft and explain. It cannot silently approve its own high-impact plan",
+		},
+		"docs/19-tenancy-and-authority-contract.md": {
+			"Every new Tessera-owned PostgreSQL table",
+			"Community mode uses PostgreSQL row-level security",
+			"Tessera never merges two simultaneous writers by last-write-wins",
+		},
+		"web/package.json": {
+			"@tessera/ui",
+			"@tanstack/react-router",
 		},
 	}
 
@@ -78,6 +94,8 @@ func TestPrimaryProductDocsDoNotDeclareShippinOwnership(t *testing.T) {
 		"docs/00-charter.md",
 		"docs/02-standalone-product-contract.md",
 		"docs/03-roadmap.md",
+		"docs/18-operator-interaction-contract.md",
+		"docs/19-tenancy-and-authority-contract.md",
 	}
 	forbidden := []string{
 		"Identity and authorization for the Shippin umbrella",
