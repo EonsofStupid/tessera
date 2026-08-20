@@ -60,4 +60,3 @@ it does not define Tessera's product limits.
 
 House rules: `../AGENTS.md` first, then `AGENTS.md` here. Tessera product law
 lives in this repository. Host-product documents govern only their adapters.
-

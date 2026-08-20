@@ -181,4 +181,4 @@ deployment supports.
 - protobuf lint and generation pass from tracked source;
 - the domain package imports no transport, database or inherited provider code;
 - source provenance classifies the new Tessera-owned protocol separately from
-  the inherited ZITADEL protocol tree.
+  the inherited compatibility protocol tree.

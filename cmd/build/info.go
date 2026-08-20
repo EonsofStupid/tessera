@@ -30,17 +30,17 @@ func init() {
 	}
 }
 
-// Version returns the current build version of Zitadel
+// Version returns the current build version of Tessera
 func Version() string {
 	return version
 }
 
-// Commit returns the git commit hash of the current build of Zitadel
+// Commit returns the git commit hash of the current build of Tessera
 func Commit() string {
 	return commit
 }
 
-// Date returns the build date of the current build of Zitadel
+// Date returns the build date of the current build of Tessera
 func Date() time.Time {
 	return dateTime
 }

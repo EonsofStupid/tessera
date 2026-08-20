@@ -2,7 +2,12 @@ package integration
 
 import (
 	"context"
-	_ "embed"
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
+	"fmt"
+	"os"
 	"sync"
 	"time"
 
@@ -14,12 +19,13 @@ import (
 	"github.com/EonsofStupid/tessera/pkg/grpc/system"
 )
 
-var (
-	//go:embed config/system-user-key.pem
-	systemUserKey []byte
-	//go:embed config/system-user-with-no-permissions.pem
-	systemUserWithNoPermissions []byte
-)
+var systemUserKey = sync.OnceValues(func() ([]byte, error) {
+	return integrationPrivateKey("TESSERA_INTEGRATION_SYSTEM_USER_KEY_FILE")
+})
+
+var systemUserWithNoPermissions = sync.OnceValues(func() ([]byte, error) {
+	return integrationPrivateKey("TESSERA_INTEGRATION_UNPRIVILEGED_KEY_FILE")
+})
 
 var (
 	// SystemClient creates a system connection once and reuses it on every use.
@@ -46,7 +52,11 @@ func systemClient() system.SystemServiceClient {
 func createSystemUserToken() string {
 	const ISSUER = "tester"
 	audience := http_util.BuildOrigin(loadedConfig.Host(), loadedConfig.Secure)
-	signer, err := client.NewSignerFromPrivateKeyByte(systemUserKey, "")
+	key, err := systemUserKey()
+	if err != nil {
+		panic(err)
+	}
+	signer, err := client.NewSignerFromPrivateKeyByte(key, "")
 	if err != nil {
 		panic(err)
 	}
@@ -60,7 +70,11 @@ func createSystemUserToken() string {
 func createSystemUserWithNoPermissionsToken() string {
 	const ISSUER = "system-user-with-no-permissions"
 	audience := http_util.BuildOrigin(loadedConfig.Host(), loadedConfig.Secure)
-	signer, err := client.NewSignerFromPrivateKeyByte(systemUserWithNoPermissions, "")
+	key, err := systemUserWithNoPermissions()
+	if err != nil {
+		panic(err)
+	}
+	signer, err := client.NewSignerFromPrivateKeyByte(key, "")
 	if err != nil {
 		panic(err)
 	}
@@ -69,6 +83,25 @@ func createSystemUserWithNoPermissionsToken() string {
 		panic(err)
 	}
 	return token
+}
+
+func integrationPrivateKey(environmentName string) ([]byte, error) {
+	if path := os.Getenv(environmentName); path != "" {
+		key, err := os.ReadFile(path)
+		if err != nil {
+			return nil, fmt.Errorf("read integration key from %s: %w", environmentName, err)
+		}
+		return key, nil
+	}
+	key, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		return nil, fmt.Errorf("generate integration signing fixture: %w", err)
+	}
+	encoded, err := x509.MarshalPKCS8PrivateKey(key)
+	if err != nil {
+		return nil, fmt.Errorf("encode integration signing fixture: %w", err)
+	}
+	return pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: encoded}), nil
 }
 
 func WithSystemAuthorization(ctx context.Context) context.Context {

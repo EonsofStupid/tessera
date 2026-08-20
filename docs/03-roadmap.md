@@ -132,4 +132,3 @@ by P3.9.
 The first managed customer is not invited until P4.7 passes. Shippin UI work
 starts at P6.3, after Tessera has already proven itself as the product being
 integrated.
-

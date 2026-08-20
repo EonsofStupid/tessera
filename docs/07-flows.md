@@ -9,7 +9,7 @@ is ours, in Go, over `backend/v1`.
 An ordered set of stages, declared as a blueprint, executed one challenge at a
 time. The client — panel, CLI, curl — receives a component-tagged JSON
 challenge, answers it, and gets the next one, until the flow completes into a
-Zitadel session with every answered factor checked. Identity, MFA and recovery
+Tessera session with every answered factor checked. Identity, MFA and recovery
 stop being three code paths and become three YAML files.
 
 ```
@@ -22,7 +22,7 @@ POST /flows/v1/executions/{execution_id}   → next challenge | { session_id, �
 **Stages delegate; they never verify.** The password stage drives
 `command.CheckPassword`, TOTP drives `CheckTOTP`, recovery codes drive
 `CheckRecoveryCode` — the same `SessionCommand`s the session v2 API uses. The
-flow engine owns *sequence*; Zitadel's command layer owns *truth*. A stage
+flow engine owns *sequence*; Tessera's command layer owns *truth*. A stage
 that reimplemented password hashing would be a second implementation
 authority, which is the exact thing this repository exists to prevent.
 

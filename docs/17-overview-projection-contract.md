@@ -14,7 +14,9 @@ billing policy, credentials or raw audit payloads.
 The browser never calls this endpoint directly. Shippin authenticates the
 member, checks product entitlement and calls Tessera with a protected
 server-side credential. Tessera separately requires
-`tessera:overview:read`. Missing authentication is typed `401`; missing
+`tessera.overview.read`. Management permissions use dot-separated action
+names because a colon is reserved for an optional resource context suffix.
+Missing authentication is typed `401`; missing
 permission is typed `403` and names that permission.
 
 ## Wire response
@@ -105,7 +107,7 @@ typed `503`; `401` and `403` pass through their stable structured meaning.
 
 - domain validation rejects an incomplete or falsely-ready overview;
 - a storage-backed source reports seats, attachments, flows and policy facts;
-- the HTTP handler enforces `tessera:overview:read` and emits typed failures;
+- the HTTP handler enforces `tessera.overview.read` and emits typed failures;
 - the running Tessera router owns `/tessera/v1/overview`;
 - Shippin adapter fixtures and a live Tessera handler satisfy the same mapping
   tests without changing the panel component model.

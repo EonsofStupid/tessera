@@ -755,7 +755,7 @@ func startAPIs(
 			tessera_management_api.NewTesseraAuthorizer(verifier, config.SystemAuthZ, config.InternalAuthZ),
 			func(ctx context.Context) string { return internal_authz.GetInstance(ctx).InstanceID() },
 			oidcServer.IssuerFromRequest,
-		),
+		).WithCapabilities(tessera_management.NewCapabilityService(time.Now)),
 	))
 
 	samlProvider, err := saml.NewProvider(

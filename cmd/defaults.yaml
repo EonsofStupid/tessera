@@ -1,5 +1,5 @@
 Instrumentation:
-  ServiceName: "zitadel" # TESSERA_INSTRUMENTATION_SERVICENAME
+  ServiceName: "tessera" # TESSERA_INSTRUMENTATION_SERVICENAME
   Trace:
     Fraction: 1.0 # TESSERA_INSTRUMENTATION_TRACE_FRACTION
     # Trust incoming trace context from remote services for distributed tracing.
@@ -51,7 +51,7 @@ Instrumentation:
     # Streams enable logging for specific parts of the application.
     Streams: # TESSERA_INSTRUMENTATION_LOG_STREAMS (comma separated list)
       - runtime # General runtime logs, such as startup and shutdown messages.
-      - ready # Logs related to readiness and health checks. (zitadel ready command)
+      - ready # Logs related to readiness and health checks. (tessera ready command)
       - request # Logs for incoming API and HTTP requests.
       - event_handler # Logs for event handling in projections.
       - queue # Logs for the job queue processing.
@@ -133,7 +133,7 @@ Tracing:
   # for type 'otel' is used for standard [open telemetry](https://opentelemetry.io)
   # Fraction: 1.0
   # Endpoint: 'otel.collector.endpoint'
-  # ServiceName: 'ZITADEL' # Name of the service in traces
+  # ServiceName: 'Tessera' # Name of the service in traces
   #
   # type 'log' or '' disables tracing
   #
@@ -145,7 +145,7 @@ Tracing:
   # The endpoint of the otel collector endpoint
   Endpoint: "" #TESSERA_TRACING_ENDPOINT
   # The name of the service in traces
-  ServiceName: "ZITADEL" #TESSERA_TRACING_SERVICENAME
+  ServiceName: "Tessera" #TESSERA_TRACING_SERVICENAME
 
 # Profiler enables capturing profiling data (CPU, Memory, ...) for performance analysis
 Profiler:
@@ -160,13 +160,13 @@ Profiler:
   ProjectID: ''  # TESSERA_PROFILER_PROJECTID
 
 Telemetry:
-  # As long as Enabled is true, ZITADEL tries to send usage data to the configured Telemetry.Endpoints.
-  # Data is projected by ZITADEL even if Enabled is false.
-  # This means that switching this to true makes ZITADEL try to send past data.
+  # As long as Enabled is true, Tessera tries to send usage data to the configured Telemetry.Endpoints.
+  # Data is projected by Tessera even if Enabled is false.
+  # This means that switching this to true makes Tessera try to send past data.
   Enabled: false # TESSERA_TELEMETRY_ENABLED
   # Push telemetry data to all these endpoints at least once using an HTTP POST request.
   # If one endpoint returns an unsuccessful response code or times out,
-  # ZITADEL retries to push the data point to all configured endpoints until it succeeds.
+  # Tessera retries to push the data point to all configured endpoints until it succeeds.
   # Configure delivery guarantees and intervals in the section Projections.Customizations.Telemetry
   # The endpoints can be reconfigured at runtime.
   # Ten redirects are followed.
@@ -184,20 +184,20 @@ Telemetry:
   # The maximum number of data points that are queried before they are sent to the configured endpoints.
   Limit: 100 # TESSERA_TELEMETRY_LIMIT
 
-# Port ZITADEL will listen on
+# Port Tessera will listen on
 Port: 8080 # TESSERA_PORT
-# ExternalPort is the port on which end users access ZITADEL.
-# It can differ from Port e.g. if a reverse proxy forwards the traffic to ZITADEL
-# Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
+# ExternalPort is the port on which end users access Tessera.
+# It can differ from Port e.g. if a reverse proxy forwards the traffic to Tessera
+# See the Tessera ingress contract in docs/10-container-runtime.md.
 ExternalPort: 8080 # TESSERA_EXTERNALPORT
-# ExternalDomain is the domain on which end users access ZITADEL.
-# Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
+# ExternalDomain is the domain on which end users access Tessera.
+# See the Tessera ingress contract in docs/10-container-runtime.md.
 ExternalDomain: localhost # TESSERA_EXTERNALDOMAIN
-# ExternalSecure specifies if ZITADEL is exposed externally using HTTPS or HTTP.
-# Read more about external access: https://zitadel.com/docs/self-hosting/manage/custom-domain
+# ExternalSecure specifies if Tessera is exposed externally using HTTPS or HTTP.
+# See the Tessera ingress contract in docs/10-container-runtime.md.
 ExternalSecure: true # TESSERA_EXTERNALSECURE
 TLS:
-  # If enabled, ZITADEL will serve all traffic over TLS (HTTPS and gRPC)
+  # If enabled, Tessera will serve all traffic over TLS (HTTPS and gRPC)
   # you must then also provide a private key and certificate to be used for the connection
   # either directly or by a path to the corresponding file
   Enabled: true # TESSERA_TLS_ENABLED
@@ -229,7 +229,7 @@ InstanceHostHeaders: # TESSERA_INSTANCEHOSTHEADERS
 PublicHostHeaders: # TESSERA_PUBLICHOSTHEADERS
   - "x-zitadel-public-host"
 
-WebAuthNName: ZITADEL # TESSERA_WEBAUTHNNAME
+WebAuthNName: Tessera # TESSERA_WEBAUTHNNAME
 
 # Tessera — a blueprint directory applied to every instance on every start.
 # Declared identity state from reviewed files; empty means off.
@@ -240,21 +240,21 @@ Blueprints:
   Dir: # TESSERA_BLUEPRINTS_DIR
 
 Database:
-  # Postgres is the default database of ZITADEL
+  # Postgres is the default database of Tessera
   postgres:
     # DSN is a full PostgreSQL connection URL (see
     # https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING).
     # When set, individual connection fields (Host, Port, Database, User, Admin,
     # Options) are ignored.
     # Format: postgresql://user:password@host:port/dbname?sslmode=disable
-    # Note: In DSN mode, zitadel init cannot use the Admin connection to create
+    # Note: In DSN mode, tessera init cannot use the Admin connection to create
     # a separate target database/user. The DB and user from the DSN must already
     # exist and have sufficient privileges, or the DSN must directly point to
-    # the final ZITADEL database.
+    # the final Tessera database.
     DSN: "" # TESSERA_DATABASE_POSTGRES_DSN
     Host: localhost # TESSERA_DATABASE_POSTGRES_HOST
     Port: 5432 # TESSERA_DATABASE_POSTGRES_PORT
-    Database: zitadel # TESSERA_DATABASE_POSTGRES_DATABASE
+    Database: tessera # TESSERA_DATABASE_POSTGRES_DATABASE
     AwaitInitialConn: 0m # TESSERA_DATABASE_POSTGRES_AWAITINITIALCONN
     MaxOpenConns: 10 # TESSERA_DATABASE_POSTGRES_MAXOPENCONNS
     MaxIdleConns: 5 # TESSERA_DATABASE_POSTGRES_MAXIDLECONNS
@@ -262,7 +262,7 @@ Database:
     MaxConnIdleTime: 5m # TESSERA_DATABASE_POSTGRES_MAXCONNIDLETIME
     Options: "" # TESSERA_DATABASE_POSTGRES_OPTIONS
     User:
-      Username: zitadel # TESSERA_DATABASE_POSTGRES_USER_USERNAME
+      Username: tessera # TESSERA_DATABASE_POSTGRES_USER_USERNAME
       Password: "" # TESSERA_DATABASE_POSTGRES_USER_PASSWORD
       SSL:
         Mode: disable # TESSERA_DATABASE_POSTGRES_USER_SSL_MODE
@@ -272,7 +272,7 @@ Database:
     Admin:
       # By default, ExistingDatabase is not specified in the connection string
       # If the connection resolves to a database that is not existing in your system, configure an existing one here
-      # It is used in zitadel init to connect to postgres and create a dedicated database for ZITADEL.
+      # It is used in tessera init to connect to postgres and create a dedicated database for Tessera.
       ExistingDatabase: # TESSERA_DATABASE_POSTGRES_ADMIN_EXISTINGDATABASE
       Username: postgres # TESSERA_DATABASE_POSTGRES_ADMIN_USERNAME
       Password: postgres # TESSERA_DATABASE_POSTGRES_ADMIN_PASSWORD
@@ -313,7 +313,7 @@ Caches:
       # (Addr, Username, Password, Network, EnableTLS) are ignored.
       # Pool, timeout, retry, and circuit breaker settings can still be used as overlays.
       # Format: redis://user:password@host:port/db or rediss://... for TLS.
-      # Note: ZITADEL ignores the `/db` path when selecting Redis databases; DBs are chosen
+      # Note: Tessera ignores the `/db` path when selecting Redis databases; DBs are chosen
       # internally via DBOffset + purpose. Use `/0` in the URL to avoid confusion.
       URL: "" # TESSERA_CACHES_CONNECTORS_REDIS_URL
       # The network type, either tcp or unix.
@@ -332,9 +332,9 @@ Caches:
       # or the User Password when connecting to a Redis 6.0 instance, or greater,
       # that is using the Redis ACL system.
       Password: ""
-      # Each ZITADEL cache uses an incremental DB namespace.
+      # Each Tessera cache uses an incremental DB namespace.
       # This option offsets the first DB so it doesn't conflict with other databases on the same server.
-      # Note that ZITADEL uses FLUSHDB command to truncate a cache.
+      # Note that Tessera uses FLUSHDB command to truncate a cache.
       # This can have destructive consequences when overlapping DB namespaces are used.
       DBOffset: 10
       # Maximum number of retries before giving up.
@@ -636,7 +636,7 @@ Admin:
     FailureCountUntilSkip: 5
 
 UserAgentCookie:
-  Name: zitadel.useragent # TESSERA_USERAGENTCOOKIE_NAME
+  Name: tessera.useragent # TESSERA_USERAGENTCOOKIE_NAME
   # 8760h are 365 days, one year
   MaxAge: 8760h # TESSERA_USERAGENTCOOKIE_MAXAGE
 
@@ -725,20 +725,20 @@ SAML:
       WantAuthRequestsSigned: true # TESSERA_SAML_PROVIDERCONFIG_IDPCONFIG_WANTAUTHREQUESTSSIGNED
       Endpoints:
     #Organisation:
-    #  Name: ZITADEL # TESSERA_SAML_PROVIDERCONFIG_ORGANISATION_NAME
-    #  URL: https://zitadel.com # TESSERA_SAML_PROVIDERCONFIG_ORGANISATION_URL
+    #  Name: Tessera # TESSERA_SAML_PROVIDERCONFIG_ORGANISATION_NAME
+    #  URL: https://shippin.ai # TESSERA_SAML_PROVIDERCONFIG_ORGANISATION_URL
     #ContactPerson:
     #  ContactType: "technical" # TESSERA_SAML_PROVIDERCONFIG_CONTACTPERSON_CONTACTTYPE
-    #  Company: ZITADEL # TESSERA_SAML_PROVIDERCONFIG_CONTACTPERSON_COMPANY
-    #  EmailAddress: hi@zitadel.com # TESSERA_SAML_PROVIDERCONFIG_CONTACTPERSON_EMAILADDRESS
+    #  Company: Tessera # TESSERA_SAML_PROVIDERCONFIG_CONTACTPERSON_COMPANY
+    #  EmailAddress: identity@shippin.ai # TESSERA_SAML_PROVIDERCONFIG_CONTACTPERSON_EMAILADDRESS
 
 SCIM:
-  DocumentationUrl: https://zitadel.com/docs/guides/manage/user/scim2
+  DocumentationUrl: https://shippin.ai/docs/tessera/scim
   AuthenticationSchemes:
-    - Name: Zitadel authentication token
+    - Name: Tessera authentication token
       Description: Authentication scheme using the OAuth Bearer Token Standard
       SpecUri: https://www.rfc-editor.org/info/rfc6750
-      DocumentationUri: https://zitadel.com/docs/guides/integrate/service-accounts/authenticate-service-accounts
+      DocumentationUri: https://shippin.ai/docs/tessera/service-identities
       Type: oauthbearertoken
   # default values whether an email/phone is considered verified when a users email/phone is created or updated
   EmailVerified: true # TESSERA_SCIM_EMAILVERIFIED
@@ -748,8 +748,8 @@ SCIM:
     MaxOperationsCount: 100 # TESSERA_SCIM_BULK_MAXOPERATIONSCOUNT
 
 Login:
-  LanguageCookieName: zitadel.login.lang # TESSERA_LOGIN_LANGUAGECOOKIENAME
-  CSRFCookieName: zitadel.login.csrf # TESSERA_LOGIN_CSRFCOOKIENAME
+  LanguageCookieName: tessera.login.lang # TESSERA_LOGIN_LANGUAGECOOKIENAME
+  CSRFCookieName: tessera.login.csrf # TESSERA_LOGIN_CSRFCOOKIENAME
   Cache:
     MaxAge: 12h # TESSERA_LOGIN_CACHE_MAXAGE
     # 168h is 7 days, one week
@@ -788,16 +788,16 @@ EncryptionKeys:
     EncryptionKeyID: "idpConfigKey" # TESSERA_ENCRYPTIONKEYS_IDPCONFIG_ENCRYPTIONKEYID
     DecryptionKeyIDs: # TESSERA_ENCRYPTIONKEYS_IDPCONFIG_DECRYPTIONKEYIDS (comma separated list)
   OIDC:
-    # Accept opaque tokens (access, session, refresh tokens, PATs etc) created by older ZITADEL versions.
+    # Accept opaque tokens (access, session, refresh tokens, PATs etc) created by older Tessera versions.
     # Legacy tokens are vulnerable to certain crypto attacks,
     # so this should only be enabled during a migration and disabled afterwards.
-    # After upgrading ZITADEL, new values will use authenticated encryption.
+    # After upgrading Tessera, new values will use authenticated encryption.
     # When this option is enabled tokens emitted from before the upgrade will still be accepted until they expire,
     # allowing gradual rollout of new tokens.
-    # This allows upgrading ZITADEL without forcing logout of all users (and invalidating all PATs)
+    # This allows upgrading Tessera without forcing logout of all users (and invalidating all PATs)
     # This option should be disabled as soon as all tokens have been replaced and PATs rotated.
-    # Note: older versions of ZITADEL aren't able to verify newer tokens.
-    # Downgrading ZITADEL will always logout all users that obtained a token after the upgrade.
+    # Note: older versions of Tessera aren't able to verify newer tokens.
+    # Downgrading Tessera will always logout all users that obtained a token after the upgrade.
     LegacyToken: true # TESSERA_ENCRYPTIONKEYS_OIDC_LEGACYTOKEN
     EncryptionKeyID: "oidcKey" # TESSERA_ENCRYPTIONKEYS_OIDC_ENCRYPTIONKEYID
     DecryptionKeyIDs: # TESSERA_ENCRYPTIONKEYS_OIDC_DECRYPTIONKEYIDS (comma separated list)
@@ -1002,8 +1002,8 @@ SystemDefaults:
   Multifactors:
     OTP:
       # If this is empty, the issuer is the requested domain
-      # This is helpful in scenarios with multiple ZITADEL environments or virtual instances
-      Issuer: "ZITADEL" # TESSERA_SYSTEMDEFAULTS_MULTIFACTORS_OTP_ISSUER
+      # This is helpful in scenarios with multiple Tessera environments or virtual instances
+      Issuer: "Tessera" # TESSERA_SYSTEMDEFAULTS_MULTIFACTORS_OTP_ISSUER
     RecoveryCodes:
       # The maximum number of recovery codes that a user can hold at any given time
       MaxCount: 10 # TESSERA_SYSTEMDEFAULTS_MULTIFACTORS_RECOVERYCODES_MAXCOUNT
@@ -1069,7 +1069,7 @@ Quotas:
     Debounce:
       MinFrequency: 0s # TESSERA_QUOTAS_ACCESS_DEBOUNCE_MINFREQUENCY
       MaxBulkSize: 0 # TESSERA_QUOTAS_ACCESS_DEBOUNCE_MAXBULKSIZE
-    ExhaustedCookieKey: "zitadel.quota.exhausted" # TESSERA_QUOTAS_ACCESS_EXHAUSTEDCOOKIEKEY
+    ExhaustedCookieKey: "tessera.quota.exhausted" # TESSERA_QUOTAS_ACCESS_EXHAUSTEDCOOKIEKEY
     ExhaustedCookieMaxAge: "300s" # TESSERA_QUOTAS_ACCESS_EXHAUSTEDCOOKIEMAXAGE
   Execution:
     # If enabled, all action executions are counted and potentially limited depending on the configured quota of the instance
@@ -1089,7 +1089,7 @@ Eventstore:
   # more, which can degrade read performance on large instances. Enabling
   # this replaces the scale factors with static thresholds, so vacuum and
   # analyze keep running at a predictable cadence regardless of table size.
-  # Settings are (re-)applied to the table as a repeatable step during `zitadel setup`.
+  # Settings are (re-)applied to the table as a repeatable step during `tessera setup`.
   Autovacuum:
     # If enabled, the thresholds below are applied to the eventstore.events2 table
     # and the default, percentage-based autovacuum scale factors are disabled.
@@ -1134,23 +1134,23 @@ HTTPClient:
     - "fe80::/10"       # Link-local addresses / IPv6 equivalent to cloud metadata subnets
 
 # The DefaultInstance section defines the default values for each new virtual instance that is created.
-# Check out https://zitadel.com/docs/concepts/structure/instance#multiple-virtual-instances for more information about virtual instances.
+# See docs/08-control-surface-and-federation.md for virtual-instance boundaries.
 # For the initial setup, the default values are used to create the first instance.
 # However, you might want to have your first instance created by the setup job to have a different configuration.
 # To overwrite the default values for the initial setup, configure the FirstInstance yaml section and pass it using the --steps flag.
 DefaultInstance:
-  InstanceName: ZITADEL # TESSERA_DEFAULTINSTANCE_INSTANCENAME
+  InstanceName: Tessera # TESSERA_DEFAULTINSTANCE_INSTANCENAME
   DefaultLanguage: en # TESSERA_DEFAULTINSTANCE_DEFAULTLANGUAGE
   Org:
-    Name: ZITADEL # TESSERA_DEFAULTINSTANCE_ORG_NAME
+    Name: Tessera # TESSERA_DEFAULTINSTANCE_ORG_NAME
     # In the DefaultInstance.Org.Human section, the initial organization's admin user with the role IAM_OWNER is defined.
     # If DefaultInstance.Org.Machine.Machine is defined, a service account is created with the IAM_OWNER role.
     Human:
       # In case that UserLoginMustBeDomain is false (default) and if you don't overwrite the username with an email,
       # it will be suffixed by the Organization Domain (org-name + domain from config).
-      # for example zitadel-admin in org `My Org` on domain.tld -> zitadel-admin@my-org.domain.tld
-      UserName: zitadel-admin # TESSERA_DEFAULTINSTANCE_ORG_HUMAN_USERNAME
-      FirstName: ZITADEL # TESSERA_DEFAULTINSTANCE_ORG_HUMAN_FIRSTNAME
+      # for example tessera-admin in org `My Org` on domain.tld -> tessera-admin@my-org.domain.tld
+      UserName: tessera-admin # TESSERA_DEFAULTINSTANCE_ORG_HUMAN_USERNAME
+      FirstName: Tessera # TESSERA_DEFAULTINSTANCE_ORG_HUMAN_FIRSTNAME
       LastName: Admin # TESSERA_DEFAULTINSTANCE_ORG_HUMAN_LASTNAME
       NickName: # TESSERA_DEFAULTINSTANCE_ORG_HUMAN_NICKNAME
       DisplayName: # TESSERA_DEFAULTINSTANCE_ORG_HUMAN_DISPLAYNAME
@@ -1297,7 +1297,7 @@ DefaultInstance:
     PrivacyLink: "" # TESSERA_DEFAULTINSTANCE_PRIVACYPOLICY_PRIVACYLINK
     HelpLink: "" # TESSERA_DEFAULTINSTANCE_PRIVACYPOLICY_HELPLINK
     SupportEmail: "" # TESSERA_DEFAULTINSTANCE_PRIVACYPOLICY_SUPPORTEMAIL
-    DocsLink: https://zitadel.com/docs # TESSERA_DEFAULTINSTANCE_PRIVACYPOLICY_DOCSLINK
+    DocsLink: https://shippin.ai/docs/tessera # TESSERA_DEFAULTINSTANCE_PRIVACYPOLICY_DOCSLINK
     CustomLink: "" # TESSERA_DEFAULTINSTANCE_PRIVACYPOLICY_CUSTOMLINK
     CustomLinkText: "" # TESSERA_DEFAULTINSTANCE_PRIVACYPOLICY_CUSTOMLINKTEXT
   NotificationPolicy:
@@ -1361,15 +1361,15 @@ DefaultInstance:
   MessageTexts:
     - MessageTextType: InitCode
       Language: de
-      Title: Zitadel - User initialisieren
+      Title: Tessera - User initialisieren
       PreHeader: User initialisieren
       Subject: User initialisieren
       Greeting: Hallo {{.DisplayName}},
-      Text: Dieser Benutzer wurde soeben im Zitadel erstellt. Mit dem Benutzernamen <br><strong>{{.PreferredLoginName}}</strong><br> kannst du dich anmelden. Nutze den untenstehenden Button, um die Initialisierung abzuschliessen <br>(Code <strong>{{.Code}}</strong>).<br> Falls du dieses Mail nicht angefordert hast, kannst du es einfach ignorieren.
+      Text: Dieser Benutzer wurde soeben im Tessera erstellt. Mit dem Benutzernamen <br><strong>{{.PreferredLoginName}}</strong><br> kannst du dich anmelden. Nutze den untenstehenden Button, um die Initialisierung abzuschliessen <br>(Code <strong>{{.Code}}</strong>).<br> Falls du dieses Mail nicht angefordert hast, kannst du es einfach ignorieren.
       ButtonText: Initialisierung abschliessen
     - MessageTextType: PasswordReset
       Language: de
-      Title: Zitadel - Passwort zurücksetzen
+      Title: Tessera - Passwort zurücksetzen
       PreHeader: Passwort zurücksetzen
       Subject: Passwort zurücksetzen
       Greeting: Hallo {{.DisplayName}},
@@ -1377,7 +1377,7 @@ DefaultInstance:
       ButtonText: Passwort zurücksetzen
     - MessageTextType: VerifyEmail
       Language: de
-      Title: Zitadel - Email verifizieren
+      Title: Tessera - Email verifizieren
       PreHeader: Email verifizieren
       Subject: Email verifizieren
       Greeting: Hallo {{.DisplayName}},
@@ -1385,7 +1385,7 @@ DefaultInstance:
       ButtonText: Email verifizieren
     - MessageTextType: VerifyPhone
       Language: de
-      Title: Zitadel - Telefonnummer verifizieren
+      Title: Tessera - Telefonnummer verifizieren
       PreHeader: Telefonnummer verifizieren
       Subject: Telefonnummer verifizieren
       Greeting: Hallo {{.DisplayName}},
@@ -1393,7 +1393,7 @@ DefaultInstance:
       ButtonText: Telefon verifizieren
     - MessageTextType: DomainClaimed
       Language: de
-      Title: Zitadel - Domain wurde beansprucht
+      Title: Tessera - Domain wurde beansprucht
       PreHeader: Email / Username ändern
       Subject: Domain wurde beansprucht
       Greeting: Hallo {{.DisplayName}},
@@ -1401,7 +1401,7 @@ DefaultInstance:
       ButtonText: Login
     - MessageTextType: PasswordChange
       Language: de
-      Title: ZITADEL - Passwort von Benutzer wurde geändert
+      Title: Tessera - Passwort von Benutzer wurde geändert
       PreHeader: Passwort Änderung
       Subject: Passwort von Benutzer wurde geändert
       Greeting: Hallo {{.DisplayName}},
@@ -1409,15 +1409,15 @@ DefaultInstance:
       ButtonText: Login
     - MessageTextType: InitCode
       Language: en
-      Title: Zitadel - Initialize User
+      Title: Tessera - Initialize User
       PreHeader: Initialize User
       Subject: Initialize User
       Greeting: Hello {{.DisplayName}},
-      Text: This user was created in Zitadel. Use the username {{.PreferredLoginName}} to login. Please click the button below to finish the initialization process. (Code {{.Code}}) If you didn't ask for this mail, please ignore it.
+      Text: This user was created in Tessera. Use the username {{.PreferredLoginName}} to login. Please click the button below to finish the initialization process. (Code {{.Code}}) If you didn't ask for this mail, please ignore it.
       ButtonText: Finish initialization
     - MessageTextType: PasswordReset
       Language: en
-      Title: Zitadel - Reset password
+      Title: Tessera - Reset password
       PreHeader: Reset password
       Subject: Reset password
       Greeting: Hello {{.DisplayName}},
@@ -1425,7 +1425,7 @@ DefaultInstance:
       ButtonText: Reset password
     - MessageTextType: VerifyEmail
       Language: en
-      Title: Zitadel - Verify email
+      Title: Tessera - Verify email
       PreHeader: Verify email
       Subject: Verify email
       Greeting: Hello {{.DisplayName}},
@@ -1433,7 +1433,7 @@ DefaultInstance:
       ButtonText: Verify email
     - MessageTextType: VerifyPhone
       Language: en
-      Title: Zitadel - Verify phone
+      Title: Tessera - Verify phone
       PreHeader: Verify phone
       Subject: Verify phone
       Greeting: Hello {{.DisplayName}},
@@ -1441,7 +1441,7 @@ DefaultInstance:
       ButtonText: Verify phone
     - MessageTextType: DomainClaimed
       Language: en
-      Title: Zitadel - Domain has been claimed
+      Title: Tessera - Domain has been claimed
       PreHeader: Change email/username
       Subject: Domain has been claimed
       Greeting: Hello {{.DisplayName}},
@@ -1449,7 +1449,7 @@ DefaultInstance:
       ButtonText: Login
     - MessageTextType: PasswordChange
       Language: en
-      Title: ZITADEL - Password of user has changed
+      Title: Tessera - Password of user has changed
       PreHeader: Change password
       Subject: Password of user has changed
       Greeting: Hello {{.DisplayName}},
@@ -1462,7 +1462,7 @@ DefaultInstance:
     LoginDefaultOrg: true # TESSERA_DEFAULTINSTANCE_FEATURES_LOGINDEFAULTORG
     UserSchema: # TESSERA_DEFAULTINSTANCE_FEATURES_USERSCHEMA
     ImprovedPerformance: # TESSERA_DEFAULTINSTANCE_FEATURES_IMPROVEDPERFORMANCE
-    # https://github.com/zitadel/zitadel/blob/main/internal/feature/feature.go#L64-L68
+    # Feature migration is documented in Tessera's release evidence.
     #   - 1 # OrgByID
     #   - 2 # ProjectGrant
     #   - 3 # Project
@@ -1486,7 +1486,7 @@ DefaultInstance:
     # /ui/console shows a message that the instance is blocked with a link to Console.InstanceManagementURL
     Block: # TESSERA_DEFAULTINSTANCE_LIMITS_BLOCK
   Restrictions:
-    # DisallowPublicOrgRegistration defines if ZITADEL should expose the endpoint /ui/login/register/org
+    # DisallowPublicOrgRegistration defines if Tessera should expose the endpoint /ui/login/register/org
     # If it is true, the endpoint returns the HTTP status 404 on GET requests, and 409 on POST requests.
     DisallowPublicOrgRegistration: # TESSERA_DEFAULTINSTANCE_RESTRICTIONS_DISALLOWPUBLICORGREGISTRATION
     # AllowedLanguages restricts the languages that can be used.
@@ -1499,7 +1499,7 @@ DefaultInstance:
     # The following unit types are supported
 
     # "requests.all.authenticated"
-    # The sum of all requests to the ZITADEL API with an authorization header,
+    # The sum of all requests to the Tessera API with an authorization header,
     # excluding the following exceptions
     # - Calls to the System API
     # - Calls that cause internal server errors
@@ -1519,10 +1519,10 @@ DefaultInstance:
 #        ResetInterval: 720h # 30 days
 #        # Amount defines the number of units for this quota
 #        Amount: 25000
-#        # Limit defines whether ZITADEL should block further authenticated requests when the configured amount is used.
+#        # Limit defines whether Tessera should block further authenticated requests when the configured amount is used.
 #        # If you not only want to block authenticated requests but also authentication itself, consider using the system APIs SetLimits method.
 #        Limit: false
-#        # Notifications are emitted by ZITADEL when certain quota percentages are reached
+#        # Notifications are emitted by Tessera when certain quota percentages are reached
 #        Notifications:
 #            # Percent defines the relative amount of used units, after which a notification should be emitted.
 #          - Percent: 100
@@ -1536,14 +1536,14 @@ DefaultInstance:
 # If an audit log retention is set using an instance limit, it will overwrite the system default.
 AuditLogRetention: 0s # TESSERA_AUDITLOGRETENTION
 
-# The ServicePing are periodic reports of analytics data and the usage of ZITADEL.
-# It is sent to a central endpoint to help us improve ZITADEL.
+# The ServicePing are periodic reports of analytics data and the usage of Tessera.
+# It is sent to a central endpoint to help us improve Tessera.
 # It's enabled by default, but you can opt out either completely or by disabling specific telemetry data.
 ServicePing:
   # By setting Enabled to false, the service ping is disabled completely.
-  Enabled: true # TESSERA_SERVICEPING_ENABLED
+  Enabled: false # TESSERA_SERVICEPING_ENABLED
   # The endpoint to which the reports are sent. The endpoint is used as a base path. Individual reports are sent to the endpoint with a specific path.
-  Endpoint: "https://zitadel.com/api/ping" # TESSERA_SERVICEPING_ENDPOINT
+  Endpoint: "https://shippin.ai/api/tessera/ping" # TESSERA_SERVICEPING_ENDPOINT
   # Interval at which the service ping is sent to the endpoint.
   # The interval is in the format of a cron expression.
   # By default, it is set to every daily.
@@ -1563,7 +1563,7 @@ ServicePing:
   # If you disable a feature, it will not be sent in the service ping.
   # Some features provide additional configuration options, if enabled.
   Telemetry:
-    # ResourceCount is a periodic report of the number of resources in ZITADEL.
+    # ResourceCount is a periodic report of the number of resources in Tessera.
     # This includes the number of users, organizations, projects, and other resources.
     ResourceCount:
       Enabled: true # TESSERA_SERVICEPING_TELEMETRY_RESOURCECOUNT_ENABLED
@@ -1579,7 +1579,7 @@ InternalAuthZ:
   # Beware that if you configure the RolePermissionMappings by environment variable, all the default RolePermissionMappings are lost.
   #
   # Warning: RolePermissionMappings are synhronized to the database.
-  # Changes here will only be applied after running `zitadel setup` or `zitadel start-from-setup`.
+  # Changes here will only be applied after running `tessera setup` or `tessera start-from-setup`.
   RolePermissionMappings:
     - Role: "SYSTEM_OWNER"
       Permissions:
@@ -1609,7 +1609,8 @@ InternalAuthZ:
         - "system.iam.member.read"
     - Role: "IAM_OWNER"
       Permissions:
-        - "tessera:overview:read"
+        - "tessera.overview.read"
+        - "tessera.capabilities.read"
         - "iam.read"
         - "iam.write"
         - "iam.policy.read"
@@ -1715,7 +1716,8 @@ InternalAuthZ:
         - "group.user.delete"
     - Role: "IAM_OWNER_VIEWER"
       Permissions:
-        - "tessera:overview:read"
+        - "tessera.overview.read"
+        - "tessera.capabilities.read"
         - "iam.read"
         - "iam.policy.read"
         - "iam.member.read"
@@ -2210,7 +2212,8 @@ SystemAuthZ:
         - "system.iam.member.read"
     - Role: "IAM_OWNER"
       Permissions:
-        - "tessera:overview:read"
+        - "tessera.overview.read"
+        - "tessera.capabilities.read"
         - "iam.read"
         - "iam.write"
         - "iam.policy.read"
@@ -2316,7 +2319,8 @@ SystemAuthZ:
         - "group.user.delete"
     - Role: "IAM_OWNER_VIEWER"
       Permissions:
-        - "tessera:overview:read"
+        - "tessera.overview.read"
+        - "tessera.capabilities.read"
         - "iam.read"
         - "iam.policy.read"
         - "iam.member.read"
@@ -2500,7 +2504,7 @@ SystemAuthZ:
 
 # If a new projection is introduced it will be prefilled during the setup process (if enabled)
 # This can prevent serving outdated data after a version upgrade, but might require a longer setup / upgrade process:
-# https://zitadel.com/docs/self-hosting/manage/updating_scaling
+# See docs/10-container-runtime.md for update and scaling policy.
 InitProjections:
   Enabled: true # TESSERA_INITPROJECTIONS_ENABLED
   RetryFailedAfter: 100ms # TESSERA_INITPROJECTIONS_RETRYFAILEDAFTER

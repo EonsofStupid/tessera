@@ -1,14 +1,14 @@
 // Package migration owns Tessera's schema.
 //
 // Its own schema (`tessera`), its own version table (`tessera.migrations`) and
-// its own sequence starting at one — deliberately separate from the `zitadel`
+// its own sequence starting at one — deliberately separate from the compatibility
 // schema next door, which belongs to `backend/v3` and is numbered 001–018 by
 // upstream. Sharing their series would mean our 019 colliding with their next
 // one on any future sync, and the collision would surface as a migration that
 // silently does not run.
 //
 // Ours run immediately after theirs (see the pool's Migrate), because our
-// tables carry foreign keys into `zitadel.users` and a foreign key to a table
+// tables carry foreign keys into compatibility-owned users and a foreign key to a table
 // that does not exist yet fails at apply time rather than at review time.
 package migration
 
