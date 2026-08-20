@@ -1,210 +1,128 @@
-# 03 — Roadmap: building Tessera from Zitadel and Authentik
+# 03 — Standalone product roadmap and worklist
 
-**Status:** build plan. Both trees are cloned under `upstream/`.
+**Status:** active. The release boundary is
+`02-standalone-product-contract.md`.
 
-Tessera is **built from** these two codebases, not operated alongside them.
-Nothing here deploys Authentik or Zitadel as a service; both are source we take
-from.
+## Ordering rule
 
-## The trunk is Zitadel
+Work proceeds in this order:
 
-`upstream/zitadel` — Go 1.25, `github.com/zitadel/zitadel`. It is the trunk
-because the architecture is the part worth having and because Go matches the
-rest of the estate (GoClyffy, and Authentik's own outposts).
+1. Tessera standalone product.
+2. Tessera managed-customer operation.
+3. Optional Vaultix and Zuul integrations.
+4. Shippin adapter and embedded shell.
 
-What we are here for, in `internal/`:
+An integration cannot close a standalone milestone. A Shippin screenshot is not
+evidence that Tessera is deployable; the same outcome must first work in
+Tessera's own UI and API with Shippin absent.
 
-| path | what it gives us |
-|---|---|
-| `eventstore/` | the ledger: aggregates, events, push/query, `read_model.go`, the `handler/` projection machinery |
-| `command/` | the write side — how an intent becomes events |
-| `query/` | the read side, built from projections |
-| `org/`, `project/`, `iam/` | Instance → Organization → Project, the tenancy model |
-| `api/` | gRPC + REST surface, and `authz/` behind it |
-| `crypto/`, `id/`, `migration/` | key handling, id generation, schema migration |
-| `idp/` | upstream identity provider federation |
+## Evidence labels
 
+- **Done:** implemented and its stated proof passes on this repository branch.
+- **Active:** implementation exists but the milestone's full real-target or
+  operational proof is incomplete.
+- **Planned:** contract or design only.
+- **Blocked:** an external estate is required and the exact evidence is named.
 
-## The infrastructure is Authentik's — and most of it is Go too
+Capabilities remain `preview` unless their promotion row is Done.
 
-`upstream/authentik` — Go 1.26 module `goauthentik.io` **plus** a Django core.
-The split matters, and it is better than it looks: the parts we want are mostly
-Go and portable directly.
+## Foundation already proved
 
-| path | language | what it gives us |
+| Work | Status | Evidence |
 |---|---|---|
-| `internal/outpost/proxyv2/` | **Go** | forward-auth proxy, session store, handlers — 150 Go files under `internal/` |
-| `internal/outpost/ldap/`, `radius/`, `rac/` | **Go** | protocol frontends for things that will never speak OIDC |
-| `blueprints/` + `schema.json` | **YAML/JSON** | declarative config as data — language-neutral, lift as-is |
-| `authentik/flows/` | Python | the flow/stage *model* (`planner.py`, `challenge.py`, `markers.py`) — ported, not copied |
+| Tessera module builds from this repository | Done | generated source and Go build path |
+| Asymmetric Shippin seat-token profile | Done | Tessera mint plus Automaton verifier negative tests |
+| Tessera seat storage and CLI | Done | repository and mint-path tests |
+| Declarative blueprints | Done | validation, idempotent apply and PostgreSQL atomicity proof |
+| Configured authentication flows | Done | password, MFA and recovery configurations use one executor; negative input fails closed |
 
-So: Go core from Zitadel, Go outposts from Authentik, YAML blueprint schema
-lifted whole, and one Python subsystem (the flow engine) that gets reimplemented
-in Go because it is a model rather than a library.
+These proofs are valuable but do not satisfy the standalone release gate.
 
-## Phases
+## P0 — Correct the product boundary
 
-### Phase 1 — the code is ours ✅
+| ID | Work | Status | Acceptance |
+|---|---|---|---|
+| P0.1 | Make Tessera standalone product law authoritative | Done | charter, agent rules and README forbid a Shippin runtime dependency |
+| P0.2 | Preserve the seat token as an optional integration profile | Done | Automaton contract remains versioned and unchanged on the wire |
+| P0.3 | Inventory host-product assumptions in code, config, docs and UI | Planned | every assumption is removed, made generic or isolated in an adapter package |
+| P0.4 | Establish product-language and dependency-boundary tests | Active | primary product-document regression test passes; UI/config and adapter-import checks remain |
 
-Done. `internal/`, `pkg/`, `cmd/`, `backend/`, `proto/` and `main.go` are in
-this repository under `github.com/EonsofStupid/tessera`, and it builds.
+## P1 — Standalone deployment
 
-Still to strip, when it stops being useful rather than on principle: the console
-UI, the login-v1 assets, the SaaS onboarding and billing paths.
+| ID | Work | Depends on | Acceptance |
+|---|---|---|---|
+| P1.1 | Produce minimal signed OCI image | P0.3 | image runs non-root, contains no shell or credentials, and exposes version/provenance |
+| P1.2 | Define `TESSERA_*` configuration contract | P0.3 | fresh deployment uses no inherited or host-product variable names |
+| P1.3 | Implement read-only preflight | P1.2 | runtime, PostgreSQL, DNS/TLS, ports, storage and notification failures return typed remediation |
+| P1.4 | Implement idempotent initialize/start lifecycle | P1.3 | interrupted initialization resumes safely and repeated start changes nothing |
+| P1.5 | Ship rootless Podman artifacts | P1.1–P1.4 | clean Linux host reaches readiness without Shippin, Zuul or Vaultix |
+| P1.6 | Ship orchestrator profile | P1.5 | the same image and conformance suite pass without a second behavior path |
 
-### Phase 2 — it mints `shippin.seat-token.v1` ✅
+## P2 — Canonical Tessera experience
 
-Done. Tessera mints seat tokens and Automaton's own verifier accepts them.
+| ID | Work | Depends on | Acceptance |
+|---|---|---|---|
+| P2.1 | Define versioned management resources and typed errors | P0 | UI, CLI and external clients share fixtures and authorization semantics |
+| P2.2 | Build standalone shell and navigation | P2.1 | direct Tessera URL exposes Start, Directory, Applications, Federation, Access, Flows, Security, Audit and Settings |
+| P2.3 | Build guided first-owner enrollment | P1.4, P2.2 | owner enrolls passkey/MFA and exports independent recovery; resume is tested |
+| P2.4 | Build guided organization and application setup | P2.1–P2.3 | a new operator completes first OIDC application without protocol jargon |
+| P2.5 | Build end-user account and security surface | P2.1 | profile, factors, sessions, consent and recovery are usable without admin access |
+| P2.6 | Add capability discovery | P2.1 | UI shows unsupported/preview/operational/degraded from server evidence only |
 
-- `backend/v1/domain` holds the claim set and the rules, with no OIDC import —
-  so "`unknown` is never promoted" and "`aud` names exactly one workspace" are
-  unit tests rather than integration hopes.
-- `internal/api/oidc/seat_claims.go` gathers the facts and stamps them in
-  `createJWT`, the one call before the signature.
-- A workspace reaches `aud` through `urn:shippin:audience:<entry>`, and the
-  member's stored entitlement decides whether they may have it. See the token
-  contract, *How one is asked for*.
-- **Done:** `docs/05-minting-a-seat-token.md` walks the whole path, and
-  Automaton accepts a token for `ws-0001`, refuses one minted for `ws-0002`,
-  refuses a tampered payload and refuses `alg: none`.
+## P3 — IAM completeness and conformance
 
-Still Phase 3's to fix: seat facts live in user metadata, which is where they
-are *stored*, not where they should be *authored*. Blueprints are what will
-write them.
+| ID | Work | Depends on | Acceptance |
+|---|---|---|---|
+| P3.1 | OIDC/OAuth application lifecycle | P2.1 | discovery, code flow with PKCE, refresh, logout, revocation, rotation and negative suites pass |
+| P3.2 | SAML service-provider lifecycle | P2.1 | metadata, signing/encryption, login/logout and rollover suites pass |
+| P3.3 | Passkeys, TOTP, recovery and session controls | P2.3 | enrollment, loss, replay, lockout, revocation and recovery ceremonies pass |
+| P3.4 | External IdP federation | P2.4 | OIDC and SAML upstream profiles pass linking, collision and unavailable-provider tests |
+| P3.5 | Outbound LDAP | P2.6 | OpenLDAP suite passes now; Microsoft AD profile remains preview until STIG 2025 evidence passes |
+| P3.6 | Inbound LDAP | P2.6 | bind, search, groups, paging, TLS, tenant isolation and abuse suites pass against real clients |
+| P3.7 | Forward-auth and identity-aware proxy | P2.6 | real upstream applications pass header, cookie, websocket, logout and bypass-resistance suites |
+| P3.8 | Visual flow editor and execution | P2.2 | graph validation, simulation, publish, revision, rollback and runtime equivalence pass |
+| P3.9 | Provisioning and directory lifecycle | P2.1 | create/update/suspend/reactivate, idempotency, rollback and stale-revision tests pass against production adapters |
 
-### Phase 3.1 — seats get a table ✅
+## P4 — Commercial-grade operations
 
-Done. Seat facts left Zitadel user metadata for `tessera.seats`, in Tessera's own
-schema with its own migration series starting at one — separate from the
-`zitadel` schema next door, whose 001–018 belong upstream and whose next number
-would collide with ours on any sync.
+| ID | Work | Depends on | Acceptance |
+|---|---|---|---|
+| P4.1 | Health, readiness, metrics and structured logs | P1 | failures identify the owning dependency without leaking sensitive data |
+| P4.2 | Immutable identity audit and export | P2.1 | authentication, administration, delegation, recovery and managed access are queryable and exportable |
+| P4.3 | Backup and restore | P1, P4.2 | destructive restore drill proves issuer, keys, identity, policy, audit and recovery continuity |
+| P4.4 | Upgrade, migration and rollback | P1 | supported-version matrix passes forward migration and documented rollback boundary |
+| P4.5 | Signing and encryption key rotation | P3.1–P3.2 | overlap, cache, failure and recovery tests pass without accepting retired keys |
+| P4.6 | High availability and failure recovery | P4.1–P4.5 | node loss, PostgreSQL interruption and dependency degradation preserve stated guarantees |
+| P4.7 | Security release gate | all P1–P4 | threat model, dependency scan, provenance, secret scan, tenant-isolation and protocol suites pass |
 
-The shape is a scale decision rather than a storage chore. Workspaces are a
-child table because the relation is read in both directions and only one of them
-is the token path: `seat → workspaces` on every mint, and `workspace → seats`
-for the panel, which an array column cannot answer without scanning the
-instance. Scopes stay an array because they are only ever read *with* the seat.
+## P5 — Managed customers
 
-`tessera seat set|show|list` is the operator's way in, and drives the same
-repository blueprints will. **Done when** the mint path reads from the table and
-no seat fact remains in metadata — `dev/seat-probe.sh` now fails if one does.
+| ID | Work | Depends on | Acceptance |
+|---|---|---|---|
+| P5.1 | Define managed deployment enrollment | P4.7 | customer deployment grants explicit scoped management without surrendering owner recovery |
+| P5.2 | Define managed operation contract | P5.1 | preflight, install, upgrade, rotate, backup and restore are resumable operations with typed status |
+| P5.3 | Add delegated operator roles | P5.1 | least privilege, approval, expiry and revocation tests pass |
+| P5.4 | Add managed fleet overview | P5.2 | operator sees versions, readiness, capability degradation and due maintenance without tenant data leakage |
+| P5.5 | Prove customer offboarding and export | P5.2–P5.4 | customer can revoke managed access and leave with documented data/config export |
 
-One trap worth the ink: Zitadel runs its own schema migration as a *setup step*,
-and a setup step is recorded once and skipped forever. Ours runs on every start
-instead. Had it been a step, migration 002 would never reach a database that had
-already been set up, every deployment in the fleet would silently keep the old
-schema, and the failure would surface as a missing column a long way from here.
+## P6 — Optional platform integrations
 
-### Phase 3 — blueprints ✅ (seats; more models plug into the same engine)
+| ID | Work | Depends on | Acceptance |
+|---|---|---|---|
+| P6.1 | Vaultix runtime secret adapter | P4.7 | workload authentication resolves value-blind references; unavailable custody fails closed |
+| P6.2 | Zuul enrollment and private access | P4.7 | target enrolls without reusable embedded credentials; mesh loss does not corrupt identity state |
+| P6.3 | Shippin server-side adapter | P5 | adapter maps account/commercial context through versioned Tessera APIs only |
+| P6.4 | Shippin embedded Tessera module | P2.2, P6.3 | clicking Tessera mounts the same product module and capabilities without forked identity logic |
+| P6.5 | Shippin seat-token profile promotion | P6.3 | existing Automaton verification remains green and profile disablement leaves standalone behavior unchanged |
 
-Take Authentik's blueprint model — YAML applied on a loop inside one atomic
-transaction, rolled back whole on any failure — and implement it over Tessera's
-command layer. The schema is JSON Schema and lifts directly.
+## Next execution tranche
 
-This is what makes fifty workspaces identical rather than fifty hand-built ones:
-identity config becomes reviewed files instead of something somebody clicked.
+The next work is P0.3–P1.5: inventory and isolate host assumptions, lock the
+configuration namespace, build the standalone image, implement preflight and
+prove a rootless Podman installation without Shippin. In parallel only where it
+does not change that dependency direction, continue P3.5's Microsoft AD lab
+profile and the production lifecycle adapter required by P3.9.
 
-- **Done when** a fresh database reaches known state from `blueprints/` alone,
-  and re-applying is a no-op.
-
-Done, for everything Tessera owns: `tessera blueprint validate|apply`, one
-transaction per file, advisory-locked per instance, `Blueprints.Dir` applied to
-every instance on every start — a deleted seat comes back on the next boot as
-`1 created`, and the boot after that reports `converged: nothing to change`.
-The atomicity proof runs against an embedded real PostgreSQL 16: a blueprint
-whose last entry violates a real constraint leaves the database byte-identical,
-timestamps included. Design and traps: `docs/06-blueprints.md`.
-
-The honest boundary: `blueprints/` declares Tessera's own state (seats today;
-each new model is one applier registered in `cmd/blueprint`). The *user* a seat
-attaches to is still Zitadel's, created by setup or the management API — "known
-state from files alone" covers users only when a user applier joins the
-registry, which is the natural next model.
-
-### Phase 4 — flows ✅
-
-Done, and the done-when is literal on this box: `blueprints/dev/flows.yaml`
-declares login-password, login-mfa and recovery as three YAML entries, one
-engine executes all three, and `dev/flow-probe.sh` drives login-password over
-HTTP as a customer would — start, identify, wrong password (fails closed,
-stays, re-asks with a field error), right password, done. The resulting
-session carries `session.user.checked` and `session.password.checked` in the
-eventstore — the same factor events the session v2 API writes, because stages
-delegate to the same SessionCommands and never verify anything themselves.
-The wrong attempt lands as `user.human.password.check.failed` on the user
-aggregate, where lockout counts it.
-
-The engine's own rules, each with a test: a wrong answer re-asks and moves
-nothing; infrastructure failure is never a field error; every identify
-failure answers with one vague sentence (account enumeration is harvested on
-login pages); unknown execution and wrong token answer identically; the
-session token crosses the wire exactly once because completion consumes the
-execution. The executor's in-process calls run as TESSERA_FLOWS with exactly
-session.read + session.write — what a login client holds, not SYSTEM_OWNER.
-
-Design and the planner seam (where Authentik's policies land when needed):
-`docs/07-flows.md`.
-
-- **Done when** password + TOTP + recovery are three configurations of one
-  engine rather than three code paths. ✓
-
-### Phase 5 — outposts
-
-Bring `internal/outpost/proxyv2` across as the forward-auth proxy. It already
-speaks OIDC to a core and configures itself over websockets; it needs pointing
-at ours.
-
-Gives workspaces authenticated ingress without each service implementing
-anything, and gives LDAP/RADIUS to things that will never speak OIDC.
-
-- **Done when** a workspace sits behind the proxy and Automaton still
-  authenticates through it unchanged.
-
-### Phase 6 — recovery
-
-Left last deliberately, and it is the one that decides whether this is real.
-Account recovery when a customer has lost their second factor is where identity
-systems actually fail, and it is a flow like any other once Phase 4 lands.
-
-## Provenance
-
-`upstream/` stays as reference and is gitignored. The code we take lives here,
-under our module path.
-
-
-## The two backends
-
-`backend/v3` is Zitadel's third backend architecture, inherited whole. It is not
-dead weight and it is not a parallel tree — it is already the substrate under the
-legacy one: `internal/` imports its logging (67 files), its database and SQL
-dialect layers (67), its domain objects (32) and its repositories (31).
-
-`backend/v1` is ours, and it starts at one because it is the first architecture
-*this* project has rather than the third somebody else had. The number is the
-whole point: it says which of the two a file belongs to without anybody having
-to remember.
-
-New Tessera-owned code goes in `v1`, in v3's shape, because pre-release is
-exactly when structure is cheap and there is no legacy to keep working:
-
-| layer | holds | seat |
-|---|---|---|
-| `v1/domain` | entities, rules, and the ports they need as interfaces | `Seat`, `Seat.Token`, `SeatRepository` |
-| `v1/storage` | adapters implementing those ports | `storage/seat` over user metadata |
-| the API surface | nothing but translation | `internal/api/oidc/seat_claims.go` |
-
-The rule that matters is which way the arrows point. `v1/domain` imports no
-storage and no OIDC; storage imports the domain; the API layer imports both and
-decides nothing. So "may this member occupy this workspace" is answered in one
-method on one type, and every mint path — auth code, client credentials, jwt
-profile, token exchange — reaches the same answer rather than four adapters each
-remembering to ask.
-
-Seat tokens went first because they are the first thing Tessera owns outright
-rather than inherits: nothing upstream has a concept of
-`shippin.seat-token.v1`.
-
-What has *not* moved, and why: `SeatAudienceScope` stays in `internal/domain`
-next to `ProjectIDScope`, because it is not domain vocabulary — it is OIDC scope
-plumbing that has to sit beside the scope machinery it extends, and it uses that
-package's unexported audience append.
+The first managed customer is not invited until P4.7 passes. Shippin UI work
+starts at P6.3, after Tessera has already proven itself as the product being
+integrated.

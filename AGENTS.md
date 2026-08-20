@@ -4,9 +4,15 @@ Read `../AGENTS.md` first (workspace house rules), then this.
 
 ## What this project is
 
-Identity and authorization for the Shippin umbrella. Contract first: the
-product boundary is `docs/01-seat-token-contract.md`, and the identity provider
-behind it is an implementation detail that must stay swappable.
+Tessera is a standalone identity and access management product for independent
+self-hosted and managed-customer deployments. It must install, bootstrap,
+operate, upgrade, recover and expose its complete management experience without
+Shippin being installed or reachable.
+
+Contract first: the product boundary is
+`docs/02-standalone-product-contract.md`. The Shippin seat-token profile in
+`docs/01-seat-token-contract.md` is one optional consumer integration, not the
+Tessera product boundary.
 
 ## Rules specific to here
 
@@ -25,14 +31,23 @@ behind it is an implementation detail that must stay swappable.
 
 ## Boundaries
 
-This project does not own billing, plans, infrastructure inventory or
-conversation. It expresses entitlement as scopes that cite decisions made
-elsewhere. When a change here starts needing a pricing rule, the change belongs
-in `../shippin`.
+Tessera owns its standalone web application, management API, protocol surfaces,
+identity lifecycle, federation, policy and flow configuration, audit evidence,
+deployment lifecycle and operator guidance. It does not own billing, pricing,
+general infrastructure inventory, mesh networking, secret custody or
+conversation. Optional adapters may cite decisions made by those systems but
+Tessera must remain useful when every adapter is absent.
+
+A standalone product feature must not depend on a Shippin route, account,
+token, adapter or shell. Shippin-specific pricing or entitlement behavior
+belongs in `../shippin`; a generic authorization capability belongs here.
 
 ## Consumers to keep working
 
+- **Tessera standalone UI and conformance harness** — the first consumers of
+  Tessera's management and protocol contracts. They may not use Shippin-only
+  assumptions.
 - **Automaton** — `../automaton/engine/serve/identity.mjs` (Stage 2) verifies
-  seat tokens and gates routes on scopes. It is the first consumer and the
-  fastest way to find out whether a contract change is real.
-- DevForge and the Shippin panel follow.
+  the optional seat-token profile and gates routes on scopes.
+- DevForge and the Shippin panel follow through adapters after the standalone
+  release gate passes.

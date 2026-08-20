@@ -2,9 +2,9 @@
 
 ## One sentence
 
-**Tessera** answers "who is this, and what may they do" once, for every service
-in the umbrella, and hands the answer over as a short-lived signed token that
-anyone can verify without calling it.
+**Tessera** is a complete, independently deployable identity and access
+management product that answers "who is this, and what may they do" for people,
+services and applications.
 
 ## The name
 
@@ -18,54 +18,68 @@ connection*, Mesh Layer 2 is connectivity, MCP connectors ship — and all of th
 weight sits on networking. A name from that family would read as the mesh
 module to anyone arriving cold, including us in a year.
 
-## Why it is its own project
+## Why it is its own product
 
-ADR 06 puts identity and authorization in the Shippin Control Plane and requires
-enforcement *at data boundaries*. That only works if there is one contract to
-enforce — otherwise every consumer integrates a vendor SDK, and the vendor
-quietly becomes the architecture.
+Identity is a security boundary and an operating responsibility. A managed
+customer must be able to deploy Tessera, open Tessera's own interface, configure
+their organization and applications, prove authentication and recovery, and
+operate the deployment without installing a separate product shell.
 
-`PROJECTS_OVERVIEW.md` rule 3 says to amend the product contract before adding a
-second implementation authority. That amendment is
-`shippin/docs/platform/PRODUCT-ARCHITECTURE.md` §6, which now names this module;
-this repository is what it names.
+This repository is the authority for Tessera's product behavior, public APIs,
+protocols, deployment contract and release evidence. Host products own only
+their adapters and presentation composition.
 
 ## Boundaries
 
 **Owns**
 
-- Member, account and organization identity; sessions and their revocation.
-- Entitlement scopes and the policy version that produced them.
-- Seat tokens, the JWKS, and key rotation.
-- The guided sign-in surfaces that belong to identity rather than to a product.
+- Users, organizations, projects, applications and service identities.
+- Authentication factors, sessions, revocation and account recovery.
+- Federation, directory integration and identity-aware access edges.
+- Authorization policy, scopes, flows and delegated administration.
+- Standard tokens, optional token profiles, JWKS and key rotation.
+- Tessera's standalone web application, management API, CLI and guided setup.
+- Identity audit evidence and the deployment states required to operate safely.
 
 **Does not own**
 
-- Billing, plans or pricing. Entitlement is *expressed* here as scopes and
-  *decided* in the product domain — a scope cites a decision, it does not make
-  one.
-- Infrastructure inventory, workspace lifecycle, provider capability facts.
-- Conversation and orchestration. Automaton is a consumer.
+- Billing, plans or pricing. External decisions may be expressed as scopes.
+- General infrastructure inventory and mesh networking.
+- Secret, certificate and privileged-access custody. Tessera stores references
+  and consumes values at runtime through an approved adapter.
+- Conversation and application orchestration.
 - Live secrets of any kind under `W:` — the workspace rule, unchanged.
 
-## The strategy, in one line
+## Dependency direction
 
-**Contract first; the provider behind it is swappable.**
+**Tessera first; managed operation second; host-product integration third.**
 
-Run a real identity provider now rather than writing one, keep every consumer
-behind `01-seat-token-contract.md`, and replace the provider later if that still
-makes sense. Then it is a swap, not a migration — and the decision your own
-`CONFLICTS-DECISIONS.md` records as open stays genuinely open instead of being
-settled by whatever got integrated first.
+The standalone deployment cannot require Shippin, Automaton, Zuul or Vaultix.
+Vaultix and Zuul are supported optional integrations. Shippin may later mount
+Tessera's UI module and call Tessera's APIs through a narrow adapter. That
+adapter may add account or commercial context, but it may not duplicate or
+replace Tessera's identity behavior.
 
-The surface is larger than it looks: token lifecycle, key rotation, session
-revocation, MFA, and the one everybody underestimates — account recovery when a
-customer has lost their second factor. Recovery is where identity systems
-actually fail, and it is worth designing before anything else is built.
+The complete surface includes token lifecycle, key rotation, session
+revocation, MFA, federation, policy, audit, backup/restore, upgrades and account
+recovery after a customer loses a second factor. A feature is not operational
+because a screen exists; it is operational only after its conformance and
+failure tests pass.
+
+## Deployment modes
+
+1. **Standalone self-hosted:** the customer owns the runtime and operates
+   Tessera through Tessera's UI, API and CLI.
+2. **Managed customer:** each customer receives an isolated Tessera deployment;
+   the operator manages it through Tessera's management contracts.
+3. **Embedded integration:** a host shell projects Tessera after the standalone
+   release gate passes. Embedded mode is composition, not a separate product.
 
 
 ## Current state
 
-Nothing is implemented. What exists is the contract, and one consumer
-(Automaton, Stage 2) building a verifier against it — which is the fastest way
-to find out whether the contract is real.
+The inherited IAM core builds, Tessera-specific seat tokens, blueprints and
+flows have executable tests, and Automaton verifies the optional seat profile.
+Tessera is still pre-release: the standalone UI, container lifecycle,
+backup/restore, upgrade, recovery, complete protocol conformance and managed
+deployment evidence have not all passed the release gate.

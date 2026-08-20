@@ -1,20 +1,23 @@
 # 01 — The seat token contract
 
-**Status:** draft v1, and the thing to get right before any implementation.
+**Status:** implemented integration profile; not the Tessera product boundary.
 **Schema:** `shippin.seat-token.v1`
 **Verified by:** Automaton (`engine/serve/identity.mjs`), DevForge, and every
-future consumer.
+consumer that opts into the Shippin profile.
 
-## Why this document is first
+This contract is an optional Tessera integration profile. Tessera's standalone
+product contract is `02-standalone-product-contract.md`; a standalone or managed
+customer deployment must remain fully operable when this profile is disabled.
+
+## Why this profile is contract-first
 
 Every service in the umbrella needs one question answered the same way: *is this
 caller who they say they are, and what are they allowed to do?* If each one
 learns the answer from a vendor's SDK, the vendor becomes load-bearing and
 swapping it is a migration across every repo.
 
-So the boundary is a **token**, not a product. Anything that can mint one of
-these correctly can be the identity provider — Authentik today, Zitadel,
-something Shippin-native later. Consumers never find out which.
+For consumers of this profile, the boundary is a **token**, not Tessera's
+internal implementation. Consumers never need an implementation-specific SDK.
 
 This is also why the contract is written before the service: Automaton is
 already building the verifier, and a verifier is the most honest specification
