@@ -5,8 +5,8 @@ Wants=network-online.target
 After=network-online.target
 
 [Container]
-Image=localhost/shippin/tessera:dev
-ContainerName=shippin-tessera
+Image=localhost/tessera/tessera:dev
+ContainerName=tessera
 Exec=start-from-init --masterkeyFromEnv --tlsMode external --init-projections
 
 EnvironmentFile=./tessera.env
@@ -14,7 +14,7 @@ Secret=tessera-masterkey,type=env,target=TESSERA_MASTERKEY
 Secret=tessera-database-dsn,type=env,target=TESSERA_DATABASE_POSTGRES_DSN
 Secret=tessera-bootstrap-password,type=env,target=TESSERA_FIRSTINSTANCE_ORG_HUMAN_PASSWORD
 
-Network=shippin-control-plane.network
+Network=tessera.network
 PublishPort=127.0.0.1:8080:8080
 Volume=./blueprints:/etc/tessera/blueprints:ro,Z
 

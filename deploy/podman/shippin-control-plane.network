@@ -1,3 +1,0 @@
-[Network]
-NetworkName=shippin-control-plane
-Driver=bridge

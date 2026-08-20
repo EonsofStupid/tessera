@@ -15,13 +15,13 @@ func TestCapabilityWireContractMatchesDomain(t *testing.T) {
 	require.NoError(t, err)
 	wire := string(contents)
 
-	for _, value := range []ComponentRole{ComponentTessera, ComponentShippinAdapter, ComponentZuul, ComponentVaultix} {
+	for _, value := range []ComponentRole{ComponentTessera, ComponentTesseraOperator, ComponentClickHouse, ComponentVaultix, ComponentZuul, ComponentShippinAdapter} {
 		require.Contains(t, wire, "COMPONENT_ROLE_"+strings.ToUpper(string(value)))
 	}
 	for _, value := range []CompatibilityState{CompatibilityCompatible, CompatibilityIncompatible, CompatibilityNotPresent, CompatibilityUnknown} {
 		require.Contains(t, wire, "COMPATIBILITY_STATE_"+strings.ToUpper(string(value)))
 	}
-	for _, value := range []CapabilityStatus{CapabilityUnsupported, CapabilityPreview, CapabilityAvailable, CapabilityDegraded} {
+	for _, value := range []CapabilityStatus{CapabilityUnsupported, CapabilityPreview, CapabilityOperational, CapabilityDegraded} {
 		require.Contains(t, wire, "CAPABILITY_STATUS_"+strings.ToUpper(string(value)))
 	}
 	for _, value := range []UIExposure{UIExposureHidden, UIExposureDisabled, UIExposureEnabled} {

@@ -1,16 +1,18 @@
 # Tessera with rootless Podman
 
-This directory is a deployable example for Shippin private cloud and a
-reference for the managed Shippin Cloud service definition. Both run the same
-OCI image. PostgreSQL, ingress and secret creation remain outside Tessera.
+This directory is a deployable standalone Tessera example and the reference
+shape for managed-customer deployments. Both isolation profiles run the same
+OCI image: a dedicated runtime and logical database per customer, or an
+invite-only community deployment with tenant isolation inside Tessera.
+PostgreSQL, ingress and secret creation remain deployment-owned dependencies.
 
 ## Build the image
 
 From the repository root:
 
 ```bash
-podman build --format docker --tag localhost/shippin/tessera:dev .
-podman run --rm localhost/shippin/tessera:dev --help
+podman build --format docker --tag localhost/tessera/tessera:dev .
+podman run --rm localhost/tessera/tessera:dev --help
 ```
 
 The multi-stage build generates the inherited protocol stubs, compiles a
@@ -28,7 +30,7 @@ unit search path and keep its non-secret environment beside it:
 ```bash
 install -d "$HOME/.config/containers/systemd/blueprints"
 install -m 0644 deploy/podman/tessera.container "$HOME/.config/containers/systemd/tessera.container"
-install -m 0644 deploy/podman/shippin-control-plane.network "$HOME/.config/containers/systemd/shippin-control-plane.network"
+install -m 0644 deploy/podman/tessera.network "$HOME/.config/containers/systemd/tessera.network"
 install -m 0600 deploy/podman/tessera.env.example "$HOME/.config/containers/systemd/tessera.env"
 ```
 
@@ -55,16 +57,18 @@ Start and inspect the user service:
 systemctl --user daemon-reload
 systemctl --user start tessera.service
 systemctl --user status tessera.service
-podman healthcheck run shippin-tessera
+podman healthcheck run tessera
 ```
 
-The published port is loopback-only. Shippin ingress should proxy the public
-HTTPS host to `127.0.0.1:8080`; do not publish Tessera directly on every host
-interface.
+The published port is loopback-only. The deployment ingress must proxy the
+public HTTPS host to `127.0.0.1:8080`; do not publish Tessera directly on every
+host interface.
 
-## Managed cloud differences
+## Managed deployment differences
 
-Shippin Cloud replaces the local image tag with a registry digest and supplies
-its managed PostgreSQL endpoint, ingress and secret provider. It may split
+A managed deployment replaces the local image tag with a verified registry
+digest and supplies PostgreSQL, ingress and secret custody. It may split
 `init`, `setup` and the default `start` into separate jobs. It must preserve the
-same image, health command, non-root user and configuration boundary.
+same image, health command, non-root user and configuration boundary. The
+least-privilege `tessera-operator` owns lifecycle actions; Tessera does not
+require Shippin or any other host shell to install or operate.

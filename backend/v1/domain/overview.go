@@ -13,7 +13,7 @@ import (
 
 const (
 	OverviewSchemaVersion uint32 = 1
-	OverviewServiceID            = "shippin.tessera"
+	OverviewServiceID            = "tessera"
 )
 
 type OverviewReadinessStatus string
@@ -107,8 +107,8 @@ type OverviewActivity struct {
 	Result OverviewActivityResult `json:"result"`
 }
 
-// OverviewFacts are Tessera-owned source facts. Shippin inventory and billing
-// deliberately cannot enter this assembler.
+// OverviewFacts are Tessera-owned source facts. Host-product inventory and
+// billing deliberately cannot enter this assembler.
 type OverviewFacts struct {
 	WorkspaceAttachments uint64
 	AgentSeats           uint64

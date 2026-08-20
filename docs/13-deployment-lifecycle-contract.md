@@ -7,9 +7,10 @@
 ## Purpose
 
 One server-owned state describes whether a Tessera deployment may accept
-ordinary identity mutations. The Shippin panel renders that state and its
-evidence; it never infers lifecycle from a process check, an HTTP status or the
-last button somebody clicked.
+ordinary identity mutations. The Tessera management application renders that
+state and its evidence; optional host adapters may project it but no client
+infers lifecycle from a process check, an HTTP status or the last button
+somebody clicked.
 
 This is deployment lifecycle, not user, session, federation or billing state.
 

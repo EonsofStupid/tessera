@@ -168,8 +168,10 @@ P1.3 assigns HTTP/gRPC mappings. P1.2 establishes the stable operation reasons:
 
 `proto/tessera/management/v1/operation.proto` is the provider-neutral wire
 vocabulary. Domain-specific plan endpoints reuse `OperationPlan`; apply and
-verify requests use the shared id and digest fields. The browser still reaches
-these resources through the Shippin server-side adapter.
+verify requests use the shared id and digest fields. The standalone browser
+reaches these resources through Tessera's same-origin management API. External
+panels may use a server-side adapter with the same wire contract; an adapter is
+never a product prerequisite.
 
 P1.4 capability discovery declares which operation kinds and schema versions a
 deployment supports.

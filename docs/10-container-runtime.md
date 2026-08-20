@@ -6,13 +6,19 @@ this document.
 ## Purpose
 
 Tessera ships as one OCI-runtime-compatible image that runs unchanged in
-Shippin Cloud and in a customer's Shippin private cloud. Podman, Kubernetes or
-another OCI runtime may supervise it; the image does not contain cloud-specific
-orchestration.
+standalone, managed-customer and optional host-integrated deployments. Podman,
+Kubernetes or another OCI runtime may supervise it; the image does not contain
+cloud-specific orchestration.
 
 The container owns the Tessera process. It does not own PostgreSQL, ingress,
-DNS, certificates, billing or mesh inventory. Those remain deployment and
-Shippin concerns.
+DNS, certificates, billing or mesh inventory. Those remain deployment or
+optional adapter concerns.
+
+Managed Tessera supports two launch profiles. The dedicated profile assigns a
+customer its own runtime and logical PostgreSQL database. The invite-only
+community profile shares a supervised runtime while enforcing tenant boundaries
+in every identity, policy, audit and analytics projection. A deployment must
+declare its profile; it may not infer isolation from a hostname.
 
 ## Runtime shape
 
@@ -22,7 +28,7 @@ Shippin concerns.
 | identity | fixed non-root uid/gid `10001`; no Linux capabilities required |
 | filesystem | read-only root filesystem; temporary files use runtime tmpfs |
 | network | listens on container port `8080`; bind to loopback or a private OCI network |
-| edge TLS | Shippin ingress terminates TLS; Tessera is told the public HTTPS domain and port |
+| edge TLS | deployment ingress terminates TLS; Tessera is told the public HTTPS domain and port |
 | database | external PostgreSQL; the image contains no database and declares no data volume |
 | desired state | optional read-only blueprint mount at `/etc/tessera/blueprints` |
 | health | the image and Podman unit run `tessera ready`, which checks `/debug/ready` locally |
@@ -46,14 +52,14 @@ bootstrap secrets are attached:
    `TESSERA_FIRSTINSTANCE_ORG_HUMAN_PASSWORD`.
 
 The database and role named by DSN already exist and have the privileges needed
-for schema initialization. Managed Shippin provisions them; private cloud may
-use its own PostgreSQL container or server. Tessera never starts PostgreSQL as
-a child process.
+for schema initialization. A managed operator provisions them; self-hosted
+Tessera may use its own PostgreSQL container or server. Tessera never starts
+PostgreSQL as a child process.
 
 `start-from-init` is the Podman single-service convenience: it converges schema
 and setup steps before starting the foreground server. The recorded setup steps
-make subsequent starts idempotent. Shippin Cloud may instead run `init` and
-`setup` as explicit jobs, then use the image's default `start` command.
+make subsequent starts idempotent. A managed deployment may instead run `init`
+and `setup` as explicit jobs, then use the image's default `start` command.
 
 No bootstrap secret may be passed as a command-line argument, baked into an
 image layer, stored in a Quadlet file, written to a blueprint or printed by an
@@ -78,24 +84,25 @@ The public domain must be stable before the first instance is created because
 it becomes issuer and WebAuthn origin state. Changing it is a migration, not a
 container restart option.
 
-Shippin-owned deployment configuration names the image digest, network,
-database endpoint, resource limits and secret provider. Tessera-owned
+Deployment-owned configuration names the image digest, network, database
+endpoint, isolation profile, resource limits and secret provider. Tessera-owned
 configuration names identity policy, flows, providers and blueprints. Neither
-side copies live credential values into the other.
+side copies live credential values across this boundary.
 
 ## Podman and private-cloud boundary
 
 The example Quadlet is a systemd-generated Podman unit. It is intentionally
-rootless-compatible and applies the same constraints expected in Shippin
-Cloud: non-root image user, read-only root, dropped capabilities, no-new-
+rootless-compatible and applies the same constraints required in managed
+Tessera: non-root image user, read-only root, dropped capabilities, no-new-
 privileges, private networking, loopback-only publication and a readiness
 health check.
 
-The private-cloud installer may render the example with a registry image digest
-and create the three named Podman secrets. It must not rewrite the image or
-invent a second Tessera configuration model. Zuul may connect that private
-cloud to the mesh, but Tessera remains an identity service rather than a peer
-inventory.
+The `tessera-operator` may render the example with a verified registry image
+digest and create the three named Podman secrets. Its service account receives
+only the container, database-migration, backup and protected-reference rights
+needed by a reviewed operation. It must not rewrite the image or invent a
+second Tessera configuration model. Zuul may connect the deployment to a mesh,
+but Tessera remains an identity service rather than a peer inventory.
 
 ## Verification gates
 

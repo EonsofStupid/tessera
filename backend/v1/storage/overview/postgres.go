@@ -23,7 +23,7 @@ func NewRepository(pool queryer) *Repository {
 }
 
 // Snapshot deliberately reads only Tessera's schema. Inventory and billing
-// remain Shippin facts and cannot be smuggled into identity counts here.
+// remain host-product facts and cannot be smuggled into identity counts here.
 func (r *Repository) Snapshot(ctx context.Context, instanceID string) (domain.OverviewFacts, error) {
 	if instanceID == "" {
 		return domain.OverviewFacts{}, fmt.Errorf("overview snapshot requires an instance")

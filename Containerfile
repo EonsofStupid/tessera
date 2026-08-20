@@ -59,7 +59,7 @@ ARG COMMIT=unknown
 ARG BUILD_DATE=1970-01-01T00:00:00Z
 
 LABEL org.opencontainers.image.title="Tessera" \
-      org.opencontainers.image.description="Shippin identity and authorization service" \
+      org.opencontainers.image.description="Standalone identity and access management platform" \
       org.opencontainers.image.source="https://github.com/EonsofStupid/tessera" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.revision="${COMMIT}" \

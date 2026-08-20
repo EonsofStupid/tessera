@@ -5,23 +5,24 @@
 
 ## Purpose
 
-`GET /tessera/v1/capabilities` is the only authority for deciding which
-Tessera paths the Shippin panel offers. The browser and server-side adapter do
-not infer support from a version string, a successful health check, an
-inherited provider endpoint or a remembered deployment profile.
+`GET /tessera/v1/capabilities` is the only authority for deciding which paths
+the Tessera management application offers. Neither the standalone browser nor
+an optional host adapter infers support from a version string, a successful
+health check, an inherited provider endpoint or a remembered deployment
+profile.
 
 This is a protected management read. Tessera requires
 `tessera.capabilities.read`; missing authentication is a typed `401`, while an
 authenticated caller without that permission receives a typed `403` naming
-the permission. The browser receives the resolved projection from Shippin and
-never receives the management credential.
+the permission. The same-origin browser uses the user's Tessera session;
+external clients use a least-privilege management credential.
 
 The response answers three different questions:
 
 1. Which discovery schema is this response using?
-2. Are the installed Shippin adapter, Tessera and optional Zuul components
-   compatible?
-3. Is each customer capability available, degraded, preview-only or
+2. Are Tessera and the optional operator, analytics, custody, mesh and host
+   adapter components compatible?
+3. Is each customer capability operational, degraded, preview-only or
    unsupported, and should its UI be enabled, disabled or hidden?
 
 ## Response
@@ -40,10 +41,11 @@ construct compatibility ranges. Tessera reports the management API major and
 the compatibility result already evaluated against its signed bundle policy.
 This keeps compatibility policy in one tested place.
 
-The mandatory component roles are `tessera` and `shippin_adapter`. `zuul` and
-`vaultix` are reported as `not_present` when intentionally absent and are
-required only by capabilities that name them. Vaultix is a custody dependency,
-not an identity authority or infrastructure inventory.
+The only mandatory component role is `tessera`. `tessera_operator`,
+`clickhouse`, `vaultix`, `zuul` and `shippin_adapter` are reported as
+`not_present` when intentionally absent and are required only by capabilities
+that name them. Vaultix is a custody dependency, ClickHouse is an asynchronous
+analytics projection, and neither becomes an identity authority.
 
 Component compatibility is one of:
 
@@ -62,7 +64,7 @@ The proof contains `conformance_id`, `bundle_manifest_digest`, `result`,
 release-evidence store; discovery exposes only the immutable digest and safe
 status needed to prevent an unproved UI claim.
 
-Support status is `unsupported`, `preview`, `available` or `degraded`. UI
+Support status is `unsupported`, `preview`, `operational` or `degraded`. UI
 exposure is `hidden`, `disabled` or `enabled`. The server decides both; clients
 may demote exposure for safety but never promote it.
 
@@ -70,6 +72,8 @@ Required invariants:
 
 - `unsupported` is never enabled;
 - `preview` is disabled until a later explicit preview-enrollment contract;
+- `operational` and `degraded` require passing conformance evidence bound to
+  the advertised bundle manifest digest;
 - hidden or disabled capabilities carry a safe reason;
 - every required component must be present and `compatible` before a client
   may honor `enabled`;
@@ -77,14 +81,15 @@ Required invariants:
 - missing capability ids mean `hidden/not_advertised`, never “probably
   supported.”
 
-Initial stable ids include `overview`, `installation`, `guided_setup`,
-`backup`, `restore`, `upgrade`, `trust_rotation`, `upstream_oidc`,
-`upstream_saml`, `upstream_ldap`, `downstream_oidc`, `downstream_saml`, and
-`zuul_enrollment`. New ids are additive.
+Initial stable ids include `overview`, `guided_setup`,
+`deployment_operations`, `analytics_olap`, `upstream_oidc`, `upstream_saml`,
+`downstream_oidc`, `downstream_saml`, `ldap_outbound`, `ldap_inbound`,
+`forward_auth`, `identity_aware_proxy`, `visual_flow_engine`, and
+`vaultix_secret_custody`. New ids are additive.
 
 ## Client resolution
 
-For each route or action, the Shippin adapter resolves in this order:
+For each route or action, every Tessera client resolves in this order:
 
 1. An unsupported `schema_version` disables it as `schema_incompatible`.
 2. An invalid document using a supported schema disables it as
@@ -110,7 +115,7 @@ it uses `sha256:<lowercase hex>` and the component compatibility facts must have
 been evaluated from that exact manifest.
 
 Ad hoc or developer builds may omit the digest. They report compatibility as
-`unknown` unless an explicit development policy provides evidence. The panel
+`unknown` unless an explicit development policy provides evidence. The UI
 labels that state; it does not present it as a production-tested bundle.
 
 ## Done when

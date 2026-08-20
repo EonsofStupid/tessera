@@ -4,7 +4,7 @@
     "http_status": 401,
     "grpc_code": "UNAUTHENTICATED",
     "title": "Sign in to continue",
-    "consequence": "Tessera cannot confirm which community member is making this request.",
+    "consequence": "Tessera cannot confirm which Tessera user is making this request.",
     "action": {"kind": "sign_in", "label": "Sign in"}
   },
   {
@@ -12,7 +12,7 @@
     "http_status": 403,
     "grpc_code": "PERMISSION_DENIED",
     "title": "Tessera administration is not enabled",
-    "consequence": "This workspace cannot use the requested Tessera management capability.",
+    "consequence": "This tenant cannot use the requested Tessera management capability.",
     "action": {"kind": "request_entitlement", "label": "Request access"},
     "required_detail": "missing_entitlement"
   },
@@ -55,7 +55,7 @@
     "http_status": 429,
     "grpc_code": "RESOURCE_EXHAUSTED",
     "title": "Tessera is protecting this service",
-    "consequence": "The request is paused briefly to keep the private community reliable.",
+    "consequence": "The request is paused briefly to keep the identity service reliable.",
     "action": {"kind": "retry_after", "label": "Retry when ready"},
     "required_detail": "retry_after_seconds"
   },
@@ -69,3 +69,4 @@
     "required_detail": "diagnostic_ref"
   }
 ]
+

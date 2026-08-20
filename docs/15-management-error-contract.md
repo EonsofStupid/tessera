@@ -6,8 +6,9 @@
 
 ## Why this contract exists
 
-The Shippin panel must tell a member what happened and what safe action fixes
-it. A status code alone cannot do that. Every expected management refusal uses
+The Tessera management application must tell a user what happened and what
+safe action fixes it. A status code alone cannot do that. Every expected
+management refusal uses
 the provider-neutral envelope below; inherited provider errors are translated
 at the Tessera boundary and never passed through to the browser.
 
@@ -31,7 +32,7 @@ A missing entitlement is never collapsed into `401`.
   "error": {
     "type": "entitlement_required",
     "reason": "missing_entitlement",
-    "message": "This workspace does not include Tessera administration.",
+  "message": "This tenant does not include Tessera administration.",
     "remedy": {
       "kind": "request_entitlement",
       "label": "Request access"
@@ -48,7 +49,7 @@ display text and may be localized. A client branches on `type` or structured
 detail, never on display text.
 
 `diagnostic_ref` is an opaque support correlation value. It must not contain a
-token, secret, provider assertion, member email, raw upstream response or stack
+  token, secret, provider assertion, user email, raw upstream response or stack
 trace. Expected refusals do not expose inherited provider error identifiers.
 
 ## Catalog and transport mapping
@@ -78,8 +79,8 @@ error message as typed details. REST and gRPC therefore carry the same `type`,
 
 Only fields relevant to the selected type are populated:
 
-- `missing_entitlement` is a Tessera/Shippin scope identifier, not a pricing or
-  plan decision;
+- `missing_entitlement` is a Tessera scope identifier, not a pricing or plan
+  decision;
 - `required_permission` is the delegated permission needed by the action;
 - `required_assurance` is a stable assurance or step-up policy identifier;
 - `field` is a public request field path and never a database column;
@@ -107,16 +108,17 @@ Authorization and prerequisite checks may return their own catalog type before
 an operation is created. Provider outages become `service_unavailable`; their
 raw response body is retained only in protected operator diagnostics.
 
-## Shippin rendering contract
+## Tessera rendering contract
 
-`testdata/shippin/management-error-remedies.json` is the cross-repository
-adapter fixture. Each catalog type has a distinct consequence-first title,
-explanation and primary action. The panel may restyle or localize these values,
-but it must preserve the action kind and required structured detail.
+`testdata/tessera/management-error-remedies.json` is the standalone browser
+fixture. Each catalog type has a distinct consequence-first title, explanation
+and primary action. The application may restyle or localize these values, but
+it must preserve the action kind and required structured detail. Optional host
+adapters must satisfy the same fixture contract.
 
 Browser code receives only the envelope. Operator credentials, protected
 secret references, upstream session material and raw provider errors remain in
-the server-side adapter.
+Tessera's server-side management boundary.
 
 ## Done when
 
@@ -124,5 +126,5 @@ the server-side adapter.
 - validation rejects a missing type-specific detail or an unsafe retry shape;
 - every P1.2 refusal reason maps deterministically;
 - the domain and protobuf vocabulary agree;
-- Shippin fixtures render a distinct remedy for every catalog type;
+- Tessera browser fixtures render a distinct remedy for every catalog type;
 - tests prove a missing entitlement is typed `403`, never `401`.

@@ -39,8 +39,8 @@ func (s authorizerStub) Authorize(r *http.Request, _ string) (*http.Request, *do
 }
 
 func TestHandlerReturnsValidatedOverview(t *testing.T) {
-	projection := domain.BuildOverview(domain.OverviewFacts{Flows: 1, HumanSeats: 2}, "https://id.shippin.ai", 1, time.Unix(100, 0))
-	handler := NewHandler(overviewGetterStub{overview: projection}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.shippin.ai" })
+	projection := domain.BuildOverview(domain.OverviewFacts{Flows: 1, HumanSeats: 2}, "https://id.tessera.test", 1, time.Unix(100, 0))
+	handler := NewHandler(overviewGetterStub{overview: projection}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.tessera.test" })
 	recorder := httptest.NewRecorder()
 	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, "/overview", nil))
 
@@ -63,7 +63,7 @@ func TestHandlerPreservesTypedAuthenticationAndPermissionFailures(t *testing.T) 
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			handler := NewHandler(overviewGetterStub{}, authorizerStub{failure: &test.failure}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.shippin.ai" })
+			handler := NewHandler(overviewGetterStub{}, authorizerStub{failure: &test.failure}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.tessera.test" })
 			recorder := httptest.NewRecorder()
 			handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, "/overview", nil))
 			require.Equal(t, test.wantStatus, recorder.Code)
@@ -85,13 +85,12 @@ func TestHandlerReturnsProtectedCapabilityDiscovery(t *testing.T) {
 		ObservedAt:       now,
 		Components: []domain.ComponentCompatibility{
 			{Role: domain.ComponentTessera, Version: "workspace", APIMajor: 1, State: domain.CompatibilityUnknown, Reason: "development_bundle_unattested", ObservedAt: now},
-			{Role: domain.ComponentShippinAdapter, State: domain.CompatibilityNotPresent, Reason: "adapter_not_connected", ObservedAt: now},
 		},
 		Capabilities: []domain.CapabilityFact{
 			{ID: domain.CapabilityIDLDAPInbound, Status: domain.CapabilityPreview, Exposure: domain.UIExposureDisabled, Reason: "conformance_pending", RequiredComponents: []domain.ComponentRole{domain.ComponentTessera}},
 		},
 	}
-	handler := NewHandler(overviewGetterStub{}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.shippin.ai" }).WithCapabilities(capabilityGetterStub{discovery: discovery})
+	handler := NewHandler(overviewGetterStub{}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.tessera.test" }).WithCapabilities(capabilityGetterStub{discovery: discovery})
 	recorder := httptest.NewRecorder()
 	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, "/capabilities", nil))
 
@@ -102,7 +101,7 @@ func TestHandlerReturnsProtectedCapabilityDiscovery(t *testing.T) {
 }
 
 func TestHandlerRedactsProjectionFailure(t *testing.T) {
-	handler := NewHandler(overviewGetterStub{err: errors.New("SELECT token='do-not-leak'")}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.shippin.ai" })
+	handler := NewHandler(overviewGetterStub{err: errors.New("SELECT token='do-not-leak'")}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.tessera.test" })
 	recorder := httptest.NewRecorder()
 	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodGet, "/overview", nil))
 
@@ -115,7 +114,7 @@ func TestHandlerRedactsProjectionFailure(t *testing.T) {
 }
 
 func TestHandlerRejectsMethodWithTypedBody(t *testing.T) {
-	handler := NewHandler(overviewGetterStub{}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.shippin.ai" })
+	handler := NewHandler(overviewGetterStub{}, authorizerStub{}, func(context.Context) string { return "instance-1" }, func(*http.Request) string { return "https://id.tessera.test" })
 	recorder := httptest.NewRecorder()
 	handler.ServeHTTP(recorder, httptest.NewRequest(http.MethodPost, "/overview", nil))
 

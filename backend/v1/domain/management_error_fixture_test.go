@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-type shippinRemedyFixture struct {
+type managementRemedyFixture struct {
 	Type           ManagementErrorType `json:"type"`
 	HTTPStatus     int                 `json:"http_status"`
 	GRPCCode       string              `json:"grpc_code"`
@@ -19,13 +19,13 @@ type shippinRemedyFixture struct {
 	RequiredDetail string              `json:"required_detail"`
 }
 
-func TestShippinRemedyFixturesCoverCatalog(t *testing.T) {
+func TestManagementRemedyFixturesCoverCatalog(t *testing.T) {
 	t.Parallel()
 
-	contents, err := os.ReadFile("../../../testdata/shippin/management-error-remedies.json")
+	contents, err := os.ReadFile("../../../testdata/tessera/management-error-remedies.json")
 	require.NoError(t, err)
 
-	var fixtures []shippinRemedyFixture
+	var fixtures []managementRemedyFixture
 	require.NoError(t, json.Unmarshal(contents, &fixtures))
 	require.Len(t, fixtures, len(ManagementErrorCatalog()))
 
@@ -61,7 +61,7 @@ func TestShippinRemedyFixturesCoverCatalog(t *testing.T) {
 	assert.Equal(t, 403, fixtureFor(t, fixtures, ManagementErrorEntitlementRequired).HTTPStatus)
 }
 
-func fixtureFor(t *testing.T, fixtures []shippinRemedyFixture, errorType ManagementErrorType) shippinRemedyFixture {
+func fixtureFor(t *testing.T, fixtures []managementRemedyFixture, errorType ManagementErrorType) managementRemedyFixture {
 	t.Helper()
 	for _, fixture := range fixtures {
 		if fixture.Type == errorType {
@@ -69,5 +69,5 @@ func fixtureFor(t *testing.T, fixtures []shippinRemedyFixture, errorType Managem
 		}
 	}
 	require.FailNow(t, "missing fixture", "type %q", errorType)
-	return shippinRemedyFixture{}
+	return managementRemedyFixture{}
 }

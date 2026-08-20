@@ -10,17 +10,32 @@ import (
 type ComponentRole string
 
 const (
-	ComponentTessera        ComponentRole = "tessera"
-	ComponentShippinAdapter ComponentRole = "shippin_adapter"
-	ComponentZuul           ComponentRole = "zuul"
-	ComponentVaultix        ComponentRole = "vaultix"
+	ComponentTessera         ComponentRole = "tessera"
+	ComponentTesseraOperator ComponentRole = "tessera_operator"
+	ComponentClickHouse      ComponentRole = "clickhouse"
+	ComponentVaultix         ComponentRole = "vaultix"
+	ComponentZuul            ComponentRole = "zuul"
+	ComponentShippinAdapter  ComponentRole = "shippin_adapter"
 )
 
 func (r ComponentRole) Valid() bool {
-	return r == ComponentTessera || r == ComponentShippinAdapter || r == ComponentZuul || r == ComponentVaultix
+	return r == ComponentTessera ||
+		r == ComponentTesseraOperator ||
+		r == ComponentClickHouse ||
+		r == ComponentVaultix ||
+		r == ComponentZuul ||
+		r == ComponentShippinAdapter
 }
 
 const (
+	CapabilityIDOverview             = "overview"
+	CapabilityIDGuidedSetup          = "guided_setup"
+	CapabilityIDDeploymentOperations = "deployment_operations"
+	CapabilityIDAnalyticsOLAP        = "analytics_olap"
+	CapabilityIDUpstreamOIDC         = "upstream_oidc"
+	CapabilityIDUpstreamSAML         = "upstream_saml"
+	CapabilityIDDownstreamOIDC       = "downstream_oidc"
+	CapabilityIDDownstreamSAML       = "downstream_saml"
 	CapabilityIDLDAPOutbound         = "ldap_outbound"
 	CapabilityIDLDAPInbound          = "ldap_inbound"
 	CapabilityIDForwardAuth          = "forward_auth"
@@ -47,12 +62,12 @@ type CapabilityStatus string
 const (
 	CapabilityUnsupported CapabilityStatus = "unsupported"
 	CapabilityPreview     CapabilityStatus = "preview"
-	CapabilityAvailable   CapabilityStatus = "available"
+	CapabilityOperational CapabilityStatus = "operational"
 	CapabilityDegraded    CapabilityStatus = "degraded"
 )
 
 func (s CapabilityStatus) Valid() bool {
-	return s == CapabilityUnsupported || s == CapabilityPreview || s == CapabilityAvailable || s == CapabilityDegraded
+	return s == CapabilityUnsupported || s == CapabilityPreview || s == CapabilityOperational || s == CapabilityDegraded
 }
 
 type UIExposure string
@@ -190,7 +205,7 @@ func validateComponents(components []ComponentCompatibility) error {
 			return fmt.Errorf("component %s requires a compatibility reason", component.Role)
 		}
 	}
-	for _, mandatory := range []ComponentRole{ComponentTessera, ComponentShippinAdapter} {
+	for _, mandatory := range []ComponentRole{ComponentTessera} {
 		if _, ok := seen[mandatory]; !ok {
 			return fmt.Errorf("mandatory component %s is missing", mandatory)
 		}
@@ -219,7 +234,7 @@ func validateCapabilities(capabilities []CapabilityFact, bundleManifestDigest st
 				return err
 			}
 		}
-		if capability.Status == CapabilityAvailable || capability.Status == CapabilityDegraded {
+		if capability.Status == CapabilityOperational || capability.Status == CapabilityDegraded {
 			if capability.Proof == nil || capability.Proof.Result != ConformancePassed {
 				return fmt.Errorf("capability %s requires passing conformance proof", capability.ID)
 			}

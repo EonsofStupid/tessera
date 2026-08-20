@@ -16,11 +16,11 @@ func TestBuildOverviewReadyAndStable(t *testing.T) {
 		Flows:                3,
 		PolicyRevisions:      []string{"pol-b", "pol-a", "pol-b"},
 	}
-	first := BuildOverview(facts, "https://id.shippin.ai", 1, time.Unix(100, 0))
-	second := BuildOverview(facts, "https://id.shippin.ai", 1, time.Unix(200, 0))
+	first := BuildOverview(facts, "https://id.tessera.test", 1, time.Unix(100, 0))
+	second := BuildOverview(facts, "https://id.tessera.test", 1, time.Unix(200, 0))
 	reordered := facts
 	reordered.PolicyRevisions = []string{"pol-a", "pol-b"}
-	third := BuildOverview(reordered, "https://id.shippin.ai", 1, time.Unix(300, 0))
+	third := BuildOverview(reordered, "https://id.tessera.test", 1, time.Unix(300, 0))
 
 	require.NoError(t, first.Validate())
 	assert.Equal(t, OverviewReady, first.Readiness.Status)
@@ -48,7 +48,7 @@ func TestBuildOverviewNeverPromotesMissingFacts(t *testing.T) {
 }
 
 func TestOverviewRejectsFalseReadyState(t *testing.T) {
-	overview := BuildOverview(OverviewFacts{Flows: 1}, "https://id.shippin.ai", 1, time.Now())
+	overview := BuildOverview(OverviewFacts{Flows: 1}, "https://id.tessera.test", 1, time.Now())
 	overview.Readiness.SigningKeys = 0
 
 	require.ErrorContains(t, overview.Validate(), "ready overview requires")

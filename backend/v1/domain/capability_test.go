@@ -37,7 +37,7 @@ func TestCapabilityDiscoveryValidate(t *testing.T) {
 		}, "duplicate capability"},
 		{"disabled reason", func(value *CapabilityDiscovery) { value.Capabilities[1].Reason = "" }, "requires a reason"},
 		{"unsupported enabled", func(value *CapabilityDiscovery) { value.Capabilities[1].Exposure = UIExposureEnabled }, "cannot enable status"},
-		{"available without proof", func(value *CapabilityDiscovery) { value.Capabilities[0].Proof = nil }, "requires passing conformance proof"},
+		{"operational without proof", func(value *CapabilityDiscovery) { value.Capabilities[0].Proof = nil }, "requires passing conformance proof"},
 		{"failed proof", func(value *CapabilityDiscovery) { value.Capabilities[0].Proof.Result = ConformanceFailed }, "requires passing conformance proof"},
 		{"proof identity", func(value *CapabilityDiscovery) { value.Capabilities[0].Proof.ConformanceID = "" }, "incomplete conformance proof"},
 		{"proof bundle", func(value *CapabilityDiscovery) {
@@ -76,7 +76,7 @@ func TestCapabilityDiscoveryAllowsAbsentOptionalZuul(t *testing.T) {
 	t.Parallel()
 
 	value := validCapabilityDiscovery()
-	value.Components[2] = ComponentCompatibility{
+	value.Components[4] = ComponentCompatibility{
 		Role:       ComponentZuul,
 		State:      CompatibilityNotPresent,
 		Reason:     "not installed",
@@ -98,6 +98,16 @@ func TestCapabilityDiscoveryAllowsAbsentOptionalVaultix(t *testing.T) {
 	require.NoError(t, value.Validate())
 }
 
+func TestCapabilityDiscoveryRequiresOnlyTessera(t *testing.T) {
+	t.Parallel()
+
+	value := validCapabilityDiscovery()
+	value.Components = value.Components[:1]
+	value.Capabilities = value.Capabilities[:1]
+	value.Capabilities[0].RequiredComponents = []ComponentRole{ComponentTessera}
+	require.NoError(t, value.Validate())
+}
+
 func TestResolveCapability(t *testing.T) {
 	t.Parallel()
 
@@ -114,10 +124,12 @@ func TestResolveCapability(t *testing.T) {
 		{"not advertised", func(*CapabilityDiscovery) {}, []uint32{1}, "future", CapabilityResolution{"future", UIExposureHidden, "not_advertised"}},
 		{"server hidden", func(*CapabilityDiscovery) {}, []uint32{1}, "backup", CapabilityResolution{"backup", UIExposureHidden, "not_configured"}},
 		{"required component incompatible", func(value *CapabilityDiscovery) {
-			value.Components[2].State = CompatibilityIncompatible
-			value.Components[2].Reason = "bundle mismatch"
+			value.Components[4].State = CompatibilityIncompatible
+			value.Components[4].Reason = "bundle mismatch"
 		}, []uint32{1}, "zuul_enrollment", CapabilityResolution{"zuul_enrollment", UIExposureDisabled, "component_unavailable"}},
-		{"required component absent", func(value *CapabilityDiscovery) { value.Components = value.Components[:2] }, []uint32{1}, "zuul_enrollment", CapabilityResolution{"zuul_enrollment", UIExposureDisabled, "component_unavailable"}},
+		{"required component absent", func(value *CapabilityDiscovery) {
+			value.Components = append(value.Components[:4], value.Components[5:]...)
+		}, []uint32{1}, "zuul_enrollment", CapabilityResolution{"zuul_enrollment", UIExposureDisabled, "component_unavailable"}},
 	}
 
 	for _, test := range tests {
@@ -132,7 +144,7 @@ func TestResolveCapability(t *testing.T) {
 func TestCapabilityVocabulary(t *testing.T) {
 	t.Parallel()
 
-	for _, value := range []ComponentRole{ComponentTessera, ComponentShippinAdapter, ComponentZuul, ComponentVaultix} {
+	for _, value := range []ComponentRole{ComponentTessera, ComponentTesseraOperator, ComponentClickHouse, ComponentVaultix, ComponentZuul, ComponentShippinAdapter} {
 		assert.True(t, value.Valid())
 	}
 	assert.False(t, ComponentRole("future").Valid())
@@ -140,7 +152,7 @@ func TestCapabilityVocabulary(t *testing.T) {
 		assert.True(t, value.Valid())
 	}
 	assert.False(t, CompatibilityState("future").Valid())
-	for _, value := range []CapabilityStatus{CapabilityUnsupported, CapabilityPreview, CapabilityAvailable, CapabilityDegraded} {
+	for _, value := range []CapabilityStatus{CapabilityUnsupported, CapabilityPreview, CapabilityOperational, CapabilityDegraded} {
 		assert.True(t, value.Valid())
 	}
 	assert.False(t, CapabilityStatus("future").Valid())
@@ -158,6 +170,7 @@ func TestCapabilityVocabulary(t *testing.T) {
 	assert.Equal(t, "identity_aware_proxy", CapabilityIDIdentityAwareProxy)
 	assert.Equal(t, "visual_flow_engine", CapabilityIDVisualFlowEngine)
 	assert.Equal(t, "vaultix_secret_custody", CapabilityIDVaultixSecretCustody)
+	assert.Equal(t, "analytics_olap", CapabilityIDAnalyticsOLAP)
 }
 
 func validCapabilityDiscovery() CapabilityDiscovery {
@@ -169,14 +182,16 @@ func validCapabilityDiscovery() CapabilityDiscovery {
 		ObservedAt:           capabilityTestNow,
 		Components: []ComponentCompatibility{
 			{Role: ComponentTessera, Version: "1.4.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
-			{Role: ComponentShippinAdapter, Version: "2.1.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
-			{Role: ComponentZuul, Version: "0.8.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
+			{Role: ComponentTesseraOperator, Version: "1.4.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
+			{Role: ComponentClickHouse, Version: "26.7.1", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
 			{Role: ComponentVaultix, Version: "0.1.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
+			{Role: ComponentZuul, Version: "0.8.0", APIMajor: 1, State: CompatibilityCompatible, ObservedAt: capabilityTestNow},
+			{Role: ComponentShippinAdapter, State: CompatibilityNotPresent, Reason: "not installed", ObservedAt: capabilityTestNow},
 		},
 		Capabilities: []CapabilityFact{
-			{ID: "installation", Status: CapabilityAvailable, Exposure: UIExposureEnabled, RequiredComponents: []ComponentRole{ComponentTessera, ComponentShippinAdapter}, OperationKinds: []OperationKind{OperationInstallation}, Proof: passingCapabilityProof("tessera.conformance.installation.v1", bundleDigest)},
+			{ID: "installation", Status: CapabilityOperational, Exposure: UIExposureEnabled, RequiredComponents: []ComponentRole{ComponentTessera, ComponentTesseraOperator}, OperationKinds: []OperationKind{OperationInstallation}, Proof: passingCapabilityProof("tessera.conformance.installation.v1", bundleDigest)},
 			{ID: "backup", Status: CapabilityUnsupported, Exposure: UIExposureHidden, Reason: "not_configured", RequiredComponents: []ComponentRole{ComponentTessera}, OperationKinds: []OperationKind{OperationBackup}},
-			{ID: "zuul_enrollment", Status: CapabilityAvailable, Exposure: UIExposureEnabled, RequiredComponents: []ComponentRole{ComponentTessera, ComponentShippinAdapter, ComponentZuul}, OperationKinds: []OperationKind{OperationGuide}, Proof: passingCapabilityProof("tessera.conformance.zuul-enrollment.v1", bundleDigest)},
+			{ID: "zuul_enrollment", Status: CapabilityOperational, Exposure: UIExposureEnabled, RequiredComponents: []ComponentRole{ComponentTessera, ComponentZuul}, OperationKinds: []OperationKind{OperationGuide}, Proof: passingCapabilityProof("tessera.conformance.zuul-enrollment.v1", bundleDigest)},
 		},
 	}
 }

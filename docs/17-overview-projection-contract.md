@@ -7,33 +7,32 @@
 ## Purpose
 
 `GET /tessera/v1/overview` is the first provider-neutral read model consumed by
-the Shippin server-side adapter. It summarizes identity facts Tessera owns; it
-does not expose an inherited administration response, infrastructure inventory,
-billing policy, credentials or raw audit payloads.
+the standalone Tessera management application. It summarizes identity facts
+Tessera owns; it does not expose an inherited administration response,
+infrastructure inventory, billing policy, credentials or raw audit payloads.
 
-The browser never calls this endpoint directly. Shippin authenticates the
-member, checks product entitlement and calls Tessera with a protected
-server-side credential. Tessera separately requires
-`tessera.overview.read`. Management permissions use dot-separated action
-names because a colon is reserved for an optional resource context suffix.
-Missing authentication is typed `401`; missing
-permission is typed `403` and names that permission.
+The same-origin browser calls this endpoint with the user's Tessera session.
+External panels may call through a server-side adapter with a least-privilege
+credential. Tessera requires `tessera.overview.read` in either case. Management
+permissions use dot-separated action names because a colon is reserved for an
+optional resource context suffix. Missing authentication is typed `401`;
+missing permission is typed `403` and names that permission.
 
 ## Wire response
 
-The management API uses snake-case JSON. The Shippin adapter deliberately maps
-this into its browser-facing camel-case projection rather than leaking the
-Tessera wire shape into components.
+The management API uses snake-case JSON. Tessera's data client validates and
+maps this wire shape into typed view models. Optional adapters may map it into
+their host convention without changing the Tessera contract.
 
 ```json
 {
   "schema_version": 1,
-  "service_id": "shippin.tessera",
+  "service_id": "tessera",
   "resource_revision": "sha256:<lowercase hex>",
   "observed_at": "2026-08-19T00:00:00Z",
   "readiness": {
     "status": "ready",
-    "issuer": "https://id.shippin.ai",
+    "issuer": "https://id.tessera.test",
     "signing_keys": 1,
     "flows": 3,
     "policy_revision": "sha256:<lowercase hex>",
@@ -89,8 +88,8 @@ resources populate those arrays from their own projections.
   flow. Otherwise status is `degraded` and `reasons` names every missing fact.
 - A storage or signing-key read failure returns typed `503 service_unavailable`
   with a safe diagnostic reference. It never returns a healthy-looking zero.
-- Lens values come from Tessera-owned seat and workspace-attachment tables.
-  They do not claim Shippin infrastructure inventory or billing truth.
+- Lens values come from Tessera-owned seat and tenant-attachment tables. They
+  do not claim host infrastructure inventory or billing truth.
 
 ## Failure and caching
 
@@ -99,9 +98,10 @@ no-store`. Typed errors follow contract 15 and are also non-cacheable. The
 handler emits JSON only, rejects non-GET methods through routing, and never
 serializes upstream errors, SQL, secrets, tokens or stack traces.
 
-The Shippin adapter has a bounded timeout and performs no automatic retry for
-the member request. A timeout or malformed success becomes Shippin's matching
-typed `503`; `401` and `403` pass through their stable structured meaning.
+The Tessera browser client has a bounded timeout and performs no automatic
+retry for a user's mutation. A timeout or malformed success renders the typed
+service-unavailable remedy; `401` and `403` preserve their distinct structured
+meaning. External adapters follow the same rule.
 
 ## Done when
 
@@ -109,5 +109,5 @@ typed `503`; `401` and `403` pass through their stable structured meaning.
 - a storage-backed source reports seats, attachments, flows and policy facts;
 - the HTTP handler enforces `tessera.overview.read` and emits typed failures;
 - the running Tessera router owns `/tessera/v1/overview`;
-- Shippin adapter fixtures and a live Tessera handler satisfy the same mapping
-  tests without changing the panel component model.
+- standalone browser fixtures and a live Tessera handler satisfy the same
+  mapping tests; optional adapters prove the same wire mapping independently.
