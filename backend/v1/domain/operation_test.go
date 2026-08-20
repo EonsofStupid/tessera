@@ -186,3 +186,52 @@ func TestOperationVocabulary(t *testing.T) {
 		t.Error("terminal status reported nonterminal")
 	}
 }
+
+func TestValidateProtectedSecretBindings(t *testing.T) {
+	t.Parallel()
+	plan := validOperationPlan()
+	plan.Requirements = []OperationRequirement{{
+		Code:          "ldap.bind",
+		SecretSlot:    "ldap-bind",
+		SecretPurpose: SecretPurposeLDAPBind,
+	}}
+	reference := validSecretReference()
+	reference.AccountID = plan.Scope.AccountID
+	reference.WorkspaceID = plan.Scope.WorkspaceID
+	bindings := []ProtectedSecretBinding{{Slot: "ldap-bind", ReferenceID: reference.ID}}
+	references := map[string]SecretReference{reference.ID: reference}
+	if err := ValidateProtectedSecretBindings(plan, bindings, references, secretTestNow); err != nil {
+		t.Fatalf("ValidateProtectedSecretBindings(): %v", err)
+	}
+
+	tests := []struct {
+		name       string
+		bindings   []ProtectedSecretBinding
+		references map[string]SecretReference
+		want       OperationContractRefusal
+	}{
+		{"missing", nil, references, OperationRefusalSecretBindingRequired},
+		{"unknown", []ProtectedSecretBinding{{Slot: "ldap-bind", ReferenceID: "unknown"}}, references, OperationRefusalSecretBindingUnknown},
+		{"extra slot", []ProtectedSecretBinding{{Slot: "other", ReferenceID: reference.ID}}, references, OperationRefusalSecretBindingInvalid},
+		{"duplicate", append(bindings, bindings...), references, OperationRefusalSecretBindingInvalid},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			refusal := operationRefusal(t, ValidateProtectedSecretBindings(plan, test.bindings, test.references, secretTestNow))
+			if refusal.Reason != test.want {
+				t.Fatalf("reason = %s, want %s", refusal.Reason, test.want)
+			}
+		})
+	}
+
+	wrongTenant := reference
+	wrongTenant.AccountID = "other-account"
+	if got := operationRefusal(t, ValidateProtectedSecretBindings(plan, bindings, map[string]SecretReference{reference.ID: wrongTenant}, secretTestNow)).Reason; got != OperationRefusalSecretBindingInvalid {
+		t.Fatalf("cross-tenant reason = %s", got)
+	}
+	wrongPurpose := reference
+	wrongPurpose.Purpose = SecretPurposeEdgeTLS
+	if got := operationRefusal(t, ValidateProtectedSecretBindings(plan, bindings, map[string]SecretReference{reference.ID: wrongPurpose}, secretTestNow)).Reason; got != OperationRefusalSecretBindingInvalid {
+		t.Fatalf("wrong-purpose reason = %s", got)
+	}
+}

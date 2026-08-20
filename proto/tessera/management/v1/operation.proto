@@ -3,6 +3,7 @@ syntax = "proto3";
 package tessera.management.v1;
 
 import "google/protobuf/timestamp.proto";
+import "tessera/management/v1/secret_reference.proto";
 
 option go_package = "github.com/EonsofStupid/tessera/pkg/grpc/management/v1;management";
 
@@ -60,6 +61,9 @@ enum OperationRefusalReason {
   OPERATION_REFUSAL_REASON_PROGRESS_SEQUENCE_INVALID = 8;
   OPERATION_REFUSAL_REASON_PROGRESS_PHASE_REGRESSED = 9;
   OPERATION_REFUSAL_REASON_OPERATION_TERMINAL = 10;
+  OPERATION_REFUSAL_REASON_SECRET_BINDING_REQUIRED = 11;
+  OPERATION_REFUSAL_REASON_SECRET_BINDING_UNKNOWN = 12;
+  OPERATION_REFUSAL_REASON_SECRET_BINDING_INVALID = 13;
 }
 
 message OperationScope {
@@ -83,6 +87,7 @@ message OperationRequirement {
   string consequence = 3;
   string remediation = 4;
   string secret_slot = 5;
+  SecretPurpose secret_purpose = 6;
 }
 
 message PlannedVerification {
@@ -146,7 +151,7 @@ message Operation {
 
 message ProtectedSecretBinding {
   string slot = 1;
-  string reference = 2;
+  string reference_id = 2;
 }
 
 message ApplyPlanRequest {

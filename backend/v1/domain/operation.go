@@ -99,11 +99,17 @@ type OperationEffect struct {
 }
 
 type OperationRequirement struct {
-	Code        string `json:"code"`
-	Satisfied   bool   `json:"satisfied"`
-	Consequence string `json:"consequence"`
-	Remediation string `json:"remediation,omitempty"`
-	SecretSlot  string `json:"secret_slot,omitempty"`
+	Code          string        `json:"code"`
+	Satisfied     bool          `json:"satisfied"`
+	Consequence   string        `json:"consequence"`
+	Remediation   string        `json:"remediation,omitempty"`
+	SecretSlot    string        `json:"secret_slot,omitempty"`
+	SecretPurpose SecretPurpose `json:"secret_purpose,omitempty"`
+}
+
+type ProtectedSecretBinding struct {
+	Slot        string `json:"slot"`
+	ReferenceID string `json:"reference_id"`
 }
 
 type PlannedVerification struct {
@@ -171,6 +177,9 @@ const (
 	OperationRefusalProgressSequence       OperationContractRefusal = "progress_sequence_invalid"
 	OperationRefusalProgressPhaseRegressed OperationContractRefusal = "progress_phase_regressed"
 	OperationRefusalTerminal               OperationContractRefusal = "operation_terminal"
+	OperationRefusalSecretBindingRequired  OperationContractRefusal = "secret_binding_required"
+	OperationRefusalSecretBindingUnknown   OperationContractRefusal = "secret_binding_unknown"
+	OperationRefusalSecretBindingInvalid   OperationContractRefusal = "secret_binding_invalid"
 )
 
 type OperationContractError struct {
@@ -202,6 +211,58 @@ func ValidateOperationPlanForApply(plan OperationPlan, reviewedDigest, currentRe
 	}
 	if currentRevision != plan.BaseRevision {
 		return operationError(OperationRefusalStaleBaseRevision, "base_revision", "source state changed after planning", RetryReplan)
+	}
+	return nil
+}
+
+// ValidateProtectedSecretBindings resolves only safe reference projections.
+// The provider reference and protected bytes never enter the operation request.
+func ValidateProtectedSecretBindings(plan OperationPlan, bindings []ProtectedSecretBinding, references map[string]SecretReference, now time.Time) error {
+	required := make(map[string]SecretPurpose)
+	for _, requirement := range plan.Requirements {
+		if requirement.SecretSlot == "" {
+			if requirement.SecretPurpose.Valid() {
+				return operationError(OperationRefusalSecretBindingInvalid, "requirements.secret_purpose", "a secret purpose requires a named slot", RetryReplan)
+			}
+			continue
+		}
+		if !safeIdentifier(requirement.SecretSlot) || !requirement.SecretPurpose.Valid() {
+			return operationError(OperationRefusalSecretBindingInvalid, "requirements.secret_slot", "every protected slot requires a safe name and known purpose", RetryReplan)
+		}
+		if _, duplicate := required[requirement.SecretSlot]; duplicate {
+			return operationError(OperationRefusalSecretBindingInvalid, "requirements.secret_slot", "the reviewed plan repeats a protected slot", RetryReplan)
+		}
+		required[requirement.SecretSlot] = requirement.SecretPurpose
+	}
+
+	seen := make(map[string]struct{}, len(bindings))
+	for _, binding := range bindings {
+		purpose, expected := required[binding.Slot]
+		if !expected {
+			return operationError(OperationRefusalSecretBindingInvalid, "secret_bindings.slot", "the binding names a slot absent from the reviewed plan", RetryReplan)
+		}
+		if _, duplicate := seen[binding.Slot]; duplicate {
+			return operationError(OperationRefusalSecretBindingInvalid, "secret_bindings.slot", "a protected slot may be bound exactly once", RetryReplan)
+		}
+		seen[binding.Slot] = struct{}{}
+		reference, found := references[binding.ReferenceID]
+		if !found || binding.ReferenceID == "" {
+			return operationError(OperationRefusalSecretBindingUnknown, "secret_bindings.reference_id", "the protected reference is not present", RetryOperatorAction)
+		}
+		if err := reference.Usable(now); err != nil {
+			return operationError(OperationRefusalSecretBindingInvalid, "secret_bindings.reference_id", "the protected reference is not active", RetryOperatorAction)
+		}
+		if reference.AccountID != plan.Scope.AccountID || reference.WorkspaceID != plan.Scope.WorkspaceID {
+			return operationError(OperationRefusalSecretBindingInvalid, "secret_bindings.reference_id", "the protected reference belongs to another tenant scope", RetryOperatorAction)
+		}
+		if reference.Purpose != purpose {
+			return operationError(OperationRefusalSecretBindingInvalid, "secret_bindings.reference_id", "the protected reference has the wrong purpose", RetryOperatorAction)
+		}
+	}
+	for slot := range required {
+		if _, present := seen[slot]; !present {
+			return operationError(OperationRefusalSecretBindingRequired, "secret_bindings", "the reviewed plan has an unresolved protected slot", RetryOperatorAction)
+		}
 	}
 	return nil
 }

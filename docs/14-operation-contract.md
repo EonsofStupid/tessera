@@ -31,7 +31,8 @@ A plan is non-mutating and immutable. It contains:
 - `plan_digest`, covering scope, revisions, effects, requirements, permissions
   and planned verification without secret values;
 - ordered creates, updates and removals with stable effect ids;
-- prerequisites and protected-secret slots;
+- prerequisites and protected-secret slots, each with the exact custody
+  purpose the bound reference must carry;
 - permissions required by apply;
 - outcome checks that verification will execute;
 - creation and expiration times.
@@ -163,6 +164,14 @@ P1.3 assigns HTTP/gRPC mappings. P1.2 establishes the stable operation reasons:
 | `progress_sequence_invalid` | corrupt operation state | stop the worker and repair from audit |
 | `progress_phase_regressed` | corrupt operation state | stop the worker and repair from audit |
 | `operation_terminal` | state conflict | read the terminal result; do not append work |
+| `secret_binding_required` | unresolved prerequisite | bind the required slot to an active reference |
+| `secret_binding_unknown` | invalid reference | select a reference that exists in the operation tenant |
+| `secret_binding_invalid` | scope/purpose/state conflict | replace the reference with one matching the reviewed requirement |
+
+A protected-secret binding carries only a plan slot and Tessera reference id.
+It never carries a provider path or secret value. Apply resolves the reference
+server-side and refuses duplicate, extra, cross-tenant, wrong-purpose, expired,
+revoked or unavailable bindings before the first side effect.
 
 ## Wire schema
 

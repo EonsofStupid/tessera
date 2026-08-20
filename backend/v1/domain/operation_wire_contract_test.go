@@ -44,6 +44,9 @@ func TestOperationProtoCoversDomainVocabulary(t *testing.T) {
 		"OPERATION_REFUSAL_REASON_PROGRESS_SEQUENCE_INVALID",
 		"OPERATION_REFUSAL_REASON_PROGRESS_PHASE_REGRESSED",
 		"OPERATION_REFUSAL_REASON_OPERATION_TERMINAL",
+		"OPERATION_REFUSAL_REASON_SECRET_BINDING_REQUIRED",
+		"OPERATION_REFUSAL_REASON_SECRET_BINDING_UNKNOWN",
+		"OPERATION_REFUSAL_REASON_SECRET_BINDING_INVALID",
 	}
 	for _, token := range wantTokens {
 		if !strings.Contains(proto, token) {
@@ -59,6 +62,8 @@ func TestOperationProtoCoversDomainVocabulary(t *testing.T) {
 		"repeated OperationProgressEvent progress",
 		"OperationFailure failure",
 		"repeated ProtectedSecretBinding secret_bindings",
+		"SecretPurpose secret_purpose",
+		"string reference_id",
 	}
 	for _, field := range wantFields {
 		if !strings.Contains(proto, field) {

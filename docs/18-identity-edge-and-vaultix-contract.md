@@ -26,6 +26,32 @@ Tessera may retain an opaque Vaultix resource reference, purpose, safe status,
 rotation/expiry time and audit correlation id. It must never persist, project,
 log, blueprint-export or place in an event the resolved secret value.
 
+### Safe reference shape
+
+The Tessera-owned read model is `SecretReference`. It contains only:
+
+- a stable Tessera reference id and tenant scope;
+- one closed purpose such as `ldap_bind` or `edge_tls`;
+- an opaque `vaultix://` provider reference without user-info, query or
+  fragment components;
+- lifecycle state, safe revision/version, rotation and expiry times;
+- a custody audit correlation id.
+
+It deliberately has no generic metadata map, payload, value, credential,
+private-key or provider-response field. A plan binds its named secret slot to
+the Tessera reference id, never directly to the Vaultix provider reference.
+
+Enrollment accepts protected bytes through a write-only stream and returns
+only `SecretReference`. Resolution is callback-scoped: the custody adapter
+provides bytes only to the authorized operation callback, clears its working
+copy on return and exposes only a safe receipt. A callback error is wrapped in
+a fixed typed failure and its text is not propagated because dependency errors
+can accidentally contain credentials.
+
+References are purpose- and tenant-bound. Cross-account, cross-workspace and
+wrong-purpose use fail before resolution. Expired, revoked, denied or
+unavailable material is never served from an unbounded cache.
+
 ## What “built in” means
 
 Built in means Tessera owns the provider-neutral configuration, policy,
