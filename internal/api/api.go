@@ -24,7 +24,7 @@ import (
 	"github.com/EonsofStupid/tessera/internal/api/grpc/server/connect_middleware"
 	http_util "github.com/EonsofStupid/tessera/internal/api/http"
 	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
+	console_path "github.com/EonsofStupid/tessera/internal/api/ui/console/path"
 	"github.com/EonsofStupid/tessera/internal/crypto"
 	"github.com/EonsofStupid/tessera/internal/i18n"
 	"github.com/EonsofStupid/tessera/internal/query"
@@ -152,7 +152,7 @@ func New(
 	api.registerHealthServer()
 
 	api.RegisterHandlerOnPrefix("/debug", api.healthHandler())
-	api.router.Handle("/", http.RedirectHandler(login.HandlerPrefix, http.StatusFound))
+	api.router.Handle("/", http.RedirectHandler(console_path.HandlerPrefix+"/", http.StatusFound))
 
 	return api, nil
 }

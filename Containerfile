@@ -1,5 +1,16 @@
 # syntax=docker/dockerfile:1
 
+FROM docker.io/library/node@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14 AS ui
+
+WORKDIR /src/web
+ENV CI=true
+
+RUN npm install --global pnpm@11.22.0
+COPY web/package.json web/pnpm-lock.yaml web/pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY web/ ./
+RUN pnpm typecheck && pnpm test && pnpm build
+
 FROM docker.io/library/golang@sha256:49be5c3f5f2b766e5ba74e0bb690fea4fa03ebf5df8fe94665d42dfa727acf31 AS build
 
 WORKDIR /src
@@ -18,6 +29,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
+COPY --from=ui /src/internal/api/ui/console/static/ internal/api/ui/console/static/
 
 # protoc-gen-zitadel reads its own custom option type. Generate that one type
 # with the standard Go plugin first, then build the custom plugins and run the

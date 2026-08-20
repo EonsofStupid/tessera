@@ -6,6 +6,7 @@
 .pgdata
 upstream
 node_modules
+**/node_modules
 /target
 
 # A clean image build regenerates these protocol artifacts from proto/. The
