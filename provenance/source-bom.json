@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3951,
-  "classification_sha256": "273f83f370e4987346756c5d2bb7a7132b512a580d4161217f5ba47304cd07ce",
+  "path_count": 3957,
+  "classification_sha256": "e92a993c0abd776d36a4cdc4a4c2d6b9c31ba61ca55e778d176e2aea54cf4043",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 158
+      "paths": 164
     },
     {
       "source_id": "zitadel-core",
@@ -161,7 +161,8 @@
       "paths": [
         "proto/tessera/management/v1/capability.proto",
         "proto/tessera/management/v1/error.proto",
-        "proto/tessera/management/v1/operation.proto"
+        "proto/tessera/management/v1/operation.proto",
+        "proto/tessera/management/v1/secret_reference.proto"
       ]
     },
     {
@@ -271,6 +272,8 @@
         "backend/v1/api/management/authorizer.go",
         "backend/v1/api/management/handler.go",
         "backend/v1/api/management/handler_test.go",
+        "backend/v1/custody/fake/memory.go",
+        "backend/v1/custody/fake/memory_test.go",
         "backend/v1/domain/capability.go",
         "backend/v1/domain/capability_test.go",
         "backend/v1/domain/capability_wire_contract_test.go",
@@ -288,6 +291,9 @@
         "backend/v1/domain/seat.go",
         "backend/v1/domain/seat_repository.go",
         "backend/v1/domain/seat_test.go",
+        "backend/v1/domain/secret_reference.go",
+        "backend/v1/domain/secret_reference_test.go",
+        "backend/v1/domain/secret_reference_wire_contract_test.go",
         "backend/v1/management/capabilities.go",
         "backend/v1/management/capabilities_test.go",
         "backend/v1/management/overview.go",
