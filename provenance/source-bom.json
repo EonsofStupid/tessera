@@ -2,8 +2,8 @@
   "schema": "tessera.source-bom.v1",
   "manifest": "provenance/source-manifest.json",
   "baseline_import_commit": "31c07a1093908546409842d486bcc62e9e15688e",
-  "path_count": 3957,
-  "classification_sha256": "e92a993c0abd776d36a4cdc4a4c2d6b9c31ba61ca55e778d176e2aea54cf4043",
+  "path_count": 3964,
+  "classification_sha256": "e178796d4547ebe6206023c127a59c2f386bc441890a8c5f34bf45d87a488852",
   "sources": [
     {
       "id": "tessera-native",
@@ -45,7 +45,7 @@
   "summary": [
     {
       "source_id": "tessera-native",
-      "paths": 164
+      "paths": 171
     },
     {
       "source_id": "zitadel-core",
@@ -161,6 +161,7 @@
       "paths": [
         "proto/tessera/management/v1/capability.proto",
         "proto/tessera/management/v1/error.proto",
+        "proto/tessera/management/v1/ldap_outbound.proto",
         "proto/tessera/management/v1/operation.proto",
         "proto/tessera/management/v1/secret_reference.proto"
       ]
@@ -193,6 +194,7 @@
         "dev/check-source-provenance.sh",
         "dev/dev.yaml",
         "dev/generate.sh",
+        "dev/ldap-outbound-probe.sh",
         "dev/prefetch-embedded/main.go",
         "dev/preflight.sh",
         "dev/product-language/product_language_test.go",
@@ -228,6 +230,7 @@
         "docs/19-engineering-workspace.md",
         "docs/20-capability-gap-ledger.md",
         "docs/21-automaton-session-tty-conformance.md",
+        "docs/22-ldap-outbound-contract.md",
         "prefetch-embedded",
         "provenance/README.md",
         "provenance/source-bom.json",
@@ -279,6 +282,8 @@
         "backend/v1/domain/capability_wire_contract_test.go",
         "backend/v1/domain/deployment_lifecycle.go",
         "backend/v1/domain/deployment_lifecycle_test.go",
+        "backend/v1/domain/ldap_outbound.go",
+        "backend/v1/domain/ldap_outbound_test.go",
         "backend/v1/domain/management_error.go",
         "backend/v1/domain/management_error_fixture_test.go",
         "backend/v1/domain/management_error_test.go",
@@ -294,6 +299,8 @@
         "backend/v1/domain/secret_reference.go",
         "backend/v1/domain/secret_reference_test.go",
         "backend/v1/domain/secret_reference_wire_contract_test.go",
+        "backend/v1/federation/ldapoutbound/client.go",
+        "backend/v1/federation/ldapoutbound/openldap_conformance_test.go",
         "backend/v1/management/capabilities.go",
         "backend/v1/management/capabilities_test.go",
         "backend/v1/management/overview.go",
