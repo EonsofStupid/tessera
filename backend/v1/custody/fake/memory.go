@@ -5,6 +5,7 @@ package fake
 
 import (
 	"context"
+	"errors"
 	"io"
 	"sync"
 	"time"
@@ -105,6 +106,10 @@ func (m *Memory) Use(ctx context.Context, request domain.UseSecretRequest, consu
 		return domain.SecretUseReceipt{}, custodyError(domain.SecretRefusalUnavailable, "context", "the protected operation was canceled")
 	}
 	if err := consume(working); err != nil {
+		var safe domain.CustodySafeError
+		if errors.As(err, &safe) {
+			return domain.SecretUseReceipt{}, safe
+		}
 		// Never propagate dependency text: it may contain the credential it was
 		// trying to use. The operation owns the safe diagnostic correlation.
 		return domain.SecretUseReceipt{}, custodyError(domain.SecretRefusalCallbackFailed, "consumer", "the protected operation failed")

@@ -175,6 +175,14 @@ type SecretCustody interface {
 	Get(context.Context, string) (SecretReference, error)
 }
 
+// CustodySafeError marks a typed Tessera refusal whose fields have already
+// been constrained to safe vocabulary. Adapters may preserve this type across
+// a Use callback; every unmarked error must be replaced rather than wrapped.
+type CustodySafeError interface {
+	error
+	custodySafe()
+}
+
 func ValidateSecretEnrollment(request EnrollSecretRequest) error {
 	switch {
 	case !safeIdentifier(request.ReferenceID):

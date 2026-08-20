@@ -46,7 +46,9 @@ only `SecretReference`. Resolution is callback-scoped: the custody adapter
 provides bytes only to the authorized operation callback, clears its working
 copy on return and exposes only a safe receipt. A callback error is wrapped in
 a fixed typed failure and its text is not propagated because dependency errors
-can accidentally contain credentials.
+can accidentally contain credentials. The sole exception is a Tessera domain
+error that explicitly implements the custody-safe marker; this preserves its
+typed refusal without admitting arbitrary provider error text.
 
 References are purpose- and tenant-bound. Cross-account, cross-workspace and
 wrong-purpose use fail before resolution. Expired, revoked, denied or
