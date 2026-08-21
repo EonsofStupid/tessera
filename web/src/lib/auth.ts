@@ -1,4 +1,4 @@
-import type { Environment } from './contracts'
+import { parseEnvironment, parseTokenResponse, type Environment } from './contracts'
 
 const tokenKey = 'tessera.ui.access_token'
 const verifierKey = 'tessera.ui.pkce_verifier'
@@ -31,7 +31,7 @@ export function clearSession(): void {
 export async function loadEnvironment(): Promise<Environment> {
   const response = await fetch('/ui/console/assets/environment.json', { credentials: 'same-origin' })
   if (!response.ok) throw new Error('environment_unavailable')
-  return response.json() as Promise<Environment>
+  return parseEnvironment(await response.json())
 }
 
 function callbackURL(): string {
@@ -85,8 +85,7 @@ export async function finishSignIn(environment: Environment): Promise<boolean> {
     clearSession()
     throw new Error('token_exchange_failed')
   }
-  const result = (await response.json()) as { access_token?: string }
-  if (!result.access_token) throw new Error('access_token_missing')
+  const result = parseTokenResponse(await response.json())
   sessionStorage.setItem(tokenKey, result.access_token)
   sessionStorage.removeItem(verifierKey)
   sessionStorage.removeItem(stateKey)

@@ -26,17 +26,47 @@ Tessera's own UI and API with Shippin absent.
 
 Capabilities remain `preview` unless their promotion row is Done.
 
-## Foundation already proved
+The unit of delivery is the capability defined by
+`20-capability-delivery-standard.md`. A page, container, inherited package,
+database migration or passing unit test cannot be marked as an operational IAM
+milestone on its own.
 
-| Work | Status | Evidence |
+## Foundation inventory already available
+
+| Work | Classification | Evidence |
 |---|---|---|
-| Tessera module builds from this repository | Done | generated source and Go build path |
-| Asymmetric Shippin seat-token profile | Done | Tessera mint plus Automaton verifier negative tests |
-| Tessera seat storage and CLI | Done | repository and mint-path tests |
-| Declarative blueprints | Done | validation, idempotent apply and PostgreSQL atomicity proof |
-| Configured authentication flows | Done | password, MFA and recovery configurations use one executor; negative input fails closed |
+| Inherited IAM core builds from this repository | Inventory | generated source and Go build path; Tessera promotion evidence incomplete |
+| Asymmetric Shippin seat-token profile | Verified optional profile | Tessera mint plus Automaton verifier negative tests |
+| Tessera seat storage and CLI | Verified optional profile | repository and mint-path tests |
+| Declarative blueprints | Inventory | validation, idempotent apply and PostgreSQL atomicity proof; standalone operator journey incomplete |
+| Authentication-flow implementation | Inventory | password, MFA and recovery executor tests exist; Tessera browser, recovery and release evidence incomplete |
 
-These proofs are valuable but do not satisfy the standalone release gate.
+These assets reduce implementation time but do not establish an operational
+Tessera capability. They enter the intake and promotion process in
+`20-capability-delivery-standard.md`.
+
+## Measured runtime baseline — 2026-08-21
+
+The first clean-database Podman drill produced the following facts. These are
+starting measurements, not release evidence:
+
+| Measurement | Observed | Required direction |
+|---|---:|---|
+| PostgreSQL application tables | 186 | inventory ownership and migration behavior for every table used by an operational capability |
+| Tables with RLS enabled and forced | 2 | every tenant-owned Tessera table and query path fails closed under forged, missing and pooled tenant context |
+| Tessera-prefixed tables | 2 | all new product-owned objects use the prefix; inherited objects receive an explicit absorption migration |
+| Inherited application schemas | 9 | remove runtime product identity and converge on a documented Tessera storage boundary without parallel identity truth |
+| Rootless application/database containers | 2 healthy | preserve clean initialization, failure resume and steady-state restart in the automated harness |
+| Production-image Playwright tests | 2 passing | expand to every project in `21-first-iam-vertical-slice.md`; baseline smoke tests cannot promote IAM |
+| Browser runtime validator | ArkType 2.2.3 | cover every environment, token, management and command response entering browser state |
+| Browser end-to-end runner | Playwright 1.62.1 | execute against the release image and disposable PostgreSQL, never the Vite preview |
+
+The first initialization intentionally failed on a generated password that did
+not satisfy the configured complexity policy, then resumed successfully with a
+policy-compliant runtime secret against the partially initialized database.
+The harness must preserve this interrupted-initialization case. Steady-state
+restart against the initialized volume and the production-image browser smoke
+suite both pass.
 
 ## P0 — Correct the product boundary
 
@@ -65,7 +95,7 @@ These proofs are valuable but do not satisfy the standalone release gate.
 | ID | Work | Depends on | Acceptance |
 |---|---|---|---|
 | P2.1 | Define versioned management resources and typed errors | P0 | Active — overview, capabilities, actions and events share typed authorization/errors; mutation resources remain |
-| P2.2 | Build standalone shell and navigation | P2.1 | Done — direct Tessera URL exposes Start, Directory, Applications, Federation, Access, Flows, Security, Audit and Settings |
+| P2.2 | Build standalone shell and navigation | P2.1 | Active — direct Tessera routes render, but disabled placeholders and source-text tests are not operational UI evidence; production Playwright coverage remains |
 | P2.3 | Build guided first-owner enrollment | P1.4, P2.2 | owner enrolls passkey/MFA and exports independent recovery; resume is tested |
 | P2.4 | Build guided organization and application setup | P2.1–P2.3 | a new operator completes first OIDC application without protocol jargon |
 | P2.5 | Build end-user account and security surface | P2.1 | profile, factors, sessions, consent and recovery are usable without admin access |
@@ -89,6 +119,10 @@ These proofs are valuable but do not satisfy the standalone release gate.
 | P3.7 | Forward-auth and identity-aware proxy | P2.6 | real upstream applications pass header, cookie, websocket, logout and bypass-resistance suites |
 | P3.8 | Visual flow editor and execution | P2.2 | graph validation, simulation, publish, revision, rollback and runtime equivalence pass |
 | P3.9 | Provisioning and directory lifecycle | P2.1 | create/update/suspend/reactivate, idempotency, rollback and stale-revision tests pass against production adapters |
+
+P3 work is executed as vertical capability slices. Each row must satisfy every
+layer in `20-capability-delivery-standard.md`; backend-only and UI-only work do
+not travel as separate claims of completion.
 
 ## P4 — Commercial-grade operations
 
@@ -126,15 +160,30 @@ These proofs are valuable but do not satisfy the standalone release gate.
 | P6.4 | Shippin embedded Tessera module | P2.2, P6.3 | clicking Tessera mounts the same product module and capabilities without forked identity logic |
 | P6.5 | Shippin seat-token profile promotion | P6.3 | existing Automaton verification remains green and profile disablement leaves standalone behavior unchanged |
 
-## Next execution tranche
+## Current execution tranche — first real IAM journey
 
-The next work is P0.3–P1.7 and P2.1–P2.2: inventory and isolate host
-assumptions, lock the configuration namespace, build the standalone image,
-implement preflight, expose truthful management discovery and load Tessera's
-own product shell from a rootless Podman installation without Shippin. In
-parallel only where it does not change that dependency direction, continue
-P3.5's Microsoft AD lab profile and the production lifecycle adapter required
-by P3.9.
+The only active product tranche is `21-first-iam-vertical-slice.md`. Work is
+performed in this dependency order:
+
+1. inventory the clean PostgreSQL schema, running routes, existing protocol
+   implementation and inherited product identifiers from the production image;
+2. establish a repeatable real-container test harness with PostgreSQL and no
+   Shippin dependency;
+3. remove unused TanStack Start, adopt ArkType for browser trust-boundary
+   schemas, and establish Playwright against the production build;
+4. absorb and rename the persistence and service paths required by the slice
+   into Tessera-owned boundaries without creating a second identity core;
+5. implement bootstrap owner, organization, application, invitation, OIDC PKCE,
+   entitlement, session revocation and audit as one server-owned journey;
+6. expose the journey through the guided Tessera UI and equivalent Clyffy
+   plan/apply/verify actions; and
+7. pass protocol negatives, tenant isolation, browser accessibility, restart,
+   backup/restore, secret scanning and Automaton consumer verification against
+   one release image digest.
+
+No additional navigation-only dashboard work is part of this tranche. LDAP,
+SAML federation, proxy access and visual flows remain queued behind this slice
+so they inherit one proven implementation, UI, operator and evidence pattern.
 
 The first managed customer is not invited until P4.7 passes. Shippin UI work
 starts at P6.3, after Tessera has already proven itself as the product being

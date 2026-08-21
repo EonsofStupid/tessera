@@ -50,10 +50,16 @@ The standalone web application is not a temporary console. It is the canonical
 guided product experience and must consume the same public management contracts
 available to managed operators and adapters.
 
-It is a Tessera-owned React, TypeScript and TanStack application served by the
-Tessera runtime. The same versioned feature module may later be composed into a
-host shell, but its routes, resources and behavior remain usable at Tessera's
-own origin.
+It is a Tessera-owned React and TypeScript application served by the Tessera
+runtime. Browser trust-boundary payloads are parsed with versioned ArkType
+schemas before entering application state; TypeScript assertions alone never
+validate runtime data. The Go service remains authoritative and independently
+validates every command. A routing or rendering framework is an implementation
+choice, not part of the product contract, and unused full-stack frameworks are
+forbidden from the runtime dependency graph.
+
+The same versioned feature module may later be composed into a host shell, but
+its routes, resources and behavior remain usable at Tessera's own origin.
 
 Every meaningful interaction uses the stable ids, semantic events and shared
 human/AI action grammar in `18-operator-interaction-contract.md`. Presentation

@@ -12,6 +12,8 @@ secrets/
 .env.*
 node_modules/
 /target/
+web/playwright-report/
+web/test-results/
 
 # Runtime state for the workspace terminal host — sockets and pids.
 .automaton/

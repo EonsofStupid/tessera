@@ -54,6 +54,8 @@ it does not define Tessera's product limits.
 | `docs/00-charter.md` | ownership and dependency direction |
 | `docs/02-standalone-product-contract.md` | the release contract every deployment must satisfy |
 | `docs/03-roadmap.md` | the evidence-driven worklist to reach that release |
+| `docs/20-capability-delivery-standard.md` | the proof required before any IAM capability is operational |
+| `docs/21-first-iam-vertical-slice.md` | the first complete owner, tenant, OIDC, session and audit journey |
 | `docs/01-seat-token-contract.md` | the optional Shippin token profile |
 | `docs/05-minting-a-seat-token.md` | how that optional profile is exercised |
 | `docs/10-container-runtime.md` | the standalone container and Podman boundary |

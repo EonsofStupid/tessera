@@ -62,7 +62,8 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
       -o /out/tessera . \
     && printf 'tessera:x:10001:10001:Tessera:/:/sbin/nologin\n' > /out/passwd \
     && printf 'tessera:x:10001:\n' > /out/group \
-    && mkdir -m 1777 /out/tmp
+    && mkdir -m 1777 /out/tmp \
+    && go clean -cache -modcache
 
 FROM scratch AS runtime
 

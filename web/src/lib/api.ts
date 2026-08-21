@@ -1,6 +1,7 @@
 import { accessToken } from './auth'
 import {
   isCapabilityDiscovery,
+  isManagementErrorEnvelope,
   isOverview,
   isOperatorActionCatalog,
   type CapabilityDiscovery,
@@ -22,10 +23,10 @@ async function get<T>(path: string, validate: (value: unknown) => value is T): P
     })
     const body: unknown = await response.json()
     if (response.ok && validate(body)) return { status: 'ready', data: body }
-    const envelope = body as ManagementErrorEnvelope
-    if (response.status === 401) return { status: 'authentication_required', error: envelope.error }
-    if (response.status === 403) return { status: 'forbidden', error: envelope.error }
-    return { status: 'unavailable', error: envelope.error }
+    const envelope: ManagementErrorEnvelope | undefined = isManagementErrorEnvelope(body) ? body : undefined
+    if (response.status === 401) return { status: 'authentication_required', error: envelope?.error }
+    if (response.status === 403) return { status: 'forbidden', error: envelope?.error }
+    return { status: 'unavailable', error: envelope?.error }
   } catch {
     return {
       status: 'unavailable',
