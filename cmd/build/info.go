@@ -5,7 +5,9 @@ import (
 	"time"
 )
 
-// These variables are set via ldflags in the Makefile
+// These variables are set via ldflags. When unset, Nomen is the frozen
+// 1.0.0-alpha product version. Keep this string identical to
+// backend/v1/domain.ProductVersion — cmd/build must not import that package.
 var (
 	version = ""
 	commit  = ""
@@ -24,23 +26,22 @@ func init() {
 		dateTime = time.Now()
 		date = dateTime.Format(time.RFC3339)
 	}
-	if version == "" {
-		slog.Warn("no build version set, using timestamp as version")
-		version = date
+	if version == "" || version == "dev" || version == "worktree" {
+		version = "1.0.0-alpha"
 	}
 }
 
-// Version returns the current build version of Tessera
+// Version returns the current build version of Nomen
 func Version() string {
 	return version
 }
 
-// Commit returns the git commit hash of the current build of Tessera
+// Commit returns the git commit hash of the current build of Nomen
 func Commit() string {
 	return commit
 }
 
-// Date returns the build date of the current build of Tessera
+// Date returns the build date of the current build of Nomen
 func Date() time.Time {
 	return dateTime
 }

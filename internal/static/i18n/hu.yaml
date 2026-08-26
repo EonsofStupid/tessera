@@ -61,7 +61,7 @@ Errors:
     CouldNotDialTLS: "nem sikerült TLS használatával kapcsolatba lépni az SMTP szerverrel, ellenőrizd a portot, tűzfal problémák..."
     CouldNotCreateClient: "nem sikerült létrehozni az smtp klienst"
     CouldNotStartTLS: "nem sikerült elindítani a tls-t"
-    CouldNotAuth: "nem sikerült hozzáadni az smtp hitelesítést, ellenőrizd, hogy a felhasználóneved és a jelszavad helyes-e, ha igen, lehet, hogy a szolgáltatód olyan hitelesítési módot kér, amelyet a Zitadel nem támogat"
+    CouldNotAuth: "nem sikerült hozzáadni az smtp hitelesítést, ellenőrizd, hogy a felhasználóneved és a jelszavad helyes-e, ha igen, lehet, hogy a szolgáltatód olyan hitelesítési módot kér, amelyet a Nomen nem támogat"
     CouldNotSetSender: "nem sikerült beállítani a feladót"
     CouldNotSetRecipient: "nem sikerült beállítani a címzettet"
   SMTPConfig:
@@ -153,7 +153,7 @@ Errors:
       Invalid: "A jelszó érvénytelen"
       NotSet: "A felhasználó nem állított be jelszót"
       NotChanged: "Az új jelszó nem egyezhet meg a jelenlegi jelszóval"
-      NotSupported: "A jelszó hash kódolása nem támogatott. További információ itt: https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "A jelszó hash kódolása nem támogatott. További információ itt: https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "A jelszó szabályzat nem található"
       MinLength: "A jelszó túl rövid"
@@ -207,7 +207,7 @@ Errors:
     NotActive: "A szervezet nem aktív"
     NotChanged: "A szervezet nem változott"
     DefaultOrgNotDeletable: "Az alapértelmezett szervezetet nem szabad törölni"
-    ZitadelOrgNotDeletable: "A Zitadel projekttel rendelkező szervezetet nem szabad törölni"
+    NomenOrgNotDeletable: "A Nomen projekttel rendelkező szervezetet nem szabad törölni"
     InvalidDomain: "Érvénytelen domain"
     DomainMissing: "Hiányzó domain"
     DomainNotOnOrg: "A domain nem létezik a szervezeten"
@@ -216,8 +216,8 @@ Errors:
     DomainVerificationTypeInvalid: "A domain ellenőrzés típusa érvénytelen"
     DomainVerificationMissing: "A domain ellenőrzés még nem kezdődött el"
     DomainVerificationFailed: "A domain ellenőrzés sikertelen volt"
-    DomainVerificationTXTNotFound: "A _zitadel-challenge TXT rekord nem található a domain-edhez. Ellenőrizd, hogy hozzáadtad-e a DNS szerveredhez, vagy várj, amíg az új rekord elterjed"
-    DomainVerificationTXTNoMatch: "A _zitadel-challenge TXT rekord megtalálható a domain-edhez, de nem tartalmazza a megfelelő token szöveget. Ellenőrizd, hogy a megfelelő tokent adtad-e hozzá a DNS szerveredhez, vagy várj, amíg az új rekord elterjed"
+    DomainVerificationTXTNotFound: "A _nomen-challenge TXT rekord nem található a domain-edhez. Ellenőrizd, hogy hozzáadtad-e a DNS szerveredhez, vagy várj, amíg az új rekord elterjed"
+    DomainVerificationTXTNoMatch: "A _nomen-challenge TXT rekord megtalálható a domain-edhez, de nem tartalmazza a megfelelő token szöveget. Ellenőrizd, hogy a megfelelő tokent adtad-e hozzá a DNS szerveredhez, vagy várj, amíg az új rekord elterjed"
     DomainVerificationHTTPNotFound: "A kihívást tartalmazó fájl nem található a várt URL-en. Ellenőrizd, hogy feltöltötted-e a fájlt a megfelelő helyre olvasási jogosultsággal"
     DomainVerificationHTTPNoMatch: "A kihívást tartalmazó fájl megtalálható a várt URL-en, de nem tartalmazza a megfelelő token szöveget. Ellenőrizd a tartalmát"
     DomainVerificationTimeout: "Időtúllépés történt a DNS szerver lekérdezésekor"
@@ -342,7 +342,7 @@ Errors:
   Instance:
     AlreadyExists: "Az instance már létezik"
     NotChanged: "Az instance nem változott"
-    NotFound: "Instance nem található. Győződj meg róla, hogy a domain helyes. Nézd meg itt: https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Instance nem található. Győződj meg róla, hogy a domain helyes. Nézd meg itt: https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "A szerepkörök nem változtak"
     MemberInvalid: "Tag érvénytelen"
@@ -1109,20 +1109,20 @@ EventTypes:
         changed: "A jelszó kizárási irányelv megváltozott"
   iam:
     setup:
-      started: "A Zitadel beállítás elindult"
-      done: "A Zitadel beállítás befejeződött"
+      started: "A Nomen beállítás elindult"
+      done: "A Nomen beállítás befejeződött"
     global:
       org:
         set: "Globális szervezet beállítva"
     project:
       iam:
-        set: "A Zitadel projekt beállítva"
+        set: "A Nomen projekt beállítva"
     member:
-      added: "Zitadel tag hozzáadva"
-      changed: "Zitadel tag megváltoztatva"
-      removed: "Zitadel tag eltávolítva"
+      added: "Nomen tag hozzáadva"
+      changed: "Nomen tag megváltoztatva"
+      removed: "Nomen tag eltávolítva"
       cascade:
-        removed: "Zitadel tag láncolt eltávolítva"
+        removed: "Nomen tag láncolt eltávolítva"
     idp:
       config:
         added: "IDP konfiguráció hozzáadva"
@@ -1235,9 +1235,9 @@ EventTypes:
       removed: "Domain eltávolítva"
     iam:
       console:
-        set: "Zitadel Felügyeleti Konzol alkalmazás beállítva"
+        set: "Nomen Felügyeleti Konzol alkalmazás beállítva"
       project:
-        set: "Zitadel projekt beállítva"
+        set: "Nomen projekt beállítva"
     mail:
       template:
         added: "E-Mail sablon hozzáadva"

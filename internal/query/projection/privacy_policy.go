@@ -3,14 +3,14 @@ package projection
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	old_handler "github.com/EonsofStupid/tessera/internal/eventstore/handler"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/policy"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	old_handler "github.com/shippinAI/nomen/internal/eventstore/handler"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/policy"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
@@ -59,7 +59,7 @@ func (*privacyPolicyProjection) Init() *old_handler.Check {
 			handler.NewColumn(PrivacyPolicyTOSLinkCol, handler.ColumnTypeText),
 			handler.NewColumn(PrivacyPolicyHelpLinkCol, handler.ColumnTypeText),
 			handler.NewColumn(PrivacyPolicySupportEmailCol, handler.ColumnTypeText),
-			handler.NewColumn(PrivacyPolicyDocsLinkCol, handler.ColumnTypeText, handler.Default("https://zitadel.com/docs")),
+			handler.NewColumn(PrivacyPolicyDocsLinkCol, handler.ColumnTypeText, handler.Default("https://nomen.com/docs")),
 			handler.NewColumn(PrivacyPolicyCustomLinkCol, handler.ColumnTypeText),
 			handler.NewColumn(PrivacyPolicyCustomLinkTextCol, handler.ColumnTypeText),
 			handler.NewColumn(PrivacyPolicyOwnerRemovedCol, handler.ColumnTypeBool, handler.Default(false)),

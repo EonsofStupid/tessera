@@ -5,8 +5,8 @@ import (
 	"path"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/http"
 )
 
 type ScimSchemaType string
@@ -16,7 +16,7 @@ type ScimResourceTypePlural string
 const (
 	idPrefixMessages        = "urn:ietf:params:scim:api:messages:2.0:"
 	idPrefixCore            = "urn:ietf:params:scim:schemas:core:2.0:"
-	idPrefixZitadelMessages = "urn:ietf:params:scim:api:zitadel:messages:2.0:"
+	idPrefixNomenMessages = "urn:ietf:params:scim:api:nomen:messages:2.0:"
 
 	IdUser                  ScimSchemaType = idPrefixCore + "User"
 	IdServiceProviderConfig ScimSchemaType = idPrefixCore + "ServiceProviderConfig"
@@ -28,7 +28,7 @@ const (
 	IdBulkRequest           ScimSchemaType = idPrefixMessages + "BulkRequest"
 	IdBulkResponse          ScimSchemaType = idPrefixMessages + "BulkResponse"
 	IdError                 ScimSchemaType = idPrefixMessages + "Error"
-	IdZitadelErrorDetail    ScimSchemaType = idPrefixZitadelMessages + "ErrorDetail"
+	IdNomenErrorDetail    ScimSchemaType = idPrefixNomenMessages + "ErrorDetail"
 
 	UserResourceType  ScimResourceTypeSingular = "User"
 	UsersResourceType ScimResourceTypePlural   = "Users"

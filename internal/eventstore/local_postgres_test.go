@@ -10,15 +10,15 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/cmd/initialise"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/database/dialect"
-	"github.com/EonsofStupid/tessera/internal/database/postgres"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	es_sql "github.com/EonsofStupid/tessera/internal/eventstore/repository/sql"
-	new_es "github.com/EonsofStupid/tessera/internal/eventstore/v3"
+	"github.com/shippinAI/nomen/cmd/initialise"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/database/dialect"
+	"github.com/shippinAI/nomen/internal/database/postgres"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	es_sql "github.com/shippinAI/nomen/internal/eventstore/repository/sql"
+	new_es "github.com/shippinAI/nomen/internal/eventstore/v3"
 )
 
 var (
@@ -70,7 +70,7 @@ func TestMain(m *testing.M) {
 			logging.OnError(testClient.Close()).Error("unable to close db")
 		}()
 
-		err = initDB(context.Background(), &database.DB{DB: testClient.DB, Database: &postgres.Config{Database: "zitadel"}})
+		err = initDB(context.Background(), &database.DB{DB: testClient.DB, Database: &postgres.Config{Database: "nomen"}})
 		logging.OnError(err).Fatal("migrations failed")
 
 		return m.Run()
@@ -79,7 +79,7 @@ func TestMain(m *testing.M) {
 
 func initDB(ctx context.Context, db *database.DB) error {
 	config := new(database.Config)
-	config.SetConnector(&postgres.Config{User: postgres.User{Username: "zitadel"}, Database: "zitadel"})
+	config.SetConnector(&postgres.Config{User: postgres.User{Username: "nomen"}, Database: "nomen"})
 
 	if err := initialise.ReadStmts(); err != nil {
 		return err
@@ -93,7 +93,7 @@ func initDB(ctx context.Context, db *database.DB) error {
 		return err
 	}
 
-	err = initialise.VerifyZitadel(ctx, db, *config)
+	err = initialise.VerifyNomen(ctx, db, *config)
 	if err != nil {
 		return err
 	}

@@ -1,14 +1,14 @@
 package repository
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type sessionUserAgent struct {
 }
 
 func (s sessionUserAgent) qualifiedTableName() string {
-	return "zitadel.session_user_agents"
+	return "nomen.session_user_agents"
 }
 
 func (s sessionUserAgent) unqualifiedTableName() string {

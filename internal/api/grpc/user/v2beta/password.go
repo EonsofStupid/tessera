@@ -5,10 +5,10 @@ import (
 
 	"connectrpc.com/connect"
 
-	object "github.com/EonsofStupid/tessera/internal/api/grpc/object/v2beta"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2beta"
+	object "github.com/shippinAI/nomen/internal/api/grpc/object/v2beta"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	user "github.com/shippinAI/nomen/pkg/grpc/user/v2beta"
 )
 
 func (s *Server) PasswordReset(ctx context.Context, req *connect.Request[user.PasswordResetRequest]) (_ *connect.Response[user.PasswordResetResponse], err error) {

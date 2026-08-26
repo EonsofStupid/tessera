@@ -5,17 +5,17 @@ import (
 
 	"connectrpc.com/connect"
 
-	orgv2 "github.com/EonsofStupid/tessera/backend/v3/api/org/v2"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/metadata/v2"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	filter_pb "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/org/v2"
+	orgv2 "github.com/shippinAI/nomen/backend/v3/api/org/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/filter/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/metadata/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/object/v2"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	filter_pb "github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/org/v2"
 )
 
 func (s *Server) ListOrganizations(ctx context.Context, req *connect.Request[org.ListOrganizationsRequest]) (*connect.Response[org.ListOrganizationsResponse], error) {

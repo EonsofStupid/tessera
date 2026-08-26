@@ -5,12 +5,12 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // SetOrgMessageText only validates if the language is supported, not if it is allowed.

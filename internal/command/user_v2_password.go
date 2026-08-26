@@ -4,9 +4,9 @@ import (
 	"context"
 	"io"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // RequestPasswordReset generates a code

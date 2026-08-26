@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	project_repo "github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	project_repo "github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) ChangeApplicationSecret(ctx context.Context, projectID, applicationID, resourceOwner string) (secret string, changeDate time.Time, err error) {

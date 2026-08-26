@@ -7,10 +7,10 @@ remain active work.
 
 ## Product-owned storage
 
-Every new Tessera-owned PostgreSQL table, index, trigger, policy, publication
-and ClickHouse projection uses the `tessera_` prefix. New unprefixed objects are
+Every new Nomen-owned PostgreSQL table, index, trigger, policy, publication
+and ClickHouse projection uses the `nomen_` prefix. New unprefixed objects are
 rejected in review. Existing compatibility objects are migrated behind
-Tessera-owned repositories; runtime code may not introduce a second direct
+Nomen-owned repositories; runtime code may not introduce a second direct
 dependency on them.
 
 PostgreSQL is identity truth. Every tenant-scoped table has a non-null
@@ -40,7 +40,7 @@ server context, never a trusted browser field.
 
 Each configurable resource declares exactly one authority mode:
 
-- `local` — the Tessera deployment accepts authorized local management writes;
+- `local` — the Nomen deployment accepts authorized local management writes;
 - `central` — a named control plane supplies signed desired revisions and local
   mutation for that resource is disabled with typed remediation; or
 - `delegated` — central policy defines a bounded field set that local owners may
@@ -48,7 +48,7 @@ Each configurable resource declares exactly one authority mode:
 
 Authority is per resource family, not one vague deployment flag. Changes use a
 reviewed migration plan that names the final local revision, initial central
-revision, conflict policy, rollback boundary and recovery owner. Tessera never
+revision, conflict policy, rollback boundary and recovery owner. Nomen never
 merges two simultaneous writers by last-write-wins.
 
 A central command is authenticated, signed, audience-bound, revision-checked,
@@ -59,9 +59,9 @@ permits it; otherwise the named capability degrades or fails closed.
 
 ## Names and provenance boundary
 
-Tessera runtime identifiers, routes, environment variables, database objects,
-telemetry, errors, UI and customer documentation use Tessera vocabulary only.
-Imported implementation history is progressively absorbed behind Tessera-owned
+Nomen runtime identifiers, routes, environment variables, database objects,
+telemetry, errors, UI and customer documentation use Nomen vocabulary only.
+Imported implementation history is progressively absorbed behind Nomen-owned
 packages and schemas. Legally required provenance is retained in release legal
 materials but is never used as a runtime product identity or API contract.
 
@@ -71,7 +71,7 @@ runtime package, schema, configuration or customer-facing identifier.
 
 ## Done when
 
-- schema lint rejects every new non-`tessera_` object;
+- schema lint rejects every new non-`nomen_` object;
 - every tenant table passes missing-context, forged-context, pooled-connection,
   backup, analytics, replay and cross-tenant mutation tests;
 - dedicated and community deployments run the same tenant suite;

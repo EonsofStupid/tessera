@@ -10,14 +10,14 @@ import (
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	sessionv2 "github.com/EonsofStupid/tessera/backend/v3/api/session/v2"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	sessionv2 "github.com/shippinAI/nomen/backend/v3/api/session/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/object/v2"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 func (s *Server) CreateSession(ctx context.Context, req *connect.Request[session.CreateSessionRequest]) (*connect.Response[session.CreateSessionResponse], error) {

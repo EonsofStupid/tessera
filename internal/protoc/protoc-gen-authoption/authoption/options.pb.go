@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.28.1
 // 	protoc        (unknown)
-// source: zitadel/options.proto
+// source: nomen/options.proto
 
 package authoption
 
@@ -33,7 +33,7 @@ type AuthOption struct {
 func (x *AuthOption) Reset() {
 	*x = AuthOption{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_zitadel_options_proto_msgTypes[0]
+		mi := &file_nomen_options_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -46,7 +46,7 @@ func (x *AuthOption) String() string {
 func (*AuthOption) ProtoMessage() {}
 
 func (x *AuthOption) ProtoReflect() protoreflect.Message {
-	mi := &file_zitadel_options_proto_msgTypes[0]
+	mi := &file_nomen_options_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +59,7 @@ func (x *AuthOption) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AuthOption.ProtoReflect.Descriptor instead.
 func (*AuthOption) Descriptor() ([]byte, []int) {
-	return file_zitadel_options_proto_rawDescGZIP(), []int{0}
+	return file_nomen_options_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *AuthOption) GetPermission() string {
@@ -76,26 +76,26 @@ func (x *AuthOption) GetCheckFieldName() string {
 	return ""
 }
 
-var file_zitadel_options_proto_extTypes = []protoimpl.ExtensionInfo{
+var file_nomen_options_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
 		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
 		ExtensionType: (*AuthOption)(nil),
 		Field:         50000,
-		Name:          "zitadel.v1.auth_option",
+		Name:          "nomen.v1.auth_option",
 		Tag:           "bytes,50000,opt,name=auth_option",
-		Filename:      "zitadel/options.proto",
+		Filename:      "nomen/options.proto",
 	},
 }
 
 // Extension fields to descriptorpb.MethodOptions.
 var (
-	// optional zitadel.v1.AuthOption auth_option = 50000;
-	E_AuthOption = &file_zitadel_options_proto_extTypes[0]
+	// optional nomen.v1.AuthOption auth_option = 50000;
+	E_AuthOption = &file_nomen_options_proto_extTypes[0]
 )
 
-var File_zitadel_options_proto protoreflect.FileDescriptor
+var File_nomen_options_proto protoreflect.FileDescriptor
 
-var file_zitadel_options_proto_rawDesc = []byte{
+var file_nomen_options_proto_rawDesc = []byte{
 	0x0a, 0x15, 0x7a, 0x69, 0x74, 0x61, 0x64, 0x65, 0x6c, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x6e,
 	0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0a, 0x7a, 0x69, 0x74, 0x61, 0x64, 0x65, 0x6c,
 	0x2e, 0x76, 0x31, 0x1a, 0x20, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74,
@@ -120,25 +120,25 @@ var file_zitadel_options_proto_rawDesc = []byte{
 }
 
 var (
-	file_zitadel_options_proto_rawDescOnce sync.Once
-	file_zitadel_options_proto_rawDescData = file_zitadel_options_proto_rawDesc
+	file_nomen_options_proto_rawDescOnce sync.Once
+	file_nomen_options_proto_rawDescData = file_nomen_options_proto_rawDesc
 )
 
-func file_zitadel_options_proto_rawDescGZIP() []byte {
-	file_zitadel_options_proto_rawDescOnce.Do(func() {
-		file_zitadel_options_proto_rawDescData = protoimpl.X.CompressGZIP(file_zitadel_options_proto_rawDescData)
+func file_nomen_options_proto_rawDescGZIP() []byte {
+	file_nomen_options_proto_rawDescOnce.Do(func() {
+		file_nomen_options_proto_rawDescData = protoimpl.X.CompressGZIP(file_nomen_options_proto_rawDescData)
 	})
-	return file_zitadel_options_proto_rawDescData
+	return file_nomen_options_proto_rawDescData
 }
 
-var file_zitadel_options_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_zitadel_options_proto_goTypes = []interface{}{
-	(*AuthOption)(nil),                 // 0: zitadel.v1.AuthOption
+var file_nomen_options_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_nomen_options_proto_goTypes = []interface{}{
+	(*AuthOption)(nil),                 // 0: nomen.v1.AuthOption
 	(*descriptorpb.MethodOptions)(nil), // 1: google.protobuf.MethodOptions
 }
-var file_zitadel_options_proto_depIdxs = []int32{
-	1, // 0: zitadel.v1.auth_option:extendee -> google.protobuf.MethodOptions
-	0, // 1: zitadel.v1.auth_option:type_name -> zitadel.v1.AuthOption
+var file_nomen_options_proto_depIdxs = []int32{
+	1, // 0: nomen.v1.auth_option:extendee -> google.protobuf.MethodOptions
+	0, // 1: nomen.v1.auth_option:type_name -> nomen.v1.AuthOption
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
 	1, // [1:2] is the sub-list for extension type_name
@@ -146,13 +146,13 @@ var file_zitadel_options_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_zitadel_options_proto_init() }
-func file_zitadel_options_proto_init() {
-	if File_zitadel_options_proto != nil {
+func init() { file_nomen_options_proto_init() }
+func file_nomen_options_proto_init() {
+	if File_nomen_options_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_zitadel_options_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_nomen_options_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AuthOption); i {
 			case 0:
 				return &v.state
@@ -169,19 +169,19 @@ func file_zitadel_options_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_zitadel_options_proto_rawDesc,
+			RawDescriptor: file_nomen_options_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 1,
 			NumServices:   0,
 		},
-		GoTypes:           file_zitadel_options_proto_goTypes,
-		DependencyIndexes: file_zitadel_options_proto_depIdxs,
-		MessageInfos:      file_zitadel_options_proto_msgTypes,
-		ExtensionInfos:    file_zitadel_options_proto_extTypes,
+		GoTypes:           file_nomen_options_proto_goTypes,
+		DependencyIndexes: file_nomen_options_proto_depIdxs,
+		MessageInfos:      file_nomen_options_proto_msgTypes,
+		ExtensionInfos:    file_nomen_options_proto_extTypes,
 	}.Build()
-	File_zitadel_options_proto = out.File
-	file_zitadel_options_proto_rawDesc = nil
-	file_zitadel_options_proto_goTypes = nil
-	file_zitadel_options_proto_depIdxs = nil
+	File_nomen_options_proto = out.File
+	file_nomen_options_proto_rawDesc = nil
+	file_nomen_options_proto_goTypes = nil
+	file_nomen_options_proto_depIdxs = nil
 }

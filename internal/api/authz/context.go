@@ -7,12 +7,12 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/grpc"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type key int

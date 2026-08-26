@@ -5,16 +5,16 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	scim_config "github.com/EonsofStupid/tessera/internal/api/scim/config"
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources/filter"
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources/patch"
-	scim_schemas "github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	scim_config "github.com/shippinAI/nomen/internal/api/scim/config"
+	"github.com/shippinAI/nomen/internal/api/scim/resources/filter"
+	"github.com/shippinAI/nomen/internal/api/scim/resources/patch"
+	scim_schemas "github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type UsersHandler struct {

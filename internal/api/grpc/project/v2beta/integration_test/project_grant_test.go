@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	project "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	project "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
 )
 
 func TestServer_CreateProjectGrant(t *testing.T) {

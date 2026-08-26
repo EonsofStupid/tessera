@@ -19,8 +19,8 @@
 @mixin _lgn-avatar-theme-property($property, $contrast) {
   $color: if(
     $contrast,
-    var(--zitadel-color-primary-contrast),
-    var(--zitadel-color-primary)
+    var(--nomen-color-primary-contrast),
+    var(--nomen-color-primary)
   );
 
   &.lgn-primary {
@@ -40,7 +40,7 @@
     &[disabled] {
       $btn-color: if(
         $property == "color",
-        var(--zitadel-color-button-disabled),
+        var(--nomen-color-button-disabled),
         var(--itadel-color-button-disabled-background)
       );
       #{$property}: $btn-color;

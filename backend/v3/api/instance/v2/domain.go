@@ -6,14 +6,14 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/api/instance/v2/convert"
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	filter_v2 "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	filter_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	instance_v2 "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	instance_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
+	"github.com/shippinAI/nomen/backend/v3/api/instance/v2/convert"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	filter_v2 "github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	filter_v2beta "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	instance_v2 "github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	instance_v2beta "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
 )
 
 // =================
@@ -42,7 +42,7 @@ func AddCustomDomainBeta(ctx context.Context, request *connect.Request[instance_
 
 	return &connect.Response[instance_v2beta.AddCustomDomainResponse]{
 		Msg: &instance_v2beta.AddCustomDomainResponse{
-			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10881
+			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10881
 			CreationDate: timestamppb.Now(),
 		},
 	}, nil
@@ -62,7 +62,7 @@ func RemoveCustomDomainBeta(ctx context.Context, request *connect.Request[instan
 	}
 	return &connect.Response[instance_v2beta.RemoveCustomDomainResponse]{
 		Msg: &instance_v2beta.RemoveCustomDomainResponse{
-			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10881
+			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10881
 			DeletionDate: deletionDate,
 		},
 	}, nil
@@ -81,7 +81,7 @@ func ListCustomDomainsBeta(ctx context.Context, request *connect.Request[instanc
 		Msg: &instance_v2beta.ListCustomDomainsResponse{
 			Domains: convert.DomainInstanceDomainListModelToGRPCBetaResponse(customDomains),
 			Pagination: &filter_v2beta.PaginationResponse{
-				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10955
+				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10955
 				TotalResult:  uint64(len(customDomains)),
 				AppliedLimit: uint64(request.Msg.GetPagination().GetLimit()),
 			},
@@ -104,7 +104,7 @@ func AddTrustedDomainBeta(ctx context.Context, request *connect.Request[instance
 
 	return &connect.Response[instance_v2beta.AddTrustedDomainResponse]{
 		Msg: &instance_v2beta.AddTrustedDomainResponse{
-			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10881
+			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10881
 			CreationDate: timestamppb.Now(),
 		},
 	}, nil
@@ -124,7 +124,7 @@ func RemoveTrustedDomainBeta(ctx context.Context, request *connect.Request[insta
 	}
 	return &connect.Response[instance_v2beta.RemoveTrustedDomainResponse]{
 		Msg: &instance_v2beta.RemoveTrustedDomainResponse{
-			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10881
+			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10881
 			DeletionDate: deletionDate,
 		},
 	}, nil
@@ -143,7 +143,7 @@ func ListTrustedDomainsBeta(ctx context.Context, request *connect.Request[instan
 		Msg: &instance_v2beta.ListTrustedDomainsResponse{
 			TrustedDomain: convert.TrustedDomainInstanceDomainListModelToGRPCBetaResponse(trustedDomains),
 			Pagination: &filter_v2beta.PaginationResponse{
-				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10955
+				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10955
 				TotalResult:  uint64(len(trustedDomains)),
 				AppliedLimit: uint64(request.Msg.GetPagination().GetLimit()),
 			},
@@ -177,7 +177,7 @@ func AddCustomDomain(ctx context.Context, request *connect.Request[instance_v2.A
 
 	return &connect.Response[instance_v2.AddCustomDomainResponse]{
 		Msg: &instance_v2.AddCustomDomainResponse{
-			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10881
+			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10881
 			CreationDate: timestamppb.Now(),
 		},
 	}, nil
@@ -197,7 +197,7 @@ func RemoveCustomDomain(ctx context.Context, request *connect.Request[instance_v
 	}
 	return &connect.Response[instance_v2.RemoveCustomDomainResponse]{
 		Msg: &instance_v2.RemoveCustomDomainResponse{
-			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10881
+			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10881
 			DeletionDate: deletionDate,
 		},
 	}, nil
@@ -216,7 +216,7 @@ func ListCustomDomains(ctx context.Context, request *connect.Request[instance_v2
 		Msg: &instance_v2.ListCustomDomainsResponse{
 			Domains: convert.DomainInstanceDomainListModelToGRPCResponse(customDomains),
 			Pagination: &filter_v2.PaginationResponse{
-				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10955
+				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10955
 				TotalResult:  uint64(len(customDomains)),
 				AppliedLimit: uint64(request.Msg.GetPagination().GetLimit()),
 			},
@@ -239,7 +239,7 @@ func AddTrustedDomain(ctx context.Context, request *connect.Request[instance_v2.
 
 	return &connect.Response[instance_v2.AddTrustedDomainResponse]{
 		Msg: &instance_v2.AddTrustedDomainResponse{
-			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10881
+			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10881
 			CreationDate: timestamppb.Now(),
 		},
 	}, nil
@@ -259,7 +259,7 @@ func RemoveTrustedDomain(ctx context.Context, request *connect.Request[instance_
 	}
 	return &connect.Response[instance_v2.RemoveTrustedDomainResponse]{
 		Msg: &instance_v2.RemoveTrustedDomainResponse{
-			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10881
+			// TODO(IAM-Marco): Return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10881
 			DeletionDate: deletionDate,
 		},
 	}, nil
@@ -278,7 +278,7 @@ func ListTrustedDomains(ctx context.Context, request *connect.Request[instance_v
 		Msg: &instance_v2.ListTrustedDomainsResponse{
 			TrustedDomain: convert.TrustedDomainInstanceDomainListModelToGRPCResponse(trustedDomains),
 			Pagination: &filter_v2.PaginationResponse{
-				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10955
+				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10955
 				TotalResult:  uint64(len(trustedDomains)),
 				AppliedLimit: uint64(request.Msg.GetPagination().GetLimit()),
 			},

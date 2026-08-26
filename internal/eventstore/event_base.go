@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/shopspring/decimal"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/service"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/service"
 )
 
 var (
@@ -103,7 +103,7 @@ func (e *BaseEvent) Unmarshal(ptr any) error {
 	return json.Unmarshal(e.Data, ptr)
 }
 
-const defaultService = "zitadel"
+const defaultService = "nomen"
 
 // BaseEventFromRepo maps a stored event to a BaseEvent
 func BaseEventFromRepo(event Event) *BaseEvent {

@@ -12,10 +12,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	action "github.com/EonsofStupid/tessera/pkg/grpc/action/v2beta"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/integration"
+	action "github.com/shippinAI/nomen/pkg/grpc/action/v2beta"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
 )
 
 func TestServer_GetTarget(t *testing.T) {
@@ -487,7 +487,7 @@ func TestServer_ListExecutions(t *testing.T) {
 									ConditionType: &action.Condition_Request{
 										Request: &action.RequestExecution{
 											Condition: &action.RequestExecution_Method{
-												Method: "/zitadel.session.v2.SessionService/GetSession",
+												Method: "/nomen.session.v2.SessionService/GetSession",
 											},
 										},
 									},
@@ -508,7 +508,7 @@ func TestServer_ListExecutions(t *testing.T) {
 							ConditionType: &action.Condition_Request{
 								Request: &action.RequestExecution{
 									Condition: &action.RequestExecution_Method{
-										Method: "/zitadel.session.v2.SessionService/GetSession",
+										Method: "/nomen.session.v2.SessionService/GetSession",
 									},
 								},
 							},
@@ -536,7 +536,7 @@ func TestServer_ListExecutions(t *testing.T) {
 						ConditionType: &action.Condition_Request{
 							Request: &action.RequestExecution{
 								Condition: &action.RequestExecution_Method{
-									Method: "/zitadel.management.v1.ManagementService/UpdateAction",
+									Method: "/nomen.management.v1.ManagementService/UpdateAction",
 								},
 							},
 						},
@@ -578,21 +578,21 @@ func TestServer_ListExecutions(t *testing.T) {
 									{ConditionType: &action.Condition_Request{
 										Request: &action.RequestExecution{
 											Condition: &action.RequestExecution_Method{
-												Method: "/zitadel.session.v2.SessionService/GetSession",
+												Method: "/nomen.session.v2.SessionService/GetSession",
 											},
 										},
 									}},
 									{ConditionType: &action.Condition_Request{
 										Request: &action.RequestExecution{
 											Condition: &action.RequestExecution_Method{
-												Method: "/zitadel.session.v2.SessionService/CreateSession",
+												Method: "/nomen.session.v2.SessionService/CreateSession",
 											},
 										},
 									}},
 									{ConditionType: &action.Condition_Request{
 										Request: &action.RequestExecution{
 											Condition: &action.RequestExecution_Method{
-												Method: "/zitadel.session.v2.SessionService/SetSession",
+												Method: "/nomen.session.v2.SessionService/SetSession",
 											},
 										},
 									}},
@@ -665,11 +665,11 @@ func TestServer_ListExecutions(t *testing.T) {
 						Filter: &action.ExecutionSearchFilter_InConditionsFilter{
 							InConditionsFilter: &action.InConditionsFilter{
 								Conditions: []*action.Condition{
-									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_Method{Method: "/zitadel.session.v2.SessionService/GetSession"}}}},
-									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_Service{Service: "zitadel.session.v2.SessionService"}}}},
+									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_Method{Method: "/nomen.session.v2.SessionService/GetSession"}}}},
+									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_Service{Service: "nomen.session.v2.SessionService"}}}},
 									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_All{All: true}}}},
-									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_Method{Method: "/zitadel.session.v2.SessionService/GetSession"}}}},
-									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_Service{Service: "zitadel.session.v2.SessionService"}}}},
+									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_Method{Method: "/nomen.session.v2.SessionService/GetSession"}}}},
+									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_Service{Service: "nomen.session.v2.SessionService"}}}},
 									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_All{All: true}}}},
 									{ConditionType: &action.Condition_Event{Event: &action.EventExecution{Condition: &action.EventExecution_Event{Event: "user.added"}}}},
 									{ConditionType: &action.Condition_Event{Event: &action.EventExecution{Condition: &action.EventExecution_Group{Group: "user"}}}},
@@ -722,11 +722,11 @@ func TestServer_ListExecutions(t *testing.T) {
 						Filter: &action.ExecutionSearchFilter_InConditionsFilter{
 							InConditionsFilter: &action.InConditionsFilter{
 								Conditions: []*action.Condition{
-									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_Method{Method: "/zitadel.session.v2.SessionService/GetSession"}}}},
-									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_Service{Service: "zitadel.session.v2.SessionService"}}}},
+									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_Method{Method: "/nomen.session.v2.SessionService/GetSession"}}}},
+									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_Service{Service: "nomen.session.v2.SessionService"}}}},
 									{ConditionType: &action.Condition_Response{Response: &action.ResponseExecution{Condition: &action.ResponseExecution_All{All: true}}}},
-									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_Method{Method: "/zitadel.session.v2.SessionService/GetSession"}}}},
-									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_Service{Service: "zitadel.session.v2.SessionService"}}}},
+									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_Method{Method: "/nomen.session.v2.SessionService/GetSession"}}}},
+									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_Service{Service: "nomen.session.v2.SessionService"}}}},
 									{ConditionType: &action.Condition_Request{Request: &action.RequestExecution{Condition: &action.RequestExecution_All{All: true}}}},
 									{ConditionType: &action.Condition_Function{Function: &action.FunctionExecution{Name: "presamlresponse"}}},
 									{ConditionType: &action.Condition_Event{Event: &action.EventExecution{Condition: &action.EventExecution_Event{Event: "user.added"}}}},

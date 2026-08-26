@@ -3,7 +3,7 @@ package postgres
 import (
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
 )
 
 func Test_checkSequences(t *testing.T) {

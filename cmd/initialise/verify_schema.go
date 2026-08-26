@@ -10,30 +10,30 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/database"
-	es_v3 "github.com/EonsofStupid/tessera/internal/eventstore/v3"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/database"
+	es_v3 "github.com/shippinAI/nomen/internal/eventstore/v3"
 )
 
 func newSchema() *cobra.Command {
 	return &cobra.Command{
 		Use:   "schema",
-		Short: "bootstrap the Tessera database schema without admin/superuser privileges",
-		Long: `Bootstrap the Tessera database schema.
+		Short: "bootstrap the Nomen database schema without admin/superuser privileges",
+		Long: `Bootstrap the Nomen database schema.
 
-Creates all required schemas (eventstore, projections, system) and base tables
+Creates all required schemas (eventstore, projections, system, nomen, nomen_product) and base tables
 using the service user credentials. No admin/superuser privileges are required.
 
 Use this command when you have provisioned the database user and database
 yourself (e.g. on a managed PostgreSQL service) and want to skip the
-admin-credential requirement of the full 'tessera init' command.
+admin-credential requirement of the full 'nomen init' command.
 
 Prerequisites:
 - PostgreSQL user exists and has ownership of the target database
 `,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera init schema command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen init schema command failed")
 			}()
 			config, shutdown, err := NewConfig(cmd, viper.GetViper())
 			if err != nil {
@@ -42,12 +42,12 @@ Prerequisites:
 			defer func() {
 				err = errors.Join(err, shutdown(cmd.Context()))
 			}()
-			return verifyZitadel(cmd.Context(), config.Database)
+			return verifyNomen(cmd.Context(), config.Database)
 		},
 	}
 }
 
-func VerifyZitadel(ctx context.Context, db *database.DB, config database.Config) error {
+func VerifyNomen(ctx context.Context, db *database.DB, config database.Config) error {
 	err := ReadStmts()
 	if err != nil {
 		return err
@@ -89,18 +89,28 @@ func VerifyZitadel(ctx context.Context, db *database.DB, config database.Config)
 		return err
 	}
 
+	logging.Info(ctx, "verify nomen schema")
+	if err := exec(ctx, conn, fmt.Sprintf(createNomenSchemaStmt, config.Username()), nil); err != nil {
+		return err
+	}
+
+	logging.Info(ctx, "verify nomen_product schema")
+	if err := exec(ctx, conn, fmt.Sprintf(createNomenProductSchemaStmt, config.Username()), nil); err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func verifyZitadel(ctx context.Context, config database.Config) error {
-	logging.Info(ctx, "verify tessera", "database", config.DatabaseName())
+func verifyNomen(ctx context.Context, config database.Config) error {
+	logging.Info(ctx, "verify nomen", "database", config.DatabaseName())
 
 	db, err := database.Connect(config, false)
 	if err != nil {
 		return err
 	}
 
-	if err := VerifyZitadel(ctx, db, config); err != nil {
+	if err := VerifyNomen(ctx, db, config); err != nil {
 		return err
 	}
 

@@ -1,6 +1,6 @@
 package permission
 
-import "github.com/EonsofStupid/tessera/internal/eventstore"
+import "github.com/shippinAI/nomen/internal/eventstore"
 
 const (
 	AggregateType    eventstore.AggregateType = "permission"

@@ -5,9 +5,9 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type SearchRequest interface {

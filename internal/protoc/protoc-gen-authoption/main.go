@@ -13,7 +13,7 @@ import (
 	"google.golang.org/protobuf/types/descriptorpb"
 	"google.golang.org/protobuf/types/pluginpb"
 
-	"github.com/EonsofStupid/tessera/internal/protoc/protoc-gen-authoption/authoption"
+	"github.com/shippinAI/nomen/internal/protoc/protoc-gen-authoption/authoption"
 )
 
 var (

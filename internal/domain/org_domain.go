@@ -4,10 +4,10 @@ import (
 	"regexp"
 	"strings"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type OrgDomain struct {
@@ -41,7 +41,7 @@ func NewIAMDomainName(orgName, iamDomain string) (string, error) {
 
 	// The label must only contains alphanumeric characters and hyphens
 	// Invalid characters are replaced with and empty space but as #6471,
-	// as these domains are not used to host ZITADEL, but only for user names,
+	// as these domains are not used to host NOMEN, but only for user names,
 	// the characters shouldn't matter that much so we'll accept unicode
 	// characters, accented characters (\p{L}\p{M}), numbers and hyphens.
 	label = string(regexp.MustCompile(`[^\p{L}\p{M}0-9-]`).ReplaceAll([]byte(label), []byte("")))

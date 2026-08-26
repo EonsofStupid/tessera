@@ -3,11 +3,11 @@ package action
 import (
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	object_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	action_pb "github.com/EonsofStupid/tessera/pkg/grpc/action"
-	message_pb "github.com/EonsofStupid/tessera/pkg/grpc/message"
+	object_grpc "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	action_pb "github.com/shippinAI/nomen/pkg/grpc/action"
+	message_pb "github.com/shippinAI/nomen/pkg/grpc/message"
 )
 
 // for backward compatability: old enum identifiers are mapped as well

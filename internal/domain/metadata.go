@@ -3,8 +3,8 @@ package domain
 import (
 	"time"
 
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type Metadata struct {

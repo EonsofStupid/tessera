@@ -8,8 +8,8 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -92,9 +92,9 @@ func Test_PrivacyPolicyPrepares(t *testing.T) {
 						"tos.ch",
 						"help.ch",
 						"support@example.com",
-						"zitadel.com/docs",
-						"zitadel.com",
-						"Zitadel",
+						"nomen.com/docs",
+						"nomen.com",
+						"Nomen",
 						true,
 						domain.PolicyStateActive,
 					},
@@ -111,9 +111,9 @@ func Test_PrivacyPolicyPrepares(t *testing.T) {
 				TOSLink:        "tos.ch",
 				HelpLink:       "help.ch",
 				SupportEmail:   "support@example.com",
-				DocsLink:       "zitadel.com/docs",
-				CustomLink:     "zitadel.com",
-				CustomLinkText: "Zitadel",
+				DocsLink:       "nomen.com/docs",
+				CustomLink:     "nomen.com",
+				CustomLinkText: "Nomen",
 				IsDefault:      true,
 			},
 		},

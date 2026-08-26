@@ -17,25 +17,25 @@ import (
 	"time"
 
 	"github.com/go-jose/go-jose/v4"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	new_domain "github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	api_http "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/cache/connector"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	sd "github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/denylist"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/id"
-	internal_net "github.com/EonsofStupid/tessera/internal/net"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/static"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	webauthn_helper "github.com/EonsofStupid/tessera/internal/webauthn"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	new_domain "github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	api_http "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/cache/connector"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	sd "github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/denylist"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/id"
+	internal_net "github.com/shippinAI/nomen/internal/net"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/static"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	webauthn_helper "github.com/shippinAI/nomen/internal/webauthn"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type Commands struct {
@@ -51,7 +51,7 @@ type Commands struct {
 	eventstore     *eventstore.Eventstore
 	static         static.Storage
 	idGenerator    id.Generator
-	zitadelRoles   []authz.RoleMapping
+	nomenRoles     []authz.RoleMapping
 	externalDomain string
 	externalSecure bool
 	externalPort   uint16
@@ -109,6 +109,23 @@ type Commands struct {
 	loginPaths       LoginPaths
 	ipLookupFunction internal_net.IPLookupFunc
 	denyList         []denylist.AddressChecker
+
+	productCapGuard ProductCapGuard
+}
+
+// ProductCapGuard refuses hosted-demo mutations after the first instance, org,
+// and owner exist. Nil means unlimited (self-host public and enterprise).
+type ProductCapGuard interface {
+	DenyNewUser(ctx context.Context) error
+	DenyNewOrganization(ctx context.Context) error
+	DenyNewInstance(ctx context.Context) error
+}
+
+func (c *Commands) SetProductCapGuard(guard ProductCapGuard) {
+	if c == nil {
+		return
+	}
+	c.productCapGuard = guard
 }
 
 //go:generate mockgen -package command -destination ./mock_login_paths.go . LoginPaths
@@ -124,7 +141,7 @@ func StartCommands(
 	es *eventstore.Eventstore,
 	cacheConnectors connector.Connectors,
 	defaults sd.SystemDefaults,
-	zitadelRoles []authz.RoleMapping,
+	nomenRoles []authz.RoleMapping,
 	staticStore static.Storage,
 	webAuthN *webauthn_helper.Config,
 	externalDomain string,
@@ -167,7 +184,7 @@ func StartCommands(
 		eventstore:                  es,
 		static:                      staticStore,
 		idGenerator:                 idGenerator,
-		zitadelRoles:                zitadelRoles,
+		nomenRoles:                  nomenRoles,
 		externalDomain:              externalDomain,
 		externalSecure:              externalSecure,
 		externalPort:                externalPort,
@@ -322,13 +339,13 @@ func samlCertificateAndKeyGenerator(keySize int, lifetime time.Duration) func(id
 		template := x509.Certificate{
 			SerialNumber: big.NewInt(int64(serial)),
 			Subject: pkix.Name{
-				Organization: []string{"ZITADEL"},
-				CommonName:   fmt.Sprintf("ZITADEL SP %s", id),
+				Organization: []string{"NOMEN"},
+				CommonName:   fmt.Sprintf("NOMEN SP %s", id),
 				SerialNumber: id,
 			},
 			Issuer: pkix.Name{
-				Organization: []string{"ZITADEL"},
-				CommonName:   "ZITADEL",
+				Organization: []string{"NOMEN"},
+				CommonName:   "NOMEN",
 			},
 			NotBefore:             now,
 			NotAfter:              now.Add(lifetime),

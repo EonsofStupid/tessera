@@ -21,7 +21,7 @@ import (
 )
 
 func main() {
-	path, err := os.MkdirTemp("", "tessera-prefetch-embedded-*")
+	path, err := os.MkdirTemp("", "nomen-prefetch-embedded-*")
 	if err != nil {
 		fail("cannot create a temp dir: %v", err)
 	}

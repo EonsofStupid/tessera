@@ -10,13 +10,13 @@ import (
 	"github.com/h2non/gock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/oauth2"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oauth"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp/providers/oauth"
 )
 
 func TestSession_FetchUser(t *testing.T) {

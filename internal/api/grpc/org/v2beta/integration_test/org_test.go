@@ -15,16 +15,16 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	metadata "github.com/EonsofStupid/tessera/pkg/grpc/metadata/v2beta"
-	v2beta_object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/org/v2"
-	v2beta_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
-	user_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/user/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	metadata "github.com/shippinAI/nomen/pkg/grpc/metadata/v2beta"
+	v2beta_object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/org/v2"
+	v2beta_org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
+	user_v2beta "github.com/shippinAI/nomen/pkg/grpc/user/v2beta"
 )
 
 var (

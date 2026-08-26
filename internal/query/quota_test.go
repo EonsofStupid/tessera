@@ -11,7 +11,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgtype"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -55,7 +55,7 @@ func Test_QuotaPrepare(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsNotFound(err) {
-						return fmt.Errorf("err should be zitadel.NotFoundError got: %w", err), false
+						return fmt.Errorf("err should be nomen.NotFoundError got: %w", err), false
 					}
 					return nil, true
 				},

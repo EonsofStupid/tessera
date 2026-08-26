@@ -12,8 +12,8 @@ import (
 	sq "github.com/Masterminds/squirrel"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 func TestUser_authMethodsCheckPermission(t *testing.T) {

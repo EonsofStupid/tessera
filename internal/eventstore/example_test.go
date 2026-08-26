@@ -5,10 +5,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	query_repo "github.com/EonsofStupid/tessera/internal/eventstore/repository/sql"
-	v3 "github.com/EonsofStupid/tessera/internal/eventstore/v3"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	query_repo "github.com/shippinAI/nomen/internal/eventstore/repository/sql"
+	v3 "github.com/shippinAI/nomen/internal/eventstore/v3"
 )
 
 // ------------------------------------------------------------
@@ -16,7 +16,7 @@ import (
 // ------------------------------------------------------------
 func NewUserAggregate(id string) *eventstore.Aggregate {
 	return eventstore.NewAggregate(
-		authz.NewMockContext("zitadel", "caos", "adlerhurst"),
+		authz.NewMockContext("nomen", "caos", "adlerhurst"),
 		id,
 		"test.user",
 		"v1",

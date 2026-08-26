@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestPermissionExtension(t *testing.T) {
@@ -35,7 +35,7 @@ func TestPermissionExtension(t *testing.T) {
 							"properties": {
 								"name": {
 									"type": "string",
-									"urn:zitadel:schema:permission": "read"
+									"urn:nomen:schema:permission": "read"
 								}
 							}
 						}`,
@@ -52,7 +52,7 @@ func TestPermissionExtension(t *testing.T) {
 							"properties": {
 								"name": {
 									"type": "string",
-									"urn:zitadel:schema:permission": {
+									"urn:nomen:schema:permission": {
 										"self": "read"
 									}
 								}
@@ -71,7 +71,7 @@ func TestPermissionExtension(t *testing.T) {
 							"properties": {
 								"name": {
 									"type": "string",
-									"urn:zitadel:schema:permission": {
+									"urn:nomen:schema:permission": {
 										"owner": true
 									}
 								}
@@ -90,7 +90,7 @@ func TestPermissionExtension(t *testing.T) {
 							"properties": {
 								"name": {
 									"type": "string",
-									"urn:zitadel:schema:permission": {
+									"urn:nomen:schema:permission": {
 										"IAM_OWNER": "rw"
 									}
 								}
@@ -110,7 +110,7 @@ func TestPermissionExtension(t *testing.T) {
 							"properties": {
 								"name": {
 									"type": "string",
-									"urn:zitadel:schema:permission": {
+									"urn:nomen:schema:permission": {
 										"owner": "rw",
 										"self": "r"
 									}
@@ -132,7 +132,7 @@ func TestPermissionExtension(t *testing.T) {
 							"properties": {
 								"name": {
 									"type": "string",
-									"urn:zitadel:schema:permission": {
+									"urn:nomen:schema:permission": {
 										"owner": "r",
 										"self": "r"
 									}
@@ -154,7 +154,7 @@ func TestPermissionExtension(t *testing.T) {
 							"properties": {
 								"name": {
 									"type": "string",
-									"urn:zitadel:schema:permission": {
+									"urn:nomen:schema:permission": {
 										"owner": "r",
 										"self": "rw"
 									}
@@ -176,7 +176,7 @@ func TestPermissionExtension(t *testing.T) {
 							"properties": {
 								"name": {
 									"type": "string",
-									"urn:zitadel:schema:permission": {
+									"urn:nomen:schema:permission": {
 										"owner": "rw",
 										"self": "r"
 									}
@@ -198,7 +198,7 @@ func TestPermissionExtension(t *testing.T) {
 							"properties": {
 								"name": {
 									"type": "string",
-									"urn:zitadel:schema:permission": {
+									"urn:nomen:schema:permission": {
 										"owner": "rw",
 										"self": "rw"
 									}

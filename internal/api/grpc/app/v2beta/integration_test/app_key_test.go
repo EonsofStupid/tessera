@@ -13,8 +13,8 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	app "github.com/EonsofStupid/tessera/pkg/grpc/app/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	app "github.com/shippinAI/nomen/pkg/grpc/app/v2beta"
 )
 
 func TestCreateApplicationKey(t *testing.T) {

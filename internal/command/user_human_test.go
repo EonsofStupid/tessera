@@ -9,22 +9,22 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/passwap"
+	"github.com/shippinAI/nomen/passwap"
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/id"
-	id_mock "github.com/EonsofStupid/tessera/internal/id/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/id"
+	id_mock "github.com/shippinAI/nomen/internal/id/mock"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommandSide_AddHuman(t *testing.T) {
@@ -3968,7 +3968,7 @@ func TestAddHumanCommand(t *testing.T) {
 				human: &AddHuman{
 					Username: "username",
 					Email: Email{
-						Address: "support@zitadel.com",
+						Address: "support@nomen.com",
 					},
 					PreferredLanguage: AllowedLanguage,
 				},
@@ -3984,7 +3984,7 @@ func TestAddHumanCommand(t *testing.T) {
 				human: &AddHuman{
 					Username:          "username",
 					FirstName:         "hurst",
-					Email:             Email{Address: "support@zitadel.com"},
+					Email:             Email{Address: "support@nomen.com"},
 					PreferredLanguage: AllowedLanguage,
 				},
 				orgID: "ro",
@@ -3997,7 +3997,7 @@ func TestAddHumanCommand(t *testing.T) {
 			name: "unsupported password hash encoding",
 			args: args{
 				human: &AddHuman{
-					Email:               Email{Address: "support@zitadel.com", Verified: true},
+					Email:               Email{Address: "support@nomen.com", Verified: true},
 					FirstName:           "gigi",
 					LastName:            "giraffe",
 					EncodedPasswordHash: "$foo$x$password",
@@ -4018,7 +4018,7 @@ func TestAddHumanCommand(t *testing.T) {
 			},
 			args: args{
 				human: &AddHuman{
-					Email:             Email{Address: "support@zitadel.com"},
+					Email:             Email{Address: "support@nomen.com"},
 					FirstName:         "gigi",
 					LastName:          "giraffe",
 					Password:          "short",
@@ -4073,7 +4073,7 @@ func TestAddHumanCommand(t *testing.T) {
 			},
 			args: args{
 				human: &AddHuman{
-					Email:             Email{Address: "support@zitadel.com", Verified: true},
+					Email:             Email{Address: "support@nomen.com", Verified: true},
 					FirstName:         "gigi",
 					LastName:          "giraffe",
 					Password:          "password",
@@ -4132,7 +4132,7 @@ func TestAddHumanCommand(t *testing.T) {
 							"gigi giraffe",
 							AllowedLanguage,
 							0,
-							"support@zitadel.com",
+							"support@nomen.com",
 							true,
 						)
 						event.AddPasswordData("$plain$x$password", false)
@@ -4149,7 +4149,7 @@ func TestAddHumanCommand(t *testing.T) {
 			},
 			args: args{
 				human: &AddHuman{
-					Email:             Email{Address: "support@zitadel.com", Verified: true},
+					Email:             Email{Address: "support@nomen.com", Verified: true},
 					FirstName:         "gigi",
 					LastName:          "giraffe",
 					Password:          "password",
@@ -4209,7 +4209,7 @@ func TestAddHumanCommand(t *testing.T) {
 							"gigi giraffe",
 							AllowedLanguage,
 							0,
-							"support@zitadel.com",
+							"support@nomen.com",
 							true,
 						)
 						event.AddPasswordData("$plain$x$password", false)
@@ -4226,7 +4226,7 @@ func TestAddHumanCommand(t *testing.T) {
 			},
 			args: args{
 				human: &AddHuman{
-					Email:     Email{Address: "support@zitadel.com", Verified: true},
+					Email:     Email{Address: "support@nomen.com", Verified: true},
 					FirstName: "gigi",
 					LastName:  "giraffe",
 					Password:  "password",
@@ -4284,7 +4284,7 @@ func TestAddHumanCommand(t *testing.T) {
 							"gigi giraffe",
 							language.Und,
 							0,
-							"support@zitadel.com",
+							"support@nomen.com",
 							true,
 						)
 						event.AddPasswordData("$plain$x$password", false)
@@ -4301,7 +4301,7 @@ func TestAddHumanCommand(t *testing.T) {
 			},
 			args: args{
 				human: &AddHuman{
-					Email:             Email{Address: "support@zitadel.com", Verified: true},
+					Email:             Email{Address: "support@nomen.com", Verified: true},
 					FirstName:         "gigi",
 					LastName:          "giraffe",
 					Password:          "password",
@@ -4360,7 +4360,7 @@ func TestAddHumanCommand(t *testing.T) {
 							"gigi giraffe",
 							UnsupportedLanguage,
 							0,
-							"support@zitadel.com",
+							"support@nomen.com",
 							true,
 						)
 						event.AddPasswordData("$plain$x$password", false)
@@ -4377,7 +4377,7 @@ func TestAddHumanCommand(t *testing.T) {
 			},
 			args: args{
 				human: &AddHuman{
-					Email:               Email{Address: "support@zitadel.com", Verified: true},
+					Email:               Email{Address: "support@nomen.com", Verified: true},
 					FirstName:           "gigi",
 					LastName:            "giraffe",
 					EncodedPasswordHash: "$plain$x$password",
@@ -4436,7 +4436,7 @@ func TestAddHumanCommand(t *testing.T) {
 							"gigi giraffe",
 							AllowedLanguage,
 							0,
-							"support@zitadel.com",
+							"support@nomen.com",
 							true,
 						)
 						event.AddPasswordData("$plain$x$password", false)

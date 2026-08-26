@@ -4,15 +4,15 @@ import (
 	"context"
 	"strings"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	zchannels "github.com/EonsofStupid/tessera/internal/notification/channels"
-	"github.com/EonsofStupid/tessera/internal/notification/messages"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/notification/templates"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	zchannels "github.com/shippinAI/nomen/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/messages"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/notification/templates"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type serializableData struct {

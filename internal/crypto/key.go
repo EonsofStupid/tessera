@@ -3,9 +3,9 @@ package crypto
 import (
 	"crypto/rand"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type KeyConfig struct {

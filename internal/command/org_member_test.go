@@ -7,19 +7,19 @@ import (
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestAddMember(t *testing.T) {
 	type args struct {
 		member       *AddOrgMember
-		zitadelRoles []authz.RoleMapping
+		nomenRoles []authz.RoleMapping
 		filter       preparation.FilterToQueryReducer
 	}
 
@@ -75,7 +75,7 @@ func TestAddMember(t *testing.T) {
 					UserID: "userID",
 					Roles:  []string{"ORG_OWNER"},
 				},
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "ORG_OWNER",
 					},
@@ -97,7 +97,7 @@ func TestAddMember(t *testing.T) {
 					UserID: "userID",
 					Roles:  []string{"ORG_OWNER"},
 				},
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "ORG_OWNER",
 					},
@@ -139,7 +139,7 @@ func TestAddMember(t *testing.T) {
 					UserID: "userID",
 					Roles:  []string{"ORG_OWNER"},
 				},
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "ORG_OWNER",
 					},
@@ -172,7 +172,7 @@ func TestAddMember(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			AssertValidation(t, context.Background(), (&Commands{zitadelRoles: tt.args.zitadelRoles}).AddOrgMemberCommand(tt.args.member), tt.args.filter, tt.want)
+			AssertValidation(t, context.Background(), (&Commands{nomenRoles: tt.args.nomenRoles}).AddOrgMemberCommand(tt.args.member), tt.args.filter, tt.want)
 		})
 	}
 }
@@ -296,7 +296,7 @@ func TestCommandSide_AddOrgMember(t *testing.T) {
 	type fields struct {
 		checkPermission domain.PermissionCheck
 		eventstore      func(t *testing.T) *eventstore.Eventstore
-		zitadelRoles    []authz.RoleMapping
+		nomenRoles    []authz.RoleMapping
 	}
 	type args struct {
 		member *AddOrgMember
@@ -376,7 +376,7 @@ func TestCommandSide_AddOrgMember(t *testing.T) {
 					expectFilter(),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: domain.RoleOrgOwner,
 					},
@@ -431,7 +431,7 @@ func TestCommandSide_AddOrgMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: domain.RoleOrgOwner,
 					},
@@ -486,7 +486,7 @@ func TestCommandSide_AddOrgMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: domain.RoleOrgOwner,
 					},
@@ -541,7 +541,7 @@ func TestCommandSide_AddOrgMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: domain.RoleOrgOwner,
 					},
@@ -574,7 +574,7 @@ func TestCommandSide_AddOrgMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckNotAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: domain.RoleOrgOwner,
 					},
@@ -596,7 +596,7 @@ func TestCommandSide_AddOrgMember(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			r := &Commands{
 				eventstore:      tt.fields.eventstore(t),
-				zitadelRoles:    tt.fields.zitadelRoles,
+				nomenRoles:    tt.fields.nomenRoles,
 				checkPermission: tt.fields.checkPermission,
 			}
 			got, err := r.AddOrgMember(context.Background(), tt.args.member)
@@ -617,7 +617,7 @@ func TestCommandSide_ChangeOrgMember(t *testing.T) {
 	type fields struct {
 		checkPermission domain.PermissionCheck
 		eventstore      func(t *testing.T) *eventstore.Eventstore
-		zitadelRoles    []authz.RoleMapping
+		nomenRoles    []authz.RoleMapping
 	}
 	type args struct {
 		member *ChangeOrgMember
@@ -671,7 +671,7 @@ func TestCommandSide_ChangeOrgMember(t *testing.T) {
 					expectFilter(),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: domain.RoleOrgOwner,
 					},
@@ -703,7 +703,7 @@ func TestCommandSide_ChangeOrgMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: domain.RoleOrgOwner,
 					},
@@ -744,7 +744,7 @@ func TestCommandSide_ChangeOrgMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "ORG_OWNER",
 					},
@@ -781,7 +781,7 @@ func TestCommandSide_ChangeOrgMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckNotAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "ORG_OWNER",
 					},
@@ -806,7 +806,7 @@ func TestCommandSide_ChangeOrgMember(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			r := &Commands{
 				eventstore:      tt.fields.eventstore(t),
-				zitadelRoles:    tt.fields.zitadelRoles,
+				nomenRoles:    tt.fields.nomenRoles,
 				checkPermission: tt.fields.checkPermission,
 			}
 			got, err := r.ChangeOrgMember(context.Background(), tt.args.member)

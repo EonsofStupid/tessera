@@ -8,8 +8,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func Test_keysFromArgs(t *testing.T) {

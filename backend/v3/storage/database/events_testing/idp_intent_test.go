@@ -16,15 +16,15 @@ package events_test
 // 	"github.com/stretchr/testify/require"
 // 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 
-// 	"github.com/EonsofStupid/tessera/backend/v3/domain"
-// 	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-// 	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-// 	"github.com/EonsofStupid/tessera/internal/idp/providers/ldap"
-// 	"github.com/EonsofStupid/tessera/internal/integration"
-// 	"github.com/EonsofStupid/tessera/internal/integration/sink"
-// 	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-// 	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
-// 	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+// 	"github.com/shippinAI/nomen/backend/v3/domain"
+// 	"github.com/shippinAI/nomen/backend/v3/storage/database"
+// 	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+// 	"github.com/shippinAI/nomen/internal/idp/providers/ldap"
+// 	"github.com/shippinAI/nomen/internal/integration"
+// 	"github.com/shippinAI/nomen/internal/integration/sink"
+// 	"github.com/shippinAI/nomen/pkg/grpc/admin"
+// 	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
+// 	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 // )
 
 // func TestServer_IDPIntentReduces(t *testing.T) {
@@ -386,7 +386,7 @@ package events_test
 // 			Ip:            gu.Ptr(net.IPv4(127, 0, 0, 1).String()),
 // 			Description:   gu.Ptr("description"),
 // 			Header: map[string]*session.UserAgent_HeaderValues{
-// 				"User-Agent": {Values: []string{"ZITADEL-Integration-Test"}},
+// 				"User-Agent": {Values: []string{"NOMEN-Integration-Test"}},
 // 			},
 // 		},
 // 		Lifetime: durationpb.New(lifetime),

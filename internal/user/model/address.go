@@ -1,6 +1,6 @@
 package model
 
-import es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
+import es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
 
 type Address struct {
 	es_models.ObjectRoot

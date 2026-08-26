@@ -2,7 +2,7 @@ package domain
 
 import "fmt"
 
-// DeploymentState is the server-owned operational state of one Tessera
+// DeploymentState is the server-owned operational state of one Nomen
 // deployment. It does not describe a user, session, federation provider or
 // commercial plan.
 type DeploymentState string

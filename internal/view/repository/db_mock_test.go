@@ -9,8 +9,8 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/jinzhu/gorm"
 
-	db_mock "github.com/EonsofStupid/tessera/internal/database/mock"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	db_mock "github.com/shippinAI/nomen/internal/database/mock"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 var (

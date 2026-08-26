@@ -18,15 +18,15 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	instance "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/policy"
-	settings_pb "github.com/EonsofStupid/tessera/pkg/grpc/settings"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	instance "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/policy"
+	settings_pb "github.com/shippinAI/nomen/pkg/grpc/settings"
 )
 
 //go:embed picture.png
@@ -1313,7 +1313,7 @@ func TestServer_TestInstanceLegalAndSupportSettingsReduces(t *testing.T) {
 			assert.Equal(t, "", *setting.PrivacyPolicyLink)
 			assert.Equal(t, "", *setting.HelpLink)
 			assert.Equal(t, "", *setting.SupportEmail)
-			assert.Equal(t, "https://zitadel.com/docs", *setting.DocsLink)
+			assert.Equal(t, "https://nomen.com/docs", *setting.DocsLink)
 			assert.Equal(t, "", *setting.CustomLink)
 			assert.Equal(t, "", *setting.CustomLinkText)
 			assert.WithinRange(t, setting.CreatedAt, before, after)

@@ -3,8 +3,8 @@ package preparation
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // Validation of the input values of the command and if correct returns

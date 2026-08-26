@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func Test_patchHumanUserToCommand(t *testing.T) {

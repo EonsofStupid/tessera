@@ -7,12 +7,12 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

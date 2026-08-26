@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/domain"
 )
 
 type orgMember struct {

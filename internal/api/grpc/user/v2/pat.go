@@ -4,14 +4,14 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	z_oidc "github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	z_oidc "github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func (s *Server) AddPersonalAccessToken(ctx context.Context, req *connect.Request[user.AddPersonalAccessTokenRequest]) (*connect.Response[user.AddPersonalAccessTokenResponse], error) {

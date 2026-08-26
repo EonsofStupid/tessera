@@ -56,7 +56,7 @@ type ManagementErrorEnvelope struct {
 }
 
 func (e ManagementError) Error() string {
-	return fmt.Sprintf("tessera management: %s: %s", e.Type, e.Reason)
+	return fmt.Sprintf("nomen management: %s: %s", e.Type, e.Reason)
 }
 
 func (e ManagementError) Validate() error {

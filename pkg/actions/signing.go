@@ -13,13 +13,13 @@ import (
 
 var (
 	ErrNoValidSignature = errors.New("no valid signature")
-	ErrInvalidHeader    = errors.New("webhook has invalid Zitadel-Signature header")
-	ErrNotSigned        = errors.New("webhook has no Zitadel-Signature header")
+	ErrInvalidHeader    = errors.New("webhook has invalid Nomen-Signature header")
+	ErrNotSigned        = errors.New("webhook has no Nomen-Signature header")
 	ErrTooOld           = errors.New("timestamp wasn't within tolerance")
 )
 
 const (
-	SigningHeader           = "ZITADEL-Signature"
+	SigningHeader           = "NOMEN-Signature"
 	signingTimestamp        = "t"
 	signingVersion   string = "v1"
 	DefaultTolerance        = 300 * time.Second

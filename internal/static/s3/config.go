@@ -7,8 +7,8 @@ import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 
-	"github.com/EonsofStupid/tessera/internal/static"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/static"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type Config struct {

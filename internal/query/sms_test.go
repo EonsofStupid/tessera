@@ -8,9 +8,9 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -408,7 +408,7 @@ func Test_SMSConfigPrepare(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsNotFound(err) {
-						return fmt.Errorf("err should be zitadel.NotFoundError got: %w", err), false
+						return fmt.Errorf("err should be nomen.NotFoundError got: %w", err), false
 					}
 					return nil, true
 				},

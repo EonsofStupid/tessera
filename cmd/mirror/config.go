@@ -8,19 +8,19 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	old_logging "github.com/zitadel/logging" //nolint:staticcheck
+	old_logging "github.com/shippinAI/nomen/logging" //nolint:staticcheck
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/cmd/hooks"
-	"github.com/EonsofStupid/tessera/internal/actions"
-	internal_authz "github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/hook"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/denylist"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/id"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/cmd/hooks"
+	"github.com/shippinAI/nomen/internal/actions"
+	internal_authz "github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/hook"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/denylist"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/id"
 )
 
 type Migration struct {

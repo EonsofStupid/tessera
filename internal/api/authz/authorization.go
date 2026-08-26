@@ -7,9 +7,9 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

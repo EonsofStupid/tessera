@@ -4,7 +4,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
 )
 
 type LoginPolicy struct {

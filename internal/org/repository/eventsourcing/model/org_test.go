@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/org/model"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/org/model"
+	"github.com/shippinAI/nomen/internal/repository/org"
 )
 
 func TestOrgFromEvents(t *testing.T) {

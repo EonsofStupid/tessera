@@ -12,7 +12,7 @@ import (
 	"github.com/go-jose/go-jose/v4"
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type KeyUsage int32

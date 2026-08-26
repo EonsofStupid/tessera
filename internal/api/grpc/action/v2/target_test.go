@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/pkg/grpc/action/v2"
+	"github.com/shippinAI/nomen/internal/command"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/pkg/grpc/action/v2"
 )
 
 func Test_createTargetToCommand(t *testing.T) {

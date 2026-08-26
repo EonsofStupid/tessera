@@ -8,9 +8,9 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/repository/keypair"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/repository/keypair"
 )
 
 func (c *Commands) GenerateSAMLCACertificate(ctx context.Context, algorithm string) error {
@@ -23,8 +23,8 @@ func (c *Commands) GenerateSAMLCACertificate(ctx context.Context, algorithm stri
 
 	privateCrypto, publicCrypto, certificateCrypto, err := crypto.GenerateEncryptedKeyPairWithCACertificate(c.certKeySize, c.keyAlgorithm, c.certificateAlgorithm, &crypto.CertificateInformations{
 		SerialNumber: randInt,
-		Organisation: []string{"ZITADEL"},
-		CommonName:   "ZITADEL SAML CA",
+		Organisation: []string{"NOMEN"},
+		CommonName:   "NOMEN SAML CA",
 		NotBefore:    now,
 		NotAfter:     after,
 		KeyUsage:     x509.KeyUsageDigitalSignature | x509.KeyUsageKeyEncipherment | x509.KeyUsageCertSign,
@@ -68,8 +68,8 @@ func (c *Commands) GenerateSAMLResponseCertificate(ctx context.Context, algorith
 
 	privateCrypto, publicCrypto, certificateCrypto, err := crypto.GenerateEncryptedKeyPairWithCertificate(c.certKeySize, c.keyAlgorithm, c.certificateAlgorithm, caPrivateKey, caCertificate, &crypto.CertificateInformations{
 		SerialNumber: randInt,
-		Organisation: []string{"ZITADEL"},
-		CommonName:   "ZITADEL SAML response",
+		Organisation: []string{"NOMEN"},
+		CommonName:   "NOMEN SAML response",
 		NotBefore:    now,
 		NotAfter:     after,
 		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth},
@@ -113,8 +113,8 @@ func (c *Commands) GenerateSAMLMetadataCertificate(ctx context.Context, algorith
 	}
 	privateCrypto, publicCrypto, certificateCrypto, err := crypto.GenerateEncryptedKeyPairWithCertificate(c.certKeySize, c.keyAlgorithm, c.certificateAlgorithm, caPrivateKey, caCertificate, &crypto.CertificateInformations{
 		SerialNumber: randInt,
-		Organisation: []string{"ZITADEL"},
-		CommonName:   "ZITADEL SAML metadata",
+		Organisation: []string{"NOMEN"},
+		CommonName:   "NOMEN SAML metadata",
 		NotBefore:    now,
 		NotAfter:     after,
 		ExtKeyUsage:  []x509.ExtKeyUsage{x509.ExtKeyUsageClientAuth},

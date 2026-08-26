@@ -4,13 +4,13 @@ import (
 	"context"
 
 	"github.com/muhlemmer/gu"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	object_pb "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	object_pb "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) ActivateFeatureLoginDefaultOrg(ctx context.Context, _ *admin_pb.ActivateFeatureLoginDefaultOrgRequest) (*admin_pb.ActivateFeatureLoginDefaultOrgResponse, error) {

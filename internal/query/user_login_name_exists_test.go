@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/authz"
 )
 
 func TestNewUserLoginNameExistsQuery_EqualsIgnoreCaseIsMarker(t *testing.T) {

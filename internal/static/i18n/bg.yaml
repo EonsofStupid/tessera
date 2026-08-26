@@ -61,7 +61,7 @@ Errors:
     CouldNotDialTLS: "не може да се свърже със SMTP сървъра чрез TLS, проверете порта, проблеми със защитната стена..."
     CouldNotCreateClient: "не може да създаде smtp клиент"
     CouldNotStartTLS: "не можа да стартира TLS"
-    CouldNotAuth: "не може да добави smtp auth, проверете дали потребителят и паролата ви са правилни, ако са правилни, може би вашият доставчик изисква метод за удостоверяване, който не се поддържа от Zitadel"
+    CouldNotAuth: "не може да добави smtp auth, проверете дали потребителят и паролата ви са правилни, ако са правилни, може би вашият доставчик изисква метод за удостоверяване, който не се поддържа от Nomen"
     CouldNotSetSender: "не можа да зададе подател"
     CouldNotSetRecipient: "не можа да зададе получател"
   SMTPConfig:
@@ -153,7 +153,7 @@ Errors:
       Invalid: "Паролата е невалидна"
       NotSet: "Потребителят не е задал парола"
       NotChanged: "Новата парола не може да съвпада с текущата парола"
-      NotSupported: "Хеш кодирането на паролата не се поддържа. Вижте https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Хеш кодирането на паролата не се поддържа. Вижте https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Политиката за парола не е намерена"
       MinLength: "Паролата е твърде кратка"
@@ -207,7 +207,7 @@ Errors:
     NotActive: "Организацията не е активна"
     NotChanged: "Организацията не е променена"
     DefaultOrgNotDeletable: "Организацията по подразбиране не трябва да се изтрива"
-    ZitadelOrgNotDeletable: "Организация с проект Zitadel не трябва да се изтрива"
+    NomenOrgNotDeletable: "Организация с проект Nomen не трябва да се изтрива"
     InvalidDomain: "Невалиден домейн"
     DomainMissing: "Липсва домейн"
     DomainNotOnOrg: "Домейнът не съществува в организацията"
@@ -216,8 +216,8 @@ Errors:
     DomainVerificationTypeInvalid: "Типът проверка на домейна е невалиден"
     DomainVerificationMissing: "Проверката на домейна все още не е започнала"
     DomainVerificationFailed: "Неуспешна проверка на домейна"
-    DomainVerificationTXTNotFound: "TXT записът _zitadel-challenge не беше намерен за вашия домейн. Проверете дали сте го добавили към вашия DNS сървър или изчакайте, докато новият запис бъде разпространен"
-    DomainVerificationTXTNoMatch: "TXT записът _zitadel-challenge е намерен за вашия домейн, но не съдържа правилния текст на токена. Проверете дали сте добавили правилния токен към вашия DNS сървър или изчакайте, докато новият запис бъде разпространен"
+    DomainVerificationTXTNotFound: "TXT записът _nomen-challenge не беше намерен за вашия домейн. Проверете дали сте го добавили към вашия DNS сървър или изчакайте, докато новият запис бъде разпространен"
+    DomainVerificationTXTNoMatch: "TXT записът _nomen-challenge е намерен за вашия домейн, но не съдържа правилния текст на токена. Проверете дали сте добавили правилния токен към вашия DNS сървър или изчакайте, докато новият запис бъде разпространен"
     DomainVerificationHTTPNotFound: "Файлът, съдържащ предизвикателството, не е намерен в очаквания URL адрес. Проверете дали сте качили файла на правилното място с разрешения за четене"
     DomainVerificationHTTPNoMatch: "Файлът, съдържащ предизвикателството, е намерен в очаквания URL адрес, но не съдържа правилния текст на токена. Проверете съдържанието му"
     DomainVerificationTimeout: "Имаше изчакване при запитване до DNS сървъра"
@@ -342,7 +342,7 @@ Errors:
   Instance:
     AlreadyExists: "Екземплярът вече съществува"
     NotChanged: "Екземплярът не е променен"
-    NotFound: "Екземплярът не е намерен. Уверете се, че сте получили правилния домейн. Вижте https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Екземплярът не е намерен. Уверете се, че сте получили правилния домейн. Вижте https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Ролите не са сменени"
     MemberInvalid: "Членът е невалиден"
@@ -1110,20 +1110,20 @@ EventTypes:
         changed: "Правилата за блокиране на пароли са променени"
   iam:
     setup:
-      started: "Настройката на Zitadel започна"
-      done: "Настройката на Zitadel е готова"
+      started: "Настройката на Nomen започна"
+      done: "Настройката на Nomen е готова"
     global:
       org:
         set: "Глобален организационен набор"
     project:
       iam:
-        set: "Комплект проект Zitadel"
+        set: "Комплект проект Nomen"
     member:
-      added: "Добавен е член на Zitadel"
-      changed: "Членът на Zitadel е променен"
-      removed: "Член на Zitadel премахнат"
+      added: "Добавен е член на Nomen"
+      changed: "Членът на Nomen е променен"
+      removed: "Член на Nomen премахнат"
       cascade:
-        removed: "Каскадата на членове на Zitadel е премахната"
+        removed: "Каскадата на членове на Nomen е премахната"
     idp:
       config:
         added: "IDP конфигурация е добавена"
@@ -1236,9 +1236,9 @@ EventTypes:
       removed: "Домейнът премахнат"
     iam:
       console:
-        set: "Комплект приложения за конзола за управление Zitadel"
+        set: "Комплект приложения за конзола за управление Nomen"
       project:
-        set: "Комплект проект Zitadel"
+        set: "Комплект проект Nomen"
     mail:
       template:
         added: "Добавен шаблон за имейл"

@@ -3,11 +3,11 @@ package admin
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/tracing"
-	event_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/event"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server/middleware"
-	"github.com/EonsofStupid/tessera/internal/query"
-	event_pb "github.com/EonsofStupid/tessera/pkg/grpc/event"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/tracing"
+	event_grpc "github.com/shippinAI/nomen/internal/api/grpc/event"
+	"github.com/shippinAI/nomen/internal/api/grpc/server/middleware"
+	"github.com/shippinAI/nomen/internal/query"
+	event_pb "github.com/shippinAI/nomen/pkg/grpc/event"
 )
 
 func EventTypesToPb(eventTypes []string) *ListEventTypesResponse {

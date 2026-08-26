@@ -7,7 +7,7 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type AuthRequest struct {
@@ -104,8 +104,8 @@ type ExternalUser struct {
 	Phone             PhoneNumber
 	IsPhoneVerified   bool
 	Metadatas         []*Metadata
-	// ProjectRoles holds the ZITADEL `urn:zitadel:iam:org:project:roles` claim
-	// ({role: {orgID: orgDomain}}) as returned by a ZITADEL provider. It is
+	// ProjectRoles holds the NOMEN `urn:nomen:iam:org:project:roles` claim
+	// ({role: {orgID: orgDomain}}) as returned by a NOMEN provider. It is
 	// captured at authentication and carried through to user creation, where it
 	// is used to grant the support-user instance membership.
 	ProjectRoles map[string]map[string]string

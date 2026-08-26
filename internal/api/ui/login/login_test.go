@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/feature"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/feature"
 )
 
 func TestConfig_defaultBaseURL(t *testing.T) {

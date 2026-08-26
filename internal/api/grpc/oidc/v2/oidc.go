@@ -4,18 +4,18 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object/v2"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/object/v2"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
 )
 
 func (s *Server) GetAuthRequest(ctx context.Context, req *connect.Request[oidc_pb.GetAuthRequestRequest]) (*connect.Response[oidc_pb.GetAuthRequestResponse], error) {

@@ -3,7 +3,7 @@ package login
 import (
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 func (l *Login) getDefaultDomainPolicy(r *http.Request) (*query.DomainPolicy, error) {

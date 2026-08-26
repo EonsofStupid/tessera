@@ -7,17 +7,17 @@ import (
 
 	"github.com/go-jose/go-jose/v4"
 	"github.com/shopspring/decimal"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/saml/pkg/provider/key"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/saml/pkg/provider/key"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/keypair"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/keypair"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

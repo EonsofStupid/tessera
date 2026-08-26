@@ -5,9 +5,9 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/deviceauth"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/deviceauth"
 )
 
 type DeviceAuthWriteModel struct {

@@ -8,7 +8,7 @@ import (
 
 	"github.com/rs/xid"
 
-	"github.com/EonsofStupid/tessera/internal/api/call"
+	"github.com/shippinAI/nomen/internal/api/call"
 )
 
 // allow injection for testing

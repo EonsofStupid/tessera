@@ -6,21 +6,21 @@
 
 @mixin lgn-idp-color() {
   .lgn-idp {
-    border-color: var(--zitadel-color-divider);
-    color: var(--zitadel-color-text-500);
+    border-color: var(--nomen-color-divider);
+    color: var(--nomen-color-text-500);
 
     &:hover {
-      border-color: var(--zitadel-color-input-border-hover);
+      border-color: var(--nomen-color-input-border-hover);
     }
 
     &:not([disabled]):active {
-      border-color: var(--zitadel-color-input-border-active);
+      border-color: var(--nomen-color-input-border-active);
     }
   }
 
   .lgn-idp-providers {
     .lgn-idp-desc {
-      color: var(--zitadel-color-label);
+      color: var(--nomen-color-label);
     }
   }
 }

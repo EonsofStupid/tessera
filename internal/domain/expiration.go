@@ -3,11 +3,11 @@ package domain
 import (
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
-	//most of us won't survive until 12-31-9999 23:59:59, maybe ZITADEL does
+	//most of us won't survive until 12-31-9999 23:59:59, maybe NOMEN does
 	defaultExpDate = time.Date(9999, time.December, 31, 23, 59, 59, 0, time.UTC)
 )
 

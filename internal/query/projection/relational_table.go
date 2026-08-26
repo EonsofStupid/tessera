@@ -3,16 +3,16 @@ package projection
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/idpintent"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	settings "github.com/EonsofStupid/tessera/internal/repository/organization_settings"
-	"github.com/EonsofStupid/tessera/internal/repository/permission"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/repository/session"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/repository/usergrant"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/idpintent"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	settings "github.com/shippinAI/nomen/internal/repository/organization_settings"
+	"github.com/shippinAI/nomen/internal/repository/permission"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/repository/session"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/repository/usergrant"
 )
 
 type relationalTablesProjection struct{}

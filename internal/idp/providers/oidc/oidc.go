@@ -4,11 +4,11 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/oauth2"
 
-	"github.com/EonsofStupid/tessera/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp"
 )
 
 var _ idp.Provider = (*Provider)(nil)

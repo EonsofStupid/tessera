@@ -16,13 +16,13 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	project_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
-	saml_pb "github.com/EonsofStupid/tessera/pkg/grpc/saml/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	project_v2beta "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
+	saml_pb "github.com/shippinAI/nomen/pkg/grpc/saml/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 func TestServer_GetSAMLRequest(t *testing.T) {

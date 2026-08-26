@@ -4,14 +4,14 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/webhook"
-	_ "github.com/EonsofStupid/tessera/internal/notification/statik"
-	"github.com/EonsofStupid/tessera/internal/notification/types"
-	"github.com/EonsofStupid/tessera/internal/repository/quota"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/notification/channels/webhook"
+	_ "github.com/shippinAI/nomen/internal/notification/statik"
+	"github.com/shippinAI/nomen/internal/notification/types"
+	"github.com/shippinAI/nomen/internal/repository/quota"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

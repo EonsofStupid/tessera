@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/repository/instance"
 )
 
 type InstanceOAuthIDPWriteModel struct {
@@ -998,8 +998,8 @@ func (wm *InstanceIDPRemoveWriteModel) AppendEvents(events ...eventstore.Event) 
 			wm.IDPRemoveWriteModel.AppendEvents(&e.IDPConfigAddedEvent)
 		case *instance.IDPConfigRemovedEvent:
 			wm.IDPRemoveWriteModel.AppendEvents(&e.IDPConfigRemovedEvent)
-		case *instance.ZitadelIDPAddedEvent:
-			wm.IDPRemoveWriteModel.AppendEvents(&e.ZitadelIDPAddedEvent)
+		case *instance.NomenIDPAddedEvent:
+			wm.IDPRemoveWriteModel.AppendEvents(&e.NomenIDPAddedEvent)
 		default:
 			wm.IDPRemoveWriteModel.AppendEvents(e)
 		}
@@ -1025,7 +1025,7 @@ func (wm *InstanceIDPRemoveWriteModel) Query() *eventstore.SearchQueryBuilder {
 			instance.LDAPIDPAddedEventType,
 			instance.AppleIDPAddedEventType,
 			instance.SAMLIDPAddedEventType,
-			instance.ZitadelIDPAddedEventType,
+			instance.NomenIDPAddedEventType,
 			instance.IDPRemovedEventType,
 		).
 		EventData(map[string]interface{}{"id": wm.ID}).
@@ -1040,13 +1040,13 @@ func (wm *InstanceIDPRemoveWriteModel) Query() *eventstore.SearchQueryBuilder {
 		Builder()
 }
 
-type InstanceZitadelIDPWriteModel struct {
-	ZitadelIDPWriteModel
+type InstanceNomenIDPWriteModel struct {
+	NomenIDPWriteModel
 }
 
-func NewInstanceZitadelIDPWriteModel(instanceID, id string) *InstanceZitadelIDPWriteModel {
-	return &InstanceZitadelIDPWriteModel{
-		ZitadelIDPWriteModel: ZitadelIDPWriteModel{
+func NewInstanceNomenIDPWriteModel(instanceID, id string) *InstanceNomenIDPWriteModel {
+	return &InstanceNomenIDPWriteModel{
+		NomenIDPWriteModel: NomenIDPWriteModel{
 			WriteModel: eventstore.WriteModel{
 				AggregateID:   instanceID,
 				ResourceOwner: instanceID,
@@ -1056,33 +1056,33 @@ func NewInstanceZitadelIDPWriteModel(instanceID, id string) *InstanceZitadelIDPW
 	}
 }
 
-func (wm *InstanceZitadelIDPWriteModel) AppendEvents(events ...eventstore.Event) {
+func (wm *InstanceNomenIDPWriteModel) AppendEvents(events ...eventstore.Event) {
 	for _, event := range events {
 		switch e := event.(type) {
-		case *instance.ZitadelIDPAddedEvent:
-			wm.ZitadelIDPWriteModel.AppendEvents(&e.ZitadelIDPAddedEvent)
-		case *instance.ZitadelIDPChangedEvent:
-			wm.ZitadelIDPWriteModel.AppendEvents(&e.ZitadelIDPChangedEvent)
+		case *instance.NomenIDPAddedEvent:
+			wm.NomenIDPWriteModel.AppendEvents(&e.NomenIDPAddedEvent)
+		case *instance.NomenIDPChangedEvent:
+			wm.NomenIDPWriteModel.AppendEvents(&e.NomenIDPChangedEvent)
 		default:
-			wm.ZitadelIDPWriteModel.AppendEvents(e)
+			wm.NomenIDPWriteModel.AppendEvents(e)
 		}
 	}
 }
 
-func (wm *InstanceZitadelIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
+func (wm *InstanceNomenIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 	return eventstore.NewSearchQueryBuilder(eventstore.ColumnsEvent).
 		ResourceOwner(wm.ResourceOwner).
 		AddQuery().
 		AggregateTypes(instance.AggregateType).
 		AggregateIDs(wm.AggregateID).
 		EventTypes(
-			instance.ZitadelIDPAddedEventType,
+			instance.NomenIDPAddedEventType,
 		).
 		EventData(map[string]interface{}{"id": wm.ID}).
 		Builder()
 }
 
-func (wm *InstanceZitadelIDPWriteModel) NewChangedEvent(
+func (wm *InstanceNomenIDPWriteModel) NewChangedEvent(
 	ctx context.Context,
 	aggregate *eventstore.Aggregate,
 	id, name, issuer, clientID, clientSecretString string,
@@ -1090,7 +1090,7 @@ func (wm *InstanceZitadelIDPWriteModel) NewChangedEvent(
 	scopes []string,
 	options idp.Options,
 	info []idp.RolesInfo,
-) (*instance.ZitadelIDPChangedEvent, error) {
+) (*instance.NomenIDPChangedEvent, error) {
 
 	changes, err := wm.NewChanges(
 		name,
@@ -1105,5 +1105,5 @@ func (wm *InstanceZitadelIDPWriteModel) NewChangedEvent(
 	if err != nil || len(changes) == 0 {
 		return nil, err
 	}
-	return instance.NewZitadelIDPChangedEvent(ctx, aggregate, id, changes), nil
+	return instance.NewNomenIDPChangedEvent(ctx, aggregate, id, changes), nil
 }

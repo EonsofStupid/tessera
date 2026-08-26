@@ -7,10 +7,10 @@ import (
 	"errors"
 
 	"github.com/jinzhu/gorm"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/user/repository/view/model"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/user/repository/view/model"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 //go:embed user_by_id.sql

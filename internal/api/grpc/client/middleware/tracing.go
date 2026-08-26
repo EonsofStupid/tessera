@@ -6,7 +6,7 @@ import (
 	grpc_trace "go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"google.golang.org/grpc/stats"
 
-	grpc_utils "github.com/EonsofStupid/tessera/internal/api/grpc"
+	grpc_utils "github.com/shippinAI/nomen/internal/api/grpc"
 )
 
 type GRPCMethod string

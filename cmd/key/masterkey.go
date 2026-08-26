@@ -12,7 +12,7 @@ const (
 	flagMasterKeyShort = "m"
 	flagMasterKeyArg   = "masterkey"
 	flagMasterKeyEnv   = "masterkeyFromEnv"
-	envMasterKey       = "TESSERA_MASTERKEY"
+	envMasterKey       = "NOMEN_MASTERKEY"
 )
 
 var (
@@ -25,7 +25,7 @@ func AddMasterKeyFlag(cmd *cobra.Command) {
 	}
 	cmd.PersistentFlags().StringP(flagMasterKey, flagMasterKeyShort, "", "path to the masterkey for en/decryption keys")
 	cmd.PersistentFlags().String(flagMasterKeyArg, "", "masterkey as argument for en/decryption keys")
-	cmd.PersistentFlags().Bool(flagMasterKeyEnv, false, "read masterkey for en/decryption keys from environment variable (TESSERA_MASTERKEY)")
+	cmd.PersistentFlags().Bool(flagMasterKeyEnv, false, "read masterkey for en/decryption keys from environment variable (NOMEN_MASTERKEY)")
 }
 
 func MasterKey(cmd *cobra.Command) (string, error) {

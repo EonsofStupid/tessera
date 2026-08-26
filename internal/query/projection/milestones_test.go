@@ -6,10 +6,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/milestone"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/milestone"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestMilestonesProjection_reduces(t *testing.T) {

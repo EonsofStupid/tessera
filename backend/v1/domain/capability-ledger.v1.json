@@ -1,0 +1,245 @@
+{
+  "$schema": "./capability-ledger.schema.json",
+  "schema": "nomen.capability-ledger.v1",
+  "program_revision": "docs/22-certification-and-parity-program.md@2026-08-21",
+  "families": [
+    {
+      "id": "standalone_lifecycle",
+      "parity_scope": "union",
+      "target_gate": "G2",
+      "evidence_owner": "release_engineering",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational"],
+      "capabilities": [
+        {"id": "deployment_preflight"},
+        {"id": "guided_setup", "required_components": ["nomen", "nomen_operator"], "depends_on": ["deployment_preflight"]},
+        {"id": "owner_enrollment", "depends_on": ["guided_setup"]},
+        {"id": "deployment_operations", "required_components": ["nomen", "nomen_operator"], "depends_on": ["deployment_preflight"]},
+        {"id": "backup_restore", "target_gate": "G5", "depends_on": ["deployment_operations"]},
+        {"id": "upgrade_rollback", "target_gate": "G5", "depends_on": ["backup_restore"]},
+        {"id": "key_rotation", "target_gate": "G5", "depends_on": ["deployment_operations"]},
+        {"id": "high_availability", "target_gate": "G5", "depends_on": ["backup_restore", "upgrade_rollback"]}
+      ]
+    },
+    {
+      "id": "directory_tenancy",
+      "parity_scope": "union",
+      "target_gate": "G3",
+      "evidence_owner": "identity_core",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational"],
+      "capabilities": [
+        {"id": "organizations"}, {"id": "users", "depends_on": ["organizations"]},
+        {"id": "groups", "depends_on": ["organizations"]}, {"id": "memberships", "depends_on": ["users", "groups"]},
+        {"id": "attributes_metadata", "depends_on": ["users"]}, {"id": "service_accounts", "depends_on": ["organizations"]},
+        {"id": "invitations", "target_gate": "G2", "depends_on": ["organizations", "users"]},
+        {"id": "delegated_administration", "depends_on": ["organizations", "roles"]},
+        {"id": "tenancy_isolation", "target_gate": "G2", "depends_on": ["organizations"]}
+      ]
+    },
+    {
+      "id": "authentication",
+      "parity_scope": "union",
+      "target_gate": "G3",
+      "evidence_owner": "identity_core",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational", "nist_800_63_4"],
+      "capabilities": [
+        {"id": "password_authentication"},
+        {"id": "passkeys_webauthn", "target_gate": "G2", "certification_tracks": ["nomen_operational", "nist_800_63_4", "fido2_server"]},
+        {"id": "totp"}, {"id": "email_otp"}, {"id": "sms_otp"}, {"id": "static_recovery_codes"}, {"id": "duo"},
+        {"id": "multi_factor_chains", "depends_on": ["password_authentication"]},
+        {"id": "account_recovery", "target_gate": "G2", "depends_on": ["owner_enrollment"]},
+        {"id": "step_up_authentication", "depends_on": ["multi_factor_chains"]}
+      ]
+    },
+    {
+      "id": "sessions_consent",
+      "parity_scope": "union",
+      "target_gate": "G3",
+      "evidence_owner": "identity_core",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational", "openid_connect_op"],
+      "capabilities": [
+        {"id": "session_management", "target_gate": "G2"}, {"id": "session_revocation", "target_gate": "G2", "depends_on": ["session_management"]},
+        {"id": "refresh_family_rotation", "target_gate": "G2", "depends_on": ["session_management"]},
+        {"id": "consent_management", "target_gate": "G2", "depends_on": ["session_management"]},
+        {"id": "security_events", "depends_on": ["immutable_audit"]}, {"id": "impersonation_controls", "depends_on": ["session_management", "immutable_audit"]}
+      ]
+    },
+    {
+      "id": "authorization",
+      "parity_scope": "union",
+      "target_gate": "G3",
+      "evidence_owner": "identity_core",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational"],
+      "capabilities": [
+        {"id": "projects", "depends_on": ["organizations"]}, {"id": "applications", "target_gate": "G2", "depends_on": ["organizations"]},
+        {"id": "roles", "target_gate": "G2", "depends_on": ["organizations"]}, {"id": "user_grants", "depends_on": ["users", "roles"]},
+        {"id": "project_grants", "depends_on": ["projects", "roles"]},
+        {"id": "application_entitlements", "target_gate": "G2", "depends_on": ["applications", "roles"]},
+        {"id": "policy_engine", "depends_on": ["roles"]}, {"id": "access_reviews", "target_gate": "G5", "depends_on": ["user_grants", "immutable_audit"]}
+      ]
+    },
+    {
+      "id": "downstream_protocols",
+      "parity_scope": "union",
+      "target_gate": "G3",
+      "evidence_owner": "identity_protocols",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational"],
+      "capabilities": [
+        {"id": "downstream_oidc", "target_gate": "G2", "certification_tracks": ["nomen_operational", "openid_connect_op"]},
+        {"id": "oauth_device_authorization", "depends_on": ["downstream_oidc"]}, {"id": "oauth_token_exchange", "depends_on": ["downstream_oidc"]},
+        {"id": "private_key_jwt", "depends_on": ["downstream_oidc"]}, {"id": "downstream_saml", "certification_tracks": ["nomen_operational", "saml_interoperability"]},
+        {"id": "ws_federation"}, {"id": "token_introspection", "depends_on": ["downstream_oidc"]},
+        {"id": "token_revocation", "target_gate": "G2", "depends_on": ["downstream_oidc"]},
+        {"id": "front_back_channel_logout", "depends_on": ["downstream_oidc", "session_revocation"]}
+      ]
+    },
+    {
+      "id": "upstream_federation",
+      "parity_scope": "union",
+      "target_gate": "G3",
+      "evidence_owner": "identity_protocols",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational"],
+      "capabilities": [
+        {"id": "upstream_oidc", "certification_tracks": ["nomen_operational", "openid_connect_rp"]},
+        {"id": "upstream_saml", "certification_tracks": ["nomen_operational", "saml_interoperability"]},
+        {"id": "upstream_ldap", "target_gate": "G4", "certification_tracks": ["nomen_operational", "ldap_ad_kerberos_interoperability"]},
+        {"id": "upstream_kerberos", "target_gate": "G4", "certification_tracks": ["nomen_operational", "ldap_ad_kerberos_interoperability"]},
+        {"id": "upstream_jwt"}, {"id": "social_identity_sources", "depends_on": ["upstream_oidc"]},
+        {"id": "account_linking", "depends_on": ["users"]}, {"id": "federation_mapping", "depends_on": ["attributes_metadata"]},
+        {"id": "emergency_local_owner", "target_gate": "G2", "depends_on": ["owner_enrollment"]}
+      ]
+    },
+    {
+      "id": "provisioning_sync",
+      "parity_scope": "union",
+      "target_gate": "G4",
+      "evidence_owner": "federation_edge",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational", "scim_interoperability"],
+      "capabilities": [
+        {"id": "scim_service_provider"}, {"id": "scim_source"}, {"id": "google_workspace_sync", "depends_on": ["scim_source"]},
+        {"id": "microsoft_entra_sync", "depends_on": ["scim_source"]}, {"id": "provisioning_preview"}, {"id": "deprovisioning", "depends_on": ["provisioning_preview"]}
+      ]
+    },
+    {
+      "id": "access_edge",
+      "parity_scope": "union",
+      "target_gate": "G4",
+      "evidence_owner": "federation_edge",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational"],
+      "capabilities": [
+        {"id": "ldap_outbound", "certification_tracks": ["nomen_operational", "ldap_ad_kerberos_interoperability"]},
+        {"id": "ldap_inbound", "certification_tracks": ["nomen_operational", "ldap_ad_kerberos_interoperability"]},
+        {"id": "radius", "certification_tracks": ["nomen_operational", "radius_interoperability"]},
+        {"id": "forward_auth", "certification_tracks": ["nomen_operational", "proxy_forward_auth_interoperability"]},
+        {"id": "identity_aware_proxy", "required_components": ["nomen", "zuul"], "certification_tracks": ["nomen_operational", "proxy_forward_auth_interoperability"]},
+        {"id": "remote_access_control"}, {"id": "edge_outposts"}
+      ]
+    },
+    {
+      "id": "flows_extensibility",
+      "parity_scope": "union",
+      "target_gate": "G4",
+      "evidence_owner": "identity_core",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational"],
+      "capabilities": [
+        {"id": "visual_flow_engine"}, {"id": "authentication_flows", "depends_on": ["visual_flow_engine"]},
+        {"id": "authorization_flows", "depends_on": ["visual_flow_engine"]}, {"id": "enrollment_flows", "depends_on": ["visual_flow_engine"]},
+        {"id": "recovery_flows", "depends_on": ["visual_flow_engine"]}, {"id": "conditional_policies", "depends_on": ["policy_engine"]},
+        {"id": "expression_actions"}, {"id": "token_claim_actions", "depends_on": ["downstream_oidc"]},
+        {"id": "saml_response_actions", "depends_on": ["downstream_saml"]}, {"id": "declarative_blueprints"}
+      ]
+    },
+    {
+      "id": "security_extensions",
+      "parity_scope": "union",
+      "target_gate": "G5",
+      "evidence_owner": "security_engineering",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational", "asvs_5"],
+      "capabilities": [
+        {"id": "mutual_tls"}, {"id": "device_trust"}, {"id": "shared_signals"}, {"id": "password_history"},
+        {"id": "reputation_policy", "depends_on": ["policy_engine"]}, {"id": "geoip_policy", "depends_on": ["policy_engine"]},
+        {"id": "captcha", "depends_on": ["authentication_flows"]}, {"id": "certificate_lifecycle", "depends_on": ["key_rotation"]},
+        {"id": "fips_profile", "certification_tracks": ["nomen_operational", "fips_140_3_module_profile"]}
+      ]
+    },
+    {
+      "id": "product_surfaces",
+      "parity_scope": "union",
+      "target_gate": "G2",
+      "evidence_owner": "product_experience",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational", "wcag_2_2_aa"],
+      "capabilities": [
+        {"id": "public_entry"}, {"id": "management_ui", "depends_on": ["management_api"]},
+        {"id": "end_user_account", "target_gate": "G3", "depends_on": ["users"]}, {"id": "management_api"},
+        {"id": "cli", "depends_on": ["management_api"]}, {"id": "action_discovery", "depends_on": ["management_api"]},
+        {"id": "localization"}, {"id": "accessibility"}
+      ]
+    },
+    {
+      "id": "audit_notification",
+      "parity_scope": "union",
+      "target_gate": "G3",
+      "evidence_owner": "operations",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational"],
+      "capabilities": [
+        {"id": "immutable_audit", "target_gate": "G2"}, {"id": "audit_search_export", "depends_on": ["immutable_audit"]},
+        {"id": "notification_rules"}, {"id": "email_delivery", "depends_on": ["notification_rules"]},
+        {"id": "sms_delivery", "depends_on": ["notification_rules"]}, {"id": "webhook_delivery", "depends_on": ["notification_rules"]},
+        {"id": "support_bundles", "target_gate": "G5", "depends_on": ["immutable_audit"]}
+      ]
+    },
+    {
+      "id": "supply_chain",
+      "parity_scope": "union",
+      "target_gate": "G1",
+      "evidence_owner": "release_engineering",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational", "slsa_provenance"],
+      "capabilities": [
+        {"id": "signed_oci"}, {"id": "sbom"}, {"id": "source_provenance"}, {"id": "build_provenance", "depends_on": ["source_provenance"]},
+        {"id": "vulnerability_response", "depends_on": ["sbom"]},
+        {"id": "release_verification", "depends_on": ["signed_oci", "sbom", "source_provenance", "build_provenance"]}
+      ]
+    },
+    {
+      "id": "supporting_runtime",
+      "parity_scope": "supporting",
+      "target_gate": "G1",
+      "evidence_owner": "release_engineering",
+      "current_status": "preview",
+      "required_components": ["nomen"],
+      "certification_tracks": ["nomen_operational"],
+      "capabilities": [
+        {"id": "overview"},
+        {"id": "analytics_olap", "target_gate": "G5", "required_components": ["nomen", "clickhouse"]},
+        {"id": "vaultix_secret_custody", "target_gate": "G5", "required_components": ["nomen", "vaultix"]}
+      ]
+    }
+  ]
+}

@@ -12,9 +12,9 @@ import (
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/repository/user"
 )
 
 var (

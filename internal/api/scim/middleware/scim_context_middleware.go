@@ -6,14 +6,14 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	zhttp "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	smetadata "github.com/EonsofStupid/tessera/internal/api/scim/metadata"
-	sresources "github.com/EonsofStupid/tessera/internal/api/scim/resources"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	zhttp "github.com/shippinAI/nomen/internal/api/http/middleware"
+	smetadata "github.com/shippinAI/nomen/internal/api/scim/metadata"
+	sresources "github.com/shippinAI/nomen/internal/api/scim/resources"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func ScimContextMiddleware(q *query.Queries) func(next zhttp.HandlerFuncWithError) zhttp.HandlerFuncWithError {

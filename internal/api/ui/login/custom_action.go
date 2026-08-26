@@ -6,16 +6,16 @@ import (
 	"net/http"
 
 	"github.com/dop251/goja"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/actions"
-	"github.com/EonsofStupid/tessera/internal/actions/object"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/actions"
+	"github.com/shippinAI/nomen/internal/actions/object"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 func (l *Login) runPostExternalAuthenticationActions(

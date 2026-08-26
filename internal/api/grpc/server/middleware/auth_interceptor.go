@@ -7,10 +7,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	grpc_util "github.com/EonsofStupid/tessera/internal/api/grpc"
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	grpc_util "github.com/shippinAI/nomen/internal/api/grpc"
+	"github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 func AuthorizationInterceptor(verifier authz.APITokenVerifier, systemUserPermissions authz.Config, authConfig authz.Config) grpc.UnaryServerInterceptor {
@@ -43,7 +43,7 @@ func authorize(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo,
 }
 
 func orgIDAndDomainFromRequest(ctx context.Context, req interface{}) (id, domain string) {
-	orgID := grpc_util.GetHeader(ctx, http.ZitadelOrgID)
+	orgID := grpc_util.GetHeader(ctx, http.NomenOrgID)
 	oz, ok := req.(OrganizationFromRequest)
 	if ok {
 		id = oz.OrganizationFromRequest().ID

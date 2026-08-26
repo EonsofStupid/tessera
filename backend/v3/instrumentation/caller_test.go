@@ -13,7 +13,7 @@ func TestGetCaller(t *testing.T) {
 	caller, ok := GetCaller(0)
 	require.True(t, ok)
 	want := Caller{
-		Function: "github.com/EonsofStupid/tessera/backend/v3/instrumentation.TestGetCaller",
+		Function: "github.com/shippinAI/nomen/backend/v3/instrumentation.TestGetCaller",
 		File:     "backend/v3/instrumentation/caller_test.go",
 		Line:     prevLine + 1,
 	}
@@ -31,7 +31,7 @@ func TestGetCallingFunc(t *testing.T) {
 		{
 			name: "test function",
 			skip: 0,
-			want: "github.com/EonsofStupid/tessera/backend/v3/instrumentation.TestGetCallingFunc.func1",
+			want: "github.com/shippinAI/nomen/backend/v3/instrumentation.TestGetCallingFunc.func1",
 		},
 		{
 			name: "unknown caller",

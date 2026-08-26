@@ -3,10 +3,10 @@ package types
 import (
 	"context"
 
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 func (notify Notify) SendUserInitCode(ctx context.Context, user *query.NotifyUser, code, authRequestID string) error {

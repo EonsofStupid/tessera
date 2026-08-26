@@ -5,17 +5,17 @@ import (
 	"html"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/email"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/set"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/sms"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/webhook"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/notification/templates"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/notification/channels/email"
+	"github.com/shippinAI/nomen/internal/notification/channels/set"
+	"github.com/shippinAI/nomen/internal/notification/channels/sms"
+	"github.com/shippinAI/nomen/internal/notification/channels/webhook"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/notification/templates"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 type Notify func(

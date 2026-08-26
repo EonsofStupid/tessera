@@ -61,7 +61,7 @@ Errors:
     CouldNotDialTLS: "nie można połączyć się z serwerem SMTP przy użyciu protokołu TLS, sprawdź port, problemy z zaporą sieciową..."
     CouldNotCreateClient: "nie można utworzyć klienta smtp"
     CouldNotStartTLS: "nie można rozpocząć tls"
-    CouldNotAuth: "nie można dodać uwierzytelnienia smtp, sprawdź, czy zarówno użytkownik, jak i hasło są poprawne, jeśli są poprawne, być może Twój dostawca wymaga metody uwierzytelniania nieobsługiwanej przez Zitadel"
+    CouldNotAuth: "nie można dodać uwierzytelnienia smtp, sprawdź, czy zarówno użytkownik, jak i hasło są poprawne, jeśli są poprawne, być może Twój dostawca wymaga metody uwierzytelniania nieobsługiwanej przez Nomen"
     CouldNotSetSender: "nie można ustawić nadawcy"
     CouldNotSetRecipient: "nie można ustawić odbiorcy"
   SMTPConfig:
@@ -153,7 +153,7 @@ Errors:
       Invalid: "Hasło jest nieprawidłowe"
       NotSet: "Użytkownik nie ustawił hasła"
       NotChanged: "Nowe hasło nie może być takie samo jak Twoje obecne hasło"
-      NotSupported: "Kodowanie skrótu hasła nie jest obsługiwane. Sprawdź https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Kodowanie skrótu hasła nie jest obsługiwane. Sprawdź https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Polityka hasła nie znaleziona"
       MinLength: "Hasło jest zbyt krótkie"
@@ -207,7 +207,7 @@ Errors:
     NotActive: "Organizacja nie jest aktywna"
     NotChanged: "Organizacja nie zmieniona"
     DefaultOrgNotDeletable: "Domyślna organizacja nie może być usunięta"
-    ZitadelOrgNotDeletable: "Organizacja z projektem Zitadel nie może być usunięta"
+    NomenOrgNotDeletable: "Organizacja z projektem Nomen nie może być usunięta"
     InvalidDomain: "Nieprawidłowa domena"
     DomainMissing: "Brak domeny"
     DomainNotOnOrg: "Domena nie istnieje w organizacji"
@@ -216,8 +216,8 @@ Errors:
     DomainVerificationTypeInvalid: "Typ weryfikacji domeny jest nieprawidłowy"
     DomainVerificationMissing: "Weryfikacja domeny nie została jeszcze rozpoczęta"
     DomainVerificationFailed: "Weryfikacja domeny nie powiodła się"
-    DomainVerificationTXTNotFound: "Nie znaleziono rekordu TXT _zitadel-challenge dla Twojej domeny. Sprawdź, czy dodałeś go do swojego serwera DNS lub poczekaj, aż nowy rekord zostanie rozpropagowany"
-    DomainVerificationTXTNoMatch: "Znaleziono rekord TXT _zitadel-challenge dla Twojej domeny, ale nie zawiera on prawidłowego tekstu tokena. Sprawdź, czy dodałeś właściwy token do swojego serwera DNS lub poczekaj, aż nowy rekord zostanie rozpropagowany"
+    DomainVerificationTXTNotFound: "Nie znaleziono rekordu TXT _nomen-challenge dla Twojej domeny. Sprawdź, czy dodałeś go do swojego serwera DNS lub poczekaj, aż nowy rekord zostanie rozpropagowany"
+    DomainVerificationTXTNoMatch: "Znaleziono rekord TXT _nomen-challenge dla Twojej domeny, ale nie zawiera on prawidłowego tekstu tokena. Sprawdź, czy dodałeś właściwy token do swojego serwera DNS lub poczekaj, aż nowy rekord zostanie rozpropagowany"
     DomainVerificationHTTPNotFound: "Pod oczekiwanym adresem URL nie znaleziono pliku zawierającego wyzwanie. Sprawdź, czy przesłałeś plik we właściwe miejsce z uprawnieniami do odczytu"
     DomainVerificationHTTPNoMatch: "Znaleziono plik zawierający wyzwanie pod oczekiwanym adresem URL, ale nie zawiera on prawidłowego tekstu tokena. Sprawdź jego zawartość"
     DomainVerificationTimeout: "Upłynął limit czasu podczas wysyłania zapytania do serwera DNS"
@@ -342,7 +342,7 @@ Errors:
   Instance:
     AlreadyExists: "Instancja już istnieje"
     NotChanged: "Instancja nie zmieniona"
-    NotFound: "Instancja nie znaleziona. Upewnij się, że masz poprawną domenę. Sprawdź https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Instancja nie znaleziona. Upewnij się, że masz poprawną domenę. Sprawdź https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Role nie zmienione"
     MemberInvalid: "Członek jest nieprawidłowy"
@@ -1110,20 +1110,20 @@ EventTypes:
         changed: "Zmieniono politykę blokowania hasła"
   iam:
     setup:
-      started: "rozpoczęta konfiguracja Zitadel"
-      done: "ukończona konfiguracja Zitadel"
+      started: "rozpoczęta konfiguracja Nomen"
+      done: "ukończona konfiguracja Nomen"
     global:
       org:
         set: "Ustawienie globalnej organizacji"
     project:
       iam:
-        set: "Ustawiono projekt Zitadel"
+        set: "Ustawiono projekt Nomen"
     member:
-      added: "Dodano członka Zitadel"
-      changed: "Zmieniono członka Zitadel"
-      removed: "Usunięto członka Zitadel"
+      added: "Dodano członka Nomen"
+      changed: "Zmieniono członka Nomen"
+      removed: "Usunięto członka Nomen"
       cascade:
-        removed: "Usunięto kaskadowo członka Zitadel"
+        removed: "Usunięto kaskadowo członka Nomen"
     idp:
       config:
         added: "Dodano konfigurację IDP"
@@ -1236,9 +1236,9 @@ EventTypes:
       removed: "Domena usunięta"
     iam:
       console:
-        set: "Aplikacja Konsoli Zarządzania Zitadel ustawiona"
+        set: "Aplikacja Konsoli Zarządzania Nomen ustawiona"
       project:
-        set: "Ustawienie projektu Zitadel"
+        set: "Ustawienie projektu Nomen"
     mail:
       template:
         added: "Dodanie szablonu e-mail"

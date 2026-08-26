@@ -5,12 +5,12 @@ import (
 	"slices"
 	"time"
 
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 const (

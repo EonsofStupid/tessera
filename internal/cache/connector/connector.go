@@ -5,13 +5,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/internal/cache"
-	"github.com/EonsofStupid/tessera/internal/cache/connector/gomap"
-	"github.com/EonsofStupid/tessera/internal/cache/connector/noop"
-	"github.com/EonsofStupid/tessera/internal/cache/connector/pg"
-	"github.com/EonsofStupid/tessera/internal/cache/connector/redis"
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/internal/cache"
+	"github.com/shippinAI/nomen/internal/cache/connector/gomap"
+	"github.com/shippinAI/nomen/internal/cache/connector/noop"
+	"github.com/shippinAI/nomen/internal/cache/connector/pg"
+	"github.com/shippinAI/nomen/internal/cache/connector/redis"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 type CachesConfig struct {
@@ -32,6 +32,18 @@ type Connectors struct {
 	Memory   *gomap.Connector
 	Postgres *pg.Connector
 	Redis    *redis.Connector
+}
+
+// StartConnectorsForEdition refuses Redis unless this process is enterprise.
+// Public and the hosted demo use PostgreSQL cache only.
+func StartConnectorsForEdition(edition string, conf *CachesConfig) error {
+	if conf == nil || !conf.Connectors.Redis.Enabled {
+		return nil
+	}
+	if edition != "enterprise" {
+		return fmt.Errorf("Redis cache is a Nomen.sh enterprise hosting option; public and demo editions use PostgreSQL")
+	}
+	return nil
 }
 
 func StartConnectors(conf *CachesConfig, client *database.DB) (Connectors, error) {
@@ -67,7 +79,10 @@ func StartCache[I ~int, K ~string, V cache.Entry[I, K]](background context.Conte
 		connectors.Postgres.Config.AutoPrune.StartAutoPrune(background, c, purpose)
 		return c, nil
 	}
-	if conf.Connector == cache.ConnectorRedis && connectors.Redis != nil {
+	if conf.Connector == cache.ConnectorRedis {
+		if connectors.Redis == nil {
+			return nil, fmt.Errorf("Redis cache is a Nomen.sh paid hosting option; self-hosted Nomen uses PostgreSQL cache")
+		}
 		db := connectors.Redis.Config.DBOffset + int(purpose)
 		c := redis.NewCache[I, K, V](*conf, build.Version(), connectors.Redis, db, indices)
 		return c, nil

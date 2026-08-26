@@ -6,14 +6,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/id"
-	id_mock "github.com/EonsofStupid/tessera/internal/id/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/id"
+	id_mock "github.com/shippinAI/nomen/internal/id/mock"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestAddAPIConfig(t *testing.T) {

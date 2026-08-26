@@ -11,10 +11,10 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	cryptoDatabase "github.com/EonsofStupid/tessera/internal/crypto/database"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	cryptoDatabase "github.com/shippinAI/nomen/internal/crypto/database"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/query/projection"
 )
 
 func verifyCmd() *cobra.Command {
@@ -23,7 +23,7 @@ func verifyCmd() *cobra.Command {
 		Short: "counts if source and dest have the same amount of entries",
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera mirror verify command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen mirror verify command failed")
 			}()
 			config, shutdown, err := newMigrationConfig(cmd, viper.GetViper())
 			if err != nil {

@@ -3,8 +3,8 @@ package projection
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
 )
 
 var _ handler.EventStore = (*mockEventStore)(nil)

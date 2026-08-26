@@ -21,19 +21,19 @@ import (
 	goldap "github.com/go-ldap/ldap/v3"
 	"github.com/gorilla/websocket"
 	"github.com/sirupsen/logrus"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/oauth2"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/azuread"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/jwt"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/ldap"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oauth"
-	openid "github.com/EonsofStupid/tessera/internal/idp/providers/oidc"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/saml"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/idp/providers/azuread"
+	"github.com/shippinAI/nomen/internal/idp/providers/jwt"
+	"github.com/shippinAI/nomen/internal/idp/providers/ldap"
+	"github.com/shippinAI/nomen/internal/idp/providers/oauth"
+	openid "github.com/shippinAI/nomen/internal/idp/providers/oidc"
+	"github.com/shippinAI/nomen/internal/idp/providers/saml"
 )
 
 const (
@@ -172,7 +172,7 @@ func SuccessfulJWTIntent(instanceID, idpID, idpUserID, userID string, expiry tim
 }
 
 // StartServer starts a simple HTTP server on localhost:8081
-// ZITADEL can use the server to send HTTP requests which can be
+// NOMEN can use the server to send HTTP requests which can be
 // used to validate tests through [Subscribe]rs.
 // For each [Channel] a route is registered on http://localhost:8081/<channel_name>.
 // The route must be used to send the HTTP request to be validated.
@@ -252,7 +252,7 @@ func successfulIntentJWTPath() string {
 	return path.Join(successfulIntentPath(), "/", "jwt")
 }
 
-// forwarder handles incoming HTTP requests from ZITADEL and
+// forwarder handles incoming HTTP requests from NOMEN and
 // forwards them to all subscribed web sockets.
 type forwarder struct {
 	channelID   Channel

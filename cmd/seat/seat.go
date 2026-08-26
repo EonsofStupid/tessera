@@ -1,6 +1,6 @@
 // Package seat is the operator's view of who occupies what.
 //
-// It exists because Tessera is run *for* customers rather than by them: nobody
+// It exists because Nomen is run *for* customers rather than by them: nobody
 // on the far side of this ever sees a seat, so the people who do need a way to
 // read and correct one that does not involve a SQL client. Blueprints will be
 // how seats are normally authored — declared in reviewed files rather than typed
@@ -17,13 +17,13 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	old_logging "github.com/zitadel/logging" //nolint:staticcheck
+	old_logging "github.com/shippinAI/nomen/logging" //nolint:staticcheck
 
-	seatdomain "github.com/EonsofStupid/tessera/backend/v1/domain"
-	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
-	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
-	v3_postgres "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
-	"github.com/EonsofStupid/tessera/internal/database"
+	seatdomain "github.com/shippinAI/nomen/backend/v1/domain"
+	nomenmigration "github.com/shippinAI/nomen/backend/v1/storage/migration"
+	seatstorage "github.com/shippinAI/nomen/backend/v1/storage/seat"
+	v3_postgres "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 type config struct {
@@ -57,8 +57,8 @@ func open(ctx context.Context) (*seatstorage.Repository, func(), error) {
 	if err != nil {
 		return nil, nil, fmt.Errorf("cannot connect: %w", err)
 	}
-	if err := tesseramigration.Migrate(ctx, db.Pool); err != nil {
-		return nil, nil, fmt.Errorf("cannot migrate the tessera schema: %w", err)
+	if err := nomenmigration.Migrate(ctx, db.Pool); err != nil {
+		return nil, nil, fmt.Errorf("cannot migrate the nomen schema: %w", err)
 	}
 	return seatstorage.NewRepository(v3_postgres.PGxPool(db.Pool)), func() { _ = db.Close() }, nil
 }

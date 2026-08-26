@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import source from './TesseraApp.tsx?raw'
+import source from './NomenApp.tsx?raw'
 
 describe('semantic interaction coverage', () => {
   it('gives every interactive JSX control a stable semantic id', () => {
@@ -10,8 +10,10 @@ describe('semantic interaction coverage', () => {
     }
   })
 
-  it('contains only Tessera product language', () => {
+  it('contains only Nomen product language', () => {
     expect(source.toLowerCase()).not.toContain('zitadel')
     expect(source.toLowerCase()).not.toContain('authentik')
+    expect(source.toLowerCase()).not.toContain('tessera')
+    expect(source.toLowerCase()).not.toContain('zuul')
   })
 })

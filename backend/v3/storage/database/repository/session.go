@@ -8,8 +8,8 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // -------------------------------------------------------------
@@ -29,7 +29,7 @@ type session struct {
 }
 
 func (s session) qualifiedTableName() string {
-	return "zitadel.sessions"
+	return "nomen.sessions"
 }
 
 func (s session) unqualifiedTableName() string {
@@ -85,7 +85,7 @@ SELECT
 	, users.organization_id 
 	, jsonb_agg(DISTINCT jsonb_build_object('loginName', login_names.login_name, 'isPreferred', login_names.is_preferred)) FILTER (WHERE login_names.user_id IS NOT NULL) AS login_names
 	, users.display_name
-	FROM zitadel.sessions`
+	FROM nomen.sessions`
 
 // Get implements [domain.SessionRepository].
 func (s session) Get(ctx context.Context, client database.QueryExecutor, opts ...database.QueryOption) (*domain.Session, error) {
@@ -161,7 +161,7 @@ func (s session) List(ctx context.Context, client database.QueryExecutor, opts .
 
 const upsertSessionUserAgentStmt = `
 WITH user_agent AS (
-	INSERT INTO zitadel.session_user_agents(
+	INSERT INTO nomen.session_user_agents(
 		instance_id, fingerprint_id, description, ip, headers
 	)
 	VALUES ($1, $2, $3, $4, $5)
@@ -213,13 +213,13 @@ func (s session) Update(ctx context.Context, client database.QueryExecutor, cond
 	}
 
 	var builder database.StatementBuilder
-	builder.WriteString("WITH existing_session AS (SELECT * FROM zitadel.sessions ")
+	builder.WriteString("WITH existing_session AS (SELECT * FROM nomen.sessions ")
 	writeCondition(&builder, condition)
 	builder.WriteString(") ")
 	for i, change := range changes {
 		sessionCTE(change, i, 0, &builder)
 	}
-	builder.WriteString("UPDATE zitadel.sessions SET ")
+	builder.WriteString("UPDATE nomen.sessions SET ")
 	if err := database.Changes(changes).Write(&builder); err != nil {
 		return 0, err
 	}
@@ -249,23 +249,23 @@ func (s session) Delete(ctx context.Context, client database.QueryExecutor, cond
 		return 0, time.Time{}, database.NewMissingConditionError(s.InstanceIDColumn())
 	}
 	var builder database.StatementBuilder
-	builder.WriteString("WITH gatekeeper AS (SELECT count(*) as total_found, MAX(sessions.deleted_at) as deleted_at FROM (SELECT instance_id, user_id, token_id, now() as deleted_at FROM zitadel.sessions")
+	builder.WriteString("WITH gatekeeper AS (SELECT count(*) as total_found, MAX(sessions.deleted_at) as deleted_at FROM (SELECT instance_id, user_id, token_id, now() as deleted_at FROM nomen.sessions")
 	writeCondition(&builder, condition)
 	// In case the deletion is intended for a specific session,
 	// we'll also include already deleted session to check the permission against,
 	// and to return the deleted_at timestamp from the previous deletion in case the session was already deleted.
 	if condition.IsRestrictingColumn(s.IDColumn()) {
-		builder.WriteString(" UNION ALL SELECT instance_id, user_id, token_id, deleted_at FROM zitadel.archived_sessions as sessions")
+		builder.WriteString(" UNION ALL SELECT instance_id, user_id, token_id, deleted_at FROM nomen.archived_sessions as sessions")
 		writeCondition(&builder, condition)
 	}
 	// join the users table to get the user's organization, which will be needed for checking the permission
 	builder.WriteString(") as sessions")
 	if permissionCondition != nil {
-		builder.WriteString(" LEFT JOIN zitadel.users ON users.instance_id = sessions.instance_id AND users.id = sessions.user_id HAVING (bool_and(")
+		builder.WriteString(" LEFT JOIN nomen.users ON users.instance_id = sessions.instance_id AND users.id = sessions.user_id HAVING (bool_and(")
 		permissionCondition.Write(&builder)
-		builder.WriteString(") AND count(*) > 0) or zitadel.throw_not_permitted()") //TODO: change throw_not_permitted to actual permission check
+		builder.WriteString(") AND count(*) > 0) or nomen.throw_not_permitted()") //TODO: change throw_not_permitted to actual permission check
 	}
-	builder.WriteString("), execution AS (DELETE FROM zitadel.sessions")
+	builder.WriteString("), execution AS (DELETE FROM nomen.sessions")
 	writeCondition(&builder, condition)
 	builder.WriteString(" and exists (SELECT 1 FROM gatekeeper) RETURNING 1 AS rows_affected) SELECT (CASE WHEN gatekeeper.total_found = 1 THEN gatekeeper.deleted_at END) as deleted_at, (SELECT count(*) FROM execution) as rows_affected FROM gatekeeper")
 	var deletedAt database.Null[time.Time]
@@ -310,7 +310,7 @@ func (s session) SetChallenge(challenge domain.SessionChallenge) database.Change
 	case *domain.SessionChallengePasskey:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_challenged_at, challenged_payload) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_challenged_at, challenged_payload) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypePasskey, c.LastChallengedAt, c)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_challenged_at = EXCLUDED.last_challenged_at, challenged_payload = EXCLUDED.challenged_payload")
 			}, nil,
@@ -318,7 +318,7 @@ func (s session) SetChallenge(challenge domain.SessionChallenge) database.Change
 	case *domain.SessionChallengeOTPSMS:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_challenged_at, challenged_payload) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_challenged_at, challenged_payload) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypeOTPSMS, c.LastChallengedAt, c)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_challenged_at = EXCLUDED.last_challenged_at, challenged_payload = EXCLUDED.challenged_payload")
 			}, nil,
@@ -326,7 +326,7 @@ func (s session) SetChallenge(challenge domain.SessionChallenge) database.Change
 	case *domain.SessionChallengeOTPEmail:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_challenged_at, challenged_payload) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_challenged_at, challenged_payload) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypeOTPEmail, c.LastChallengedAt, c)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_challenged_at = EXCLUDED.last_challenged_at, challenged_payload = EXCLUDED.challenged_payload")
 			}, nil,
@@ -343,7 +343,7 @@ func (s session) SetFactor(factor domain.SessionFactor) database.Change {
 			database.NewChange(s.UserIDColumn(), f.UserID),
 			database.NewCTEChange(
 				func(builder *database.StatementBuilder) {
-					builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_verified_at, verified_payload) SELECT instance_id, id, ")
+					builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_verified_at, verified_payload) SELECT instance_id, id, ")
 					builder.WriteArgs(domain.SessionFactorTypeUser, f.LastVerifiedAt, f)
 					builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_verified_at = EXCLUDED.last_verified_at, verified_payload = EXCLUDED.verified_payload")
 				}, nil,
@@ -352,7 +352,7 @@ func (s session) SetFactor(factor domain.SessionFactor) database.Change {
 	case *domain.SessionFactorPassword:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypePassword, f.LastVerifiedAt)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_verified_at = EXCLUDED.last_verified_at")
 			}, nil,
@@ -360,7 +360,7 @@ func (s session) SetFactor(factor domain.SessionFactor) database.Change {
 	case *domain.SessionFactorIdentityProviderIntent:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypeIdentityProviderIntent, f.LastVerifiedAt)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_verified_at = EXCLUDED.last_verified_at")
 			}, nil,
@@ -368,7 +368,7 @@ func (s session) SetFactor(factor domain.SessionFactor) database.Change {
 	case *domain.SessionFactorPasskey:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_verified_at, verified_payload) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_verified_at, verified_payload) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypePasskey, f.LastVerifiedAt, f)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_verified_at = EXCLUDED.last_verified_at, verified_payload = EXCLUDED.verified_payload")
 			}, nil,
@@ -376,7 +376,7 @@ func (s session) SetFactor(factor domain.SessionFactor) database.Change {
 	case *domain.SessionFactorTOTP:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypeTOTP, f.LastVerifiedAt)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_verified_at = EXCLUDED.last_verified_at")
 			}, nil,
@@ -384,7 +384,7 @@ func (s session) SetFactor(factor domain.SessionFactor) database.Change {
 	case *domain.SessionFactorOTPSMS:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypeOTPSMS, f.LastVerifiedAt)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_verified_at = EXCLUDED.last_verified_at")
 			}, nil,
@@ -392,7 +392,7 @@ func (s session) SetFactor(factor domain.SessionFactor) database.Change {
 	case *domain.SessionFactorOTPEmail:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypeOTPEmail, f.LastVerifiedAt)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_verified_at = EXCLUDED.last_verified_at")
 			}, nil,
@@ -400,7 +400,7 @@ func (s session) SetFactor(factor domain.SessionFactor) database.Change {
 	case *domain.SessionFactorRecoveryCode:
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_factors (instance_id, session_id, type, last_verified_at) SELECT instance_id, id, ")
 				builder.WriteArgs(domain.SessionFactorTypeRecoveryCode, f.LastVerifiedAt)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, type) DO UPDATE SET last_verified_at = EXCLUDED.last_verified_at")
 			}, nil,
@@ -414,7 +414,7 @@ func (s session) SetFactor(factor domain.SessionFactor) database.Change {
 func (s session) ClearFactor(factorType domain.SessionFactorType) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("UPDATE zitadel.session_factors sf SET last_verified_at = NULL FROM existing_session es WHERE sf.instance_id = es.instance_id AND sf.session_id = es.id AND sf.type = ")
+			builder.WriteString("UPDATE nomen.session_factors sf SET last_verified_at = NULL FROM existing_session es WHERE sf.instance_id = es.instance_id AND sf.session_id = es.id AND sf.type = ")
 			builder.WriteArg(factorType)
 		}, nil)
 }
@@ -427,7 +427,7 @@ func (s session) SetMetadata(metadata []*domain.SessionMetadata) database.Change
 		keys[i] = md.Key
 		changes[i] = database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.session_metadata (instance_id, session_id, key, value) SELECT instance_id, id, ")
+				builder.WriteString("INSERT INTO nomen.session_metadata (instance_id, session_id, key, value) SELECT instance_id, id, ")
 				builder.WriteArgs(md.Key, md.Value)
 				builder.WriteString(" FROM existing_session ON CONFLICT (instance_id, session_id, key) DO UPDATE SET value = EXCLUDED.value")
 			}, nil,
@@ -435,7 +435,7 @@ func (s session) SetMetadata(metadata []*domain.SessionMetadata) database.Change
 	}
 	changes[len(metadata)] = database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("DELETE FROM zitadel.session_metadata WHERE instance_id = (SELECT instance_id FROM existing_session) AND session_id = (SELECT id from existing_session) AND key NOT IN (")
+			builder.WriteString("DELETE FROM nomen.session_metadata WHERE instance_id = (SELECT instance_id FROM existing_session) AND session_id = (SELECT id from existing_session) AND key NOT IN (")
 			builder.WriteArgs(keys...)
 			builder.WriteString(")")
 		}, nil)

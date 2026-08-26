@@ -13,7 +13,7 @@ import (
 
 const (
 	OverviewSchemaVersion uint32 = 1
-	OverviewServiceID            = "tessera"
+	OverviewServiceID            = "nomen"
 )
 
 type OverviewReadinessStatus string
@@ -107,7 +107,7 @@ type OverviewActivity struct {
 	Result OverviewActivityResult `json:"result"`
 }
 
-// OverviewFacts are Tessera-owned source facts. Host-product inventory and
+// OverviewFacts are Nomen-owned source facts. Host-product inventory and
 // billing deliberately cannot enter this assembler.
 type OverviewFacts struct {
 	WorkspaceAttachments uint64
@@ -125,7 +125,7 @@ func BuildOverview(facts OverviewFacts, issuer string, signingKeys uint32, obser
 		reasons = append(reasons, "no_active_asymmetric_signing_key")
 	}
 	if facts.Flows == 0 {
-		reasons = append(reasons, "no_tessera_flow_configured")
+		reasons = append(reasons, "no_nomen_flow_configured")
 	}
 	status := OverviewReady
 	if len(reasons) != 0 {
@@ -145,9 +145,9 @@ func BuildOverview(facts OverviewFacts, issuer string, signingKeys uint32, obser
 			Reasons:        reasons,
 		},
 		Lenses: []OverviewLens{
-			lens("infrastructure", "Infrastructure", facts.WorkspaceAttachments, "attachments", "Workspace identity attachments managed by Tessera."),
+			lens("infrastructure", "Infrastructure", facts.WorkspaceAttachments, "attachments", "Workspace identity attachments managed by Nomen."),
 			lens("ai", "AI", facts.AgentSeats, "agent seats", "Agent seats with explicit identity and scope."),
-			lens("customers", "Customers", facts.HumanSeats, "human seats", "Human seats managed by Tessera."),
+			lens("customers", "Customers", facts.HumanSeats, "human seats", "Human seats managed by Nomen."),
 		},
 		Federation: OverviewFederation{
 			Upstreams: []OverviewFederationParty{},

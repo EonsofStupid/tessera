@@ -3,8 +3,8 @@ package admin
 import (
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func selectLanguagesToCommand(languages *admin.SelectLanguages) (tags []language.Tag, err error) {

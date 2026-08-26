@@ -12,12 +12,12 @@ import (
 	slogmulti "github.com/samber/slog-multi"
 	slogctx "github.com/veqryn/slog-context"
 	slogotel "github.com/veqryn/slog-context/otel"
-	old_logging "github.com/zitadel/logging" //nolint:staticcheck
-	"github.com/zitadel/sloggcp"
+	old_logging "github.com/shippinAI/nomen/logging" //nolint:staticcheck
+	"github.com/shippinAI/nomen/sloggcp"
 	"go.opentelemetry.io/contrib/bridges/otelslog"
 	"go.opentelemetry.io/otel/sdk/log"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type LogFormat int

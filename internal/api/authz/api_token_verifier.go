@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 // TODO: Define interfaces where they are accepted

@@ -1,8 +1,8 @@
 package convert
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	session_grpc "github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	session_grpc "github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 func ChallengeOTPSMSGRPCToDomain(otpSMSChallenge *session_grpc.RequestChallenges_OTPSMS) *domain.ChallengeTypeOTPSMS {

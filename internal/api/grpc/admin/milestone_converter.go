@@ -3,12 +3,12 @@ package admin
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/repository/milestone"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	milestone_pb "github.com/EonsofStupid/tessera/pkg/grpc/milestone"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/repository/milestone"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
+	milestone_pb "github.com/shippinAI/nomen/pkg/grpc/milestone"
 )
 
 func listMilestonesToModel(instanceID string, req *admin_pb.ListMilestonesRequest) (*query.MilestonesSearchQueries, error) {

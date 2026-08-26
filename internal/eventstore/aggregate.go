@@ -3,7 +3,7 @@ package eventstore
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/authz"
 )
 
 type aggregateOpt func(*Aggregate)

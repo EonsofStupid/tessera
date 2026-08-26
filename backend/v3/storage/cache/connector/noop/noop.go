@@ -3,7 +3,7 @@ package noop
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/cache"
+	"github.com/shippinAI/nomen/backend/v3/storage/cache"
 )
 
 type noop[I, K comparable, V cache.Entry[I, K]] struct{}

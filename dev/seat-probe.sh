@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# From a running Tessera to a verified seat token.
+# From a running Nomen to a verified seat token.
 #
 #   bash dev/up.sh && bash dev/seat-probe.sh
 #
@@ -10,11 +10,11 @@
 # credential and never enters this repository (`AGENTS.md`).
 #
 # Re-runnable: the machine user is recreated only if it is missing, and the
-# secret is reissued every time because Tessera returns it exactly once.
+# secret is reissued every time because Nomen returns it exactly once.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-API="http://localhost:${TESSERA_PORT:-8088}"
+API="http://localhost:${NOMEN_PORT:-8088}"
 PAT="$(cat "$ROOT/.artifacts/admin.pat")"
 WS_A=ws-0001
 WS_B=ws-0002
@@ -57,10 +57,10 @@ step "2 · its facts — declared, not typed"
 # by `blueprint validate` (no database), applied atomically, and applied AGAIN —
 # because a blueprint that is not a no-op the second time is not declarative,
 # and the probe should be the first thing to notice.
-PSQL="psql -h 127.0.0.1 -p 5433 -U tessera -d zitadel -tAc"
-INSTANCE="$($PSQL "select id from zitadel.instances limit 1")"
-ACCOUNT="$($PSQL "select id from zitadel.organizations limit 1")"
-TESSERA="$ROOT/.artifacts/tessera"
+PSQL="psql -h 127.0.0.1 -p 5433 -U nomen -d nomen -tAc"
+INSTANCE="$($PSQL "select id from nomen.instances limit 1")"
+ACCOUNT="$($PSQL "select id from nomen.organizations limit 1")"
+NOMEN="$ROOT/.artifacts/nomen"
 BPDIR="$ROOT/.artifacts/blueprints"
 
 mkdir -p "$BPDIR"
@@ -68,9 +68,9 @@ sed -e "s/@MEMBER_ID@/$USER_ID/" -e "s/@ACCOUNT_ID@/$ACCOUNT/" \
   "$ROOT/blueprints/dev/seats.yaml.tmpl" > "$BPDIR/seats.yaml"
 cp "$ROOT/blueprints/dev/flows.yaml" "$BPDIR/flows.yaml"
 
-"$TESSERA" blueprint validate --dir "$BPDIR" >/dev/null 2>&1 && ok "blueprint validates (no database needed)"
-"$TESSERA" blueprint apply --config "$ROOT/dev/dev.yaml" --dir "$BPDIR" --instance "$INSTANCE" 2>/dev/null | sed 's/^/  ✓ /'
-SECOND="$("$TESSERA" blueprint apply --config "$ROOT/dev/dev.yaml" --dir "$BPDIR" --instance "$INSTANCE" 2>/dev/null)"
+"$NOMEN" blueprint validate --dir "$BPDIR" >/dev/null 2>&1 && ok "blueprint validates (no database needed)"
+"$NOMEN" blueprint apply --config "$ROOT/dev/dev.yaml" --dir "$BPDIR" --instance "$INSTANCE" 2>/dev/null | sed 's/^/  ✓ /'
+SECOND="$("$NOMEN" blueprint apply --config "$ROOT/dev/dev.yaml" --dir "$BPDIR" --instance "$INSTANCE" 2>/dev/null)"
 if printf '%s' "$SECOND" | grep -q "converged: nothing to change"; then
   ok "second apply converged — the blueprint is a no-op, as declared state must be"
 else
@@ -80,7 +80,7 @@ fi
 # Prove the old source is gone rather than merely unused: if a single seat fact
 # were still readable from metadata, every assertion below would pass for the
 # wrong reason.
-LEFTOVER="$($PSQL "select count(*) from zitadel.user_metadata where key like 'shippin%'")"
+LEFTOVER="$($PSQL "select count(*) from nomen.user_metadata where key like 'shippin%'")"
 if [[ "$LEFTOVER" != "0" ]]; then
   printf '  ✗ %s seat facts still in user metadata — the old path is still live\n' "$LEFTOVER"
   exit 1

@@ -11,10 +11,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
-	resource_object "github.com/EonsofStupid/tessera/pkg/grpc/resources/object/v3alpha"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/resources/user/v3alpha"
+	"github.com/shippinAI/nomen/internal/integration"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
+	resource_object "github.com/shippinAI/nomen/pkg/grpc/resources/object/v3alpha"
+	user "github.com/shippinAI/nomen/pkg/grpc/resources/user/v3alpha"
 )
 
 func TestServer_SetContactEmail(t *testing.T) {
@@ -23,7 +23,7 @@ func TestServer_SetContactEmail(t *testing.T) {
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
@@ -368,7 +368,7 @@ func TestServer_VerifyContactEmail(t *testing.T) {
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
@@ -557,7 +557,7 @@ func TestServer_ResendContactEmailCode(t *testing.T) {
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {

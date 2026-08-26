@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	internal_permission "github.com/EonsofStupid/tessera/pkg/grpc/internal_permission/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	internal_permission "github.com/shippinAI/nomen/pkg/grpc/internal_permission/v2beta"
 )
 
 func TestServer_CreateAdministrator(t *testing.T) {

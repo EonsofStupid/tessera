@@ -7,7 +7,7 @@ import (
 
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore/repository"
+	"github.com/shippinAI/nomen/internal/eventstore/repository"
 )
 
 var _ gomock.Matcher = (*filterMatcher)(nil)

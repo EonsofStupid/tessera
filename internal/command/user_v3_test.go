@@ -10,16 +10,16 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/id/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/user/schema"
-	"github.com/EonsofStupid/tessera/internal/repository/user/schemauser"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/id/mock"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/user/schema"
+	"github.com/shippinAI/nomen/internal/repository/user/schemauser"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommands_CreateSchemaUser(t *testing.T) {
@@ -124,7 +124,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -165,7 +165,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -209,7 +209,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -266,11 +266,11 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
-									 	"urn:zitadel:schema:permission": {
+									 	"urn:nomen:schema:permission": {
 											"owner": "r"
 										},
 										"type": "string"
@@ -313,11 +313,11 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
-									 	"urn:zitadel:schema:permission": {
+									 	"urn:nomen:schema:permission": {
 											"self": "r"
 										},
 										"type": "string"
@@ -359,7 +359,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -403,7 +403,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -460,7 +460,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -505,7 +505,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -585,7 +585,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -663,7 +663,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -773,7 +773,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -881,7 +881,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -984,7 +984,7 @@ func TestCommands_CreateSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -2278,7 +2278,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -2334,7 +2334,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -2403,7 +2403,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id2", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -2466,7 +2466,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id2", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -2537,7 +2537,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name1": {
@@ -2555,7 +2555,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								[]schema.Changes{
 									schema.IncreaseRevision(1),
 									schema.ChangeSchema(json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name2": {
@@ -2625,7 +2625,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id2", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name2": {
@@ -2697,11 +2697,11 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
-									 	"urn:zitadel:schema:permission": {
+									 	"urn:nomen:schema:permission": {
 											"owner": "r"
 										},
 										"type": "string"
@@ -2756,11 +2756,11 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
-									 	"urn:zitadel:schema:permission": {
+									 	"urn:nomen:schema:permission": {
 											"self": "r"
 										},
 										"type": "string"
@@ -2815,7 +2815,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -2872,7 +2872,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -2944,7 +2944,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -3046,7 +3046,7 @@ func TestCommands_ChangeSchemaUser(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {

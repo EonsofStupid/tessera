@@ -7,11 +7,11 @@ import (
 	"github.com/muhlemmer/gu"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	project_pb "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	project_pb "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
 )
 
 func (s *Server) CreateProject(ctx context.Context, req *connect.Request[project_pb.CreateProjectRequest]) (*connect.Response[project_pb.CreateProjectResponse], error) {

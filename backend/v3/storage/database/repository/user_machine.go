@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type userMachine struct {
@@ -28,7 +28,7 @@ func (u userMachine) create(ctx context.Context, builder *database.StatementBuil
 		sessionCTE(change, i, 0, builder)
 	}
 
-	builder.WriteString("INSERT INTO zitadel.users (" +
+	builder.WriteString("INSERT INTO nomen.users (" +
 		"instance_id, organization_id, id, username, state, type" +
 		", name, description, secret, access_token_type, created_at, updated_at) VALUES (",
 	)

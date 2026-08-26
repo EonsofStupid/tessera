@@ -4,9 +4,9 @@ import (
 	"context"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const AddedType = eventTypePrefix + "added"

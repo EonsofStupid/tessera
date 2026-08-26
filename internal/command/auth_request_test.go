@@ -12,14 +12,14 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/id/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/authrequest"
-	"github.com/EonsofStupid/tessera/internal/repository/session"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/id/mock"
+	"github.com/shippinAI/nomen/internal/repository/authrequest"
+	"github.com/shippinAI/nomen/internal/repository/session"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommands_AddAuthRequest(t *testing.T) {

@@ -7,20 +7,20 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zitadel/passwap"
-	"github.com/zitadel/passwap/verifier"
+	"github.com/shippinAI/nomen/passwap"
+	"github.com/shippinAI/nomen/passwap/verifier"
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/repository"
-	"github.com/EonsofStupid/tessera/internal/eventstore/repository/mock"
-	"github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/feature"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/repository"
+	"github.com/shippinAI/nomen/internal/eventstore/repository/mock"
+	"github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/feature"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type expect func(mockRepository *mock.MockRepository)

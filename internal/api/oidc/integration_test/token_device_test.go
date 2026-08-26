@@ -10,14 +10,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	"github.com/EonsofStupid/tessera/pkg/grpc/auth"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	"github.com/shippinAI/nomen/pkg/grpc/auth"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
 )
 
 func TestServer_DeviceAuth(t *testing.T) {
@@ -49,8 +49,8 @@ func TestServer_DeviceAuth(t *testing.T) {
 			},
 		},
 		{
-			name:  "authorized, with ZITADEL",
-			scope: []string{oidc.ScopeOpenID, oidc.ScopeProfile, oidc.ScopeEmail, domain.ProjectScopeZITADEL},
+			name:  "authorized, with NOMEN",
+			scope: []string{oidc.ScopeOpenID, oidc.ScopeProfile, oidc.ScopeEmail, domain.ProjectScopeNOMEN},
 			decision: func(t *testing.T, id string) {
 				sessionID, sessionToken, _, _ := Instance.CreateVerifiedWebAuthNSession(t, CTXLOGIN, User.GetUserId())
 				_, err = Instance.Client.OIDCv2.AuthorizeOrDenyDeviceAuthorization(CTXLOGIN, &oidc_pb.AuthorizeOrDenyDeviceAuthorizationRequest{
@@ -67,7 +67,7 @@ func TestServer_DeviceAuth(t *testing.T) {
 		},
 		{
 			name:  "denied",
-			scope: []string{oidc.ScopeOpenID, oidc.ScopeProfile, oidc.ScopeEmail, domain.ProjectScopeZITADEL},
+			scope: []string{oidc.ScopeOpenID, oidc.ScopeProfile, oidc.ScopeEmail, domain.ProjectScopeNOMEN},
 			decision: func(t *testing.T, id string) {
 				_, err = Instance.Client.OIDCv2.AuthorizeOrDenyDeviceAuthorization(CTXLOGIN, &oidc_pb.AuthorizeOrDenyDeviceAuthorizationRequest{
 					DeviceAuthorizationId: id,
@@ -102,7 +102,7 @@ func TestServer_DeviceAuth(t *testing.T) {
 					return
 				}
 				_, err = Instance.Client.Auth.GetMyUser(integration.WithAuthorizationToken(CTX, tokens.AccessToken), &auth.GetMyUserRequest{})
-				if slices.Contains(tt.scope, domain.ProjectScopeZITADEL) {
+				if slices.Contains(tt.scope, domain.ProjectScopeNOMEN) {
 					require.NoError(t, err)
 				} else {
 					require.Error(t, err)

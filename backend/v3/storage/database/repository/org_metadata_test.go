@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
 )
 
 func TestGetOrganizationMetadata(t *testing.T) {
@@ -59,7 +59,7 @@ func TestGetOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgA.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("1234"),
 			},
 		},
@@ -67,7 +67,7 @@ func TestGetOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgA.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key2",
+				Key:        "urn:nomen:key2",
 				Value:      []byte("asdf"),
 			},
 		},
@@ -89,7 +89,7 @@ func TestGetOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgB.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("5678"),
 			},
 		},
@@ -97,7 +97,7 @@ func TestGetOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgB.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key2",
+				Key:        "urn:nomen:key2",
 				Value:      []byte(`"asdf"`),
 			},
 		},
@@ -138,13 +138,13 @@ func TestGetOrganizationMetadata(t *testing.T) {
 				database.And(
 					metadataRepo.InstanceIDCondition(instanceID),
 					metadataRepo.OrganizationIDCondition(orgA.ID),
-					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:zitadel:key2"),
+					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:nomen:key2"),
 				),
 			),
 			database.WithOrderByAscending(metadataRepo.OrganizationIDColumn()),
 		)
 		require.NoError(t, err)
-		assert.Equal(t, "urn:zitadel:key2", metadata.Key)
+		assert.Equal(t, "urn:nomen:key2", metadata.Key)
 		assert.Equal(t, []byte(`asdf`), metadata.Value)
 	})
 
@@ -161,7 +161,7 @@ func TestGetOrganizationMetadata(t *testing.T) {
 			database.WithOrderByAscending(metadataRepo.OrganizationIDColumn()),
 		)
 		require.NoError(t, err)
-		assert.Equal(t, "urn:zitadel:key2", metadata.Key)
+		assert.Equal(t, "urn:nomen:key2", metadata.Key)
 	})
 }
 
@@ -209,7 +209,7 @@ func TestListOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgA.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("1234"),
 			},
 		},
@@ -217,7 +217,7 @@ func TestListOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgA.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key2",
+				Key:        "urn:nomen:key2",
 				Value:      []byte("asdf"),
 			},
 		},
@@ -250,7 +250,7 @@ func TestListOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgB.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("5678"),
 			},
 		},
@@ -258,7 +258,7 @@ func TestListOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgB.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key2",
+				Key:        "urn:nomen:key2",
 				Value:      []byte(`"asdf"`),
 			},
 		},
@@ -323,7 +323,7 @@ func TestListOrganizationMetadata(t *testing.T) {
 			database.WithCondition(
 				database.And(
 					metadataRepo.InstanceIDCondition(instanceID),
-					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:zitadel:key2"),
+					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:nomen:key2"),
 				),
 			),
 			database.WithOrderByAscending(metadataRepo.OrganizationIDColumn()),
@@ -347,7 +347,7 @@ func TestListOrganizationMetadata(t *testing.T) {
 		)
 		require.NoError(t, err)
 		require.Len(t, metadata, 1)
-		assert.Equal(t, "urn:zitadel:key2", metadata[0].Key)
+		assert.Equal(t, "urn:nomen:key2", metadata[0].Key)
 		assert.Equal(t, "1", metadata[0].OrganizationID)
 	})
 }
@@ -390,7 +390,7 @@ func TestSetOrganizationMetadata_UpdatedAt(t *testing.T) {
 		OrganizationID: orgID,
 		Metadata: domain.Metadata{
 			InstanceID: instanceID,
-			Key:        "urn:zitadel:key",
+			Key:        "urn:nomen:key",
 			Value:      []byte("some-value"),
 		},
 	}
@@ -467,7 +467,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("some-value"),
 			},
 		}
@@ -478,7 +478,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 
 		assert.Equal(t, orgID, metadata.OrganizationID)
 		assert.Equal(t, instanceID, metadata.InstanceID)
-		assert.Equal(t, "urn:zitadel:key", metadata.Key)
+		assert.Equal(t, "urn:nomen:key", metadata.Key)
 		assert.Equal(t, []byte("some-value"), metadata.Value)
 		assert.WithinRange(t, metadata.CreatedAt, beforeSet, afterSet)
 		assert.WithinRange(t, metadata.UpdatedAt, beforeSet, afterSet)
@@ -496,7 +496,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("some-value"),
 			},
 		})
@@ -508,14 +508,14 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				database.And(
 					metadataRepo.InstanceIDCondition(instanceID),
 					metadataRepo.OrganizationIDCondition(orgID),
-					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:zitadel:key"),
+					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:nomen:key"),
 				),
 			),
 		)
 		require.NoError(t, err)
 		assert.Equal(t, orgID, savedMetadata.OrganizationID)
 		assert.Equal(t, instanceID, savedMetadata.InstanceID)
-		assert.Equal(t, "urn:zitadel:key", savedMetadata.Key)
+		assert.Equal(t, "urn:nomen:key", savedMetadata.Key)
 		assert.Equal(t, []byte("some-value"), savedMetadata.Value)
 		assert.WithinRange(t, savedMetadata.CreatedAt, beforeSet, afterSet)
 		assert.WithinRange(t, savedMetadata.UpdatedAt, beforeSet, afterSet)
@@ -534,7 +534,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				OrganizationID: orgID,
 				Metadata: domain.Metadata{
 					InstanceID: instanceID,
-					Key:        "urn:zitadel:key",
+					Key:        "urn:nomen:key",
 					Value:      []byte("some-value"),
 				},
 			},
@@ -542,7 +542,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				OrganizationID: orgID,
 				Metadata: domain.Metadata{
 					InstanceID: instanceID,
-					Key:        "urn:zitadel:key2",
+					Key:        "urn:nomen:key2",
 					Value:      []byte("1234"),
 				},
 			},
@@ -556,7 +556,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				database.And(
 					metadataRepo.InstanceIDCondition(instanceID),
 					metadataRepo.OrganizationIDCondition(orgID),
-					metadataRepo.KeyCondition(database.TextOperationStartsWith, "urn:zitadel:key"),
+					metadataRepo.KeyCondition(database.TextOperationStartsWith, "urn:nomen:key"),
 				),
 			),
 			database.WithOrderByAscending(metadataRepo.KeyColumn()),
@@ -572,10 +572,10 @@ func TestSetOrganizationMetadata(t *testing.T) {
 			assert.Equal(t, saved.CreatedAt, saved.UpdatedAt)
 		}
 
-		assert.Equal(t, "urn:zitadel:key", savedMetadata[0].Key)
+		assert.Equal(t, "urn:nomen:key", savedMetadata[0].Key)
 		assert.Equal(t, []byte("some-value"), savedMetadata[0].Value)
 
-		assert.Equal(t, "urn:zitadel:key2", savedMetadata[1].Key)
+		assert.Equal(t, "urn:nomen:key2", savedMetadata[1].Key)
 		assert.Equal(t, []byte("1234"), savedMetadata[1].Value)
 	})
 
@@ -601,7 +601,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("some-value"),
 			},
 		})
@@ -613,14 +613,14 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				database.And(
 					metadataRepo.InstanceIDCondition(instanceID),
 					metadataRepo.OrganizationIDCondition(orgID),
-					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:zitadel:key"),
+					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:nomen:key"),
 				),
 			),
 		)
 		require.NoError(t, err)
 		assert.Equal(t, orgID, savedMetadata.OrganizationID)
 		assert.Equal(t, instanceID, savedMetadata.InstanceID)
-		assert.Equal(t, "urn:zitadel:key", savedMetadata.Key)
+		assert.Equal(t, "urn:nomen:key", savedMetadata.Key)
 		assert.Equal(t, []byte("some-value"), savedMetadata.Value)
 		assert.WithinRange(t, savedMetadata.CreatedAt, beforeSet, afterSet)
 		assert.WithinRange(t, savedMetadata.UpdatedAt, beforeSet, afterSet)
@@ -630,7 +630,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("1234"),
 			},
 		})
@@ -642,7 +642,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				database.And(
 					metadataRepo.InstanceIDCondition(instanceID),
 					metadataRepo.OrganizationIDCondition(orgID),
-					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:zitadel:key"),
+					metadataRepo.KeyCondition(database.TextOperationEqual, "urn:nomen:key"),
 				),
 			),
 		)
@@ -650,7 +650,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 
 		assert.Equal(t, orgID, savedMetadata.OrganizationID)
 		assert.Equal(t, instanceID, savedMetadata.InstanceID)
-		assert.Equal(t, "urn:zitadel:key", savedMetadata.Key)
+		assert.Equal(t, "urn:nomen:key", savedMetadata.Key)
 		assert.Equal(t, []byte("1234"), savedMetadata.Value)
 		assert.WithinRange(t, savedMetadata.CreatedAt, beforeSet, afterSet)
 		assert.WithinRange(t, savedMetadata.UpdatedAt, beforeSet, afterSet)
@@ -669,7 +669,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				OrganizationID: orgID,
 				Metadata: domain.Metadata{
 					InstanceID: instanceID,
-					Key:        "urn:zitadel:key",
+					Key:        "urn:nomen:key",
 					Value:      []byte("some-value"),
 					CreatedAt:  beforeSet.Add(-time.Hour),
 					UpdatedAt:  beforeSet.Add(-time.Hour),
@@ -682,14 +682,14 @@ func TestSetOrganizationMetadata(t *testing.T) {
 					database.And(
 						metadataRepo.InstanceIDCondition(instanceID),
 						metadataRepo.OrganizationIDCondition(orgID),
-						metadataRepo.KeyCondition(database.TextOperationEqual, "urn:zitadel:key"),
+						metadataRepo.KeyCondition(database.TextOperationEqual, "urn:nomen:key"),
 					),
 				),
 			)
 			require.NoError(t, err)
 			assert.Equal(t, orgID, savedMetadata.OrganizationID)
 			assert.Equal(t, instanceID, savedMetadata.InstanceID)
-			assert.Equal(t, "urn:zitadel:key", savedMetadata.Key)
+			assert.Equal(t, "urn:nomen:key", savedMetadata.Key)
 			assert.Equal(t, []byte("some-value"), savedMetadata.Value)
 			assert.Less(t, savedMetadata.CreatedAt, beforeSet)
 			assert.Less(t, savedMetadata.UpdatedAt, beforeSet)
@@ -709,7 +709,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				OrganizationID: orgID,
 				Metadata: domain.Metadata{
 					InstanceID: instanceID,
-					Key:        "urn:zitadel:key",
+					Key:        "urn:nomen:key",
 					Value:      []byte("some-value"),
 					CreatedAt:  firstEventCreatedAt,
 					UpdatedAt:  firstEventCreatedAt,
@@ -723,7 +723,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				OrganizationID: orgID,
 				Metadata: domain.Metadata{
 					InstanceID: instanceID,
-					Key:        "urn:zitadel:key",
+					Key:        "urn:nomen:key",
 					Value:      []byte("some-other-value"),
 					CreatedAt:  secondEventCreatedAt,
 					UpdatedAt:  secondEventCreatedAt,
@@ -735,7 +735,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 			require.NoError(t, err)
 			assert.Equal(t, orgID, savedMetadata.OrganizationID)
 			assert.Equal(t, instanceID, savedMetadata.InstanceID)
-			assert.Equal(t, "urn:zitadel:key", savedMetadata.Key)
+			assert.Equal(t, "urn:nomen:key", savedMetadata.Key)
 			assert.Equal(t, []byte("some-other-value"), savedMetadata.Value)
 			assert.True(t, savedMetadata.CreatedAt.Equal(firstEventCreatedAt), "created at should have been %v, but was %v", firstEventCreatedAt, savedMetadata.CreatedAt)
 			assert.True(t, savedMetadata.UpdatedAt.Equal(secondEventCreatedAt), "updated at should have been %v, but was %v", secondEventCreatedAt, savedMetadata.UpdatedAt)
@@ -753,7 +753,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				metadata: &domain.OrganizationMetadata{
 					Metadata: domain.Metadata{
 						InstanceID: instanceID,
-						Key:        "urn:zitadel:key",
+						Key:        "urn:nomen:key",
 						Value:      []byte("1234"),
 					},
 				},
@@ -764,7 +764,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 				metadata: &domain.OrganizationMetadata{
 					OrganizationID: orgID,
 					Metadata: domain.Metadata{
-						Key:   "urn:zitadel:key",
+						Key:   "urn:nomen:key",
 						Value: []byte("1234"),
 					},
 				},
@@ -787,7 +787,7 @@ func TestSetOrganizationMetadata(t *testing.T) {
 					OrganizationID: orgID,
 					Metadata: domain.Metadata{
 						InstanceID: instanceID,
-						Key:        "urn:zitadel:key",
+						Key:        "urn:nomen:key",
 					},
 				},
 				expectedErr: new(database.NotNullError),
@@ -851,7 +851,7 @@ func TestRemoveOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgA.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("1234"),
 			},
 		},
@@ -859,7 +859,7 @@ func TestRemoveOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgA.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key2",
+				Key:        "urn:nomen:key2",
 				Value:      []byte("asdf"),
 			},
 		},
@@ -881,7 +881,7 @@ func TestRemoveOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgB.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key",
+				Key:        "urn:nomen:key",
 				Value:      []byte("5678"),
 			},
 		},
@@ -889,7 +889,7 @@ func TestRemoveOrganizationMetadata(t *testing.T) {
 			OrganizationID: orgB.ID,
 			Metadata: domain.Metadata{
 				InstanceID: instanceID,
-				Key:        "urn:zitadel:key2",
+				Key:        "urn:nomen:key2",
 				Value:      []byte(`"asdf"`),
 			},
 		},
@@ -925,7 +925,7 @@ func TestRemoveOrganizationMetadata(t *testing.T) {
 			database.And(
 				metadataRepo.InstanceIDCondition(instanceID),
 				metadataRepo.OrganizationIDCondition(orgA.ID),
-				metadataRepo.KeyCondition(database.TextOperationStartsWith, "urn:zitadel:key"),
+				metadataRepo.KeyCondition(database.TextOperationStartsWith, "urn:nomen:key"),
 			),
 		)
 		require.NoError(t, err)

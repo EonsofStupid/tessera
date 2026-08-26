@@ -3,9 +3,9 @@ package command
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/quota"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/quota"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 // ReportQuotaUsage writes a slice of *quota.NotificationDueEvent directly to the eventstore

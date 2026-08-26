@@ -11,27 +11,27 @@ import (
 	"connectrpc.com/otelconnect"
 	"github.com/gorilla/mux"
 	"github.com/improbable-eng/grpc-web/go/grpcweb"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"go.opentelemetry.io/otel"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	grpc_api "github.com/EonsofStupid/tessera/internal/api/grpc"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server/connect_middleware"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	console_path "github.com/EonsofStupid/tessera/internal/api/ui/console/path"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	instance_pb "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	system_pb "github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	grpc_api "github.com/shippinAI/nomen/internal/api/grpc"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/api/grpc/server/connect_middleware"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	http_mw "github.com/shippinAI/nomen/internal/api/http/middleware"
+	console_path "github.com/shippinAI/nomen/internal/api/ui/console/path"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	instance_pb "github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	system_pb "github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 var (
@@ -297,7 +297,7 @@ func (a *API) routeGRPCWeb() {
 				http_util.Accept,
 				http_util.AcceptLanguage,
 				http_util.Authorization,
-				http_util.ZitadelOrgID,
+				http_util.NomenOrgID,
 				http_util.XUserAgent,
 				http_util.XGrpcWeb,
 			},

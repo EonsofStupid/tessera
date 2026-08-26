@@ -8,12 +8,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/feature"
-	"github.com/EonsofStupid/tessera/internal/query"
-	feature_pb "github.com/EonsofStupid/tessera/pkg/grpc/feature/v2beta"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/feature"
+	"github.com/shippinAI/nomen/internal/query"
+	feature_pb "github.com/shippinAI/nomen/pkg/grpc/feature/v2beta"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
 )
 
 func Test_systemFeaturesToCommand(t *testing.T) {

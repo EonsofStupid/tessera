@@ -3,9 +3,9 @@ package domain
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type newOTPCodeFunc func(g crypto.Generator) (*crypto.CryptoValue, string, error)

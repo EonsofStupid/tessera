@@ -3,18 +3,18 @@ package auth
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/change"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/metadata"
-	obj_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/org"
-	user_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/user"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	auth_pb "github.com/EonsofStupid/tessera/pkg/grpc/auth"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/change"
+	"github.com/shippinAI/nomen/internal/api/grpc/metadata"
+	obj_grpc "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/api/grpc/org"
+	user_grpc "github.com/shippinAI/nomen/internal/api/grpc/user"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	auth_pb "github.com/shippinAI/nomen/pkg/grpc/auth"
 )
 
 func (s *Server) GetMyUser(ctx context.Context, _ *auth_pb.GetMyUserRequest) (*auth_pb.GetMyUserResponse, error) {
@@ -173,7 +173,7 @@ func (s *Server) ListMyProjectOrgs(ctx context.Context, req *auth_pb.ListMyProje
 
 	ctxData := authz.GetCtxData(ctx)
 
-	//client of user is not in project of ZITADEL
+	//client of user is not in project of NOMEN
 	if ctxData.ProjectID != authz.GetInstance(ctx).ProjectID() {
 		userGrantProjectID, err := query.NewUserGrantProjectIDSearchQuery(ctxData.ProjectID)
 		if err != nil {

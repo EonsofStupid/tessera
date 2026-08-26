@@ -10,16 +10,16 @@ rolled back whole on any failure, and a no-op when re-applied. Identity
 configuration stops being something somebody clicked and becomes something
 somebody reviewed.
 
-The model is Authentik's (`upstream/authentik/blueprints/`), reimplemented over
+The model is Nomen's (`upstream/nomen/blueprints/`), reimplemented over
 our own domain — the flow-engine treatment from the roadmap, applied to
-configuration. Nothing here shells out to Authentik or parses its schema.
+configuration. Nothing here shells out to Nomen or parses its schema.
 
 ```yaml
-schema: tessera.blueprint.v1
+schema: nomen.blueprint.v1
 name: dev — the probe seat
 
 entries:
-  - model: tessera/seat
+  - model: nomen/seat
     id: probe                     # local handle, for refs from later entries
     identifiers:
       member: "386740…"
@@ -41,7 +41,7 @@ deadlock on Wednesday. A forward reference is an error naming *both* entries,
 which is a review comment, not a runtime surprise.
 
 **References are strings, not YAML tags.** `${keyof:probe}` in an attr value,
-resolved by the engine, instead of Authentik's `!KeyOf` custom tag. Two
+resolved by the engine, instead of Nomen's `!KeyOf` custom tag. Two
 reasons. Custom tags need `gopkg.in/yaml.v3` unmarshalers on every entry type;
 `sigs.k8s.io/yaml` (already a direct dependency) parses YAML *as JSON*, so a
 string convention keeps the whole model JSON-compatible — and the panel will
@@ -64,7 +64,7 @@ panel workers — is otherwise a race where both succeed and one silently wins.
 The lock serialises them for the cost of one line.
 
 **States are `present` and `absent`.** `absent` of something already gone is
-success — a desired state reached twice is reached. Authentik's `must_created`
+success — a desired state reached twice is reached. Nomen's `must_created`
 guard is deferred until something needs it; a state nobody uses is a state
 nobody tests.
 
@@ -82,7 +82,7 @@ the reviewed ones.
 | `Applier` port, registry, apply engine | `backend/v1/domain/blueprint_apply.go` | domain defines the port |
 | seat applier | `backend/v1/storage/seat/applier.go` | storage implements it |
 | YAML loader (dir → domain types) | `backend/v1/storage/blueprint/` | filesystem is an adapter too |
-| `tessera blueprint validate\|apply` | `cmd/blueprint/` | surface translates, decides nothing |
+| `nomen blueprint validate\|apply` | `cmd/blueprint/` | surface translates, decides nothing |
 | the dev state, as files | `blueprints/dev/` | config is reviewed, not clicked |
 
 The engine's applier port takes a `database.Transaction` (which is a
@@ -118,7 +118,7 @@ sandbox: the same assertions in `dev/blueprint-probe.sh` against the dev
 cluster on 5433. *Done when* the broken-final-entry run leaves no trace.
 
 **3.4a — loader and command.** Directory → blueprints in lexicographic order,
-`.yaml`/`.yml`; `tessera blueprint validate` (parse + resolve, no writes) and
+`.yaml`/`.yml`; `nomen blueprint validate` (parse + resolve, no writes) and
 `apply --dir --instance`. `blueprints/dev/seats.yaml` enters the repo;
 `seat-probe.sh` step 2 becomes a blueprint apply and asserts the second apply
 reports no changes. *Done when* `rm -rf .pgdata` → `up.sh` → `blueprint apply`

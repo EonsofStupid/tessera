@@ -3,7 +3,7 @@ package permissionmock
 import (
 	"golang.org/x/net/context"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 // MockPermissionCheckErr returns a permission check function that will fail

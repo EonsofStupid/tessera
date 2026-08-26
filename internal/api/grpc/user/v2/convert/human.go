@@ -4,9 +4,9 @@ import (
 	"github.com/muhlemmer/gu"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func humanToPb(userQ *query.Human, assetPrefix, owner string) *user.HumanUser {

@@ -1,4 +1,4 @@
-// Package operator_event persists Tessera's semantic operator events and their
+// Package operator_event persists Nomen's semantic operator events and their
 // analytical outbox in one tenant-scoped PostgreSQL transaction.
 package operator_event
 
@@ -7,8 +7,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type Repository struct {
@@ -32,7 +32,7 @@ func (r *Repository) Record(ctx context.Context, actor domain.OperatorActor, bat
 	}
 	defer func() { err = tx.End(ctx, err) }()
 
-	if _, err = tx.Exec(ctx, `SELECT set_config('tessera.instance_id', $1, true), set_config('tessera.tenant_id', $2, true)`, actor.InstanceID, actor.TenantID); err != nil {
+	if _, err = tx.Exec(ctx, `SELECT set_config('nomen_product.instance_id', $1, true), set_config('nomen_product.tenant_id', $2, true)`, actor.InstanceID, actor.TenantID); err != nil {
 		return fmt.Errorf("set operator event tenant context: %w", err)
 	}
 
@@ -47,7 +47,7 @@ func (r *Repository) Record(ctx context.Context, actor domain.OperatorActor, bat
 		}
 		if _, err = tx.Exec(ctx, `
 WITH inserted AS (
-    INSERT INTO tessera.tessera_operator_events (
+    INSERT INTO nomen_product.nomen_operator_events (
         instance_id, tenant_id, event_id, session_id, sequence, occurred_at,
         route_id, control_id, event_type, action_id, resource_revision,
         correlation_id, outcome, attributes, actor_id, agent_id
@@ -55,7 +55,7 @@ WITH inserted AS (
     ON CONFLICT (instance_id, tenant_id, event_id) DO NOTHING
     RETURNING instance_id, tenant_id, event_id
 )
-INSERT INTO tessera.tessera_outbox (instance_id, tenant_id, event_id, topic, payload)
+INSERT INTO nomen_product.nomen_outbox (instance_id, tenant_id, event_id, topic, payload)
 SELECT instance_id, tenant_id, event_id, 'operator.event.v1', $17::jsonb
 FROM inserted
 ON CONFLICT DO NOTHING`,

@@ -3,10 +3,10 @@ package management
 import (
 	"context"
 
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/http"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func (s *Server) Healthz(context.Context, *mgmt_pb.HealthzRequest) (*mgmt_pb.HealthzResponse, error) {

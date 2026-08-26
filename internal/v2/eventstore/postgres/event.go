@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func intentToCommands(intent *intent) (commands []*command, err error) {

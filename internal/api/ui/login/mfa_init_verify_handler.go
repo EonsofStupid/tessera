@@ -8,9 +8,9 @@ import (
 	svg "github.com/ajstarks/svgo"
 	"github.com/boombuler/barcode/qr"
 
-	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/qrcode"
+	http_mw "github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/qrcode"
 )
 
 const (

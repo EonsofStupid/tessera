@@ -10,10 +10,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/internal/api/call"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/internal/api/call"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestRequestDetailsHandler_Connect(t *testing.T) {

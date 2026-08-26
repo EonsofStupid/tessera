@@ -11,9 +11,9 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/idp/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/idp/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
 )
 
 type idpAttr struct {
@@ -203,13 +203,13 @@ func TestServer_GetIDPByID(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "idp by ID, instance, Zitadel provider, ok",
+			name: "idp by ID, instance, Nomen provider, ok",
 			args: args{
 				IamCTX,
 				&idp.GetIDPByIDRequest{},
 				func(ctx context.Context, request *idp.GetIDPByIDRequest) *idpAttr {
 					name := integration.IDPName()
-					resp := Instance.AddZitadelProvider(ctx, name)
+					resp := Instance.AddNomenProvider(ctx, name)
 					request.Id = resp.Id
 					return &idpAttr{
 						resp.GetId(),
@@ -228,12 +228,12 @@ func TestServer_GetIDPByID(t *testing.T) {
 						ChangeDate: timestamppb.Now(),
 					},
 					State: idp.IDPState_IDP_STATE_ACTIVE,
-					Type:  idp.IDPType_IDP_TYPE_ZITADEL,
+					Type:  idp.IDPType_IDP_TYPE_NOMEN,
 					Config: &idp.IDPConfig{
-						Config: &idp.IDPConfig_Zitadel{
-							Zitadel: &idp.ZitadelConfig{
+						Config: &idp.IDPConfig_Nomen{
+							Nomen: &idp.NomenConfig{
 								ClientId: "test-client",
-								Issuer:   "zitadel.example.com",
+								Issuer:   "nomen.example.com",
 								Scopes:   []string{"email", "profile"},
 								InstanceRolesInfo: []*idp.InstanceRolesInfo{
 									{
@@ -251,13 +251,13 @@ func TestServer_GetIDPByID(t *testing.T) {
 			},
 		},
 		{
-			name: "idp by ID, org, Zitadel provider, ok",
+			name: "idp by ID, org, Nomen provider, ok",
 			args: args{
 				CTX,
 				&idp.GetIDPByIDRequest{},
 				func(ctx context.Context, request *idp.GetIDPByIDRequest) *idpAttr {
 					name := integration.IDPName()
-					resp := Instance.AddOrgZitadelProvider(ctx, name)
+					resp := Instance.AddOrgNomenProvider(ctx, name)
 					request.Id = resp.Id
 					return &idpAttr{
 						resp.GetId(),
@@ -276,12 +276,12 @@ func TestServer_GetIDPByID(t *testing.T) {
 						ChangeDate: timestamppb.Now(),
 					},
 					State: idp.IDPState_IDP_STATE_ACTIVE,
-					Type:  idp.IDPType_IDP_TYPE_ZITADEL,
+					Type:  idp.IDPType_IDP_TYPE_NOMEN,
 					Config: &idp.IDPConfig{
-						Config: &idp.IDPConfig_Zitadel{
-							Zitadel: &idp.ZitadelConfig{
+						Config: &idp.IDPConfig_Nomen{
+							Nomen: &idp.NomenConfig{
 								ClientId: "test-client",
-								Issuer:   "zitadel.example.com",
+								Issuer:   "nomen.example.com",
 								Scopes:   []string{"email", "profile"},
 							},
 						},

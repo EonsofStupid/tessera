@@ -22,10 +22,10 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/action/v2"
+	"github.com/shippinAI/nomen/internal/crypto"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/action/v2"
 )
 
 func TestServer_CreateTarget(t *testing.T) {

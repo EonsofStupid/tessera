@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/call"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/call"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 type Event struct {
@@ -97,7 +97,7 @@ func (er *eventsReducer) convertEvent(ctx context.Context, event eventstore.Even
 	return &Event{
 		Editor: &EventEditor{
 			ID:                event.Creator(),
-			Service:           "zitadel",
+			Service:           "nomen",
 			DisplayName:       editor.DisplayName,
 			PreferedLoginName: editor.PreferedLoginName,
 			AvatarKey:         editor.AvatarKey,

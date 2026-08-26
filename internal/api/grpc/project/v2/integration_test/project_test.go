@@ -11,10 +11,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	internal_permission_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/internal_permission/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/project/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	internal_permission_v2beta "github.com/shippinAI/nomen/pkg/grpc/internal_permission/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/project/v2"
 )
 
 func TestServer_CreateProject(t *testing.T) {

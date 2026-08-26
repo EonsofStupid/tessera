@@ -3,8 +3,8 @@ package command
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) ChangeDefaultIDPJWTConfig(ctx context.Context, config *domain.JWTIDPConfig) (*domain.JWTIDPConfig, error) {

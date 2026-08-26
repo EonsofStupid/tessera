@@ -7,8 +7,8 @@ import (
 	"github.com/go-webauthn/webauthn/webauthn"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 func TestWebAuthNsToCredentials(t *testing.T) {

@@ -11,18 +11,18 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/integration/sink"
-	"github.com/EonsofStupid/tessera/internal/repository/milestone"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object"
-	oidc_v2 "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/project"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration/sink"
+	"github.com/shippinAI/nomen/internal/repository/milestone"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/object"
+	oidc_v2 "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/project"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func TestServer_TelemetryPushMilestones(t *testing.T) {
@@ -106,7 +106,7 @@ func managementConsoleOIDCConfig(t *testing.T, instance *integration.Instance) *
 			{
 				Query: &project.ProjectQuery_NameQuery{
 					NameQuery: &project.ProjectNameQuery{
-						Name:   "ZITADEL",
+						Name:   "NOMEN",
 						Method: object.TextQueryMethod_TEXT_QUERY_METHOD_EQUALS,
 					},
 				},

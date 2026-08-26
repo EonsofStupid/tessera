@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	internal_permission "github.com/EonsofStupid/tessera/pkg/grpc/internal_permission/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	internal_permission "github.com/shippinAI/nomen/pkg/grpc/internal_permission/v2beta"
 )
 
 func TestServer_ListAdministrators(t *testing.T) {

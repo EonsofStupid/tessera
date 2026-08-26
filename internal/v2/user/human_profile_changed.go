@@ -3,9 +3,9 @@ package user
 import (
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type humanProfileChangedPayload struct {

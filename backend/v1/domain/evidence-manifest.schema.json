@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:angryvibes:nomen:contract:evidence-manifest:v1",
+  "title": "Nomen capability evidence manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "conformance_id", "capability_id", "capability_ledger_revision", "release_id", "source_revision", "image_digest", "bundle_manifest_digest", "deployment_profile", "evidence_owner", "result", "verified_at", "evidence"],
+  "properties": {
+    "schema": {"const": "nomen.evidence-manifest.v1"},
+    "conformance_id": {"type": "string", "pattern": "^nomen[.]conformance[.][a-z][a-z0-9_.-]*[.]v[0-9]+$"},
+    "capability_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "capability_ledger_revision": {"type": "string", "minLength": 1},
+    "release_id": {"type": "string", "minLength": 1},
+    "source_revision": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "image_digest": {"$ref": "#/$defs/digest"},
+    "bundle_manifest_digest": {"$ref": "#/$defs/digest"},
+    "deployment_profile": {"enum": ["standalone", "shippin_managed"]},
+    "evidence_owner": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "result": {"enum": ["passed", "failed"]},
+    "verified_at": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "evidence": {"type": "array", "minItems": 18, "items": {"$ref": "#/$defs/evidence"}},
+    "limitations": {"type": "array", "items": {"$ref": "#/$defs/limitation"}},
+    "external_assurances": {"type": "array", "items": {"$ref": "#/$defs/assurance"}}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer", "result", "artifact_digest", "observations"],
+      "properties": {
+        "layer": {"enum": ["product_contract", "threat_model", "source_legal", "persistence", "service_implementation", "authorization", "protocol_behavior", "operator_api", "guided_ui", "action_equivalence", "audit", "browser", "failure", "operations", "accessibility", "documentation", "supply_chain", "release_policy"]},
+        "result": {"enum": ["passed", "failed"]},
+        "artifact_digest": {"$ref": "#/$defs/digest"},
+        "observations": {"type": "integer", "minimum": 1},
+        "protected_reference": {"type": "string", "minLength": 1}
+      }
+    },
+    "limitation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "impact", "operator_remediation"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "impact": {"type": "string", "minLength": 1},
+        "operator_remediation": {"type": "string", "minLength": 1}
+      }
+    },
+    "assurance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["track", "issuer", "identifier", "scope", "issued_at"],
+      "properties": {
+        "track": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "issuer": {"type": "string", "minLength": 1},
+        "identifier": {"type": "string", "minLength": 1},
+        "scope": {"type": "string", "minLength": 1},
+        "issued_at": {"type": "string", "format": "date-time"},
+        "expires_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

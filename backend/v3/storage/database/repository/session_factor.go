@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type sessionFactor struct {
 }
 
 func (s sessionFactor) qualifiedTableName() string {
-	return "zitadel.session_factors"
+	return "nomen.session_factors"
 }
 
 func (s sessionFactor) unqualifiedTableName() string {

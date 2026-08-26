@@ -13,8 +13,8 @@ var testTargets = []Target{
 	{ExecutionID: "function/Call", TargetID: "function-call-1"},
 	{ExecutionID: "function/Call", TargetID: "function-call-2"},
 	{ExecutionID: "request", TargetID: "request-global"},
-	{ExecutionID: "request/zitadel.test.TestService", TargetID: "request-service"},
-	{ExecutionID: "request/zitadel.test.TestService/TestMethod", TargetID: "request-method"},
+	{ExecutionID: "request/nomen.test.TestService", TargetID: "request-service"},
+	{ExecutionID: "request/nomen.test.TestService/TestMethod", TargetID: "request-method"},
 }
 
 func TestRouterGet(t *testing.T) {

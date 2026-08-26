@@ -1,2 +1,2 @@
-DROP TABLE zitadel.identity_providers;
-DROP TYPE zitadel.idp_state;
+DROP TABLE nomen.identity_providers;
+DROP TYPE nomen.idp_state;

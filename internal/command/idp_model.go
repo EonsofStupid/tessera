@@ -7,31 +7,31 @@ import (
 	"slices"
 	"time"
 
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
 	"golang.org/x/oauth2"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	providers "github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/apple"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/azuread"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/github"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/gitlab"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/google"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/jwt"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/ldap"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oauth"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oidc"
-	saml2 "github.com/EonsofStupid/tessera/internal/idp/providers/saml"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/saml/requesttracker"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/zitadel"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/repository/idpconfig"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	providers "github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp/providers/apple"
+	"github.com/shippinAI/nomen/internal/idp/providers/azuread"
+	"github.com/shippinAI/nomen/internal/idp/providers/github"
+	"github.com/shippinAI/nomen/internal/idp/providers/gitlab"
+	"github.com/shippinAI/nomen/internal/idp/providers/google"
+	"github.com/shippinAI/nomen/internal/idp/providers/jwt"
+	"github.com/shippinAI/nomen/internal/idp/providers/ldap"
+	"github.com/shippinAI/nomen/internal/idp/providers/oauth"
+	"github.com/shippinAI/nomen/internal/idp/providers/oidc"
+	saml2 "github.com/shippinAI/nomen/internal/idp/providers/saml"
+	"github.com/shippinAI/nomen/internal/idp/providers/saml/requesttracker"
+	"github.com/shippinAI/nomen/internal/idp/providers/nomen"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/repository/idpconfig"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type OAuthIDPWriteModel struct {
@@ -2015,7 +2015,7 @@ func (wm *IDPRemoveWriteModel) Reduce() error {
 			wm.reduceAdded(e.ConfigID)
 		case *idpconfig.IDPConfigRemovedEvent:
 			wm.reduceRemoved(e.ConfigID)
-		case *idp.ZitadelIDPAddedEvent:
+		case *idp.NomenIDPAddedEvent:
 			wm.reduceAdded(e.ID)
 		}
 	}
@@ -2129,10 +2129,10 @@ func (wm *IDPTypeWriteModel) Reduce() error {
 			wm.reduceRemoved(e.ConfigID)
 		case *org.IDPConfigRemovedEvent:
 			wm.reduceRemoved(e.ConfigID)
-		case *instance.ZitadelIDPAddedEvent:
-			wm.reduceAdded(e.ID, domain.IDPTypeZitadel, e.Aggregate())
-		case *org.ZitadelIDPAddedEvent:
-			wm.reduceAdded(e.ID, domain.IDPTypeZitadel, e.Aggregate())
+		case *instance.NomenIDPAddedEvent:
+			wm.reduceAdded(e.ID, domain.IDPTypeNomen, e.Aggregate())
+		case *org.NomenIDPAddedEvent:
+			wm.reduceAdded(e.ID, domain.IDPTypeNomen, e.Aggregate())
 		}
 	}
 	return wm.WriteModel.Reduce()
@@ -2184,7 +2184,7 @@ func (wm *IDPTypeWriteModel) Query() *eventstore.SearchQueryBuilder {
 			instance.SAMLIDPAddedEventType,
 			instance.OIDCIDPMigratedAzureADEventType,
 			instance.OIDCIDPMigratedGoogleEventType,
-			instance.ZitadelIDPAddedEventType,
+			instance.NomenIDPAddedEventType,
 			instance.IDPRemovedEventType,
 		).
 		EventData(map[string]interface{}{"id": wm.ID}).
@@ -2205,7 +2205,7 @@ func (wm *IDPTypeWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.SAMLIDPAddedEventType,
 			org.OIDCIDPMigratedAzureADEventType,
 			org.OIDCIDPMigratedGoogleEventType,
-			org.ZitadelIDPAddedEventType,
+			org.NomenIDPAddedEventType,
 			org.IDPRemovedEventType,
 		).
 		EventData(map[string]interface{}{"id": wm.ID}).
@@ -2280,8 +2280,8 @@ func NewAllIDPWriteModel(resourceOwner string, instanceBool bool, id string, idp
 			writeModel.model = NewGoogleInstanceIDPWriteModel(resourceOwner, id)
 		case domain.IDPTypeApple:
 			writeModel.model = NewAppleInstanceIDPWriteModel(resourceOwner, id)
-		case domain.IDPTypeZitadel:
-			writeModel.model = NewInstanceZitadelIDPWriteModel(resourceOwner, id)
+		case domain.IDPTypeNomen:
+			writeModel.model = NewInstanceNomenIDPWriteModel(resourceOwner, id)
 		case domain.IDPTypeSAML:
 			writeModel.samlModel = NewSAMLInstanceIDPWriteModel(resourceOwner, id)
 		case domain.IDPTypeUnspecified:
@@ -2313,8 +2313,8 @@ func NewAllIDPWriteModel(resourceOwner string, instanceBool bool, id string, idp
 			writeModel.model = NewGoogleOrgIDPWriteModel(resourceOwner, id)
 		case domain.IDPTypeApple:
 			writeModel.model = NewAppleOrgIDPWriteModel(resourceOwner, id)
-		case domain.IDPTypeZitadel:
-			writeModel.model = NewZitadelOrgIDPWriteModel(resourceOwner, id)
+		case domain.IDPTypeNomen:
+			writeModel.model = NewNomenOrgIDPWriteModel(resourceOwner, id)
 		case domain.IDPTypeSAML:
 			writeModel.samlModel = NewSAMLOrgIDPWriteModel(resourceOwner, id)
 		case domain.IDPTypeUnspecified:
@@ -2385,7 +2385,7 @@ func (wm *AllIDPWriteModel) ToSAMLProvider(
 	)
 }
 
-type ZitadelIDPWriteModel struct {
+type NomenIDPWriteModel struct {
 	eventstore.WriteModel
 
 	Name         string
@@ -2400,19 +2400,19 @@ type ZitadelIDPWriteModel struct {
 	State domain.IDPState
 }
 
-func (wm *ZitadelIDPWriteModel) Reduce() error {
+func (wm *NomenIDPWriteModel) Reduce() error {
 	for _, event := range wm.Events {
 		switch e := event.(type) {
-		case *idp.ZitadelIDPAddedEvent:
+		case *idp.NomenIDPAddedEvent:
 			wm.reduceAddedEvent(e)
-		case *idp.ZitadelIDPChangedEvent:
+		case *idp.NomenIDPChangedEvent:
 			wm.reduceChangedEvent(e)
 		}
 	}
 	return wm.WriteModel.Reduce()
 }
 
-func (wm *ZitadelIDPWriteModel) reduceAddedEvent(e *idp.ZitadelIDPAddedEvent) {
+func (wm *NomenIDPWriteModel) reduceAddedEvent(e *idp.NomenIDPAddedEvent) {
 	wm.Name = e.Name
 	wm.Issuer = e.Issuer
 	wm.ClientID = e.ClientID
@@ -2423,7 +2423,7 @@ func (wm *ZitadelIDPWriteModel) reduceAddedEvent(e *idp.ZitadelIDPAddedEvent) {
 	wm.State = domain.IDPStateActive
 }
 
-func (wm *ZitadelIDPWriteModel) reduceChangedEvent(e *idp.ZitadelIDPChangedEvent) {
+func (wm *NomenIDPWriteModel) reduceChangedEvent(e *idp.NomenIDPChangedEvent) {
 	if e.ClientID != nil {
 		wm.ClientID = *e.ClientID
 	}
@@ -2445,7 +2445,7 @@ func (wm *ZitadelIDPWriteModel) reduceChangedEvent(e *idp.ZitadelIDPChangedEvent
 	wm.ReduceChanges(e.OptionChanges)
 }
 
-func (wm *ZitadelIDPWriteModel) NewChanges(
+func (wm *NomenIDPWriteModel) NewChanges(
 	name,
 	issuer,
 	clientID,
@@ -2454,8 +2454,8 @@ func (wm *ZitadelIDPWriteModel) NewChanges(
 	scopes []string,
 	options idp.Options,
 	info []idp.RolesInfo,
-) ([]idp.ZitadelIDPChanges, error) {
-	changes := make([]idp.ZitadelIDPChanges, 0)
+) ([]idp.NomenIDPChanges, error) {
+	changes := make([]idp.NomenIDPChanges, 0)
 	var clientSecret *crypto.CryptoValue
 	var err error
 	if clientSecretString != "" {
@@ -2463,31 +2463,31 @@ func (wm *ZitadelIDPWriteModel) NewChanges(
 		if err != nil {
 			return nil, err
 		}
-		changes = append(changes, idp.ChangeZitadelIDPClientSecret(clientSecret))
+		changes = append(changes, idp.ChangeNomenIDPClientSecret(clientSecret))
 	}
 	if wm.ClientID != clientID {
-		changes = append(changes, idp.ChangeZitadelIDPClientID(clientID))
+		changes = append(changes, idp.ChangeNomenIDPClientID(clientID))
 	}
 	if wm.Name != name {
-		changes = append(changes, idp.ChangeZitadelIDPName(name))
+		changes = append(changes, idp.ChangeNomenIDPName(name))
 	}
 	if wm.Issuer != issuer {
-		changes = append(changes, idp.ChangeZitadelIDPIssuer(issuer))
+		changes = append(changes, idp.ChangeNomenIDPIssuer(issuer))
 	}
 	if !slices.Equal(wm.Scopes, scopes) {
-		changes = append(changes, idp.ChangeZitadelIDPScopes(scopes))
+		changes = append(changes, idp.ChangeNomenIDPScopes(scopes))
 	}
 	if !slices.Equal(wm.InstanceRolesInfo, info) {
-		changes = append(changes, idp.ChangeZitadelIDPInstanceRolesInfo(info))
+		changes = append(changes, idp.ChangeNomenIDPInstanceRolesInfo(info))
 	}
 	opts := wm.Changes(options)
 	if !opts.IsZero() {
-		changes = append(changes, idp.ChangeZitadelIDPOptions(opts))
+		changes = append(changes, idp.ChangeNomenIDPOptions(opts))
 	}
 	return changes, nil
 }
 
-func (wm *ZitadelIDPWriteModel) ToProvider(callbackURL string, idpAlg crypto.EncryptionAlgorithm, httpClient *http.Client) (providers.Provider, error) {
+func (wm *NomenIDPWriteModel) ToProvider(callbackURL string, idpAlg crypto.EncryptionAlgorithm, httpClient *http.Client) (providers.Provider, error) {
 	secret, err := crypto.DecryptString(wm.ClientSecret, idpAlg)
 	if err != nil {
 		return nil, err
@@ -2506,7 +2506,7 @@ func (wm *ZitadelIDPWriteModel) ToProvider(callbackURL string, idpAlg crypto.Enc
 	if wm.IsAutoUpdate {
 		opts = append(opts, oidc.WithAutoUpdate())
 	}
-	return zitadel.New(
+	return nomen.New(
 		wm.Issuer,
 		wm.ClientID,
 		secret,
@@ -2517,6 +2517,6 @@ func (wm *ZitadelIDPWriteModel) ToProvider(callbackURL string, idpAlg crypto.Enc
 	)
 }
 
-func (wm *ZitadelIDPWriteModel) GetProviderOptions() idp.Options {
+func (wm *NomenIDPWriteModel) GetProviderOptions() idp.Options {
 	return wm.Options
 }

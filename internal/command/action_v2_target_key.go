@@ -11,9 +11,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/repository/target"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/repository/target"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

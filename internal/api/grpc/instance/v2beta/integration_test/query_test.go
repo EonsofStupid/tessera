@@ -12,11 +12,11 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/feature/v2"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	instance "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/feature/v2"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	instance "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
 )
 
 func TestGetInstance(t *testing.T) {

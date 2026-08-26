@@ -14,7 +14,7 @@ import (
 	io "io"
 	reflect "reflect"
 
-	static "github.com/EonsofStupid/tessera/internal/static"
+	static "github.com/shippinAI/nomen/internal/static"
 	gomock "go.uber.org/mock/gomock"
 )
 

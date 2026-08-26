@@ -3,7 +3,7 @@ package domain
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 // TODO(IAM-Marco): Finish implementation

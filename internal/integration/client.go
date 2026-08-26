@@ -15,7 +15,7 @@ import (
 
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
@@ -23,47 +23,47 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/integration/scim"
-	"github.com/EonsofStupid/tessera/pkg/grpc/action/v2"
-	action_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/action/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	app_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/app/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/application/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/auth"
-	authorization_v2 "github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2"
-	authorization_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/feature/v2"
-	feature_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/feature/v2beta"
-	group_v2 "github.com/EonsofStupid/tessera/pkg/grpc/group/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	idp_pb "github.com/EonsofStupid/tessera/pkg/grpc/idp/v2"
-	instance_v2 "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	instance_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
-	internal_permission_v2 "github.com/EonsofStupid/tessera/pkg/grpc/internal_permission/v2"
-	internal_permission_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/internal_permission/v2beta"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	object_v3alpha "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
-	oidc_pb_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/org/v2"
-	org_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
-	project_v2 "github.com/EonsofStupid/tessera/pkg/grpc/project/v2"
-	project_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
-	user_v3alpha "github.com/EonsofStupid/tessera/pkg/grpc/resources/user/v3alpha"
-	userschema_v3alpha "github.com/EonsofStupid/tessera/pkg/grpc/resources/userschema/v3alpha"
-	saml_pb "github.com/EonsofStupid/tessera/pkg/grpc/saml/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
-	session_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/session/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2"
-	settings_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/settings/v2beta"
-	user_pb "github.com/EonsofStupid/tessera/pkg/grpc/user"
-	user_v2 "github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
-	user_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/user/v2beta"
-	webkey_v2 "github.com/EonsofStupid/tessera/pkg/grpc/webkey/v2"
-	webkey_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/webkey/v2beta"
+	"github.com/shippinAI/nomen/internal/domain"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/integration/scim"
+	"github.com/shippinAI/nomen/pkg/grpc/action/v2"
+	action_v2beta "github.com/shippinAI/nomen/pkg/grpc/action/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	app_v2beta "github.com/shippinAI/nomen/pkg/grpc/app/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/application/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/auth"
+	authorization_v2 "github.com/shippinAI/nomen/pkg/grpc/authorization/v2"
+	authorization_v2beta "github.com/shippinAI/nomen/pkg/grpc/authorization/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/feature/v2"
+	feature_v2beta "github.com/shippinAI/nomen/pkg/grpc/feature/v2beta"
+	group_v2 "github.com/shippinAI/nomen/pkg/grpc/group/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/idp"
+	idp_pb "github.com/shippinAI/nomen/pkg/grpc/idp/v2"
+	instance_v2 "github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	instance_v2beta "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
+	internal_permission_v2 "github.com/shippinAI/nomen/pkg/grpc/internal_permission/v2"
+	internal_permission_v2beta "github.com/shippinAI/nomen/pkg/grpc/internal_permission/v2beta"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	object_v3alpha "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
+	oidc_pb_v2beta "github.com/shippinAI/nomen/pkg/grpc/oidc/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/org/v2"
+	org_v2beta "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
+	project_v2 "github.com/shippinAI/nomen/pkg/grpc/project/v2"
+	project_v2beta "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
+	user_v3alpha "github.com/shippinAI/nomen/pkg/grpc/resources/user/v3alpha"
+	userschema_v3alpha "github.com/shippinAI/nomen/pkg/grpc/resources/userschema/v3alpha"
+	saml_pb "github.com/shippinAI/nomen/pkg/grpc/saml/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
+	session_v2beta "github.com/shippinAI/nomen/pkg/grpc/session/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2"
+	settings_v2beta "github.com/shippinAI/nomen/pkg/grpc/settings/v2beta"
+	user_pb "github.com/shippinAI/nomen/pkg/grpc/user"
+	user_v2 "github.com/shippinAI/nomen/pkg/grpc/user/v2"
+	user_v2beta "github.com/shippinAI/nomen/pkg/grpc/user/v2beta"
+	webkey_v2 "github.com/shippinAI/nomen/pkg/grpc/webkey/v2"
+	webkey_v2beta "github.com/shippinAI/nomen/pkg/grpc/webkey/v2beta"
 )
 
 type Client struct {
@@ -85,11 +85,11 @@ type Client struct {
 	ActionV2                 action.ActionServiceClient
 	FeatureV2beta            feature_v2beta.FeatureServiceClient
 	FeatureV2                feature.FeatureServiceClient
-	UserSchemaV3             userschema_v3alpha.ZITADELUserSchemasClient
+	UserSchemaV3             userschema_v3alpha.NOMENUserSchemasClient
 	WebKeyV2                 webkey_v2.WebKeyServiceClient
 	WebKeyV2Beta             webkey_v2beta.WebKeyServiceClient
 	IDPv2                    idp_pb.IdentityProviderServiceClient
-	UserV3Alpha              user_v3alpha.ZITADELUsersClient
+	UserV3Alpha              user_v3alpha.NOMENUsersClient
 	SAMLv2                   saml_pb.SAMLServiceClient
 	SCIM                     *scim.Client
 	Projectv2Beta            project_v2beta.ProjectServiceClient
@@ -135,11 +135,11 @@ func newClient(ctx context.Context, target string) (*Client, error) {
 		ActionV2:                 action.NewActionServiceClient(cc),
 		FeatureV2beta:            feature_v2beta.NewFeatureServiceClient(cc),
 		FeatureV2:                feature.NewFeatureServiceClient(cc),
-		UserSchemaV3:             userschema_v3alpha.NewZITADELUserSchemasClient(cc),
+		UserSchemaV3:             userschema_v3alpha.NewNOMENUserSchemasClient(cc),
 		WebKeyV2:                 webkey_v2.NewWebKeyServiceClient(cc),
 		WebKeyV2Beta:             webkey_v2beta.NewWebKeyServiceClient(cc),
 		IDPv2:                    idp_pb.NewIdentityProviderServiceClient(cc),
-		UserV3Alpha:              user_v3alpha.NewZITADELUsersClient(cc),
+		UserV3Alpha:              user_v3alpha.NewNOMENUsersClient(cc),
 		SAMLv2:                   saml_pb.NewSAMLServiceClient(cc),
 		SCIM:                     scim.NewScimClient(target),
 		Projectv2Beta:            project_v2beta.NewProjectServiceClient(cc),
@@ -417,9 +417,9 @@ func (i *Instance) DeactivateOrganization(ctx context.Context, orgID string) *mg
 func SetOrgID(ctx context.Context, orgID string) context.Context {
 	md, ok := metadata.FromOutgoingContext(ctx)
 	if !ok {
-		return metadata.AppendToOutgoingContext(ctx, "x-zitadel-orgid", orgID)
+		return metadata.AppendToOutgoingContext(ctx, "x-nomen-orgid", orgID)
 	}
-	md.Set("x-zitadel-orgid", orgID)
+	md.Set("x-nomen-orgid", orgID)
 	return metadata.NewOutgoingContext(ctx, md)
 }
 
@@ -752,10 +752,10 @@ func (i *Instance) AddOrgGenericOAuthProvider(ctx context.Context, name string) 
 	return resp
 }
 
-func (i *Instance) AddZitadelProvider(ctx context.Context, name string) *admin.AddZitadelProviderResponse {
-	resp, err := i.Client.Admin.AddZitadelProvider(ctx, &admin.AddZitadelProviderRequest{
+func (i *Instance) AddNomenProvider(ctx context.Context, name string) *admin.AddNomenProviderResponse {
+	resp, err := i.Client.Admin.AddNomenProvider(ctx, &admin.AddNomenProviderRequest{
 		Name:         name,
-		Issuer:       "zitadel.example.com",
+		Issuer:       "nomen.example.com",
 		ClientId:     "test-client",
 		ClientSecret: "test-secret",
 		Scopes:       []string{"email", "profile"},
@@ -769,14 +769,14 @@ func (i *Instance) AddZitadelProvider(ctx context.Context, name string) *admin.A
 			},
 		},
 	})
-	logging.OnError(err).Panic("create zitadel idp")
+	logging.OnError(err).Panic("create nomen idp")
 	return resp
 }
 
-func (i *Instance) AddOrgZitadelProvider(ctx context.Context, name string) *mgmt.AddZitadelProviderResponse {
-	resp, err := i.Client.Mgmt.AddZitadelProvider(ctx, &mgmt.AddZitadelProviderRequest{
+func (i *Instance) AddOrgNomenProvider(ctx context.Context, name string) *mgmt.AddNomenProviderResponse {
+	resp, err := i.Client.Mgmt.AddNomenProvider(ctx, &mgmt.AddNomenProviderRequest{
 		Name:         name,
-		Issuer:       "zitadel.example.com",
+		Issuer:       "nomen.example.com",
 		ClientId:     "test-client",
 		ClientSecret: "test-secret",
 		Scopes:       []string{"email", "profile"},
@@ -784,7 +784,7 @@ func (i *Instance) AddOrgZitadelProvider(ctx context.Context, name string) *mgmt
 			IsCreationAllowed: true,
 		},
 	})
-	logging.OnError(err).Panic("create org zitadel idp")
+	logging.OnError(err).Panic("create org nomen idp")
 	return resp
 }
 
@@ -1308,7 +1308,7 @@ func (i *Instance) CreateUserSchema(ctx context.Context, schemaData []byte) *use
 func (i *Instance) CreateUserSchemaEmptyWithType(ctx context.Context, schemaType string) *userschema_v3alpha.CreateUserSchemaResponse {
 	userSchema := new(structpb.Struct)
 	err := userSchema.UnmarshalJSON([]byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 		"type": "object",
 		"properties": {}
 	}`))

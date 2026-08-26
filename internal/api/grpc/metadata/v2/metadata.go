@@ -3,10 +3,10 @@ package metadata
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	filter_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	meta_pb "github.com/EonsofStupid/tessera/pkg/grpc/metadata/v2"
+	filter_v2 "github.com/shippinAI/nomen/internal/api/grpc/filter/v2"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	meta_pb "github.com/shippinAI/nomen/pkg/grpc/metadata/v2"
 )
 
 func UserMetadataListToPb(dataList []*query.UserMetadata) []*meta_pb.Metadata {

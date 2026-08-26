@@ -61,7 +61,7 @@ Errors:
     CouldNotDialTLS: "kon geen contact maken met de SMTP-server via TLS, controleer de poort, firewallproblemen..."
     CouldNotCreateClient: "kan geen smtp-client maken"
     CouldNotStartTLS: "kon tls niet starten"
-    CouldNotAuth: "kon geen smtp-authenticatie toevoegen, controleer of zowel uw gebruiker als uw wachtwoord correct zijn. Als ze correct zijn, vereist uw provider misschien een auth-methode die niet door Zitadel wordt ondersteund"
+    CouldNotAuth: "kon geen smtp-authenticatie toevoegen, controleer of zowel uw gebruiker als uw wachtwoord correct zijn. Als ze correct zijn, vereist uw provider misschien een auth-methode die niet door Nomen wordt ondersteund"
     CouldNotSetSender: "kon de afzender niet instellen"
     CouldNotSetRecipient: "Kan de ontvanger niet instellen"
   SMTPConfig:
@@ -153,7 +153,7 @@ Errors:
       Invalid: "Wachtwoord is ongeldig"
       NotSet: "Gebruiker heeft geen wachtwoord ingesteld"
       NotChanged: "Nieuw wachtwoord kan niet hetzelfde zijn als uw huidige wachtwoord"
-      NotSupported: "Wachtwoord hash codering wordt niet ondersteund. Raadpleeg https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Wachtwoord hash codering wordt niet ondersteund. Raadpleeg https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Wachtwoordbeleid niet gevonden"
       MinLength: "Wachtwoord is te kort"
@@ -207,7 +207,7 @@ Errors:
     NotActive: "Organisatie is niet actief"
     NotChanged: "Organisatie is niet veranderd"
     DefaultOrgNotDeletable: "Standaard organisatie kan niet worden verwijderd"
-    ZitadelOrgNotDeletable: "Organisatie met Zitadel-project kan niet worden verwijderd"
+    NomenOrgNotDeletable: "Organisatie met Nomen-project kan niet worden verwijderd"
     InvalidDomain: "Ongeldig domein"
     DomainMissing: "Domein ontbreekt"
     DomainNotOnOrg: "Domein bestaat niet op organisatie"
@@ -216,8 +216,8 @@ Errors:
     DomainVerificationTypeInvalid: "Domeinverificatietype is ongeldig"
     DomainVerificationMissing: "Domeinverificatie nog niet gestart"
     DomainVerificationFailed: "Domeinverificatie mislukt"
-    DomainVerificationTXTNotFound: "Het _zitadel-challenge TXT-record is niet gevonden voor uw domein. Controleer of u het aan uw DNS-server heeft toegevoegd of wacht tot het nieuwe record is gepropageerd"
-    DomainVerificationTXTNoMatch: "Het _zitadel-challenge TXT-record is gevonden voor uw domein, maar het bevat niet de juiste token-tekst. Controleer of u het juiste token aan uw DNS-server heeft toegevoegd of wacht tot het nieuwe record is gepropageerd"
+    DomainVerificationTXTNotFound: "Het _nomen-challenge TXT-record is niet gevonden voor uw domein. Controleer of u het aan uw DNS-server heeft toegevoegd of wacht tot het nieuwe record is gepropageerd"
+    DomainVerificationTXTNoMatch: "Het _nomen-challenge TXT-record is gevonden voor uw domein, maar het bevat niet de juiste token-tekst. Controleer of u het juiste token aan uw DNS-server heeft toegevoegd of wacht tot het nieuwe record is gepropageerd"
     DomainVerificationHTTPNotFound: "Het bestand met de uitdaging is niet gevonden op de verwachte URL. Controleer of u het bestand op de juiste plaats heeft geüpload met leesrechten"
     DomainVerificationHTTPNoMatch: "Het bestand met de uitdaging is gevonden op de verwachte URL, maar het bevat niet de juiste token-tekst. Controleer de inhoud"
     DomainVerificationTimeout: "Er was een time-out bij het opvragen van de DNS-server"
@@ -342,7 +342,7 @@ Errors:
   Instance:
     AlreadyExists: "Instantie bestaat al"
     NotChanged: "Instantie is niet veranderd"
-    NotFound: "Instantie niet gevonden. Zorg ervoor dat u het juiste domein heeft. Kijk op https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Instantie niet gevonden. Zorg ervoor dat u het juiste domein heeft. Kijk op https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Rollen zijn niet veranderd"
     MemberInvalid: "Lid is ongeldig"
@@ -1110,20 +1110,20 @@ EventTypes:
         changed: "Wachtwoord lockout beleid gewijzigd"
   iam:
     setup:
-      started: "Zitadel setup gestart"
-      done: "Zitadel setup voltooid"
+      started: "Nomen setup gestart"
+      done: "Nomen setup voltooid"
     global:
       org:
         set: "Globale organisatie ingesteld"
     project:
       iam:
-        set: "Zitadel project ingesteld"
+        set: "Nomen project ingesteld"
     member:
-      added: "Zitadel lid toegevoegd"
-      changed: "Zitadel lid gewijzigd"
-      removed: "Zitadel lid verwijderd"
+      added: "Nomen lid toegevoegd"
+      changed: "Nomen lid gewijzigd"
+      removed: "Nomen lid verwijderd"
       cascade:
-        removed: "Zitadel lid cascade verwijderd"
+        removed: "Nomen lid cascade verwijderd"
     idp:
       config:
         added: "IDP-configuratie toegevoegd"
@@ -1233,9 +1233,9 @@ EventTypes:
       removed: "Domein verwijderd"
     iam:
       console:
-        set: "Zitadel Management Console-applicatie ingesteld"
+        set: "Nomen Management Console-applicatie ingesteld"
       project:
-        set: "Zitadel project ingesteld"
+        set: "Nomen project ingesteld"
     mail:
       template:
         added: "E-Mail sjabloon toegevoegd"

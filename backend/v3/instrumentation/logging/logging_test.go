@@ -13,8 +13,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var globalLock sync.Mutex
@@ -276,7 +276,7 @@ func TestOnError(t *testing.T) {
 			err:  nil,
 		},
 		{
-			name: "non-zitadel error",
+			name: "non-nomen error",
 			err:  errors.New("some error"),
 			want: &testLogEntry{
 				Level: "INFO",
@@ -291,8 +291,8 @@ func TestOnError(t *testing.T) {
 			},
 		},
 		{
-			name: "zitadel error",
-			err: zerrors.CreateZitadelError(
+			name: "nomen error",
+			err: zerrors.CreateNomenError(
 				zerrors.KindNotFound,
 				errors.New("parent error"),
 				"ZIT-404",
@@ -429,9 +429,9 @@ func TestErrorContextLogger_Panic(t *testing.T) {
 		wantPanic any
 	}{
 		{
-			name:      "with zitadel error",
+			name:      "with nomen error",
 			construct: WithError,
-			err: zerrors.CreateZitadelError(
+			err: zerrors.CreateNomenError(
 				zerrors.KindNotFound,
 				errors.New("parent error"),
 				"ZIT-404",
@@ -459,7 +459,7 @@ func TestErrorContextLogger_Panic(t *testing.T) {
 			wantPanic: nil,
 		},
 		{
-			name:      "on non-zitadel error",
+			name:      "on non-nomen error",
 			construct: OnError,
 			err:       errors.New("some error"),
 			want: &testLogEntry{
@@ -511,9 +511,9 @@ func TestErrorContextLogger_Fatal(t *testing.T) {
 		wantExit  int
 	}{
 		{
-			name:      "with zitadel error",
+			name:      "with nomen error",
 			construct: WithError,
-			err: zerrors.CreateZitadelError(
+			err: zerrors.CreateNomenError(
 				zerrors.KindNotFound,
 				errors.New("parent error"),
 				"ZIT-404",
@@ -541,7 +541,7 @@ func TestErrorContextLogger_Fatal(t *testing.T) {
 			wantExit:  0,
 		},
 		{
-			name:      "on non-zitadel error",
+			name:      "on non-nomen error",
 			construct: OnError,
 			err:       errors.New("some error"),
 			want: &testLogEntry{

@@ -8,11 +8,11 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/milestone"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/milestone"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type DeleteInstanceCommand struct {

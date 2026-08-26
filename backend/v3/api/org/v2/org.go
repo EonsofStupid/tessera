@@ -7,14 +7,14 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/api/org/v2/convert"
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	v2_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2"
-	v2beta_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
+	"github.com/shippinAI/nomen/backend/v3/api/org/v2/convert"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	v2_org "github.com/shippinAI/nomen/pkg/grpc/org/v2"
+	v2beta_org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
 )
 
 // =================
@@ -24,7 +24,7 @@ import (
 func UpdateOrganizationBeta(ctx context.Context, request *connect.Request[v2beta_org.UpdateOrganizationRequest]) (*connect.Response[v2beta_org.UpdateOrganizationResponse], error) {
 	orgUpdateCmd := domain.NewUpdateOrgCommand(request.Msg.GetId(), request.Msg.GetName())
 
-	// TODO(IAM-Marco) Finish implementation in https://github.com/EonsofStupid/tessera/issues/10447
+	// TODO(IAM-Marco) Finish implementation in https://github.com/shippinAI/nomen/issues/10447
 	domainAddCmd := domain.NewAddOrgDomainCommand(request.Msg.GetId(), request.Msg.GetName())
 	domainSetPrimaryCmd := domain.NewSetPrimaryOrgDomainCommand(request.Msg.GetId(), request.Msg.GetName())
 	domainRemoveCmd := domain.NewRemoveOrgDomainCommand(request.Msg.GetId(), orgUpdateCmd.OldDomainName, orgUpdateCmd.IsOldDomainVerified)
@@ -39,13 +39,13 @@ func UpdateOrganizationBeta(ctx context.Context, request *connect.Request[v2beta
 	return &connect.Response[v2beta_org.UpdateOrganizationResponse]{
 		Msg: &v2beta_org.UpdateOrganizationResponse{
 			// TODO(IAM-Marco): Change this with the real update date when OrganizationRepo.Update()
-			// returns the timestamp. See https://github.com/EonsofStupid/tessera/issues/10881
+			// returns the timestamp. See https://github.com/shippinAI/nomen/issues/10881
 			ChangeDate: timestamppb.Now(),
 		},
 	}, nil
 }
 
-// TODO(IAM-Marco): Remove in V5 (see https://github.com/EonsofStupid/tessera/issues/10877)
+// TODO(IAM-Marco): Remove in V5 (see https://github.com/shippinAI/nomen/issues/10877)
 func ListOrganizationsBeta(ctx context.Context, request *connect.Request[v2beta_org.ListOrganizationsRequest]) (*connect.Response[v2beta_org.ListOrganizationsResponse], error) {
 	orgListQuery := domain.NewListOrgsQuery(convert.OrganizationBetaRequestToV2Request(request.Msg))
 
@@ -87,7 +87,7 @@ func DeleteOrganizationBeta(ctx context.Context, request *connect.Request[v2beta
 	return &connect.Response[v2beta_org.DeleteOrganizationResponse]{
 		Msg: &v2beta_org.DeleteOrganizationResponse{
 			// TODO(IAM-Marco): Change this with the real update date when OrganizationRepo.Delete()
-			// returns the timestamp. See https://github.com/EonsofStupid/tessera/issues/10881
+			// returns the timestamp. See https://github.com/shippinAI/nomen/issues/10881
 			DeletionDate: timestamppb.Now(),
 		},
 	}, nil
@@ -106,7 +106,7 @@ func DeactivateOrganizationBeta(ctx context.Context, request *connect.Request[v2
 	return &connect.Response[v2beta_org.DeactivateOrganizationResponse]{
 		Msg: &v2beta_org.DeactivateOrganizationResponse{
 			// TODO(IAM-Marco): Change this with the real update date when OrganizationRepo.Update()
-			// returns the timestamp. See https://github.com/EonsofStupid/tessera/issues/10881
+			// returns the timestamp. See https://github.com/shippinAI/nomen/issues/10881
 			ChangeDate: timestamppb.Now(),
 		},
 	}, nil
@@ -125,7 +125,7 @@ func ActivateOrganizationBeta(ctx context.Context, request *connect.Request[v2be
 	return &connect.Response[v2beta_org.ActivateOrganizationResponse]{
 		Msg: &v2beta_org.ActivateOrganizationResponse{
 			// TODO(IAM-Marco): Change this with the real update date when OrganizationRepo.Update()
-			// returns the timestamp. See https://github.com/EonsofStupid/tessera/issues/10881
+			// returns the timestamp. See https://github.com/shippinAI/nomen/issues/10881
 			ChangeDate: timestamppb.Now(),
 		},
 	}, nil

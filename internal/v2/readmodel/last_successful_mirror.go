@@ -3,9 +3,9 @@ package readmodel
 import (
 	"github.com/shopspring/decimal"
 
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/v2/system"
-	"github.com/EonsofStupid/tessera/internal/v2/system/mirror"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/system"
+	"github.com/shippinAI/nomen/internal/v2/system/mirror"
 )
 
 type LastSuccessfulMirror struct {

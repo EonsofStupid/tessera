@@ -3,20 +3,20 @@ package system
 import (
 	"strings"
 
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/authn"
-	instance_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/instance"
-	member_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/member"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	z_oidc "github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	instance_pb "github.com/EonsofStupid/tessera/pkg/grpc/instance"
-	member_pb "github.com/EonsofStupid/tessera/pkg/grpc/member"
-	system_pb "github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/api/grpc/authn"
+	instance_grpc "github.com/shippinAI/nomen/internal/api/grpc/instance"
+	member_grpc "github.com/shippinAI/nomen/internal/api/grpc/member"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	z_oidc "github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	instance_pb "github.com/shippinAI/nomen/pkg/grpc/instance"
+	member_pb "github.com/shippinAI/nomen/pkg/grpc/member"
+	system_pb "github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func CreateInstancePbToSetupInstance(req *system_pb.CreateInstanceRequest, defaultInstance command.InstanceSetup, externalDomain string) *command.InstanceSetup {

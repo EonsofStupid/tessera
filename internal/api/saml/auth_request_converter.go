@@ -4,12 +4,12 @@ import (
 	"context"
 	"time"
 
-	"github.com/zitadel/saml/pkg/provider/models"
-	"github.com/zitadel/saml/pkg/provider/xml/samlp"
+	"github.com/shippinAI/nomen/saml/pkg/provider/models"
+	"github.com/shippinAI/nomen/saml/pkg/provider/xml/samlp"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var _ models.AuthRequestInt = &AuthRequest{}

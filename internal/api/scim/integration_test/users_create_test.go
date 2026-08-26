@@ -19,13 +19,13 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/integration/scim"
-	"github.com/EonsofStupid/tessera/internal/test"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/api/scim/resources"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration/scim"
+	"github.com/shippinAI/nomen/internal/test"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 var (
@@ -66,7 +66,7 @@ var (
 		ExternalID: "701984",
 		UserName:   "bjensen@example.com",
 		Name: &resources.ScimUserName{
-			Formatted:       "Babs Jensen", // DisplayName takes precedence in Zitadel
+			Formatted:       "Babs Jensen", // DisplayName takes precedence in Nomen
 			FamilyName:      "Jensen",
 			GivenName:       "Barbara",
 			MiddleName:      "Jane",
@@ -182,7 +182,7 @@ func TestCreateUser(t *testing.T) {
 		wantErr       bool
 		scimErrorType string
 		errorStatus   int
-		zitadelErrID  string
+		nomenErrID  string
 	}{
 		{
 			name: "minimal user",
@@ -260,7 +260,7 @@ func TestCreateUser(t *testing.T) {
 			name:          "invalid profile url",
 			wantErr:       true,
 			scimErrorType: "invalidValue",
-			zitadelErrID:  "SCIM-htturl1",
+			nomenErrID:  "SCIM-htturl1",
 			body:          invalidProfileUrlUserJson,
 		},
 		{
@@ -322,8 +322,8 @@ func TestCreateUser(t *testing.T) {
 				}
 				scimErr := scim.RequireScimError(t, statusCode, err)
 				assert.Equal(t, tt.scimErrorType, scimErr.Error.ScimType)
-				if tt.zitadelErrID != "" {
-					assert.Equal(t, tt.zitadelErrID, scimErr.Error.ZitadelDetail.ID)
+				if tt.nomenErrID != "" {
+					assert.Equal(t, tt.nomenErrID, scimErr.Error.NomenDetail.ID)
 				}
 
 				return
@@ -385,20 +385,20 @@ func TestCreateUser_metadata(t *testing.T) {
 			mdMap[md.Result[i].Key] = string(md.Result[i].Value)
 		}
 
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:name.honorificPrefix", "Ms.")
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:timezone", "America/Los_Angeles")
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:photos", `[{"value":"https://photos.example.com/profilephoto/72930000000Ccne/F","type":"photo"},{"value":"https://photos.example.com/profilephoto/72930000000Ccne/T","type":"thumbnail"}]`)
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:addresses", `[{"type":"work","streetAddress":"100 Universal City Plaza","locality":"Hollywood","region":"CA","postalCode":"91608","country":"USA","formatted":"100 Universal City Plaza\nHollywood, CA 91608 USA","primary":true},{"type":"home","streetAddress":"456 Hollywood Blvd","locality":"Hollywood","region":"CA","postalCode":"91608","country":"USA","formatted":"456 Hollywood Blvd\nHollywood, CA 91608 USA"}]`)
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:entitlements", `[{"value":"my-entitlement-1","display":"Entitlement 1","type":"main-entitlement","primary":true},{"value":"my-entitlement-2","display":"Entitlement 2","type":"secondary-entitlement"}]`)
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:externalId", "701984")
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:name.middleName", "Jane")
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:name.honorificSuffix", "III")
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:profileUrl", "http://login.example.com/bjensen")
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:title", "Tour Guide")
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:locale", "en-US")
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:ims", `[{"value":"someaimhandle","type":"aim"},{"value":"twitterhandle","type":"X"}]`)
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:roles", `[{"value":"my-role-1","display":"Rolle 1","type":"main-role","primary":true},{"value":"my-role-2","display":"Rolle 2","type":"secondary-role"}]`)
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:emails", fmt.Sprintf(`[{"value":"%s@example.com","primary":true,"type":"work"},{"value":"%s+1@example.com","primary":false,"type":"home"}]`, username, username))
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:name.honorificPrefix", "Ms.")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:timezone", "America/Los_Angeles")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:photos", `[{"value":"https://photos.example.com/profilephoto/72930000000Ccne/F","type":"photo"},{"value":"https://photos.example.com/profilephoto/72930000000Ccne/T","type":"thumbnail"}]`)
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:addresses", `[{"type":"work","streetAddress":"100 Universal City Plaza","locality":"Hollywood","region":"CA","postalCode":"91608","country":"USA","formatted":"100 Universal City Plaza\nHollywood, CA 91608 USA","primary":true},{"type":"home","streetAddress":"456 Hollywood Blvd","locality":"Hollywood","region":"CA","postalCode":"91608","country":"USA","formatted":"456 Hollywood Blvd\nHollywood, CA 91608 USA"}]`)
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:entitlements", `[{"value":"my-entitlement-1","display":"Entitlement 1","type":"main-entitlement","primary":true},{"value":"my-entitlement-2","display":"Entitlement 2","type":"secondary-entitlement"}]`)
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:externalId", "701984")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:name.middleName", "Jane")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:name.honorificSuffix", "III")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:profileUrl", "http://login.example.com/bjensen")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:title", "Tour Guide")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:locale", "en-US")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:ims", `[{"value":"someaimhandle","type":"aim"},{"value":"twitterhandle","type":"X"}]`)
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:roles", `[{"value":"my-role-1","display":"Rolle 1","type":"main-role","primary":true},{"value":"my-role-2","display":"Rolle 2","type":"secondary-role"}]`)
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:emails", fmt.Sprintf(`[{"value":"%s@example.com","primary":true,"type":"work"},{"value":"%s+1@example.com","primary":false,"type":"home"}]`, username, username))
 	}, retryDuration, tick)
 }
 
@@ -414,14 +414,14 @@ func TestCreateUser_scopedExternalID(t *testing.T) {
 		// unscoped externalID should not exist
 		_, err := Instance.Client.Mgmt.GetUserMetadata(ctx, &management.GetUserMetadataRequest{
 			Id:  createdUser.ID,
-			Key: "urn:zitadel:scim:externalId",
+			Key: "urn:nomen:scim:externalId",
 		})
 		integration.AssertGrpcStatus(tt, codes.NotFound, err)
 
 		// scoped externalID should exist
 		md, err := Instance.Client.Mgmt.GetUserMetadata(ctx, &management.GetUserMetadataRequest{
 			Id:  createdUser.ID,
-			Key: "urn:zitadel:scim:fooBar:externalId",
+			Key: "urn:nomen:scim:fooBar:externalId",
 		})
 		if !assert.NoError(tt, err) {
 			require.Equal(tt, status.Code(err), codes.NotFound)
@@ -453,7 +453,7 @@ func TestCreateUser_ignorePasswordOnCreate(t *testing.T) {
 			ignorePassword:  "random",
 			wantErr:         true,
 			scimErrorType:   "invalidValue",
-			scimErrorDetail: "Invalid value for metadata key urn:zitadel:scim:ignorePasswordOnCreate: random",
+			scimErrorDetail: "Invalid value for metadata key urn:nomen:scim:ignorePasswordOnCreate: random",
 		},
 		{
 			name:           "ignorePasswordOnCreate set to true",
@@ -482,8 +482,8 @@ func TestCreateUser_ignorePasswordOnCreate(t *testing.T) {
 			require.NoError(t, err)
 			ctx := integration.WithAuthorizationToken(CTX, callingUserPat)
 
-			// set urn:zitadel:scim:ignorePasswordOnCreate metadata for the service account
-			setAndEnsureMetadata(t, callingUserId, "urn:zitadel:scim:ignorePasswordOnCreate", tt.ignorePassword)
+			// set urn:nomen:scim:ignorePasswordOnCreate metadata for the service account
+			setAndEnsureMetadata(t, callingUserId, "urn:nomen:scim:ignorePasswordOnCreate", tt.ignorePassword)
 
 			// create a user with an invalid password
 			createdUser, err := Instance.Client.SCIM.Users.Create(ctx, Instance.DefaultOrg.Id, withUsername(invalidPasswordUserJson, "acmeUser1"))

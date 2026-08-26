@@ -15,7 +15,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func GenerateKeyPair(bits int) (*rsa.PrivateKey, *rsa.PublicKey, error) {

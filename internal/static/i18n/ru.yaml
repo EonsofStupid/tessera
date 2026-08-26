@@ -61,7 +61,7 @@ Errors:
     CouldNotDialTLS: "не удалось связаться с SMTP-сервером с помощью TLS, проверьте порт, проблемы с брандмауэром..."
     CouldNotCreateClient: "не удалось создать smtp-клиент"
     CouldNotStartTLS: "не удалось запустить тлс"
-    CouldNotAuth: "не удалось добавить аутентификацию smtp, проверьте правильность вашего пользователя и пароля. Если они верны, возможно, ваш провайдер требует метод аутентификации, не поддерживаемый Zitadel"
+    CouldNotAuth: "не удалось добавить аутентификацию smtp, проверьте правильность вашего пользователя и пароля. Если они верны, возможно, ваш провайдер требует метод аутентификации, не поддерживаемый Nomen"
     CouldNotSetSender: "не удалось установить отправителя"
     CouldNotSetRecipient: "не удалось установить получателя"
   SMTPConfig:
@@ -153,7 +153,7 @@ Errors:
       Invalid: "Неверный пароль"
       NotSet: "Пароль не установлен пользователем"
       NotChanged: "Пароль не изменен"
-      NotSupported: "Кодировка хэша пароля не поддерживается. Проверьте https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Кодировка хэша пароля не поддерживается. Проверьте https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Политика паролей не найдена"
       MinLength: "Пароль слишком короткий"
@@ -207,7 +207,7 @@ Errors:
     NotActive: "Организация неактивна"
     NotChanged: "Организация не изменена"
     DefaultOrgNotDeletable: "Организация по умолчанию не может быть удалена"
-    ZitadelOrgNotDeletable: "Невозможно удалить организацию с проектом Zitadel"
+    NomenOrgNotDeletable: "Невозможно удалить организацию с проектом Nomen"
     InvalidDomain: "Неверный домен"
     DomainMissing: "Домен отсутствует"
     DomainNotOnOrg: "Домен не существует в организации"
@@ -336,7 +336,7 @@ Errors:
   Instance:
     AlreadyExists: "Экземпляр уже существует"
     NotChanged: "Экземпляр не изменён"
-    NotFound: "Экземпляр не найден. Убедитесь, что у вас правильный домен. Проверьте https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Экземпляр не найден. Убедитесь, что у вас правильный домен. Проверьте https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Роли не изменены"
     MemberInvalid: "Участник недействителен"
@@ -1096,20 +1096,20 @@ EventTypes:
         changed: "Политика блокировки пароля изменена"
   iam:
     setup:
-      started: "Настройка Zitadel начата"
-      done: "Настройка Zitadel завершена"
+      started: "Настройка Nomen начата"
+      done: "Настройка Nomen завершена"
     global:
       org:
         set: "Глобальная организация установлена"
     project:
       iam:
-        set: "Проект Zitadel установлен"
+        set: "Проект Nomen установлен"
     member:
-      added: "Участник Zitadel добавлен"
-      changed: "Участник Zitadel изменён"
-      removed: "Участник Zitadel удалён"
+      added: "Участник Nomen добавлен"
+      changed: "Участник Nomen изменён"
+      removed: "Участник Nomen удалён"
       cascade:
-        removed: "Каскад участников Zitadel удалён"
+        removed: "Каскад участников Nomen удалён"
     idp:
       config:
         added: "Конфигурация поставщика идентификационных данных добавлена"
@@ -1222,9 +1222,9 @@ EventTypes:
       removed: "Домен удалён"
     iam:
       console:
-        set: "Набор приложений консоли управления Zitadel"
+        set: "Набор приложений консоли управления Nomen"
       project:
-        set: "Проект Zitadel установлен"
+        set: "Проект Nomen установлен"
     mail:
       template:
         added: "Образец электронной почты добавлен"

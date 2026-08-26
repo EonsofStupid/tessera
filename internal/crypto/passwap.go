@@ -8,20 +8,20 @@ import (
 	"strings"
 
 	"github.com/mitchellh/mapstructure"
-	"github.com/zitadel/passwap"
-	"github.com/zitadel/passwap/argon2"
-	"github.com/zitadel/passwap/bcrypt"
-	"github.com/zitadel/passwap/drupal7"
-	"github.com/zitadel/passwap/md5"
-	"github.com/zitadel/passwap/md5plain"
-	"github.com/zitadel/passwap/md5salted"
-	"github.com/zitadel/passwap/pbkdf2"
-	"github.com/zitadel/passwap/phpass"
-	"github.com/zitadel/passwap/scrypt"
-	"github.com/zitadel/passwap/sha2"
-	"github.com/zitadel/passwap/verifier"
+	"github.com/shippinAI/nomen/passwap"
+	"github.com/shippinAI/nomen/passwap/argon2"
+	"github.com/shippinAI/nomen/passwap/bcrypt"
+	"github.com/shippinAI/nomen/passwap/drupal7"
+	"github.com/shippinAI/nomen/passwap/md5"
+	"github.com/shippinAI/nomen/passwap/md5plain"
+	"github.com/shippinAI/nomen/passwap/md5salted"
+	"github.com/shippinAI/nomen/passwap/pbkdf2"
+	"github.com/shippinAI/nomen/passwap/phpass"
+	"github.com/shippinAI/nomen/passwap/scrypt"
+	"github.com/shippinAI/nomen/passwap/sha2"
+	"github.com/shippinAI/nomen/passwap/verifier"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type Hasher struct {

@@ -14,20 +14,22 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	console_path "github.com/EonsofStupid/tessera/internal/api/ui/console/path"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/http/middleware"
+	console_path "github.com/shippinAI/nomen/internal/api/ui/console/path"
 )
 
 type Config struct {
 	ShortCache            middleware.CacheConfig
 	LongCache             middleware.CacheConfig
 	InstanceManagementURL string
+	Edition               string
+	DemoCaps              bool
 	PostHog               struct {
 		Token string
 		URL   string
@@ -44,7 +46,8 @@ var (
 )
 
 const (
-	envRequestPath = "/assets/environment.json"
+	envRequestPath    = "/assets/environment.json"
+	originPlaceholder = "__NOMEN_ORIGIN__"
 	// https://posthog.com/docs/advanced/content-security-policy
 	posthogCSPHost = "https://*.i.posthog.com"
 )
@@ -131,7 +134,7 @@ func Start(config Config, externalSecure bool, issuer op.IssuerFromRequest, call
 			return
 		}
 		limited := limitingAccessInterceptor.Limit(w, r)
-		environmentJSON, err := createEnvironmentJSON(url, issuer(r), instance.ManagementConsoleClientID(), customerPortal, instanceMgmtURL, config.PostHog.URL, config.PostHog.Token, limited)
+		environmentJSON, err := createEnvironmentJSON(url, issuer(r), instance.ManagementConsoleClientID(), customerPortal, instanceMgmtURL, config.PostHog.URL, config.PostHog.Token, limited, config.Edition, config.DemoCaps)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("unable to marshal env for the management console: %v", err), http.StatusInternalServerError)
 			return
@@ -139,8 +142,31 @@ func Start(config Config, externalSecure bool, issuer op.IssuerFromRequest, call
 		_, err = w.Write(environmentJSON)
 		logging.OnError(err).Error("error serving environment.json")
 	})
-	handler.SkipClean(true).PathPrefix("").Handler(cache(http.FileServer(&spaHandler{http.FS(fSys)})))
+	handler.SkipClean(true).PathPrefix("").Handler(cache(spaWithRequestOrigin(fSys, externalSecure)))
 	return handler, nil
+}
+
+// spaWithRequestOrigin serves the embedded application and resolves social
+// metadata against the deployment origin. The public domain is runtime state,
+// not a value the frontend build can safely guess; resolving it here keeps one
+// image artifact correct for self-hosted and managed-customer deployments.
+func spaWithRequestOrigin(fileSystem fs.FS, externalSecure bool) http.Handler {
+	staticFiles := http.FileServer(&spaHandler{http.FS(fileSystem)})
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if !isIndexOrSubPath(r.URL.Path) {
+			staticFiles.ServeHTTP(w, r)
+			return
+		}
+		index, err := fs.ReadFile(fileSystem, "index.html")
+		if err != nil {
+			http.Error(w, "Nomen application entry is unavailable", http.StatusInternalServerError)
+			return
+		}
+		origin := template.HTMLEscapeString(http_util.BuildOrigin(r.Host, externalSecure))
+		index = bytes.ReplaceAll(index, []byte(originPlaceholder), []byte(origin))
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write(index)
+	})
 }
 
 func templateInstanceManagementURL(templateableCookieValue string, instance authz.Instance) (string, error) {
@@ -174,7 +200,10 @@ func csp(posthogURL string) *middleware.CSP {
 	return &csp
 }
 
-func createEnvironmentJSON(api, issuer, clientID, customerPortal, instanceMgmtUrl, postHogURL, postHogToken string, exhausted bool) ([]byte, error) {
+func createEnvironmentJSON(api, issuer, clientID, customerPortal, instanceMgmtUrl, postHogURL, postHogToken string, exhausted bool, edition string, demoCaps bool) ([]byte, error) {
+	if edition == "" {
+		edition = "public"
+	}
 	environment := struct {
 		API                   string `json:"api,omitempty"`
 		Issuer                string `json:"issuer,omitempty"`
@@ -184,6 +213,9 @@ func createEnvironmentJSON(api, issuer, clientID, customerPortal, instanceMgmtUr
 		PostHogURL            string `json:"posthog_url,omitempty"`
 		PostHogToken          string `json:"posthog_token,omitempty"`
 		Exhausted             bool   `json:"exhausted,omitempty"`
+		Edition               string `json:"edition,omitempty"`
+		DemoCaps              bool   `json:"demo_caps,omitempty"`
+		Version               string `json:"version,omitempty"`
 	}{
 		API:                   api,
 		Issuer:                issuer,
@@ -193,6 +225,9 @@ func createEnvironmentJSON(api, issuer, clientID, customerPortal, instanceMgmtUr
 		PostHogURL:            postHogURL,
 		PostHogToken:          postHogToken,
 		Exhausted:             exhausted,
+		Edition:               edition,
+		DemoCaps:              demoCaps,
+		Version:               build.Version(),
 	}
 	return json.Marshal(environment)
 }

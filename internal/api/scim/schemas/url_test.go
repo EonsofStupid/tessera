@@ -6,7 +6,7 @@ import (
 
 	"github.com/goccy/go-json"
 	"github.com/stretchr/testify/assert"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 func TestHttpURL_MarshalJSON(t *testing.T) {

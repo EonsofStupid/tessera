@@ -8,14 +8,14 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/denylist"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	project_repo "github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/denylist"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	project_repo "github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type addOIDCApp struct {

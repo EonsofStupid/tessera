@@ -4,16 +4,16 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	old_handler "github.com/EonsofStupid/tessera/internal/eventstore/handler"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/repository/idpconfig"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	old_handler "github.com/shippinAI/nomen/internal/eventstore/handler"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/repository/idpconfig"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
@@ -30,7 +30,7 @@ const (
 	IDPTemplateLDAPTable             = IDPTemplateTable + "_" + IDPTemplateLDAPSuffix
 	IDPTemplateAppleTable            = IDPTemplateTable + "_" + IDPTemplateAppleSuffix
 	IDPTemplateSAMLTable             = IDPTemplateTable + "_" + IDPTemplateSAMLSuffix
-	IDPTemplateZitadelTable          = IDPTemplateTable + "_" + IDPTemplateZitadelSuffix
+	IDPTemplateNomenTable          = IDPTemplateTable + "_" + IDPTemplateNomenSuffix
 
 	IDPTemplateOAuthSuffix            = "oauth2"
 	IDPTemplateOIDCSuffix             = "oidc"
@@ -44,7 +44,7 @@ const (
 	IDPTemplateLDAPSuffix             = "ldap2"
 	IDPTemplateAppleSuffix            = "apple"
 	IDPTemplateSAMLSuffix             = "saml"
-	IDPTemplateZitadelSuffix          = "zitadel"
+	IDPTemplateNomenSuffix          = "nomen"
 
 	IDPTemplateIDCol                = "id"
 	IDPTemplateCreationDateCol      = "creation_date"
@@ -179,13 +179,13 @@ const (
 	SAMLTransientMappingAttributeName = "transient_mapping_attribute_name"
 	SAMLFederatedLogoutEnabled        = "federated_logout_enabled"
 
-	ZitadelIDCol                = "idp_id"
-	ZitadelInstanceIDCol        = "instance_id"
-	ZitadelIssuerCol            = "issuer"
-	ZitadelClientIDCol          = "client_id"
-	ZitadelClientSecretCol      = "client_secret"
-	ZitadelScopesCol            = "scopes"
-	ZitadelInstanceRolesInfoCol = "instance_roles_info"
+	NomenIDCol                = "idp_id"
+	NomenInstanceIDCol        = "instance_id"
+	NomenIssuerCol            = "issuer"
+	NomenClientIDCol          = "client_id"
+	NomenClientSecretCol      = "client_secret"
+	NomenScopesCol            = "scopes"
+	NomenInstanceRolesInfoCol = "instance_roles_info"
 )
 
 type idpTemplateProjection struct{}
@@ -399,16 +399,16 @@ func (*idpTemplateProjection) Init() *old_handler.Check {
 			handler.WithForeignKey(handler.NewForeignKeyOfPublicKeys()),
 		),
 		handler.NewSuffixedTable([]*handler.InitColumn{
-			handler.NewColumn(ZitadelIDCol, handler.ColumnTypeText),
-			handler.NewColumn(ZitadelInstanceIDCol, handler.ColumnTypeText),
-			handler.NewColumn(ZitadelIssuerCol, handler.ColumnTypeText),
-			handler.NewColumn(ZitadelClientIDCol, handler.ColumnTypeText),
-			handler.NewColumn(ZitadelClientSecretCol, handler.ColumnTypeJSONB),
-			handler.NewColumn(ZitadelScopesCol, handler.ColumnTypeTextArray, handler.Nullable()),
-			handler.NewColumn(ZitadelInstanceRolesInfoCol, handler.ColumnTypeJSONB, handler.Nullable()),
+			handler.NewColumn(NomenIDCol, handler.ColumnTypeText),
+			handler.NewColumn(NomenInstanceIDCol, handler.ColumnTypeText),
+			handler.NewColumn(NomenIssuerCol, handler.ColumnTypeText),
+			handler.NewColumn(NomenClientIDCol, handler.ColumnTypeText),
+			handler.NewColumn(NomenClientSecretCol, handler.ColumnTypeJSONB),
+			handler.NewColumn(NomenScopesCol, handler.ColumnTypeTextArray, handler.Nullable()),
+			handler.NewColumn(NomenInstanceRolesInfoCol, handler.ColumnTypeJSONB, handler.Nullable()),
 		},
-			handler.NewPrimaryKey(ZitadelInstanceIDCol, ZitadelIDCol),
-			IDPTemplateZitadelSuffix,
+			handler.NewPrimaryKey(NomenInstanceIDCol, NomenIDCol),
+			IDPTemplateNomenSuffix,
 			handler.WithForeignKey(handler.NewForeignKeyOfPublicKeys()),
 		),
 	)
@@ -548,12 +548,12 @@ func (p *idpTemplateProjection) Reducers() []handler.AggregateReducer {
 					Reduce: p.reduceSAMLIDPChanged,
 				},
 				{
-					Event:  instance.ZitadelIDPAddedEventType,
-					Reduce: p.reduceZitadelIDPAdded,
+					Event:  instance.NomenIDPAddedEventType,
+					Reduce: p.reduceNomenIDPAdded,
 				},
 				{
-					Event:  instance.ZitadelIDPChangedEventType,
-					Reduce: p.reduceZitadelIDPChanged,
+					Event:  instance.NomenIDPChangedEventType,
+					Reduce: p.reduceNomenIDPChanged,
 				},
 				{
 					Event:  instance.IDPConfigRemovedEventType,
@@ -701,12 +701,12 @@ func (p *idpTemplateProjection) Reducers() []handler.AggregateReducer {
 					Reduce: p.reduceSAMLIDPChanged,
 				},
 				{
-					Event:  org.ZitadelIDPAddedEventType,
-					Reduce: p.reduceZitadelIDPAdded,
+					Event:  org.NomenIDPAddedEventType,
+					Reduce: p.reduceNomenIDPAdded,
 				},
 				{
-					Event:  org.ZitadelIDPChangedEventType,
-					Reduce: p.reduceZitadelIDPChanged,
+					Event:  org.NomenIDPChangedEventType,
+					Reduce: p.reduceNomenIDPChanged,
 				},
 				{
 					Event:  org.IDPConfigRemovedEventType,
@@ -2585,30 +2585,30 @@ func reduceSAMLIDPChangedColumns(idpEvent idp.SAMLIDPChangedEvent) []handler.Col
 	return SAMLCols
 }
 
-func (p *idpTemplateProjection) reduceZitadelIDPAdded(event eventstore.Event) (*handler.Statement, error) {
-	var idpEvent idp.ZitadelIDPAddedEvent
+func (p *idpTemplateProjection) reduceNomenIDPAdded(event eventstore.Event) (*handler.Statement, error) {
+	var idpEvent idp.NomenIDPAddedEvent
 	var idpOwnerType domain.IdentityProviderType
 	switch e := event.(type) {
-	case *instance.ZitadelIDPAddedEvent:
-		idpEvent = e.ZitadelIDPAddedEvent
+	case *instance.NomenIDPAddedEvent:
+		idpEvent = e.NomenIDPAddedEvent
 		idpOwnerType = domain.IdentityProviderTypeSystem
-	case *org.ZitadelIDPAddedEvent:
-		idpEvent = e.ZitadelIDPAddedEvent
+	case *org.NomenIDPAddedEvent:
+		idpEvent = e.NomenIDPAddedEvent
 		idpOwnerType = domain.IdentityProviderTypeOrg
 	default:
-		return nil, zerrors.ThrowInvalidArgumentf(nil, "HANDL-ZCpH41", "reduce.wrong.event.type %v", []eventstore.EventType{instance.ZitadelIDPAddedEventType, org.ZitadelIDPAddedEventType})
+		return nil, zerrors.ThrowInvalidArgumentf(nil, "HANDL-ZCpH41", "reduce.wrong.event.type %v", []eventstore.EventType{instance.NomenIDPAddedEventType, org.NomenIDPAddedEventType})
 	}
 
-	zitadelIDPCols := []handler.Column{
-		handler.NewCol(ZitadelIDCol, idpEvent.ID),
-		handler.NewCol(ZitadelInstanceIDCol, idpEvent.Aggregate().InstanceID),
-		handler.NewCol(ZitadelIssuerCol, idpEvent.Issuer),
-		handler.NewCol(ZitadelClientIDCol, idpEvent.ClientID),
-		handler.NewCol(ZitadelClientSecretCol, idpEvent.ClientSecret),
-		handler.NewCol(ZitadelScopesCol, database.TextArray[string](idpEvent.Scopes)),
+	nomenIDPCols := []handler.Column{
+		handler.NewCol(NomenIDCol, idpEvent.ID),
+		handler.NewCol(NomenInstanceIDCol, idpEvent.Aggregate().InstanceID),
+		handler.NewCol(NomenIssuerCol, idpEvent.Issuer),
+		handler.NewCol(NomenClientIDCol, idpEvent.ClientID),
+		handler.NewCol(NomenClientSecretCol, idpEvent.ClientSecret),
+		handler.NewCol(NomenScopesCol, database.TextArray[string](idpEvent.Scopes)),
 	}
 	if len(idpEvent.InstanceRolesInfo) > 0 {
-		zitadelIDPCols = append(zitadelIDPCols, handler.NewJSONCol(ZitadelInstanceRolesInfoCol, idpEvent.InstanceRolesInfo))
+		nomenIDPCols = append(nomenIDPCols, handler.NewJSONCol(NomenInstanceRolesInfoCol, idpEvent.InstanceRolesInfo))
 	}
 
 	return handler.NewMultiStatement(
@@ -2624,7 +2624,7 @@ func (p *idpTemplateProjection) reduceZitadelIDPAdded(event eventstore.Event) (*
 				handler.NewCol(IDPTemplateStateCol, domain.IDPStateActive),
 				handler.NewCol(IDPTemplateNameCol, idpEvent.Name),
 				handler.NewCol(IDPTemplateOwnerTypeCol, idpOwnerType),
-				handler.NewCol(IDPTemplateTypeCol, domain.IDPTypeZitadel),
+				handler.NewCol(IDPTemplateTypeCol, domain.IDPTypeNomen),
 				handler.NewCol(IDPTemplateIsCreationAllowedCol, idpEvent.IsCreationAllowed),
 				handler.NewCol(IDPTemplateIsLinkingAllowedCol, idpEvent.IsLinkingAllowed),
 				handler.NewCol(IDPTemplateIsAutoCreationCol, idpEvent.IsAutoCreation),
@@ -2633,21 +2633,21 @@ func (p *idpTemplateProjection) reduceZitadelIDPAdded(event eventstore.Event) (*
 			},
 		),
 		handler.AddCreateStatement(
-			zitadelIDPCols,
-			handler.WithTableSuffix(IDPTemplateZitadelSuffix),
+			nomenIDPCols,
+			handler.WithTableSuffix(IDPTemplateNomenSuffix),
 		),
 	), nil
 }
 
-func (p *idpTemplateProjection) reduceZitadelIDPChanged(event eventstore.Event) (*handler.Statement, error) {
-	var idpEvent idp.ZitadelIDPChangedEvent
+func (p *idpTemplateProjection) reduceNomenIDPChanged(event eventstore.Event) (*handler.Statement, error) {
+	var idpEvent idp.NomenIDPChangedEvent
 	switch e := event.(type) {
-	case *instance.ZitadelIDPChangedEvent:
-		idpEvent = e.ZitadelIDPChangedEvent
-	case *org.ZitadelIDPChangedEvent:
-		idpEvent = e.ZitadelIDPChangedEvent
+	case *instance.NomenIDPChangedEvent:
+		idpEvent = e.NomenIDPChangedEvent
+	case *org.NomenIDPChangedEvent:
+		idpEvent = e.NomenIDPChangedEvent
 	default:
-		return nil, zerrors.ThrowInvalidArgumentf(nil, "HANDL-qjMUfi", "reduce.wrong.event.type %v", []eventstore.EventType{instance.ZitadelIDPChangedEventType, org.ZitadelIDPChangedEventType})
+		return nil, zerrors.ThrowInvalidArgumentf(nil, "HANDL-qjMUfi", "reduce.wrong.event.type %v", []eventstore.EventType{instance.NomenIDPChangedEventType, org.NomenIDPChangedEventType})
 	}
 
 	ops := make([]func(eventstore.Event) handler.Exec, 0, 2)
@@ -2660,16 +2660,16 @@ func (p *idpTemplateProjection) reduceZitadelIDPChanged(event eventstore.Event) 
 			},
 		),
 	)
-	zitadelIDPChangedColumns := reduceZitadelIDPChangedColumns(idpEvent)
-	if len(zitadelIDPChangedColumns) > 0 {
+	nomenIDPChangedColumns := reduceNomenIDPChangedColumns(idpEvent)
+	if len(nomenIDPChangedColumns) > 0 {
 		ops = append(ops,
 			handler.AddUpdateStatement(
-				zitadelIDPChangedColumns,
+				nomenIDPChangedColumns,
 				[]handler.Condition{
-					handler.NewCond(ZitadelIDCol, idpEvent.ID),
-					handler.NewCond(ZitadelInstanceIDCol, idpEvent.Aggregate().InstanceID),
+					handler.NewCond(NomenIDCol, idpEvent.ID),
+					handler.NewCond(NomenInstanceIDCol, idpEvent.Aggregate().InstanceID),
 				},
-				handler.WithTableSuffix(IDPTemplateZitadelSuffix),
+				handler.WithTableSuffix(IDPTemplateNomenSuffix),
 			),
 		)
 	}
@@ -2680,22 +2680,22 @@ func (p *idpTemplateProjection) reduceZitadelIDPChanged(event eventstore.Event) 
 	), nil
 }
 
-func reduceZitadelIDPChangedColumns(idpEvent idp.ZitadelIDPChangedEvent) []handler.Column {
-	zitadelCols := make([]handler.Column, 0, 5)
+func reduceNomenIDPChangedColumns(idpEvent idp.NomenIDPChangedEvent) []handler.Column {
+	nomenCols := make([]handler.Column, 0, 5)
 	if idpEvent.ClientID != nil {
-		zitadelCols = append(zitadelCols, handler.NewCol(ZitadelClientIDCol, *idpEvent.ClientID))
+		nomenCols = append(nomenCols, handler.NewCol(NomenClientIDCol, *idpEvent.ClientID))
 	}
 	if idpEvent.ClientSecret != nil {
-		zitadelCols = append(zitadelCols, handler.NewCol(ZitadelClientSecretCol, *idpEvent.ClientSecret))
+		nomenCols = append(nomenCols, handler.NewCol(NomenClientSecretCol, *idpEvent.ClientSecret))
 	}
 	if idpEvent.Issuer != nil {
-		zitadelCols = append(zitadelCols, handler.NewCol(ZitadelIssuerCol, *idpEvent.Issuer))
+		nomenCols = append(nomenCols, handler.NewCol(NomenIssuerCol, *idpEvent.Issuer))
 	}
 	if idpEvent.Scopes != nil {
-		zitadelCols = append(zitadelCols, handler.NewCol(ZitadelScopesCol, database.TextArray[string](*idpEvent.Scopes)))
+		nomenCols = append(nomenCols, handler.NewCol(NomenScopesCol, database.TextArray[string](*idpEvent.Scopes)))
 	}
 	if idpEvent.InstanceRolesInfo != nil {
-		zitadelCols = append(zitadelCols, handler.NewJSONCol(ZitadelInstanceRolesInfoCol, *idpEvent.InstanceRolesInfo))
+		nomenCols = append(nomenCols, handler.NewJSONCol(NomenInstanceRolesInfoCol, *idpEvent.InstanceRolesInfo))
 	}
-	return zitadelCols
+	return nomenCols
 }

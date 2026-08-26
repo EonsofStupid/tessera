@@ -6,8 +6,8 @@ import (
 
 	"github.com/dop251/goja"
 
-	"github.com/EonsofStupid/tessera/internal/actions"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/actions"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 // AuthRequestField accepts the domain.AuthRequest by value, so it's not mutated

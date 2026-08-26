@@ -12,10 +12,10 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/gerrors"
-	errorpb "github.com/EonsofStupid/tessera/pkg/grpc/error/v2"
-	metadata "github.com/EonsofStupid/tessera/pkg/grpc/metadata/v2"
-	resources_object "github.com/EonsofStupid/tessera/pkg/grpc/resources/object/v3alpha"
+	"github.com/shippinAI/nomen/internal/api/grpc/gerrors"
+	errorpb "github.com/shippinAI/nomen/pkg/grpc/error/v2"
+	metadata "github.com/shippinAI/nomen/pkg/grpc/metadata/v2"
+	resources_object "github.com/shippinAI/nomen/pkg/grpc/resources/object/v3alpha"
 )
 
 // Details is the interface that covers both v1 and v2 proto generated object details.
@@ -211,7 +211,7 @@ func AssertStatusError(t *testing.T, err, targetErr error) bool {
 		return assert.Fail(t, "expected status error")
 	}
 
-	tErr, ok := status.FromError(gerrors.ZITADELToGRPCError(t.Context(), targetErr))
+	tErr, ok := status.FromError(gerrors.NOMENToGRPCError(t.Context(), targetErr))
 	if !ok {
 		return assert.Fail(t, "expected status error")
 	}

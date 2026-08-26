@@ -13,10 +13,10 @@ import (
 	"github.com/shopspring/decimal"
 	"golang.org/x/exp/constraints"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var _ error = (*executionError)(nil)

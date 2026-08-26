@@ -1,9 +1,9 @@
 package command
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	debug "github.com/EonsofStupid/tessera/internal/repository/debug_events"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	debug "github.com/shippinAI/nomen/internal/repository/debug_events"
 )
 
 type DebugEventsWriteModel struct {

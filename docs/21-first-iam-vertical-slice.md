@@ -5,7 +5,7 @@ until every acceptance row passes.
 
 ## Outcome
 
-From a clean PostgreSQL database, a private operator can deploy Tessera, enroll
+From a clean PostgreSQL database, a private operator can deploy Nomen, enroll
 the first owner, create an organization and OIDC application, invite a member,
 complete Authorization Code with PKCE, enforce an entitlement, inspect and
 revoke the resulting session, and recover the deployment without another
@@ -17,7 +17,7 @@ IAM release.
 
 ## Actors
 
-- `deployment_operator` initializes and recovers the Tessera deployment but
+- `deployment_operator` initializes and recovers the Nomen deployment but
   cannot silently impersonate an organization member;
 - `organization_owner` configures the organization, application and invitation;
 - `organization_member` authenticates and grants consent where required;
@@ -29,13 +29,13 @@ IAM release.
 
 1. Preflight reports database, issuer, TLS, notification and custody readiness
    without changing state.
-2. Initialization creates a Tessera-owned schema and a single-use bootstrap
+2. Initialization creates a Nomen-owned schema and a single-use bootstrap
    ceremony without printing credential material.
 3. The first owner enrolls a passkey using WebAuthn. Development may offer a
    clearly marked password bootstrap, but operational promotion requires the
    phishing-resistant factor and independent recovery proof.
 4. The owner creates an organization and receives an explicit tenant context.
-5. The owner creates an OIDC public application from a guided form. Tessera
+5. The owner creates an OIDC public application from a guided form. Nomen
    validates exact redirect URIs, selects Authorization Code, requires PKCE
    `S256`, and explains each choice.
 6. The owner creates an invitation with role and expiry. The invitation is
@@ -43,7 +43,7 @@ IAM release.
    analytics.
 7. The member accepts the invitation, enrolls authentication and completes the
    application's OIDC flow.
-8. Tessera issues asymmetrically signed tokens with issuer, audience, subject,
+8. Nomen issues asymmetrically signed tokens with issuer, audience, subject,
    tenant and authorized scopes. Unsupported `alg`, redirect mismatch, missing
    PKCE and code replay fail closed.
 9. The relying party requests a protected route. No session returns typed
@@ -52,13 +52,13 @@ IAM release.
     owner revokes the session and refresh-token family; subsequent use fails.
 11. Every human action and the equivalent Clyffy action produces correlated,
     tenant-scoped audit and operation evidence.
-12. Tessera restarts without state drift. A backup is restored into a disposable
+12. Nomen restarts without state drift. A backup is restored into a disposable
     deployment and preserves issuer, application, identities, policy, audit and
     revocation outcome.
 
 ## Public resources
 
-The browser and Clyffy use versioned Tessera management resources for:
+The browser and Clyffy use versioned Nomen management resources for:
 
 - preflight and deployment state;
 - owner enrollment and recovery state;
@@ -73,6 +73,10 @@ Every JSON response crossing into the browser is parsed by an ArkType schema.
 Every request is independently validated and authorized by the Go service.
 The browser never supplies trusted tenant, actor, entitlement or assurance
 context.
+
+The exact preflight and bootstrap authority behavior is specified in
+`25-deployment-preflight-contract.md`. That contract is changed before either
+resource shape or ceremony behavior changes.
 
 ## Playwright acceptance projects
 

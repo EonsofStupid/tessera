@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/user/model"
+	"github.com/shippinAI/nomen/internal/user/model"
 )
 
 type RefreshTokenRepository interface {

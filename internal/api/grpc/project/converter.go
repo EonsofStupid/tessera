@@ -1,11 +1,11 @@
 package project
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	proj_pb "github.com/EonsofStupid/tessera/pkg/grpc/project"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	proj_pb "github.com/shippinAI/nomen/pkg/grpc/project"
 )
 
 func ProjectViewsToPb(projects []*query.Project) []*proj_pb.Project {

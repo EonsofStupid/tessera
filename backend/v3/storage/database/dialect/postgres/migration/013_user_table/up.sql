@@ -1,4 +1,4 @@
-CREATE TYPE zitadel.user_state AS ENUM (
+CREATE TYPE nomen.user_state AS ENUM (
     'initial'
     , 'active'
     , 'inactive'
@@ -6,26 +6,26 @@ CREATE TYPE zitadel.user_state AS ENUM (
     , 'suspended'
 );
 
-CREATE TYPE zitadel.user_type AS ENUM (
+CREATE TYPE nomen.user_type AS ENUM (
     'human'
     , 'machine'
 );
 
-CREATE TABLE zitadel.users(
+CREATE TABLE nomen.users(
     instance_id TEXT NOT NULL
     , organization_id TEXT NOT NULL
     , id TEXT NOT NULL CHECK (id <> '')
 
     , username TEXT NOT NULL CHECK (username <> '')
     , username_org_unique BOOLEAN DEFAULT FALSE NOT NULL -- this field MUST be filled if the username must be unique on organization level
-    , state zitadel.user_state NOT NULL DEFAULT 'active'
-    , type zitadel.user_type NOT NULL
+    , state nomen.user_state NOT NULL DEFAULT 'active'
+    , type nomen.user_type NOT NULL
 
     , created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     , updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 
     , PRIMARY KEY (instance_id, id)
-    , FOREIGN KEY (instance_id, organization_id) REFERENCES zitadel.organizations(instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, organization_id) REFERENCES nomen.organizations(instance_id, id) ON DELETE CASCADE
 
     -- human
 
@@ -85,37 +85,37 @@ CREATE TABLE zitadel.users(
 );
 
 -- previously created tables
-ALTER TABLE zitadel.identity_provider_intents ADD CONSTRAINT fk_idp_intent_user FOREIGN KEY (instance_id, user_id) REFERENCES zitadel.users (instance_id, id) ON DELETE CASCADE;
-ALTER TABLE zitadel.sessions ADD CONSTRAINT fk_session_user FOREIGN KEY (instance_id, user_id) REFERENCES zitadel.users(instance_id, id) ON DELETE CASCADE;
-ALTER TABLE zitadel.authorizations ADD CONSTRAINT fk_authorization_user FOREIGN KEY (instance_id, user_id) REFERENCES zitadel.users (instance_id, id) ON DELETE CASCADE;
+ALTER TABLE nomen.identity_provider_intents ADD CONSTRAINT fk_idp_intent_user FOREIGN KEY (instance_id, user_id) REFERENCES nomen.users (instance_id, id) ON DELETE CASCADE;
+ALTER TABLE nomen.sessions ADD CONSTRAINT fk_session_user FOREIGN KEY (instance_id, user_id) REFERENCES nomen.users(instance_id, id) ON DELETE CASCADE;
+ALTER TABLE nomen.authorizations ADD CONSTRAINT fk_authorization_user FOREIGN KEY (instance_id, user_id) REFERENCES nomen.users (instance_id, id) ON DELETE CASCADE;
 
 -- user
-CREATE UNIQUE INDEX ON zitadel.users(instance_id, organization_id, username) WHERE username_org_unique IS TRUE;
-CREATE UNIQUE INDEX ON zitadel.users(instance_id, username) WHERE username_org_unique IS FALSE;
-CREATE INDEX idx_user_username ON zitadel.users (username);
-CREATE INDEX idx_user_username_lower ON zitadel.users (lower(username));
-CREATE INDEX idx_machine_name ON zitadel.users (name);
-CREATE INDEX idx_human_email ON zitadel.users (email);
-CREATE INDEX idx_human_email_lower ON zitadel.users (lower(email));
-CREATE INDEX idx_human_phone ON zitadel.users (phone);
-CREATE INDEX idx_human_phone_lower ON zitadel.users (lower(phone));
+CREATE UNIQUE INDEX ON nomen.users(instance_id, organization_id, username) WHERE username_org_unique IS TRUE;
+CREATE UNIQUE INDEX ON nomen.users(instance_id, username) WHERE username_org_unique IS FALSE;
+CREATE INDEX idx_user_username ON nomen.users (username);
+CREATE INDEX idx_user_username_lower ON nomen.users (lower(username));
+CREATE INDEX idx_machine_name ON nomen.users (name);
+CREATE INDEX idx_human_email ON nomen.users (email);
+CREATE INDEX idx_human_email_lower ON nomen.users (lower(email));
+CREATE INDEX idx_human_phone ON nomen.users (phone);
+CREATE INDEX idx_human_phone_lower ON nomen.users (lower(phone));
 
 -- human
-CREATE UNIQUE INDEX ON zitadel.users(password_verification_id) WHERE password_verification_id IS NOT NULL;
-CREATE UNIQUE INDEX ON zitadel.users(email_verification_id) WHERE email_verification_id IS NOT NULL;
-CREATE UNIQUE INDEX ON zitadel.users(phone_verification_id) WHERE phone_verification_id IS NOT NULL;
+CREATE UNIQUE INDEX ON nomen.users(password_verification_id) WHERE password_verification_id IS NOT NULL;
+CREATE UNIQUE INDEX ON nomen.users(email_verification_id) WHERE email_verification_id IS NOT NULL;
+CREATE UNIQUE INDEX ON nomen.users(phone_verification_id) WHERE phone_verification_id IS NOT NULL;
 
 CREATE OR REPLACE TRIGGER trigger_set_updated_at
-BEFORE UPDATE ON zitadel.users
+BEFORE UPDATE ON nomen.users
 FOR EACH ROW
 WHEN (NEW.updated_at IS NULL)
-EXECUTE FUNCTION zitadel.set_updated_at();
+EXECUTE FUNCTION nomen.set_updated_at();
 
 -- ----------------------------------------------------------------
 -- user metadata
 -- ----------------------------------------------------------------
 
-CREATE TABLE zitadel.user_metadata (
+CREATE TABLE nomen.user_metadata (
     instance_id TEXT NOT NULL
     , user_id TEXT NOT NULL
     , key TEXT NOT NULL CHECK (key <> '')
@@ -125,23 +125,23 @@ CREATE TABLE zitadel.user_metadata (
     , updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     
     , PRIMARY KEY (instance_id, user_id, key)
-    , FOREIGN KEY (instance_id, user_id) REFERENCES zitadel.users (instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, user_id) REFERENCES nomen.users (instance_id, id) ON DELETE CASCADE
 );
 
-CREATE INDEX idx_user_metadata_key ON zitadel.user_metadata (key);
-CREATE INDEX idx_user_metadata_value ON zitadel.user_metadata (sha256(value));
+CREATE INDEX idx_user_metadata_key ON nomen.user_metadata (key);
+CREATE INDEX idx_user_metadata_value ON nomen.user_metadata (sha256(value));
 
 CREATE OR REPLACE TRIGGER trg_set_updated_at_user_metadata
-  BEFORE INSERT OR UPDATE ON zitadel.user_metadata
+  BEFORE INSERT OR UPDATE ON nomen.user_metadata
   FOR EACH ROW
   WHEN (NEW.updated_at IS NULL)
-  EXECUTE FUNCTION zitadel.set_updated_at();
+  EXECUTE FUNCTION nomen.set_updated_at();
 
 -- ----------------------------------------------------------------
 -- personal access tokens
 -- ----------------------------------------------------------------
 
-CREATE TABLE zitadel.user_personal_access_tokens(
+CREATE TABLE nomen.user_personal_access_tokens(
     instance_id TEXT NOT NULL
     , user_id TEXT NOT NULL
     
@@ -151,14 +151,14 @@ CREATE TABLE zitadel.user_personal_access_tokens(
     , scopes TEXT[]
     
     , PRIMARY KEY (instance_id, id)
-    , FOREIGN KEY (instance_id, user_id) REFERENCES zitadel.users(instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, user_id) REFERENCES nomen.users(instance_id, id) ON DELETE CASCADE
 );
 
 -- ----------------------------------------------------------------
 -- machine keys
 -- ----------------------------------------------------------------
 
-CREATE TABLE zitadel.machine_keys(
+CREATE TABLE nomen.machine_keys(
     instance_id TEXT NOT NULL
     , user_id TEXT NOT NULL
 
@@ -170,19 +170,19 @@ CREATE TABLE zitadel.machine_keys(
     , public_key BYTEA NOT NULL
 
     , PRIMARY KEY (instance_id, id)
-    , FOREIGN KEY (instance_id, user_id) REFERENCES zitadel.users(instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, user_id) REFERENCES nomen.users(instance_id, id) ON DELETE CASCADE
 );
 
 -- ----------------------------------------------------------------
 -- passkeys
 -- ----------------------------------------------------------------
 
-CREATE TYPE zitadel.passkey_type AS ENUM (
+CREATE TYPE nomen.passkey_type AS ENUM (
     'passwordless'
     , 'u2f'
 );
 
-CREATE TABLE zitadel.user_passkeys(
+CREATE TABLE nomen.user_passkeys(
     instance_id TEXT NOT NULL
     , token_id TEXT NOT NULL
     , key_id BYTEA
@@ -193,7 +193,7 @@ CREATE TABLE zitadel.user_passkeys(
     , updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
     , verified_at TIMESTAMPTZ
 
-    , type zitadel.passkey_type NOT NULL
+    , type nomen.passkey_type NOT NULL
     , name TEXT NOT NULL DEFAULT ''
     , sign_count INT NOT NULL DEFAULT 0 CHECK (sign_count >= 0)
     , challenge BYTEA NOT NULL
@@ -203,18 +203,18 @@ CREATE TABLE zitadel.user_passkeys(
     , relying_party_id TEXT NOT NULL CHECK (relying_party_id <> '')
 
     , PRIMARY KEY (instance_id, token_id)
-    , FOREIGN KEY (instance_id, user_id) REFERENCES zitadel.users(instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, user_id) REFERENCES nomen.users(instance_id, id) ON DELETE CASCADE
 );
 
-CREATE INDEX idx_user_passkeys_challenge ON zitadel.user_passkeys (sha256(challenge));
-CREATE INDEX idx_user_passkeys_key_id ON zitadel.user_passkeys (key_id);
-CREATE INDEX idx_user_passkeys_type ON zitadel.user_passkeys (type);
+CREATE INDEX idx_user_passkeys_challenge ON nomen.user_passkeys (sha256(challenge));
+CREATE INDEX idx_user_passkeys_key_id ON nomen.user_passkeys (key_id);
+CREATE INDEX idx_user_passkeys_type ON nomen.user_passkeys (type);
 
 -- ----------------------------------------------------------------
 -- identity provider links
 -- ----------------------------------------------------------------
 
-CREATE TABLE zitadel.user_identity_provider_links(
+CREATE TABLE nomen.user_identity_provider_links(
     instance_id TEXT NOT NULL
     , identity_provider_id TEXT NOT NULL
     , user_id TEXT NOT NULL
@@ -227,22 +227,22 @@ CREATE TABLE zitadel.user_identity_provider_links(
 
     , PRIMARY KEY (instance_id, identity_provider_id, provided_user_id)
 
-    , FOREIGN KEY (instance_id, user_id) REFERENCES zitadel.users(instance_id, id) ON DELETE CASCADE
-    , FOREIGN KEY (instance_id, identity_provider_id) REFERENCES zitadel.identity_providers(instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, user_id) REFERENCES nomen.users(instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, identity_provider_id) REFERENCES nomen.identity_providers(instance_id, id) ON DELETE CASCADE
 );
 
 -- ----------------------------------------------------------------
 -- organization scoped usernames
 -- ----------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION zitadel.set_username_org_unique() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION nomen.set_username_org_unique() RETURNS TRIGGER AS $$
 BEGIN
     SELECT setting.organization_scoped_usernames
     INTO NEW.username_org_unique
     FROM (
         SELECT
             (settings.settings->'organizationScopedUsernames' )::BOOLEAN AS organization_scoped_usernames
-        FROM zitadel.settings
+        FROM nomen.settings
         WHERE
             settings.type = 'organization'
             AND settings.instance_id = NEW.instance_id
@@ -262,11 +262,11 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER trg_set_username_org_unique
-BEFORE INSERT ON zitadel.users
+BEFORE INSERT ON nomen.users
 FOR EACH ROW
-EXECUTE FUNCTION zitadel.set_username_org_unique();
+EXECUTE FUNCTION nomen.set_username_org_unique();
 
-CREATE OR REPLACE FUNCTION zitadel.ensure_username_org_unique() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION nomen.ensure_username_org_unique() RETURNS TRIGGER AS $$
 DECLARE
     _instance_id TEXT;
     _organization_id TEXT;
@@ -279,11 +279,11 @@ BEGIN
             _instance_id := OLD.instance_id;
             _organization_id := OLD.organization_id;
             _old_organization_scoped_usernames := COALESCE((OLD.settings->'organizationScopedUsernames')::BOOLEAN, FALSE);
-            _new_organization_scoped_usernames := COALESCE((SELECT COALESCE((settings.settings->'organizationScopedUsernames')::BOOLEAN, FALSE) FROM zitadel.settings WHERE settings.instance_id = OLD.instance_id AND settings.type = 'organization' AND settings.organization_id IS NULL), FALSE);
+            _new_organization_scoped_usernames := COALESCE((SELECT COALESCE((settings.settings->'organizationScopedUsernames')::BOOLEAN, FALSE) FROM nomen.settings WHERE settings.instance_id = OLD.instance_id AND settings.type = 'organization' AND settings.organization_id IS NULL), FALSE);
         WHEN 'INSERT' THEN
             _instance_id := NEW.instance_id;
             _organization_id := NEW.organization_id;
-            _old_organization_scoped_usernames := COALESCE((SELECT COALESCE((settings.settings->'organizationScopedUsernames')::BOOLEAN, FALSE) FROM zitadel.settings WHERE settings.instance_id = NEW.instance_id AND settings.type = 'organization' AND settings.organization_id IS NULL), FALSE);
+            _old_organization_scoped_usernames := COALESCE((SELECT COALESCE((settings.settings->'organizationScopedUsernames')::BOOLEAN, FALSE) FROM nomen.settings WHERE settings.instance_id = NEW.instance_id AND settings.type = 'organization' AND settings.organization_id IS NULL), FALSE);
             _new_organization_scoped_usernames := COALESCE((NEW.settings->'organizationScopedUsernames')::BOOLEAN, FALSE);
         ELSE
             _instance_id := NEW.instance_id;
@@ -296,13 +296,13 @@ BEGIN
         RETURN NULL;
     END IF;
 
-    UPDATE zitadel.users
+    UPDATE nomen.users
     SET username_org_unique = _new_organization_scoped_usernames
     WHERE instance_id = _instance_id
     AND (
         (_organization_id IS NOT NULL AND organization_id = _organization_id) -- organization level setting changed, update users of that organization
         OR (_organization_id IS NULL AND organization_id NOT IN (
-            SELECT organization_id FROM zitadel.settings WHERE instance_id = _instance_id AND type = 'organization' AND organization_id IS NOT NULL
+            SELECT organization_id FROM nomen.settings WHERE instance_id = _instance_id AND type = 'organization' AND organization_id IS NOT NULL
         )) -- instance level setting changed, update users of organizations without an organization level setting
     );
 
@@ -311,13 +311,13 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE TRIGGER trg_ensure_username_org_unique
-AFTER INSERT OR UPDATE ON zitadel.settings
+AFTER INSERT OR UPDATE ON nomen.settings
 FOR EACH ROW
 WHEN (NEW.type = 'organization')
-EXECUTE FUNCTION zitadel.ensure_username_org_unique();
+EXECUTE FUNCTION nomen.ensure_username_org_unique();
 
 CREATE OR REPLACE TRIGGER trg_ensure_username_org_unique_delete
-AFTER DELETE ON zitadel.settings
+AFTER DELETE ON nomen.settings
 FOR EACH ROW
 WHEN (OLD.type = 'organization')
-EXECUTE FUNCTION zitadel.ensure_username_org_unique();
+EXECUTE FUNCTION nomen.ensure_username_org_unique();

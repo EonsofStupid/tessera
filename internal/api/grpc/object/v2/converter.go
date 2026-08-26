@@ -5,11 +5,11 @@ import (
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	user_pb "github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	user_pb "github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func DomainToDetailsPb(objectDetail *domain.ObjectDetails) *object.Details {

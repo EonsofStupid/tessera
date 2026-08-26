@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 var (

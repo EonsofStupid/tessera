@@ -6,9 +6,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
 )
 
 // RequestDetailsHandler is a gRPC interceptor that sets a request ID in the context

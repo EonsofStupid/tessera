@@ -8,7 +8,7 @@ import (
 
 func TestOperationProtoCoversDomainVocabulary(t *testing.T) {
 	t.Parallel()
-	contents, err := os.ReadFile("../../../proto/tessera/management/v1/operation.proto")
+	contents, err := os.ReadFile("../../../proto/nomen/management/v1/operation.proto")
 	if err != nil {
 		t.Fatalf("read operation proto: %v", err)
 	}

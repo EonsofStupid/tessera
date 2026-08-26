@@ -13,9 +13,9 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/mitchellh/mapstructure"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/database/dialect"
+	"github.com/shippinAI/nomen/internal/database/dialect"
 )
 
 func init() {
@@ -35,7 +35,7 @@ type Config struct {
 	// fields (Host, Port, Database, User, Admin, Options) are ignored, and the
 	// database name and user are taken exclusively from the DSN.
 	// Format: postgresql://user:password@host:port/dbname?sslmode=disable
-	// Note: In DSN mode, ZITADEL will not create the target database or user.
+	// Note: In DSN mode, NOMEN will not create the target database or user.
 	// The referenced database/user must already exist, and admin-creation
 	// semantics used in non-DSN mode (e.g. via useAdmin) do not apply.
 	DSN       string
@@ -230,7 +230,7 @@ type User struct {
 }
 
 type AdminUser struct {
-	// ExistingDatabase is the database to connect to before the ZITADEL database exists
+	// ExistingDatabase is the database to connect to before the NOMEN database exists
 	ExistingDatabase string
 	User             `mapstructure:",squash"`
 }

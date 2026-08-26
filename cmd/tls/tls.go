@@ -19,7 +19,7 @@ func AddTLSModeFlag(cmd *cobra.Command) {
 	if cmd.PersistentFlags().Lookup(flagTLSMode) != nil {
 		return
 	}
-	cmd.PersistentFlags().String(flagTLSMode, "", "start Tessera with (enabled), without (disabled) TLS or an external component such as a reverse proxy (external) terminating TLS; this flag overrides `externalSecure` and `tls.enabled` in config files")
+	cmd.PersistentFlags().String(flagTLSMode, "", "start Nomen with (enabled), without (disabled) TLS or an external component such as a reverse proxy (external) terminating TLS; this flag overrides `externalSecure` and `tls.enabled` in config files")
 }
 
 func ModeFromFlag(cmd *cobra.Command) error {

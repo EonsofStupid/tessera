@@ -3,7 +3,7 @@ package login
 import (
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 const (

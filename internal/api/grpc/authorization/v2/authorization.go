@@ -6,9 +6,9 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/pkg/grpc/authorization/v2"
 )
 
 func (s *Server) CreateAuthorization(ctx context.Context, req *connect.Request[authorization.CreateAuthorizationRequest]) (*connect.Response[authorization.CreateAuthorizationResponse], error) {

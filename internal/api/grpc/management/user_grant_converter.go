@@ -3,14 +3,14 @@ package management
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	user_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/user"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	user_grpc "github.com/shippinAI/nomen/internal/api/grpc/user"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/user"
 )
 
 func ListUserGrantsRequestToQuery(ctx context.Context, req *mgmt_pb.ListUserGrantRequest) (*query.UserGrantsQueries, error) {

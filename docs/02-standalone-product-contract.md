@@ -1,10 +1,12 @@
 # 02 — Standalone product contract
 
-**Status:** accepted product boundary; implementation remains pre-release.
+**Status:** accepted product boundary. Product version is `1.0.0-alpha` and
+frozen until Nomen Vault, Nomen Mesh, and the first IAM vertical slice are
+built. Implementation of those capabilities remains preview.
 
 ## Promise
 
-A customer can deploy Tessera, complete guided owner setup, manage identity and
+A customer can deploy Nomen, complete guided owner setup, manage identity and
 access, integrate applications, prove sign-in and recovery, observe the system,
 upgrade it and restore it without installing or contacting Shippin.
 
@@ -17,20 +19,20 @@ operational.
 
 A standalone or managed-customer deployment:
 
-- uses Tessera-owned product names, routes, configuration and documentation;
-- exposes Tessera's complete web application, management API and CLI;
+- uses Nomen-owned product names, routes, configuration and documentation;
+- exposes Nomen's complete web application, management API and CLI;
 - starts and reaches readiness without a Shippin account, token, adapter, route
   or service discovery record;
-- does not require Zuul for networking or Vaultix for initial bootstrap;
-- accepts optional secret-manager and mesh adapters through versioned Tessera
-  interfaces;
+- does not require Nomen Mesh or Nomen Vault for initial bootstrap;
+- accepts optional secret-manager and mesh adapters through versioned Nomen
+  interfaces as **enterprise** features (`26-editions-and-demo-tier.md`);
 - keeps every tenant, signing key, session and audit record inside the selected
   deployment boundary; and
 - can export its configuration and identity data using documented, tested
   procedures.
 
 An integration may add context or navigation. It may not become the only way to
-configure, recover or operate Tessera.
+configure, recover or operate Nomen.
 
 ## Required standalone surfaces
 
@@ -50,7 +52,24 @@ The standalone web application is not a temporary console. It is the canonical
 guided product experience and must consume the same public management contracts
 available to managed operators and adapters.
 
-It is a Tessera-owned React and TypeScript application served by the Tessera
+The browser experience has two deliberate layers at Nomen's own origin:
+
+- `/` leads to the public product entry surface. It explains what this
+  deployment is, which capabilities are live, where authority is stored and
+  how an operator enters the product without requiring a Shippin shell or an
+  authenticated session.
+- `/ui/console/overview` is the operator workspace. Its management facts remain
+  authentication-gated and server-authoritative; the public entry surface must
+  never leak tenant counts, identities, policy, audit evidence or deployment
+  secrets.
+
+The public surface, operator workspace, sign-in callback and protocol endpoints
+ship from the same Nomen artifact. A release must exercise the public entry,
+operator navigation, sign-in handoff and a responsive viewport in a real
+browser. Rendering a static mock or validating components without the
+production HTTP boundary does not satisfy this requirement.
+
+It is a Nomen-owned React and TypeScript application served by the Nomen
 runtime. Browser trust-boundary payloads are parsed with versioned ArkType
 schemas before entering application state; TypeScript assertions alone never
 validate runtime data. The Go service remains authoritative and independently
@@ -59,7 +78,7 @@ choice, not part of the product contract, and unused full-stack frameworks are
 forbidden from the runtime dependency graph.
 
 The same versioned feature module may later be composed into a host shell, but
-its routes, resources and behavior remain usable at Tessera's own origin.
+its routes, resources and behavior remain usable at Nomen's own origin.
 
 Every meaningful interaction uses the stable ids, semantic events and shared
 human/AI action grammar in `18-operator-interaction-contract.md`. Presentation
@@ -71,22 +90,22 @@ text or replay into an administrative API.
 ### Standalone self-hosted
 
 The customer owns the runtime, PostgreSQL, public domain and custody choices.
-Tessera guides setup and reports exact prerequisites without assuming a control
+Nomen guides setup and reports exact prerequisites without assuming a control
 plane above it.
 
 ### Managed customer
 
-The operator provisions isolated Tessera deployments and performs approved
-maintenance through Tessera's management and operation contracts. Customer
+The operator provisions isolated Nomen deployments and performs approved
+maintenance through Nomen's management and operation contracts. Customer
 owners retain their own roles, recovery path, audit visibility and export path.
 Managed access is explicit, time-bounded and auditable; it is never silent
 impersonation.
 
 The first managed release supports two explicit isolation profiles:
 
-- **dedicated** — one Tessera runtime and logical PostgreSQL database for one
+- **dedicated** — one Nomen runtime and logical PostgreSQL database for one
   customer; databases may share a hardened PostgreSQL cluster; and
-- **community** — one Tessera deployment with multiple organization tenants,
+- **community** — one Nomen deployment with multiple organization tenants,
   invite-only onboarding and tenant-scoped authorization, caches, audit and
   analytics.
 
@@ -100,9 +119,9 @@ of truth.
 
 ### Embedded host integration
 
-After standalone promotion, a host product may mount the Tessera UI module and
+After standalone promotion, a host product may mount the Nomen UI module and
 map its own navigation or account context through an adapter. The adapter calls
-versioned Tessera APIs and capability discovery. Direct browser dependence on a
+versioned Nomen APIs and capability discovery. Direct browser dependence on a
 host-only operator credential is forbidden.
 
 Shippin's seat token is one such integration profile. Disabling it must not
@@ -113,19 +132,19 @@ remove any standalone IAM function.
 | Component | Requirement | Owner |
 |---|---|---|
 | PostgreSQL | required durable store | deployment operator |
-| ClickHouse | required OLAP projection for managed production; never identity truth | deployment operator through Tessera's analytics relay |
+| ClickHouse | required OLAP projection for managed production; never identity truth | deployment operator through Nomen's analytics relay |
 | public DNS and TLS | required outside development | deployment operator |
-| SMTP or another notification transport | required before recovery is promoted | deployment operator through a Tessera adapter |
-| Vaultix | required for managed production and optional for self-hosting | Vaultix; Tessera stores references |
-| Zuul | optional mesh and private-access integration | Zuul; Tessera owns identity and enrollment policy |
+| SMTP or another notification transport | required before recovery is promoted | deployment operator through a Nomen adapter |
+| Vaultix | required for managed production and optional for self-hosting | Vaultix; Nomen stores references |
+| Zuul | optional mesh and private-access integration | Zuul; Nomen owns identity and enrollment policy |
 | Shippin | optional commercial shell and ecosystem integration | Shippin adapter |
 
-No optional component may change the meaning of Tessera's core identity data or
+No optional component may change the meaning of Nomen's core identity data or
 be required to recover a standalone owner.
 
-Tessera also ships a least-privilege deployment operator for its own rootless
+Nomen also ships a least-privilege deployment operator for its own rootless
 Podman resources. It owns preflight, initialization, backup, restore, upgrade
-and rollback for Tessera only; it is not a general infrastructure inventory or
+and rollback for Nomen only; it is not a general infrastructure inventory or
 mesh controller.
 
 ## Transactional and analytical data
@@ -137,13 +156,13 @@ resumable checkpoints. ClickHouse is rebuildable and never sits on an
 authentication or authorization request path. Its outage degrades analytics,
 not identity truth.
 
-The analytics API is Tessera-owned. Browsers and host integrations never query
+The analytics API is Nomen-owned. Browsers and host integrations never query
 ClickHouse directly. Tokens, assertions, credentials, recovery material and
 secret values are forbidden from analytical facts.
 
 ## Security invariants
 
-- Asymmetric signatures only; consumers never verify a Tessera token with a
+- Asymmetric signatures only; consumers never verify a Nomen token with a
   shared secret.
 - Authentication failure and authorization failure remain distinct. Missing
   entitlement is `403` with a typed body.
@@ -174,7 +193,7 @@ route presence.
 
 ## Standalone release gate
 
-Tessera is ready for the first managed customer only when all of these are
+Nomen is ready for the first managed customer only when all of these are
 reproducible from a clean host:
 
 1. Build and verify a signed OCI image and source provenance.
@@ -182,7 +201,7 @@ reproducible from a clean host:
 3. Complete guided owner enrollment with phishing-resistant MFA and independent
    recovery.
 4. Create an organization, users, groups, application and service identity from
-   Tessera's UI, and repeat the same outcomes through the API.
+   Nomen's UI, and repeat the same outcomes through the API.
 5. Complete OIDC and SAML sign-in/logout, session revocation and key rotation.
 6. Exercise every capability labelled `operational` against a real disposable
    target, including negative and unavailable-dependency cases.
@@ -209,4 +228,4 @@ backup/restore and upgrade conformance. Those capabilities may be reviewed in
 preview during development but cannot be promoted or used to waive this gate.
 
 The Shippin adapter and embedded shell are deliberately outside this gate. They
-begin only after the same build is operable as Tessera by itself.
+begin only after the same build is operable as Nomen by itself.

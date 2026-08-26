@@ -1,11 +1,11 @@
 package admin
 
 import (
-	instance_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/instance"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/query"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/instance"
+	instance_grpc "github.com/shippinAI/nomen/internal/api/grpc/instance"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/query"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/instance"
 )
 
 func ListInstanceDomainsRequestToModel(req *admin_pb.ListInstanceDomainsRequest) (*query.InstanceDomainSearchQueries, error) {

@@ -9,8 +9,8 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const anAPIRole = "AN_API_ROLE"

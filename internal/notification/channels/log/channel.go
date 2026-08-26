@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/k3a/html2text"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/channels"
 )
 
 func InitStdoutChannel(config Config) channels.NotificationChannel {

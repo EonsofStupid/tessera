@@ -1,8 +1,8 @@
 package management
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server/middleware"
-	"github.com/EonsofStupid/tessera/pkg/grpc/change"
+	"github.com/shippinAI/nomen/internal/api/grpc/server/middleware"
+	"github.com/shippinAI/nomen/pkg/grpc/change"
 )
 
 func (c *ListUserChangesResponse) Localizers() []middleware.Localizer {

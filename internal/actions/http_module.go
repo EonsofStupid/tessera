@@ -10,13 +10,13 @@ import (
 	"time"
 
 	"github.com/dop251/goja"
-	"github.com/zitadel/logging"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func WithHTTP(ctx context.Context, client *http.Client) Option {
 	return func(c *runConfig) {
-		c.modules["zitadel/http"] = func(runtime *goja.Runtime, module *goja.Object) {
+		c.modules["nomen/http"] = func(runtime *goja.Runtime, module *goja.Object) {
 			requireHTTP(ctx, client, runtime, module)
 		}
 	}

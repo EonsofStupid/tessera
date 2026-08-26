@@ -5,20 +5,20 @@ import (
 	"strconv"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/info"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/info"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/user"
 )
 
 const (
 	Activity = "activity"
 
-	PathKey          = "zitadel-activity-path"
-	RequestMethodKey = "zitadel-activity-request-method"
+	PathKey          = "nomen-activity-path"
+	RequestMethodKey = "nomen-activity-request-method"
 )
 
 type TriggerMethod int

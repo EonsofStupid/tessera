@@ -1,1 +1,1 @@
-DROP TABLE zitadel.instances;
+DROP TABLE nomen.instances;

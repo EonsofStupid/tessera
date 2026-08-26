@@ -11,7 +11,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/tessera': 'http://127.0.0.1:8080',
+      '/nomen': 'http://127.0.0.1:8080',
       '/oauth': 'http://127.0.0.1:8080',
       '/ui/login': 'http://127.0.0.1:8080',
     },

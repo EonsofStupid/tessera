@@ -11,7 +11,7 @@ var (
 )
 
 type TLS struct {
-	//If enabled, ZITADEL will serve all traffic over TLS (HTTPS and gRPC)
+	//If enabled, NOMEN will serve all traffic over TLS (HTTPS and gRPC)
 	//you must then also provide a private key and certificate to be used for the connection
 	//either directly or by a path to the corresponding file
 	Enabled bool

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS zitadel.instances(
+CREATE TABLE IF NOT EXISTS nomen.instances(
   id TEXT NOT NULL CHECK (id <> '') PRIMARY KEY,
   name TEXT NOT NULL CHECK (name <> ''),
   default_org_id TEXT, -- NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS zitadel.instances(
   updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 
-CREATE OR REPLACE FUNCTION zitadel.set_updated_at()
+CREATE OR REPLACE FUNCTION nomen.set_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
   NEW.updated_at := NOW();
@@ -19,7 +19,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_set_updated_at
-BEFORE UPDATE ON zitadel.instances
+BEFORE UPDATE ON nomen.instances
 FOR EACH ROW
 WHEN (OLD.updated_at IS NOT DISTINCT FROM NEW.updated_at)
-EXECUTE FUNCTION zitadel.set_updated_at();
+EXECUTE FUNCTION nomen.set_updated_at();

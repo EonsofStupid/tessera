@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 type Tx interface {

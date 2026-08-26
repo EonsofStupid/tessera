@@ -3,12 +3,12 @@ package projection
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	old_handler "github.com/EonsofStupid/tessera/internal/eventstore/handler"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/feature"
-	"github.com/EonsofStupid/tessera/internal/repository/feature/feature_v2"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	old_handler "github.com/shippinAI/nomen/internal/eventstore/handler"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/feature"
+	"github.com/shippinAI/nomen/internal/repository/feature/feature_v2"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

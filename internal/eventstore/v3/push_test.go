@@ -10,16 +10,16 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 
-	new_db "github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	new_pg "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/sql"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/database/postgres"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/mock"
-	"github.com/EonsofStupid/tessera/internal/execution/target"
-	exec_repo "github.com/EonsofStupid/tessera/internal/repository/execution"
+	new_db "github.com/shippinAI/nomen/backend/v3/storage/database"
+	new_pg "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dialect/sql"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/database/postgres"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/mock"
+	"github.com/shippinAI/nomen/internal/execution/target"
+	exec_repo "github.com/shippinAI/nomen/internal/repository/execution"
 )
 
 func Test_mapCommands(t *testing.T) {

@@ -6,18 +6,18 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	seatdomain "github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/auth/repository"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	seatdomain "github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/auth/repository"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 type Server struct {
@@ -27,7 +27,7 @@ type Server struct {
 	repo    repository.Repository
 	query   *query.Queries
 	command *command.Commands
-	// seats is Tessera's own. Injected as the port rather than reached for
+	// seats is Nomen's own. Injected as the port rather than reached for
 	// through a package-level pool, so this server can be constructed in a
 	// test with a fake and so the dependency is visible in the signature
 	// instead of discovered at first call.

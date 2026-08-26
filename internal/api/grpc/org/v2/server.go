@@ -6,14 +6,14 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/pkg/grpc/org/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/org/v2/orgconnect"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/pkg/grpc/org/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/org/v2/orgconnect"
 )
 
 var _ orgconnect.OrganizationServiceHandler = (*Server)(nil)
@@ -44,7 +44,7 @@ func (s *Server) RegisterConnectServer(interceptors ...connect.Interceptor) (str
 }
 
 func (s *Server) FileDescriptor() protoreflect.FileDescriptor {
-	return org.File_zitadel_org_v2_org_service_proto
+	return org.File_nomen_org_v2_org_service_proto
 }
 
 func (s *Server) AppName() string {

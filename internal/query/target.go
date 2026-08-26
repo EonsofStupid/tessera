@@ -8,12 +8,12 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (

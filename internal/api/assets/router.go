@@ -5,9 +5,9 @@ package assets
 import (
 	"github.com/gorilla/mux"
 
-	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/static"
+	http_mw "github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/static"
 )
 
 type AssetsService interface {

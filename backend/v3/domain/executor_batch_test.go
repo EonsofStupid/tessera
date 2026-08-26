@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	domainmock "github.com/EonsofStupid/tessera/backend/v3/domain/mock"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	domainmock "github.com/shippinAI/nomen/backend/v3/domain/mock"
 )
 
 func TestBatchExecutors(t *testing.T) {

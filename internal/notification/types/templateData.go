@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/api/assets"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/notification/templates"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/api/assets"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/notification/templates"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 func GetTemplateData(ctx context.Context, translator *i18n.Translator, translateArgs map[string]interface{}, href, msgType, lang string, policy *query.LabelPolicy) templates.TemplateData {

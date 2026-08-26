@@ -8,9 +8,9 @@ import (
 	"github.com/alicebob/miniredis/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/cache"
+	"github.com/shippinAI/nomen/internal/cache"
 )
 
 type testIndex int

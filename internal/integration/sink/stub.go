@@ -2,7 +2,7 @@
 
 package sink
 
-import "github.com/EonsofStupid/tessera/internal/command"
+import "github.com/shippinAI/nomen/internal/command"
 
 // StartServer and its returned close function are a no-op
 // when the `integration` build tag is disabled.

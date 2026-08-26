@@ -7,13 +7,13 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	zitadel_http "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	nomen_http "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type instanceInterceptor struct {
@@ -45,14 +45,14 @@ func (a *instanceInterceptor) HandlerFunc(next http.Handler) http.HandlerFunc {
 			return
 		}
 
-		origin := zitadel_http.DomainContext(r.Context())
+		origin := nomen_http.DomainContext(r.Context())
 		logging.WithFields("origin", origin.Origin(), "externalDomain", a.externalDomain).WithError(err).Error("unable to set instance")
 
 		statusCode := http.StatusInternalServerError
 		if zerrors.IsNotFound(err) {
 			statusCode = http.StatusNotFound
 		}
-		zErr := new(zerrors.ZitadelError)
+		zErr := new(zerrors.NomenError)
 		if errors.As(err, &zErr) {
 			zErr.SetMessage(a.translator.LocalizeFromRequest(r, zErr.GetMessage(), nil))
 			http.Error(w, fmt.Sprintf("unable to set instance using origin %s (ExternalDomain is %s): %s", origin, a.externalDomain, zErr), statusCode)
@@ -67,7 +67,7 @@ func (a *instanceInterceptor) HandlerFuncWithError(next HandlerFuncWithError) Ha
 	return func(w http.ResponseWriter, r *http.Request) error {
 		ctx, err := a.setInstanceIfNeeded(r.Context(), r)
 		if err != nil {
-			origin := zitadel_http.DomainContext(r.Context())
+			origin := nomen_http.DomainContext(r.Context())
 			logging.WithFields("origin", origin.Origin(), "externalDomain", a.externalDomain).WithError(err).Error("unable to set instance")
 			return err
 		}
@@ -91,7 +91,7 @@ func setInstance(ctx context.Context, verifier authz.InstanceVerifier) (_ contex
 	authCtx, span := tracing.NewServerInterceptorSpan(ctx)
 	defer func() { span.EndWithError(err) }()
 
-	requestContext := zitadel_http.DomainContext(ctx)
+	requestContext := nomen_http.DomainContext(ctx)
 	if requestContext.InstanceDomain() == "" {
 		return nil, zerrors.ThrowNotFound(err, "INST-zWq7X", "Errors.Instance.NotFound")
 	}

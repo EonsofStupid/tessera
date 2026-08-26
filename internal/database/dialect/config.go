@@ -33,7 +33,7 @@ const (
 )
 
 const (
-	DefaultAppName = "zitadel"
+	DefaultAppName = "nomen"
 )
 
 type Connector interface {

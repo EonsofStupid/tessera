@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/text/language"
 
-	user_model "github.com/EonsofStupid/tessera/internal/user/model"
+	user_model "github.com/shippinAI/nomen/internal/user/model"
 )
 
 func TestProfileChanges(t *testing.T) {

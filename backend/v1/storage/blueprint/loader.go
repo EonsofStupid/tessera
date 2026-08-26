@@ -16,7 +16,7 @@ import (
 
 	"sigs.k8s.io/yaml"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v1/domain"
 )
 
 // File is one loaded blueprint and where it came from — every error a caller

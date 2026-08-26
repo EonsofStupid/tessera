@@ -9,17 +9,17 @@ import (
 	"time"
 
 	"github.com/riverqueue/river"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/notification/types"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/repository/notification"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/notification/types"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/repository/notification"
 )
 
 const (

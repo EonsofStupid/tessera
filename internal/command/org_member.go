@@ -4,18 +4,18 @@ import (
 	"context"
 	"slices"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) AddOrgMemberCommand(member *AddOrgMember) preparation.Validation {
 	return func() (preparation.CreateCommands, error) {
-		if err := member.IsValid(c.zitadelRoles); err != nil {
+		if err := member.IsValid(c.nomenRoles); err != nil {
 			return nil, err
 		}
 		return func(ctx context.Context, filter preparation.FilterToQueryReducer) (_ []eventstore.Command, err error) {
@@ -76,11 +76,11 @@ type AddOrgMember struct {
 	Roles  []string
 }
 
-func (m *AddOrgMember) IsValid(zitadelRoles []authz.RoleMapping) error {
+func (m *AddOrgMember) IsValid(nomenRoles []authz.RoleMapping) error {
 	if m.UserID == "" || m.OrgID == "" || len(m.Roles) == 0 {
 		return zerrors.ThrowInvalidArgument(nil, "ORG-4Mlfs", "Errors.Invalid.Argument")
 	}
-	if len(domain.CheckForInvalidRoles(m.Roles, domain.OrgRolePrefix, zitadelRoles)) > 0 && len(domain.CheckForInvalidRoles(m.Roles, domain.RoleSelfManagementGlobal, zitadelRoles)) > 0 {
+	if len(domain.CheckForInvalidRoles(m.Roles, domain.OrgRolePrefix, nomenRoles)) > 0 && len(domain.CheckForInvalidRoles(m.Roles, domain.RoleSelfManagementGlobal, nomenRoles)) > 0 {
 		return zerrors.ThrowInvalidArgument(nil, "Org-4N8es", "Errors.Org.MemberInvalid")
 	}
 	return nil
@@ -118,11 +118,11 @@ type ChangeOrgMember struct {
 	Roles  []string
 }
 
-func (c *ChangeOrgMember) IsValid(zitadelRoles []authz.RoleMapping) error {
+func (c *ChangeOrgMember) IsValid(nomenRoles []authz.RoleMapping) error {
 	if c.OrgID == "" || c.UserID == "" || len(c.Roles) == 0 {
 		return zerrors.ThrowInvalidArgument(nil, "Org-LiaZi", "Errors.Org.MemberInvalid")
 	}
-	if len(domain.CheckForInvalidRoles(c.Roles, domain.OrgRolePrefix, zitadelRoles)) > 0 {
+	if len(domain.CheckForInvalidRoles(c.Roles, domain.OrgRolePrefix, nomenRoles)) > 0 {
 		return zerrors.ThrowInvalidArgument(nil, "INST-m9fG8", "Errors.Org.MemberInvalid")
 	}
 
@@ -131,7 +131,7 @@ func (c *ChangeOrgMember) IsValid(zitadelRoles []authz.RoleMapping) error {
 
 // ChangeOrgMember updates an existing member
 func (c *Commands) ChangeOrgMember(ctx context.Context, member *ChangeOrgMember) (*domain.ObjectDetails, error) {
-	if err := member.IsValid(c.zitadelRoles); err != nil {
+	if err := member.IsValid(c.nomenRoles); err != nil {
 		return nil, err
 	}
 

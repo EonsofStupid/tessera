@@ -10,8 +10,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 func newGrant() *cobra.Command {
@@ -25,7 +25,7 @@ Prerequisites:
 `,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera verify grant command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen verify grant command failed")
 			}()
 			config, shutdown, err := NewConfig(cmd, viper.GetViper())
 			if err != nil {

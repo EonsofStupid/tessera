@@ -14,14 +14,14 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	db "github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/database/dialect"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/v2/database"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore/postgres"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	db "github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/database/dialect"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/v2/database"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/eventstore/postgres"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var shouldIgnorePrevious bool
@@ -31,11 +31,11 @@ func eventstoreCmd() *cobra.Command {
 		Use:   "eventstore",
 		Short: "mirrors the eventstore of an instance from one database to another",
 		Long: `mirrors the eventstore of an instance from one database to another
-Tessera needs to be initialized and set up with the --for-mirror flag
+Nomen needs to be initialized and set up with the --for-mirror flag
 Migrate only copies events2 and unique constraints`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera mirror eventstore command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen mirror eventstore command failed")
 			}()
 
 			config, shutdown, err := newMigrationConfig(cmd, viper.GetViper())

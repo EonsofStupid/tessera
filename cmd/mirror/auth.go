@@ -12,8 +12,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 func authCmd() *cobra.Command {
@@ -21,11 +21,11 @@ func authCmd() *cobra.Command {
 		Use:   "auth",
 		Short: "mirrors the auth requests table from one database to another",
 		Long: `mirrors the auth requests table from one database to another
-Tessera needs to be initialized and set up with the --for-mirror flag
+Nomen needs to be initialized and set up with the --for-mirror flag
 Only auth requests are mirrored`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera mirror auth command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen mirror auth command failed")
 			}()
 			config, shutdown, err := newMigrationConfig(cmd, viper.GetViper())
 			if err != nil {

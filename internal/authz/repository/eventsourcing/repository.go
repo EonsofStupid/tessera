@@ -3,13 +3,13 @@ package eventsourcing
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/authz/repository"
-	authz_es "github.com/EonsofStupid/tessera/internal/authz/repository/eventsourcing/eventstore"
-	authz_view "github.com/EonsofStupid/tessera/internal/authz/repository/eventsourcing/view"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/authz/repository"
+	authz_es "github.com/shippinAI/nomen/internal/authz/repository/eventsourcing/eventstore"
+	authz_view "github.com/shippinAI/nomen/internal/authz/repository/eventsourcing/view"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 type EsRepository struct {

@@ -3,8 +3,8 @@ package command
 import (
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/limits"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/limits"
 )
 
 type limitsWriteModel struct {

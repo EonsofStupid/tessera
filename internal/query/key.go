@@ -3,8 +3,8 @@ package query
 import (
 	"time"
 
-	zcrypto "github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
+	zcrypto "github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/query/projection"
 )
 
 type Key interface {

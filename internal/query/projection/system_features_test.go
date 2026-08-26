@@ -3,10 +3,10 @@ package projection
 import (
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/feature/feature_v2"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/feature/feature_v2"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestSystemFeaturesProjection_reduces(t *testing.T) {

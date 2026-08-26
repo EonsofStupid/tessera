@@ -3,8 +3,8 @@ package command
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/cache"
-	"github.com/EonsofStupid/tessera/internal/cache/connector"
+	"github.com/shippinAI/nomen/internal/cache"
+	"github.com/shippinAI/nomen/internal/cache/connector"
 )
 
 type Caches struct {

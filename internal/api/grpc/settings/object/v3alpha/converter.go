@@ -3,9 +3,9 @@ package object
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
-	settings_object "github.com/EonsofStupid/tessera/pkg/grpc/settings/object/v3alpha"
+	"github.com/shippinAI/nomen/internal/domain"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
+	settings_object "github.com/shippinAI/nomen/pkg/grpc/settings/object/v3alpha"
 )
 
 func DomainToDetailsPb(objectDetail *domain.ObjectDetails, owner *object.Owner) *settings_object.Details {

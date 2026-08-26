@@ -8,11 +8,11 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	es_model "github.com/EonsofStupid/tessera/internal/user/repository/eventsourcing/model"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	es_model "github.com/shippinAI/nomen/internal/user/repository/eventsourcing/model"
 )
 
 func now() time.Time {

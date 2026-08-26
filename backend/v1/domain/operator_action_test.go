@@ -14,8 +14,8 @@ func TestOperatorActionCatalogRejectsExecutableMarkup(t *testing.T) {
 		SchemaVersion: 1, ResourceRevision: "sha256:test", ObservedAt: time.Now(),
 		Actions: []OperatorAction{{
 			ID: "action.provider_plan", Title: "Plan provider", Consequence: "Creates a reviewed provider plan.",
-			Stage: OperatorActionPlan, Method: "POST", Href: "/tessera/v1/providers:plan",
-			IntentSchema: json.RawMessage(`{"type":"object"}`), RequiredPermissions: []string{"tessera.providers.plan"},
+			Stage: OperatorActionPlan, Method: "POST", Href: "/nomen/v1/providers:plan",
+			IntentSchema: json.RawMessage(`{"type":"object"}`), RequiredPermissions: []string{"nomen.providers.plan"},
 			CapabilityID: CapabilityIDUpstreamOIDC, Exposure: UIExposureDisabled, Reason: "conformance_pending",
 		}},
 	}

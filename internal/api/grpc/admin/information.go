@@ -3,7 +3,7 @@ package admin
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) Healthz(context.Context, *admin.HealthzRequest) (*admin.HealthzResponse, error) {

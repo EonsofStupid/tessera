@@ -8,15 +8,15 @@
 
     .lgn-qrcode {
         svg {
-            background: var(--zitadel-color-qr-background);
+            background: var(--nomen-color-qr-background);
         }
 
         svg rect.color {
-            fill: var(--zitadel-color-qr);
+            fill: var(--nomen-color-qr);
         }
 
         svg rect.bg-color {
-            fill: var(--zitadel-color-qr-background);
+            fill: var(--nomen-color-qr-background);
         }
     }
 }

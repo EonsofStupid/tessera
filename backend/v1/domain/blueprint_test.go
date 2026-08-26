@@ -14,7 +14,7 @@ func validBlueprint() *Blueprint {
 		Name:   "test",
 		Entries: []Entry{
 			{
-				Model:       "tessera/seat",
+				Model:       "nomen/seat",
 				ID:          "probe",
 				Identifiers: map[string]string{"member": "mem_1"},
 				Attrs: map[string]any{
@@ -24,7 +24,7 @@ func validBlueprint() *Blueprint {
 				},
 			},
 			{
-				Model:       "tessera/grant",
+				Model:       "nomen/grant",
 				Identifiers: map[string]string{"seat": "${keyof:probe}", "workspace": "ws-0001"},
 			},
 		},
@@ -54,11 +54,11 @@ func TestValidate_Refusals(t *testing.T) {
 	}{
 		"missing schema": {
 			func(b *Blueprint) { b.Schema = "" },
-			[]string{`want "tessera.blueprint.v1"`},
+			[]string{`want "nomen.blueprint.v1"`},
 		},
 		"wrong schema": {
-			func(b *Blueprint) { b.Schema = "tessera.blueprint.v2" },
-			[]string{`schema is "tessera.blueprint.v2"`},
+			func(b *Blueprint) { b.Schema = "nomen.blueprint.v2" },
+			[]string{`schema is "nomen.blueprint.v2"`},
 		},
 		"entry without a model": {
 			func(b *Blueprint) { b.Entries[0].Model = "  " },

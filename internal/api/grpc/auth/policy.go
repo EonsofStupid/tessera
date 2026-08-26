@@ -3,9 +3,9 @@ package auth
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	policy_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/policy"
-	auth_pb "github.com/EonsofStupid/tessera/pkg/grpc/auth"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	policy_grpc "github.com/shippinAI/nomen/internal/api/grpc/policy"
+	auth_pb "github.com/shippinAI/nomen/pkg/grpc/auth"
 )
 
 func (s *Server) GetMyLabelPolicy(ctx context.Context, _ *auth_pb.GetMyLabelPolicyRequest) (*auth_pb.GetMyLabelPolicyResponse, error) {

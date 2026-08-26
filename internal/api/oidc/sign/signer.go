@@ -6,8 +6,8 @@ import (
 
 	"github.com/go-jose/go-jose/v4"
 
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // SignerFunc is a getter function that allows add-hoc retrieval of the instance's signer.

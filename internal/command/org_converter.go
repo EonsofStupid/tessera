@@ -1,7 +1,7 @@
 package command
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 func orgWriteModelToOrg(wm *OrgWriteModel) *domain.Org {

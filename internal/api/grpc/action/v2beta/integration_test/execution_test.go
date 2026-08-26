@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	action "github.com/EonsofStupid/tessera/pkg/grpc/action/v2beta"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/integration"
+	action "github.com/shippinAI/nomen/pkg/grpc/action/v2beta"
 )
 
 func TestServer_SetExecution_Request(t *testing.T) {
@@ -62,7 +62,7 @@ func TestServer_SetExecution_Request(t *testing.T) {
 					ConditionType: &action.Condition_Request{
 						Request: &action.RequestExecution{
 							Condition: &action.RequestExecution_Method{
-								Method: "/zitadel.session.v2beta.NotExistingService/List",
+								Method: "/nomen.session.v2beta.NotExistingService/List",
 							},
 						},
 					},
@@ -79,7 +79,7 @@ func TestServer_SetExecution_Request(t *testing.T) {
 					ConditionType: &action.Condition_Request{
 						Request: &action.RequestExecution{
 							Condition: &action.RequestExecution_Method{
-								Method: "/zitadel.session.v2beta.SessionService/ListSessions",
+								Method: "/nomen.session.v2beta.SessionService/ListSessions",
 							},
 						},
 					},
@@ -113,7 +113,7 @@ func TestServer_SetExecution_Request(t *testing.T) {
 					ConditionType: &action.Condition_Request{
 						Request: &action.RequestExecution{
 							Condition: &action.RequestExecution_Service{
-								Service: "zitadel.session.v2beta.SessionService",
+								Service: "nomen.session.v2beta.SessionService",
 							},
 						},
 					},
@@ -219,7 +219,7 @@ func TestServer_SetExecution_Response(t *testing.T) {
 					ConditionType: &action.Condition_Response{
 						Response: &action.ResponseExecution{
 							Condition: &action.ResponseExecution_Method{
-								Method: "/zitadel.session.v2beta.NotExistingService/List",
+								Method: "/nomen.session.v2beta.NotExistingService/List",
 							},
 						},
 					},
@@ -236,7 +236,7 @@ func TestServer_SetExecution_Response(t *testing.T) {
 					ConditionType: &action.Condition_Response{
 						Response: &action.ResponseExecution{
 							Condition: &action.ResponseExecution_Method{
-								Method: "/zitadel.session.v2beta.SessionService/ListSessions",
+								Method: "/nomen.session.v2beta.SessionService/ListSessions",
 							},
 						},
 					},
@@ -270,7 +270,7 @@ func TestServer_SetExecution_Response(t *testing.T) {
 					ConditionType: &action.Condition_Response{
 						Response: &action.ResponseExecution{
 							Condition: &action.ResponseExecution_Service{
-								Service: "zitadel.session.v2beta.SessionService",
+								Service: "nomen.session.v2beta.SessionService",
 							},
 						},
 					},

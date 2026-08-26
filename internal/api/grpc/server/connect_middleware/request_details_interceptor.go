@@ -6,8 +6,8 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
 )
 
 // RequestDetailsHandler is a connect interceptor that sets request details in the context

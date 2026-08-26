@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) SetOrgMetadata(ctx context.Context, orgID string, metadata *domain.Metadata) (_ *domain.Metadata, err error) {

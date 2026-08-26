@@ -6,8 +6,8 @@
 
 ## Purpose
 
-One server-owned state describes whether a Tessera deployment may accept
-ordinary identity mutations. The Tessera management application renders that
+One server-owned state describes whether a Nomen deployment may accept
+ordinary identity mutations. The Nomen management application renders that
 state and its evidence; optional host adapters may project it but no client
 infers lifecycle from a process check, an HTTP status or the last button
 somebody clicked.
@@ -18,7 +18,7 @@ This is deployment lifecycle, not user, session, federation or billing state.
 
 | state | contract meaning |
 |---|---|
-| `absent` | no Tessera instance is registered |
+| `absent` | no Nomen instance is registered |
 | `preparing` | prerequisites are being checked; no durable initialization has begun |
 | `initializing` | database and first instance initialization owns deployment writes |
 | `needs_owner` | core service is healthy; owner enrollment and recovery are incomplete |

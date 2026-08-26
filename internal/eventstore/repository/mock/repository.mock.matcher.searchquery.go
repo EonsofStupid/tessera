@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore/repository"
+	"github.com/shippinAI/nomen/internal/eventstore/repository"
 )
 
 type filterQueryMatcher repository.SearchQuery

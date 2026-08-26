@@ -4,11 +4,11 @@ import (
 	"context"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/backend/v3/api/object"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	instance_v2 "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
+	"github.com/shippinAI/nomen/backend/v3/api/object"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	instance_v2 "github.com/shippinAI/nomen/pkg/grpc/instance/v2"
 )
 
 type ListInstanceDomainsQuery struct {

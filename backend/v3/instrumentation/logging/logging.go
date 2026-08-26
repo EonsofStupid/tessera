@@ -31,11 +31,11 @@ import (
 	"time"
 
 	slogctx "github.com/veqryn/slog-context"
-	"github.com/zitadel/sloggcp"
+	"github.com/shippinAI/nomen/sloggcp"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // Stream represents a logging stream for categorizing log entries.
@@ -128,11 +128,11 @@ func Error(ctx context.Context, msg string, args ...any) {
 }
 
 // WithError adds an error attribute to the logger from the context and returns the new logger.
-// If the error is not a [zerrors.ZitadelError], it is wrapped in a generic ZitadelError with kind [zerrors.KindUnknown].
+// If the error is not a [zerrors.NomenError], it is wrapped in a generic NomenError with kind [zerrors.KindUnknown].
 func WithError(ctx context.Context, err error) *ErrorContextLogger {
-	var target *zerrors.ZitadelError
+	var target *zerrors.NomenError
 	if !errors.As(err, &target) {
-		target = zerrors.CreateZitadelError(zerrors.KindUnknown, err, "LOG-Ao5ch", "an unknown error occurred", 1)
+		target = zerrors.CreateNomenError(zerrors.KindUnknown, err, "LOG-Ao5ch", "an unknown error occurred", 1)
 	}
 	return &ErrorContextLogger{
 		ctx:          ctx,
@@ -143,14 +143,14 @@ func WithError(ctx context.Context, err error) *ErrorContextLogger {
 
 // OnError returns a logger that includes the error as an attribute when err is non-nil.
 // If err is nil, it returns a no-op logger.
-// If err is not a [zerrors.ZitadelError], it is wrapped as a generic ZitadelError of kind [zerrors.KindUnknown].
+// If err is not a [zerrors.NomenError], it is wrapped as a generic NomenError of kind [zerrors.KindUnknown].
 func OnError(ctx context.Context, err error) *ErrorContextLogger {
 	if err == nil {
 		return &ErrorContextLogger{ctx, noop, false}
 	}
-	var target *zerrors.ZitadelError
+	var target *zerrors.NomenError
 	if !errors.As(err, &target) {
-		target = zerrors.CreateZitadelError(zerrors.KindUnknown, err, "LOG-ii6Pi", "an unknown error occurred", 1)
+		target = zerrors.CreateNomenError(zerrors.KindUnknown, err, "LOG-ii6Pi", "an unknown error occurred", 1)
 	}
 	return &ErrorContextLogger{
 		ctx:          ctx,

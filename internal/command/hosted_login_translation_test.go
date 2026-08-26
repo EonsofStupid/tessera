@@ -13,13 +13,13 @@ import (
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/service"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/service"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2"
 )
 
 func TestSetTranslationEvents(t *testing.T) {

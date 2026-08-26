@@ -5,16 +5,16 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	v3_sql "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/sql"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	old_domain "github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	v3_sql "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/sql"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/crypto"
+	old_domain "github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (p *relationalTablesProjection) reduceHumanAdded(event eventstore.Event) (*handler.Statement, error) {

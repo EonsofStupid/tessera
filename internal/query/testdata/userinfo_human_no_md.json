@@ -6,8 +6,8 @@
     "sequence": 1148,
     "state": 1,
     "resource_owner": "231848297847848962",
-    "username": "tim+tesmail@zitadel.com",
-    "preferred_login_name": "tim+tesmail@zitadel.com@demo.localhost",
+    "username": "tim+tesmail@nomen.com",
+    "preferred_login_name": "tim+tesmail@nomen.com@demo.localhost",
     "human": {
       "first_name": "Tim",
       "last_name": "Mohlmann",
@@ -16,7 +16,7 @@
       "avatar_key": null,
       "preferred_language": "en",
       "gender": 2,
-      "email": "tim+tesmail@zitadel.com",
+      "email": "tim+tesmail@nomen.com",
       "is_email_verified": true,
       "phone": "+40123456789",
       "is_phone_verified": false

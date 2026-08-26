@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
 )
 
 func TestCreateIDProvider(t *testing.T) {
@@ -984,7 +984,7 @@ func TestListIDProvider(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			defer func() {
-				_, err := tx.Exec(t.Context(), "DELETE FROM zitadel.identity_providers")
+				_, err := tx.Exec(t.Context(), "DELETE FROM nomen.identity_providers")
 				require.NoError(t, err)
 			}()
 

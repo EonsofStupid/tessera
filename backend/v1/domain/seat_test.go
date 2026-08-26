@@ -46,7 +46,7 @@ func seatIn(workspaces ...string) *Seat {
 }
 
 func TestToken_RefusesAudienceThatNamesNoWorkspace(t *testing.T) {
-	// Zitadel puts project and client ids in `aud` as a matter of course.
+	// Nomen puts project and client ids in `aud` as a matter of course.
 	// None of them is a tenant boundary.
 	for _, aud := range [][]string{
 		nil,
@@ -135,9 +135,9 @@ func TestNormalizeScopes(t *testing.T) {
 		"hosting:active",       // the same entitlement, twice
 		"  chat.unified  ",     // whitespace from a config file
 		"",                     // nothing
-		"urn:zitadel:iam:user", // already has colons; the dot rule must not touch it
+		"urn:nomen:iam:user", // already has colons; the dot rule must not touch it
 	})
-	want := []string{"chat:unified", "hosting:active", "terminal:advanced", "urn:zitadel:iam:user"}
+	want := []string{"chat:unified", "hosting:active", "terminal:advanced", "urn:nomen:iam:user"}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("NormalizeScopes = %q, want %q", got, want)
 	}

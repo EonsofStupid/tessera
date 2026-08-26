@@ -5,9 +5,9 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
 )
 
 type OIDCConfig struct {

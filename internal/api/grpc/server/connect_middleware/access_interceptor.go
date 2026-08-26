@@ -7,11 +7,11 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/logstore/record"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/logstore/record"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 func AccessStorageInterceptor(svc *logstore.Service[*record.AccessLog]) connect.UnaryInterceptorFunc {

@@ -11,12 +11,12 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/shopspring/decimal"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	new_db "github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	new_sql "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/sql"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	new_db "github.com/shippinAI/nomen/backend/v3/storage/database"
+	new_sql "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/sql"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func init() {
@@ -129,7 +129,7 @@ func (es *Eventstore) PushWithNewClient(ctx context.Context, client new_db.Query
 
 	// Retry when there is a collision of the sequence as part of the primary key.
 	// "duplicate key value violates unique constraint \"events2_pkey\" (SQLSTATE 23505)"
-	// https://github.com/EonsofStupid/tessera/issues/7202
+	// https://github.com/shippinAI/nomen/issues/7202
 retry:
 	for ; retries <= es.maxRetries; retries++ {
 		events, err = es.pusher.Push(ctx, client, cmds...)

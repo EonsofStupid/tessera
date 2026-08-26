@@ -5,9 +5,9 @@ import (
 	"slices"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	internaldb "github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	internaldb "github.com/shippinAI/nomen/internal/database"
 )
 
 var _ domain.AdministratorRepository = (*administrator)(nil)
@@ -23,7 +23,7 @@ func (a administrator) unqualifiedTableName() string {
 }
 
 func (a administrator) qualifiedTableName() string {
-	return "zitadel." + a.unqualifiedTableName()
+	return "nomen." + a.unqualifiedTableName()
 }
 
 func (a administrator) unqualifiedRolesTableName() string {
@@ -40,8 +40,8 @@ const queryAdministratorStmt = "SELECT administrators.instance_id " +
 	", administrators.created_at " +
 	", administrators.updated_at " +
 	", ARRAY_AGG(administrator_roles.role_name ORDER BY administrator_roles.role_name) FILTER (WHERE administrator_roles.administrator_id IS NOT NULL) AS roles " +
-	"FROM zitadel.administrators " +
-	"LEFT JOIN zitadel.administrator_roles" +
+	"FROM nomen.administrators " +
+	"LEFT JOIN nomen.administrator_roles" +
 	" ON administrators.instance_id = administrator_roles.instance_id" +
 	" AND administrators.id = administrator_roles.administrator_id"
 
@@ -88,7 +88,7 @@ func (a administrator) Create(ctx context.Context, client database.QueryExecutor
 		updatedAt = administrator.UpdatedAt
 	}
 
-	builder := database.NewStatementBuilder("WITH inserted_admin AS (INSERT INTO zitadel.administrators (instance_id, user_id, scope, organization_id, project_id, project_grant_id, created_at, updated_at) VALUES (")
+	builder := database.NewStatementBuilder("WITH inserted_admin AS (INSERT INTO nomen.administrators (instance_id, user_id, scope, organization_id, project_id, project_grant_id, created_at, updated_at) VALUES (")
 	builder.WriteArgs(
 		administrator.InstanceID,
 		administrator.UserID,
@@ -99,7 +99,7 @@ func (a administrator) Create(ctx context.Context, client database.QueryExecutor
 		createdAt,
 		updatedAt,
 	)
-	builder.WriteString(") RETURNING id, instance_id, created_at, updated_at), inserted_roles AS (INSERT INTO zitadel.administrator_roles (instance_id, administrator_id, role_name) SELECT inserted_admin.instance_id, inserted_admin.id, unnest(")
+	builder.WriteString(") RETURNING id, instance_id, created_at, updated_at), inserted_roles AS (INSERT INTO nomen.administrator_roles (instance_id, administrator_id, role_name) SELECT inserted_admin.instance_id, inserted_admin.id, unnest(")
 	builder.WriteArg(roles)
 	builder.WriteString("::TEXT[]) FROM inserted_admin) SELECT id, created_at, updated_at FROM inserted_admin")
 
@@ -123,13 +123,13 @@ func (a administrator) Update(ctx context.Context, client database.QueryExecutor
 	}
 
 	var builder database.StatementBuilder
-	builder.WriteString("WITH existing_administrator AS (SELECT * FROM zitadel.administrators ")
+	builder.WriteString("WITH existing_administrator AS (SELECT * FROM nomen.administrators ")
 	writeCondition(&builder, condition)
 	builder.WriteString(") ")
 	for i, change := range changes {
 		sessionCTE(change, i, 0, &builder)
 	}
-	builder.WriteString("UPDATE zitadel.administrators SET ")
+	builder.WriteString("UPDATE nomen.administrators SET ")
 	if err := database.Changes(changes).Write(&builder); err != nil {
 		return 0, err
 	}
@@ -158,7 +158,7 @@ func (a administrator) SetUpdatedAt(updatedAt time.Time) database.Change {
 func (a administrator) AddRole(role string) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("INSERT INTO zitadel.administrator_roles (instance_id, administrator_id, role_name) SELECT instance_id, id, ")
+			builder.WriteString("INSERT INTO nomen.administrator_roles (instance_id, administrator_id, role_name) SELECT instance_id, id, ")
 			builder.WriteArg(role)
 			builder.WriteString(" FROM existing_administrator ON CONFLICT (instance_id, administrator_id, role_name) DO NOTHING")
 		}, nil,
@@ -168,7 +168,7 @@ func (a administrator) AddRole(role string) database.Change {
 func (a administrator) RemoveRole(role string) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("DELETE FROM zitadel.administrator_roles ar USING existing_administrator ea WHERE ar.instance_id = ea.instance_id AND ar.administrator_id = ea.id AND ar.role_name = ")
+			builder.WriteString("DELETE FROM nomen.administrator_roles ar USING existing_administrator ea WHERE ar.instance_id = ea.instance_id AND ar.administrator_id = ea.id AND ar.role_name = ")
 			builder.WriteArg(role)
 		}, nil,
 	)
@@ -179,14 +179,14 @@ func (a administrator) SetRoles(roles []string) database.Change {
 	return database.NewChanges(
 		database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("INSERT INTO zitadel.administrator_roles (instance_id, administrator_id, role_name) SELECT instance_id, id, unnest(")
+				builder.WriteString("INSERT INTO nomen.administrator_roles (instance_id, administrator_id, role_name) SELECT instance_id, id, unnest(")
 				builder.WriteArg(normalizedRoles)
 				builder.WriteString("::text[]) FROM existing_administrator ON CONFLICT (instance_id, administrator_id, role_name) DO NOTHING")
 			}, nil,
 		),
 		database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("DELETE FROM zitadel.administrator_roles ar USING existing_administrator ea WHERE ar.instance_id = ea.instance_id AND ar.administrator_id = ea.id AND NOT ar.role_name = ANY (")
+				builder.WriteString("DELETE FROM nomen.administrator_roles ar USING existing_administrator ea WHERE ar.instance_id = ea.instance_id AND ar.administrator_id = ea.id AND NOT ar.role_name = ANY (")
 				builder.WriteArg(normalizedRoles)
 				builder.WriteString("::text[])")
 			}, nil,

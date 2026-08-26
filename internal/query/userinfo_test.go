@@ -13,10 +13,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -90,8 +90,8 @@ func TestQueries_GetOIDCUserInfo(t *testing.T) {
 					Sequence:           1148,
 					State:              1,
 					ResourceOwner:      "231848297847848962",
-					Username:           "tim+tesmail@zitadel.com",
-					PreferredLoginName: "tim+tesmail@zitadel.com@demo.localhost",
+					Username:           "tim+tesmail@nomen.com",
+					PreferredLoginName: "tim+tesmail@nomen.com@demo.localhost",
 					Human: &Human{
 						FirstName:         "Tim",
 						LastName:          "Mohlmann",
@@ -100,7 +100,7 @@ func TestQueries_GetOIDCUserInfo(t *testing.T) {
 						AvatarKey:         "",
 						PreferredLanguage: language.English,
 						Gender:            domain.GenderMale,
-						Email:             "tim+tesmail@zitadel.com",
+						Email:             "tim+tesmail@nomen.com",
 						IsEmailVerified:   true,
 						Phone:             "+40123456789",
 						IsPhoneVerified:   false,
@@ -129,8 +129,8 @@ func TestQueries_GetOIDCUserInfo(t *testing.T) {
 					Sequence:           1148,
 					State:              1,
 					ResourceOwner:      "231848297847848962",
-					Username:           "tim+tesmail@zitadel.com",
-					PreferredLoginName: "tim+tesmail@zitadel.com@demo.localhost",
+					Username:           "tim+tesmail@nomen.com",
+					PreferredLoginName: "tim+tesmail@nomen.com@demo.localhost",
 					Human: &Human{
 						FirstName:         "Tim",
 						LastName:          "Mohlmann",
@@ -139,7 +139,7 @@ func TestQueries_GetOIDCUserInfo(t *testing.T) {
 						AvatarKey:         "",
 						PreferredLanguage: language.English,
 						Gender:            domain.GenderMale,
-						Email:             "tim+tesmail@zitadel.com",
+						Email:             "tim+tesmail@nomen.com",
 						IsEmailVerified:   true,
 						Phone:             "+40123456789",
 						IsPhoneVerified:   false,
@@ -190,8 +190,8 @@ func TestQueries_GetOIDCUserInfo(t *testing.T) {
 					Sequence:           1148,
 					State:              1,
 					ResourceOwner:      "231848297847848962",
-					Username:           "tim+tesmail@zitadel.com",
-					PreferredLoginName: "tim+tesmail@zitadel.com@demo.localhost",
+					Username:           "tim+tesmail@nomen.com",
+					PreferredLoginName: "tim+tesmail@nomen.com@demo.localhost",
 					Human: &Human{
 						FirstName:         "Tim",
 						LastName:          "Mohlmann",
@@ -200,7 +200,7 @@ func TestQueries_GetOIDCUserInfo(t *testing.T) {
 						AvatarKey:         "",
 						PreferredLanguage: language.English,
 						Gender:            domain.GenderMale,
-						Email:             "tim+tesmail@zitadel.com",
+						Email:             "tim+tesmail@nomen.com",
 						IsEmailVerified:   true,
 						Phone:             "+40123456789",
 						IsPhoneVerified:   false,
@@ -294,8 +294,8 @@ func TestQueries_GetOIDCUserInfo(t *testing.T) {
 					Sequence:           1148,
 					State:              1,
 					ResourceOwner:      "231848297847848962",
-					Username:           "tim+tesmail@zitadel.com",
-					PreferredLoginName: "tim+tesmail@zitadel.com@demo.localhost",
+					Username:           "tim+tesmail@nomen.com",
+					PreferredLoginName: "tim+tesmail@nomen.com@demo.localhost",
 					Human: &Human{
 						FirstName:         "Tim",
 						LastName:          "Mohlmann",
@@ -304,7 +304,7 @@ func TestQueries_GetOIDCUserInfo(t *testing.T) {
 						AvatarKey:         "",
 						PreferredLanguage: language.English,
 						Gender:            domain.GenderMale,
-						Email:             "tim+tesmail@zitadel.com",
+						Email:             "tim+tesmail@nomen.com",
 						IsEmailVerified:   true,
 						Phone:             "+40123456789",
 						IsPhoneVerified:   false,

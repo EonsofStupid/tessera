@@ -6,12 +6,12 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/repository/execution"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	action "github.com/EonsofStupid/tessera/pkg/grpc/action/v2beta"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/repository/execution"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	action "github.com/shippinAI/nomen/pkg/grpc/action/v2beta"
 )
 
 func (s *Server) SetExecution(ctx context.Context, req *connect.Request[action.SetExecutionRequest]) (*connect.Response[action.SetExecutionResponse], error) {

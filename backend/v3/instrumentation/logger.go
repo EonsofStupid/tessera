@@ -21,7 +21,7 @@ func newLoggerProvider(ctx context.Context, cfg ExporterConfig, resource *resour
 		// We can't just call autoexport.NewLogExporter unconditionally because
 		// autoexport defaults to "otlp" when OTEL_LOGS_EXPORTER is unset, and
 		// the OTLP exporter silently points at localhost:4318 even with no env
-		// vars configured. That would cause every ZITADEL instance to start
+		// vars configured. That would cause every NOMEN instance to start
 		// attempting OTLP connections after upgrading, spamming logs with
 		// connection errors.
 		//

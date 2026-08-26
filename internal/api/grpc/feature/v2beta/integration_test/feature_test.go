@@ -13,9 +13,9 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	feature "github.com/EonsofStupid/tessera/pkg/grpc/feature/v2beta"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	feature "github.com/shippinAI/nomen/pkg/grpc/feature/v2beta"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
 )
 
 var (

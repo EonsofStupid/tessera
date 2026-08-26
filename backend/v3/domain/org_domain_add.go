@@ -3,8 +3,8 @@ package domain
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/org"
 )
 
 type AddOrgDomainCommand struct {
@@ -15,7 +15,7 @@ type AddOrgDomainCommand struct {
 
 // Events implements Commander.
 func (a *AddOrgDomainCommand) Events(ctx context.Context, opts *InvokeOpts) ([]eventstore.Command, error) {
-	// TODO(IAM-Marco) Finish implementation in https://github.com/EonsofStupid/tessera/issues/10447
+	// TODO(IAM-Marco) Finish implementation in https://github.com/shippinAI/nomen/issues/10447
 	return []eventstore.Command{
 		org.NewDomainAddedEvent(ctx, &org.NewAggregate(a.OrgID).Aggregate, a.Name),
 		org.NewDomainVerifiedEvent(ctx, &org.NewAggregate(a.OrgID).Aggregate, a.Name),

@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 
-	openid "github.com/zitadel/oidc/v3/pkg/oidc"
+	openid "github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oidc"
+	"github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp/providers/oidc"
 )
 
 var _ idp.Session = (*Session)(nil)

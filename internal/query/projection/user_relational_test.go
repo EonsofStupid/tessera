@@ -8,11 +8,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/sql"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dialect/sql"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/repository/user"
 )
 
 func TestUserRelationalProjection_Reducers(t *testing.T) {

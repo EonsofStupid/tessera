@@ -3,7 +3,7 @@
 package assets
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/authz"
 )
 
 /**

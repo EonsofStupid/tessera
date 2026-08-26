@@ -6,11 +6,11 @@
 
 ## Why this contract exists
 
-The Tessera management application must tell a user what happened and what
+The Nomen management application must tell a user what happened and what
 safe action fixes it. A status code alone cannot do that. Every expected
 management refusal uses
 the provider-neutral envelope below; inherited provider errors are translated
-at the Tessera boundary and never passed through to the browser.
+at the Nomen boundary and never passed through to the browser.
 
 Authentication and authorization remain deliberately separate:
 
@@ -32,13 +32,13 @@ A missing entitlement is never collapsed into `401`.
   "error": {
     "type": "entitlement_required",
     "reason": "missing_entitlement",
-  "message": "This tenant does not include Tessera administration.",
+  "message": "This tenant does not include Nomen administration.",
     "remedy": {
       "kind": "request_entitlement",
       "label": "Request access"
     },
     "retry": "operator_action",
-    "missing_entitlement": "tessera:manage",
+    "missing_entitlement": "nomen:manage",
     "diagnostic_ref": "diag_example"
   }
 }
@@ -79,7 +79,7 @@ error message as typed details. REST and gRPC therefore carry the same `type`,
 
 Only fields relevant to the selected type are populated:
 
-- `missing_entitlement` is a Tessera scope identifier, not a pricing or plan
+- `missing_entitlement` is a Nomen scope identifier, not a pricing or plan
   decision;
 - `required_permission` is the delegated permission needed by the action;
 - `required_assurance` is a stable assurance or step-up policy identifier;
@@ -108,9 +108,9 @@ Authorization and prerequisite checks may return their own catalog type before
 an operation is created. Provider outages become `service_unavailable`; their
 raw response body is retained only in protected operator diagnostics.
 
-## Tessera rendering contract
+## Nomen rendering contract
 
-`testdata/tessera/management-error-remedies.json` is the standalone browser
+`testdata/nomen/management-error-remedies.json` is the standalone browser
 fixture. Each catalog type has a distinct consequence-first title, explanation
 and primary action. The application may restyle or localize these values, but
 it must preserve the action kind and required structured detail. Optional host
@@ -118,7 +118,7 @@ adapters must satisfy the same fixture contract.
 
 Browser code receives only the envelope. Operator credentials, protected
 secret references, upstream session material and raw provider errors remain in
-Tessera's server-side management boundary.
+Nomen's server-side management boundary.
 
 ## Done when
 
@@ -126,5 +126,5 @@ Tessera's server-side management boundary.
 - validation rejects a missing type-specific detail or an unsafe retry shape;
 - every P1.2 refusal reason maps deterministically;
 - the domain and protobuf vocabulary agree;
-- Tessera browser fixtures render a distinct remedy for every catalog type;
+- Nomen browser fixtures render a distinct remedy for every catalog type;
 - tests prove a missing entitlement is typed `403`, never `401`.

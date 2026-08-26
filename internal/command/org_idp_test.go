@@ -8,17 +8,17 @@ import (
 
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
-	openid "github.com/zitadel/oidc/v3/pkg/oidc"
+	openid "github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/id"
-	id_mock "github.com/EonsofStupid/tessera/internal/id/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/id"
+	id_mock "github.com/shippinAI/nomen/internal/id/mock"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommandSide_AddOrgGenericOAuthProvider(t *testing.T) {
@@ -6027,7 +6027,7 @@ func TestCommandSide_RegenerateOrgSAMLProviderCertificate(t *testing.T) {
 	}
 }
 
-func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
+func TestCommandSide_AddOrgNomenIDP(t *testing.T) {
 	type fields struct {
 		eventstore   func(*testing.T) *eventstore.Eventstore
 		idGenerator  id.Generator
@@ -6036,7 +6036,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 	type args struct {
 		ctx           context.Context
 		resourceOwner string
-		provider      ZitadelProvider
+		provider      NomenProvider
 	}
 	type res struct {
 		id   string
@@ -6058,7 +6058,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 			args{
 				ctx:           context.Background(),
 				resourceOwner: "org1",
-				provider:      ZitadelProvider{},
+				provider:      NomenProvider{},
 			},
 			res{
 				err: func(err error) bool {
@@ -6075,7 +6075,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 			args{
 				ctx:           context.Background(),
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name: "name",
 				},
 			},
@@ -6094,7 +6094,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 			args{
 				ctx:           context.Background(),
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:   "name",
 					Issuer: "issuer",
 				},
@@ -6114,7 +6114,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 			args{
 				ctx:           context.Background(),
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:     "name",
 					Issuer:   "issuer",
 					ClientID: "clientID",
@@ -6132,7 +6132,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 				eventstore: expectEventstore(
 					expectFilter(),
 					expectPush(
-						org.NewZitadelIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+						org.NewNomenIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 							"id1",
 							"name",
 							"issuer",
@@ -6155,7 +6155,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 			args: args{
 				ctx:           context.Background(),
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:         "name",
 					Issuer:       "issuer",
 					ClientID:     "clientID",
@@ -6173,7 +6173,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 				eventstore: expectEventstore(
 					expectFilter(),
 					expectPush(
-						org.NewZitadelIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+						org.NewNomenIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 							"id1",
 							"name",
 							"issuer",
@@ -6201,7 +6201,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 			args: args{
 				ctx:           context.Background(),
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:         "name",
 					Issuer:       "issuer",
 					ClientID:     "clientID",
@@ -6229,7 +6229,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 			args: args{
 				ctx:           context.Background(),
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:         "name",
 					Issuer:       "issuer",
 					ClientID:     "clientID",
@@ -6256,7 +6256,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 				idGenerator:         tt.fields.idGenerator,
 				idpConfigEncryption: tt.fields.secretCrypto,
 			}
-			idpID, got, err := c.AddOrgZitadelProvider(tt.args.ctx, tt.args.resourceOwner, tt.args.provider)
+			idpID, got, err := c.AddOrgNomenProvider(tt.args.ctx, tt.args.resourceOwner, tt.args.provider)
 			if tt.res.err == nil {
 				assert.NoError(t, err)
 			}
@@ -6271,7 +6271,7 @@ func TestCommandSide_AddOrgZitadelIDP(t *testing.T) {
 	}
 }
 
-func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
+func TestCommands_UpdateOrgNomenIDP(t *testing.T) {
 	pushErr := errors.New("push error")
 	type fields struct {
 		eventstore   func(*testing.T) *eventstore.Eventstore
@@ -6280,7 +6280,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 	type args struct {
 		id            string
 		resourceOwner string
-		provider      ZitadelProvider
+		provider      NomenProvider
 	}
 	type res struct {
 		want *domain.ObjectDetails
@@ -6300,7 +6300,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args{
 				id:            "idp-id",
 				resourceOwner: "org1",
-				provider:      ZitadelProvider{},
+				provider:      NomenProvider{},
 			},
 			res{
 				err: func(err error) bool {
@@ -6316,7 +6316,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args{
 				id:            "idp-id",
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name: "name",
 				},
 			},
@@ -6334,7 +6334,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args{
 				id:            "idp-id",
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:   "name",
 					Issuer: "issuer",
 				},
@@ -6355,7 +6355,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args: args{
 				id:            "idp-id",
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:     "name",
 					Issuer:   "issuer",
 					ClientID: "clientID",
@@ -6373,7 +6373,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 				eventstore: expectEventstore(
 					expectFilter(
 						eventFromEventPusher(
-							org.NewZitadelIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+							org.NewNomenIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 								"id1",
 								"name",
 								"issuer",
@@ -6396,20 +6396,20 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 					),
 					expectPushFailed(
 						pushErr,
-						org.NewZitadelIDPChangedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+						org.NewNomenIDPChangedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 							"id1",
-							[]idp.ZitadelIDPChanges{
-								idp.ChangeZitadelIDPName("new name"),
-								idp.ChangeZitadelIDPIssuer("new issuer"),
-								idp.ChangeZitadelIDPClientID("clientID2"),
-								idp.ChangeZitadelIDPClientSecret(&crypto.CryptoValue{
+							[]idp.NomenIDPChanges{
+								idp.ChangeNomenIDPName("new name"),
+								idp.ChangeNomenIDPIssuer("new issuer"),
+								idp.ChangeNomenIDPClientID("clientID2"),
+								idp.ChangeNomenIDPClientSecret(&crypto.CryptoValue{
 									CryptoType: crypto.TypeEncryption,
 									Algorithm:  "enc",
 									KeyID:      "id",
 									Crypted:    []byte("newSecret"),
 								}),
-								idp.ChangeZitadelIDPScopes(nil),
-								idp.ChangeZitadelIDPInstanceRolesInfo(nil),
+								idp.ChangeNomenIDPScopes(nil),
+								idp.ChangeNomenIDPInstanceRolesInfo(nil),
 							},
 						),
 					),
@@ -6419,7 +6419,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args: args{
 				id:            "id1",
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:              "new name",
 					Issuer:            "new issuer",
 					ClientID:          "clientID2",
@@ -6440,7 +6440,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 				eventstore: expectEventstore(
 					expectFilter(
 						eventFromEventPusher(
-							org.NewZitadelIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+							org.NewNomenIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 								"idp-id",
 								"name",
 								"issuer",
@@ -6462,7 +6462,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args: args{
 				id:            "idp-id",
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:     "name",
 					Issuer:   "issuer",
 					ClientID: "clientID",
@@ -6481,7 +6481,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args: args{
 				id:            "idp-id",
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:     "name",
 					Issuer:   "issuer",
 					ClientID: "clientID",
@@ -6505,7 +6505,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 				eventstore: expectEventstore(
 					expectFilter(
 						eventFromEventPusher(
-							org.NewZitadelIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+							org.NewNomenIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 								"id1",
 								"name",
 								"issuer",
@@ -6524,20 +6524,20 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 					expectPush(
 						func() eventstore.Command {
 							t := true
-							event := org.NewZitadelIDPChangedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+							event := org.NewNomenIDPChangedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 								"id1",
-								[]idp.ZitadelIDPChanges{
-									idp.ChangeZitadelIDPName("new name"),
-									idp.ChangeZitadelIDPIssuer("new issuer"),
-									idp.ChangeZitadelIDPClientID("clientID2"),
-									idp.ChangeZitadelIDPClientSecret(&crypto.CryptoValue{
+								[]idp.NomenIDPChanges{
+									idp.ChangeNomenIDPName("new name"),
+									idp.ChangeNomenIDPIssuer("new issuer"),
+									idp.ChangeNomenIDPClientID("clientID2"),
+									idp.ChangeNomenIDPClientSecret(&crypto.CryptoValue{
 										CryptoType: crypto.TypeEncryption,
 										Algorithm:  "enc",
 										KeyID:      "id",
 										Crypted:    []byte("newSecret"),
 									}),
-									idp.ChangeZitadelIDPScopes([]string{"openid", "profile"}),
-									idp.ChangeZitadelIDPOptions(idp.OptionChanges{
+									idp.ChangeNomenIDPScopes([]string{"openid", "profile"}),
+									idp.ChangeNomenIDPOptions(idp.OptionChanges{
 										IsCreationAllowed: &t,
 										IsLinkingAllowed:  &t,
 										IsAutoCreation:    &t,
@@ -6554,7 +6554,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args: args{
 				id:            "id1",
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:         "new name",
 					Issuer:       "new issuer",
 					ClientID:     "clientID2",
@@ -6578,7 +6578,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 				eventstore: expectEventstore(
 					expectFilter(
 						eventFromEventPusher(
-							org.NewZitadelIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+							org.NewNomenIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 								"id1",
 								"name",
 								"issuer",
@@ -6597,20 +6597,20 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 					expectPush(
 						func() eventstore.Command {
 							t := true
-							event := org.NewZitadelIDPChangedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+							event := org.NewNomenIDPChangedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 								"id1",
-								[]idp.ZitadelIDPChanges{
-									idp.ChangeZitadelIDPName("new name"),
-									idp.ChangeZitadelIDPIssuer("new issuer"),
-									idp.ChangeZitadelIDPClientID("clientID2"),
-									idp.ChangeZitadelIDPClientSecret(&crypto.CryptoValue{
+								[]idp.NomenIDPChanges{
+									idp.ChangeNomenIDPName("new name"),
+									idp.ChangeNomenIDPIssuer("new issuer"),
+									idp.ChangeNomenIDPClientID("clientID2"),
+									idp.ChangeNomenIDPClientSecret(&crypto.CryptoValue{
 										CryptoType: crypto.TypeEncryption,
 										Algorithm:  "enc",
 										KeyID:      "id",
 										Crypted:    []byte("newSecret"),
 									}),
-									idp.ChangeZitadelIDPScopes(nil),
-									idp.ChangeZitadelIDPOptions(idp.OptionChanges{
+									idp.ChangeNomenIDPScopes(nil),
+									idp.ChangeNomenIDPOptions(idp.OptionChanges{
 										IsCreationAllowed: &t,
 										IsLinkingAllowed:  &t,
 										IsAutoCreation:    &t,
@@ -6627,7 +6627,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args: args{
 				id:            "id1",
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:         "new name",
 					Issuer:       "new issuer",
 					ClientID:     "clientID2",
@@ -6651,7 +6651,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 				eventstore: expectEventstore(
 					expectFilter(
 						eventFromEventPusher(
-							org.NewZitadelIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+							org.NewNomenIDPAddedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 								"id1",
 								"name",
 								"issuer",
@@ -6675,25 +6675,25 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 					expectPush(
 						func() eventstore.Command {
 							t := true
-							event := org.NewZitadelIDPChangedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
+							event := org.NewNomenIDPChangedEvent(context.Background(), &org.NewAggregate("org1").Aggregate,
 								"id1",
-								[]idp.ZitadelIDPChanges{
-									idp.ChangeZitadelIDPName("new name"),
-									idp.ChangeZitadelIDPIssuer("new issuer"),
-									idp.ChangeZitadelIDPClientID("clientID2"),
-									idp.ChangeZitadelIDPClientSecret(&crypto.CryptoValue{
+								[]idp.NomenIDPChanges{
+									idp.ChangeNomenIDPName("new name"),
+									idp.ChangeNomenIDPIssuer("new issuer"),
+									idp.ChangeNomenIDPClientID("clientID2"),
+									idp.ChangeNomenIDPClientSecret(&crypto.CryptoValue{
 										CryptoType: crypto.TypeEncryption,
 										Algorithm:  "enc",
 										KeyID:      "id",
 										Crypted:    []byte("newSecret"),
 									}),
-									idp.ChangeZitadelIDPOptions(idp.OptionChanges{
+									idp.ChangeNomenIDPOptions(idp.OptionChanges{
 										IsCreationAllowed: &t,
 										IsLinkingAllowed:  &t,
 										IsAutoCreation:    &t,
 										IsAutoUpdate:      &t,
 									}),
-									idp.ChangeZitadelIDPInstanceRolesInfo(nil),
+									idp.ChangeNomenIDPInstanceRolesInfo(nil),
 								},
 							)
 							return event
@@ -6705,7 +6705,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 			args: args{
 				id:            "id1",
 				resourceOwner: "org1",
-				provider: ZitadelProvider{
+				provider: NomenProvider{
 					Name:         "new name",
 					Issuer:       "new issuer",
 					ClientID:     "clientID2",
@@ -6731,7 +6731,7 @@ func TestCommands_UpdateOrgZitadelIDP(t *testing.T) {
 				eventstore:          tt.fields.eventstore(t),
 				idpConfigEncryption: tt.fields.secretCrypto,
 			}
-			got, err := c.UpdateOrgZitadelProvider(context.Background(), tt.args.id, tt.args.resourceOwner, tt.args.provider)
+			got, err := c.UpdateOrgNomenProvider(context.Background(), tt.args.id, tt.args.resourceOwner, tt.args.provider)
 			if tt.res.err == nil {
 				assert.NoError(t, err)
 			}

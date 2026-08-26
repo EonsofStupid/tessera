@@ -5,13 +5,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -180,7 +180,7 @@ func TestIDPTemplateProjection_reducesOAuth(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"clientId": "client_id",
 	"clientSecret": {
         "cryptoType": 0,
@@ -217,7 +217,7 @@ func TestIDPTemplateProjection_reducesOAuth(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IdentityProviderTypeSystem,
 								domain.IDPTypeOAuth,
 								true,
@@ -255,7 +255,7 @@ func TestIDPTemplateProjection_reducesOAuth(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"clientId": "client_id",
 	"clientSecret": {
         "cryptoType": 0,
@@ -292,7 +292,7 @@ func TestIDPTemplateProjection_reducesOAuth(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IdentityProviderTypeOrg,
 								domain.IDPTypeOAuth,
 								true,
@@ -372,7 +372,7 @@ func TestIDPTemplateProjection_reducesOAuth(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"clientId": "client_id",
 	"clientSecret": {
         "cryptoType": 0,
@@ -402,7 +402,7 @@ func TestIDPTemplateProjection_reducesOAuth(t *testing.T) {
 						{
 							expectedStmt: idpTemplateUpdateStmt,
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								true,
 								true,
 								true,
@@ -2109,7 +2109,7 @@ func TestIDPTemplateProjection_reducesLDAP(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"servers": ["server"],
 	"startTls": false,
 	"baseDN": "basedn",
@@ -2161,7 +2161,7 @@ func TestIDPTemplateProjection_reducesLDAP(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IdentityProviderTypeSystem,
 								domain.IDPTypeLDAP,
 								true,
@@ -2214,7 +2214,7 @@ func TestIDPTemplateProjection_reducesLDAP(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"servers": ["server"],
 	"startTls": false,
 	"baseDN": "basedn",
@@ -2266,7 +2266,7 @@ func TestIDPTemplateProjection_reducesLDAP(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IdentityProviderTypeOrg,
 								domain.IDPTypeLDAP,
 								true,
@@ -2319,7 +2319,7 @@ func TestIDPTemplateProjection_reducesLDAP(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"baseDN": "basedn"
 }`),
 					), instance.LDAPIDPChangedEventMapper),
@@ -2333,7 +2333,7 @@ func TestIDPTemplateProjection_reducesLDAP(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idp_templates6 SET (name, change_date, sequence) = ($1, $2, $3) WHERE (id = $4) AND (instance_id = $5)",
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								anyArg{},
 								uint64(15),
 								"idp-id",
@@ -2361,7 +2361,7 @@ func TestIDPTemplateProjection_reducesLDAP(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"servers": ["server"],
 	"startTls": false,
 	"baseDN": "basedn",
@@ -2406,7 +2406,7 @@ func TestIDPTemplateProjection_reducesLDAP(t *testing.T) {
 						{
 							expectedStmt: idpTemplateUpdateStmt,
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								true,
 								true,
 								true,
@@ -2777,7 +2777,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 					instance.AggregateType,
 					[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"metadata": `+stringToJSONByte("metadata")+`,
 	"key": {
         "cryptoType": 0,
@@ -2815,7 +2815,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IdentityProviderTypeSystem,
 								domain.IDPTypeSAML,
 								true,
@@ -2853,7 +2853,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 					org.AggregateType,
 					[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"metadata": `+stringToJSONByte("metadata")+`,
 	"key": {
         "cryptoType": 0,
@@ -2891,7 +2891,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IdentityProviderTypeOrg,
 								domain.IDPTypeSAML,
 								true,
@@ -2929,7 +2929,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 					instance.AggregateType,
 					[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"binding": "binding"
 }`),
 				), instance.SAMLIDPChangedEventMapper),
@@ -2943,7 +2943,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idp_templates6 SET (name, change_date, sequence) = ($1, $2, $3) WHERE (id = $4) AND (instance_id = $5)",
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								anyArg{},
 								uint64(15),
 								"idp-id",
@@ -2970,7 +2970,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 					instance.AggregateType,
 					[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"signatureAlgorithm": "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
 }`),
 				), instance.SAMLIDPChangedEventMapper),
@@ -2984,7 +2984,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idp_templates6 SET (name, change_date, sequence) = ($1, $2, $3) WHERE (id = $4) AND (instance_id = $5)",
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								anyArg{},
 								uint64(15),
 								"idp-id",
@@ -3011,7 +3011,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 					instance.AggregateType,
 					[]byte(`{
 	"id": "idp-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"metadata": `+stringToJSONByte("metadata")+`,
 	"key": {
         "cryptoType": 0,
@@ -3040,7 +3040,7 @@ func TestIDPTemplateProjection_reducesSAML(t *testing.T) {
 						{
 							expectedStmt: idpTemplateUpdateStmt,
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								true,
 								true,
 								true,
@@ -3681,7 +3681,7 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"idpConfigId": "idp-config-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"idpType": 0,
 	"stylingType": 0,
 	"autoRegister": true
@@ -3704,7 +3704,7 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IdentityProviderTypeSystem,
 								domain.IDPTypeUnspecified,
 								true,
@@ -3727,7 +3727,7 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
 	"idpConfigId": "idp-config-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"idpType": 0,
 	"stylingType": 0,
 	"autoRegister": true
@@ -3750,7 +3750,7 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IdentityProviderTypeOrg,
 								domain.IDPTypeUnspecified,
 								true,
@@ -3773,7 +3773,7 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "name": "custom-zitadel-instance",
+        "name": "custom-nomen-instance",
         "stylingType": 1,
         "autoRegister": true
         }`),
@@ -3788,7 +3788,7 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idp_templates6 SET (name, is_auto_creation, change_date, sequence) = ($1, $2, $3, $4) WHERE (id = $5) AND (instance_id = $6)",
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								true,
 								anyArg{},
 								uint64(15),
@@ -3809,7 +3809,7 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "name": "custom-zitadel-instance",
+        "name": "custom-nomen-instance",
         "stylingType": 1,
         "autoRegister": true
         }`),
@@ -3824,7 +3824,7 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idp_templates6 SET (name, is_auto_creation, change_date, sequence) = ($1, $2, $3, $4) WHERE (id = $5) AND (instance_id = $6)",
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								true,
 								anyArg{},
 								uint64(15),
@@ -4059,9 +4059,9 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "jwtEndpoint": "https://api.zitadel.ch/jwt",
+        "jwtEndpoint": "https://api.nomen.ch/jwt",
         "issuer": "issuer",
-        "keysEndpoint": "https://api.zitadel.ch/keys",
+        "keysEndpoint": "https://api.nomen.ch/keys",
         "headerName": "hodor"
         }`),
 					), instance.IDPJWTConfigAddedEventMapper),
@@ -4088,8 +4088,8 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 								"idp-config-id",
 								"instance-id",
 								"issuer",
-								"https://api.zitadel.ch/jwt",
-								"https://api.zitadel.ch/keys",
+								"https://api.nomen.ch/jwt",
+								"https://api.nomen.ch/keys",
 								"hodor",
 							},
 						},
@@ -4107,9 +4107,9 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "jwtEndpoint": "https://api.zitadel.ch/jwt",
+        "jwtEndpoint": "https://api.nomen.ch/jwt",
         "issuer": "issuer",
-        "keysEndpoint": "https://api.zitadel.ch/keys",
+        "keysEndpoint": "https://api.nomen.ch/keys",
         "headerName": "hodor"
         }`),
 					), org.IDPJWTConfigAddedEventMapper),
@@ -4136,8 +4136,8 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 								"idp-config-id",
 								"instance-id",
 								"issuer",
-								"https://api.zitadel.ch/jwt",
-								"https://api.zitadel.ch/keys",
+								"https://api.nomen.ch/jwt",
+								"https://api.nomen.ch/keys",
 								"hodor",
 							},
 						},
@@ -4154,9 +4154,9 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "jwtEndpoint": "https://api.zitadel.ch/jwt",
+        "jwtEndpoint": "https://api.nomen.ch/jwt",
         "issuer": "issuer",
-        "keysEndpoint": "https://api.zitadel.ch/keys",
+        "keysEndpoint": "https://api.nomen.ch/keys",
         "headerName": "hodor"
         }`),
 					), instance.IDPJWTConfigChangedEventMapper),
@@ -4179,8 +4179,8 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idp_templates6_jwt SET (jwt_endpoint, keys_endpoint, header_name, issuer) = ($1, $2, $3, $4) WHERE (idp_id = $5) AND (instance_id = $6)",
 							expectedArgs: []interface{}{
-								"https://api.zitadel.ch/jwt",
-								"https://api.zitadel.ch/keys",
+								"https://api.nomen.ch/jwt",
+								"https://api.nomen.ch/keys",
 								"hodor",
 								"issuer",
 								"idp-config-id",
@@ -4200,9 +4200,9 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "jwtEndpoint": "https://api.zitadel.ch/jwt",
+        "jwtEndpoint": "https://api.nomen.ch/jwt",
         "issuer": "issuer",
-        "keysEndpoint": "https://api.zitadel.ch/keys",
+        "keysEndpoint": "https://api.nomen.ch/keys",
         "headerName": "hodor"
         }`),
 					), org.IDPJWTConfigChangedEventMapper),
@@ -4225,8 +4225,8 @@ func TestIDPTemplateProjection_reducesOldConfig(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idp_templates6_jwt SET (jwt_endpoint, keys_endpoint, header_name, issuer) = ($1, $2, $3, $4) WHERE (idp_id = $5) AND (instance_id = $6)",
 							expectedArgs: []interface{}{
-								"https://api.zitadel.ch/jwt",
-								"https://api.zitadel.ch/keys",
+								"https://api.nomen.ch/jwt",
+								"https://api.nomen.ch/keys",
 								"hodor",
 								"issuer",
 								"idp-config-id",
@@ -4512,7 +4512,7 @@ func stringToJSONByte(data string) string {
 	return string(jsondata)
 }
 
-func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
+func TestIDPTemplateProjection_reducesNomen(t *testing.T) {
 	type args struct {
 		event func(t *testing.T) eventstore.Event
 	}
@@ -4523,11 +4523,11 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 		want   wantReduce
 	}{
 		{
-			name: "instance reduceZitadelIDPAdded without instance roles info",
+			name: "instance reduceNomenIDPAdded without instance roles info",
 			args: args{
 				event: getEvent(
 					testEvent(
-						instance.ZitadelIDPAddedEventType,
+						instance.NomenIDPAddedEventType,
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
@@ -4546,9 +4546,9 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 	"isAutoUpdate": true,
 	"autoLinkingOption": 1
 }`),
-					), eventstore.GenericEventMapper[instance.ZitadelIDPAddedEvent]),
+					), eventstore.GenericEventMapper[instance.NomenIDPAddedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPAdded,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPAdded,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("instance"),
 				sequence:      15,
@@ -4566,7 +4566,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 								domain.IDPStateActive,
 								"idp-name",
 								domain.IdentityProviderTypeSystem,
-								domain.IDPTypeZitadel,
+								domain.IDPTypeNomen,
 								true,
 								true,
 								true,
@@ -4575,7 +4575,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "INSERT INTO projections.idp_templates6_zitadel (idp_id, instance_id, issuer, client_id, client_secret, scopes) VALUES ($1, $2, $3, $4, $5, $6)",
+							expectedStmt: "INSERT INTO projections.idp_templates6_nomen (idp_id, instance_id, issuer, client_id, client_secret, scopes) VALUES ($1, $2, $3, $4, $5, $6)",
 							expectedArgs: []interface{}{
 								"idp-id",
 								"instance-id",
@@ -4590,11 +4590,11 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 			},
 		},
 		{
-			name: "instance reduceZitadelIDPAdded with instance roles info",
+			name: "instance reduceNomenIDPAdded with instance roles info",
 			args: args{
 				event: getEvent(
 					testEvent(
-						instance.ZitadelIDPAddedEventType,
+						instance.NomenIDPAddedEventType,
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
@@ -4621,9 +4621,9 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
         "organizationDomain": "org2.com"
     }]
 }`),
-					), eventstore.GenericEventMapper[instance.ZitadelIDPAddedEvent]),
+					), eventstore.GenericEventMapper[instance.NomenIDPAddedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPAdded,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPAdded,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("instance"),
 				sequence:      15,
@@ -4641,7 +4641,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 								domain.IDPStateActive,
 								"idp-name",
 								domain.IdentityProviderTypeSystem,
-								domain.IDPTypeZitadel,
+								domain.IDPTypeNomen,
 								true,
 								true,
 								true,
@@ -4650,7 +4650,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "INSERT INTO projections.idp_templates6_zitadel (idp_id, instance_id, issuer, client_id, client_secret, scopes, instance_roles_info) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+							expectedStmt: "INSERT INTO projections.idp_templates6_nomen (idp_id, instance_id, issuer, client_id, client_secret, scopes, instance_roles_info) VALUES ($1, $2, $3, $4, $5, $6, $7)",
 							expectedArgs: []interface{}{
 								"idp-id",
 								"instance-id",
@@ -4666,11 +4666,11 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 			},
 		},
 		{
-			name: "org reduceZitadelIDPAdded without instance roles info",
+			name: "org reduceNomenIDPAdded without instance roles info",
 			args: args{
 				event: getEvent(
 					testEvent(
-						org.ZitadelIDPAddedEventType,
+						org.NomenIDPAddedEventType,
 						org.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
@@ -4689,9 +4689,9 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 	"isAutoUpdate": true,
 	"autoLinkingOption": 1
 }`),
-					), eventstore.GenericEventMapper[org.ZitadelIDPAddedEvent]),
+					), eventstore.GenericEventMapper[org.NomenIDPAddedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPAdded,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPAdded,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("org"),
 				sequence:      15,
@@ -4709,7 +4709,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 								domain.IDPStateActive,
 								"idp-name",
 								domain.IdentityProviderTypeOrg,
-								domain.IDPTypeZitadel,
+								domain.IDPTypeNomen,
 								true,
 								true,
 								true,
@@ -4718,7 +4718,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "INSERT INTO projections.idp_templates6_zitadel (idp_id, instance_id, issuer, client_id, client_secret, scopes) VALUES ($1, $2, $3, $4, $5, $6)",
+							expectedStmt: "INSERT INTO projections.idp_templates6_nomen (idp_id, instance_id, issuer, client_id, client_secret, scopes) VALUES ($1, $2, $3, $4, $5, $6)",
 							expectedArgs: []interface{}{
 								"idp-id",
 								"instance-id",
@@ -4733,11 +4733,11 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 			},
 		},
 		{
-			name: "org reduceZitadelIDPAdded with instance roles info",
+			name: "org reduceNomenIDPAdded with instance roles info",
 			args: args{
 				event: getEvent(
 					testEvent(
-						org.ZitadelIDPAddedEventType,
+						org.NomenIDPAddedEventType,
 						org.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
@@ -4764,9 +4764,9 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
         "organizationDomain": "org2.com"
     }]
 }`),
-					), eventstore.GenericEventMapper[org.ZitadelIDPAddedEvent]),
+					), eventstore.GenericEventMapper[org.NomenIDPAddedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPAdded,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPAdded,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("org"),
 				sequence:      15,
@@ -4784,7 +4784,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 								domain.IDPStateActive,
 								"idp-name",
 								domain.IdentityProviderTypeOrg,
-								domain.IDPTypeZitadel,
+								domain.IDPTypeNomen,
 								true,
 								true,
 								true,
@@ -4793,7 +4793,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "INSERT INTO projections.idp_templates6_zitadel (idp_id, instance_id, issuer, client_id, client_secret, scopes, instance_roles_info) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+							expectedStmt: "INSERT INTO projections.idp_templates6_nomen (idp_id, instance_id, issuer, client_id, client_secret, scopes, instance_roles_info) VALUES ($1, $2, $3, $4, $5, $6, $7)",
 							expectedArgs: []interface{}{
 								"idp-id",
 								"instance-id",
@@ -4809,20 +4809,20 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 			},
 		},
 		{
-			name: "instance reduceZitadelIDPChanged minimal",
+			name: "instance reduceNomenIDPChanged minimal",
 			args: args{
 				event: getEvent(
 					testEvent(
-						instance.ZitadelIDPChangedEventType,
+						instance.NomenIDPChangedEventType,
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
 	"isCreationAllowed": true,
 	"clientId": "id"
 }`),
-					), eventstore.GenericEventMapper[instance.ZitadelIDPChangedEvent]),
+					), eventstore.GenericEventMapper[instance.NomenIDPChangedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPChanged,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPChanged,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("instance"),
 				sequence:      15,
@@ -4839,7 +4839,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "UPDATE projections.idp_templates6_zitadel SET client_id = $1 WHERE (idp_id = $2) AND (instance_id = $3)",
+							expectedStmt: "UPDATE projections.idp_templates6_nomen SET client_id = $1 WHERE (idp_id = $2) AND (instance_id = $3)",
 							expectedArgs: []interface{}{
 								"id",
 								"idp-id",
@@ -4851,11 +4851,11 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 			},
 		},
 		{
-			name: "instance reduceZitadelIDPChanged",
+			name: "instance reduceNomenIDPChanged",
 			args: args{
 				event: getEvent(
 					testEvent(
-						instance.ZitadelIDPChangedEventType,
+						instance.NomenIDPChangedEventType,
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
@@ -4878,9 +4878,9 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 	"isAutoUpdate": true,
 	"autoLinkingOption": 1
 }`),
-					), eventstore.GenericEventMapper[instance.ZitadelIDPChangedEvent]),
+					), eventstore.GenericEventMapper[instance.NomenIDPChangedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPChanged,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPChanged,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("instance"),
 				sequence:      15,
@@ -4902,7 +4902,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "UPDATE projections.idp_templates6_zitadel SET (client_id, client_secret, issuer, scopes, instance_roles_info) = ($1, $2, $3, $4, $5) WHERE (idp_id = $6) AND (instance_id = $7)",
+							expectedStmt: "UPDATE projections.idp_templates6_nomen SET (client_id, client_secret, issuer, scopes, instance_roles_info) = ($1, $2, $3, $4, $5) WHERE (idp_id = $6) AND (instance_id = $7)",
 							expectedArgs: []interface{}{
 								"client_id",
 								anyArg{},
@@ -4918,11 +4918,11 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 			},
 		},
 		{
-			name: "instance reduceZitadelIDPChanged - unset scopes and instance roles info",
+			name: "instance reduceNomenIDPChanged - unset scopes and instance roles info",
 			args: args{
 				event: getEvent(
 					testEvent(
-						instance.ZitadelIDPChangedEventType,
+						instance.NomenIDPChangedEventType,
 						instance.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
@@ -4942,9 +4942,9 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 	"isAutoUpdate": true,
 	"autoLinkingOption": 1
 }`),
-					), eventstore.GenericEventMapper[instance.ZitadelIDPChangedEvent]),
+					), eventstore.GenericEventMapper[instance.NomenIDPChangedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPChanged,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPChanged,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("instance"),
 				sequence:      15,
@@ -4966,7 +4966,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "UPDATE projections.idp_templates6_zitadel SET (client_id, client_secret, issuer, scopes, instance_roles_info) = ($1, $2, $3, $4, $5) WHERE (idp_id = $6) AND (instance_id = $7)",
+							expectedStmt: "UPDATE projections.idp_templates6_nomen SET (client_id, client_secret, issuer, scopes, instance_roles_info) = ($1, $2, $3, $4, $5) WHERE (idp_id = $6) AND (instance_id = $7)",
 							expectedArgs: []interface{}{
 								"client_id",
 								anyArg{},
@@ -4982,20 +4982,20 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 			},
 		},
 		{
-			name: "org reduceZitadelIDPChanged minimal",
+			name: "org reduceNomenIDPChanged minimal",
 			args: args{
 				event: getEvent(
 					testEvent(
-						org.ZitadelIDPChangedEventType,
+						org.NomenIDPChangedEventType,
 						org.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
 	"isCreationAllowed": true,
 	"clientId": "id"
 }`),
-					), eventstore.GenericEventMapper[org.ZitadelIDPChangedEvent]),
+					), eventstore.GenericEventMapper[org.NomenIDPChangedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPChanged,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPChanged,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("org"),
 				sequence:      15,
@@ -5012,7 +5012,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "UPDATE projections.idp_templates6_zitadel SET client_id = $1 WHERE (idp_id = $2) AND (instance_id = $3)",
+							expectedStmt: "UPDATE projections.idp_templates6_nomen SET client_id = $1 WHERE (idp_id = $2) AND (instance_id = $3)",
 							expectedArgs: []interface{}{
 								"id",
 								"idp-id",
@@ -5024,11 +5024,11 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 			},
 		},
 		{
-			name: "org reduceZitadelIDPChanged",
+			name: "org reduceNomenIDPChanged",
 			args: args{
 				event: getEvent(
 					testEvent(
-						org.ZitadelIDPChangedEventType,
+						org.NomenIDPChangedEventType,
 						org.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
@@ -5051,9 +5051,9 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 	"isAutoUpdate": true,
 	"autoLinkingOption": 1
 }`),
-					), eventstore.GenericEventMapper[org.ZitadelIDPChangedEvent]),
+					), eventstore.GenericEventMapper[org.NomenIDPChangedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPChanged,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPChanged,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("org"),
 				sequence:      15,
@@ -5075,7 +5075,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "UPDATE projections.idp_templates6_zitadel SET (client_id, client_secret, issuer, scopes, instance_roles_info) = ($1, $2, $3, $4, $5) WHERE (idp_id = $6) AND (instance_id = $7)",
+							expectedStmt: "UPDATE projections.idp_templates6_nomen SET (client_id, client_secret, issuer, scopes, instance_roles_info) = ($1, $2, $3, $4, $5) WHERE (idp_id = $6) AND (instance_id = $7)",
 							expectedArgs: []interface{}{
 								"client_id",
 								anyArg{},
@@ -5091,11 +5091,11 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 			},
 		},
 		{
-			name: "org reduceZitadelIDPChanged - unset scopes and instance roles info",
+			name: "org reduceNomenIDPChanged - unset scopes and instance roles info",
 			args: args{
 				event: getEvent(
 					testEvent(
-						org.ZitadelIDPChangedEventType,
+						org.NomenIDPChangedEventType,
 						org.AggregateType,
 						[]byte(`{
 	"id": "idp-id",
@@ -5115,9 +5115,9 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 	"isAutoUpdate": true,
 	"autoLinkingOption": 1
 }`),
-					), eventstore.GenericEventMapper[org.ZitadelIDPChangedEvent]),
+					), eventstore.GenericEventMapper[org.NomenIDPChangedEvent]),
 			},
-			reduce: (&idpTemplateProjection{}).reduceZitadelIDPChanged,
+			reduce: (&idpTemplateProjection{}).reduceNomenIDPChanged,
 			want: wantReduce{
 				aggregateType: eventstore.AggregateType("org"),
 				sequence:      15,
@@ -5139,7 +5139,7 @@ func TestIDPTemplateProjection_reducesZitadel(t *testing.T) {
 							},
 						},
 						{
-							expectedStmt: "UPDATE projections.idp_templates6_zitadel SET (client_id, client_secret, issuer, scopes, instance_roles_info) = ($1, $2, $3, $4, $5) WHERE (idp_id = $6) AND (instance_id = $7)",
+							expectedStmt: "UPDATE projections.idp_templates6_nomen SET (client_id, client_secret, issuer, scopes, instance_roles_info) = ($1, $2, $3, $4, $5) WHERE (idp_id = $6) AND (instance_id = $7)",
 							expectedArgs: []interface{}{
 								"client_id",
 								anyArg{},

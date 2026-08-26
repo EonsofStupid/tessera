@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/feature"
+	"github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/feature"
 )
 
 func Test_Instance(t *testing.T) {

@@ -9,8 +9,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
-	_ "github.com/EonsofStupid/tessera/internal/statik"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
+	_ "github.com/shippinAI/nomen/internal/statik"
 )
 
 const (

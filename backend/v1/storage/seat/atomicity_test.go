@@ -13,10 +13,10 @@ import (
 	embeddedpostgres "github.com/fergusstrange/embedded-postgres"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	v3postgres "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	nomenmigration "github.com/shippinAI/nomen/backend/v1/storage/migration"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	v3postgres "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres"
 )
 
 // The proof 3.3b exists for: a blueprint that fails on its last entry leaves
@@ -44,7 +44,7 @@ func runTests(m *testing.M) int {
 	// Started directly rather than through the v3 harness, because that
 	// helper hides its connection URL and our tern migrator needs pgx —
 	// same library, same PG 16, one extra variable.
-	tmp, err := os.MkdirTemp("", "tessera-atomicity-*")
+	tmp, err := os.MkdirTemp("", "nomen-atomicity-*")
 	if err != nil {
 		log.Print(err)
 		return 1
@@ -73,8 +73,8 @@ func runTests(m *testing.M) int {
 
 	url := cfg.GetConnectionURL() + "?sslmode=disable"
 
-	// zitadel schema first — tessera.seats carries a foreign key into
-	// zitadel.users, exactly like production ordering in start.go.
+	// nomen schema first — nomen_product.seats carries a foreign key into
+	// nomen.users, exactly like production ordering in start.go.
 	connector, err := v3postgres.DecodeConfig(url)
 	if err != nil {
 		log.Print(err)
@@ -97,8 +97,8 @@ func runTests(m *testing.M) int {
 		return 1
 	}
 	defer rawPool.Close()
-	if err := tesseramigration.Migrate(ctx, rawPool); err != nil {
-		log.Printf("tessera migration: %v", err)
+	if err := nomenmigration.Migrate(ctx, rawPool); err != nil {
+		log.Printf("nomen migration: %v", err)
 		return 1
 	}
 
@@ -106,10 +106,10 @@ func runTests(m *testing.M) int {
 	// third member — "missing" stays missing so the broken-entry test can hit
 	// a real constraint.
 	for _, stmt := range []string{
-		`INSERT INTO zitadel.instances (id, name) VALUES ($1, 'atomicity test')`,
-		`INSERT INTO zitadel.organizations (id, name, instance_id, state) VALUES ('org-1', 'org', $1, 'active')`,
-		`INSERT INTO zitadel.users (instance_id, organization_id, id, username, type, name) VALUES ($1, 'org-1', 'm1', 'm1', 'machine', 'm1')`,
-		`INSERT INTO zitadel.users (instance_id, organization_id, id, username, type, name) VALUES ($1, 'org-1', 'm2', 'm2', 'machine', 'm2')`,
+		`INSERT INTO nomen.instances (id, name) VALUES ($1, 'atomicity test')`,
+		`INSERT INTO nomen.organizations (id, name, instance_id, state) VALUES ('org-1', 'org', $1, 'active')`,
+		`INSERT INTO nomen.users (instance_id, organization_id, id, username, type, name) VALUES ($1, 'org-1', 'm1', 'm1', 'machine', 'm1')`,
+		`INSERT INTO nomen.users (instance_id, organization_id, id, username, type, name) VALUES ($1, 'org-1', 'm2', 'm2', 'machine', 'm2')`,
 	} {
 		if _, err := rawPool.Exec(ctx, stmt, testInstance); err != nil {
 			log.Printf("seed: %v", err)
@@ -134,7 +134,7 @@ func seatEntry(member, basis string, workspaces ...any) domain.Entry {
 	}
 }
 
-// snapshot renders every tessera row — timestamps included, so a write that
+// snapshot renders every nomen row — timestamps included, so a write that
 // was rolled back cannot even leave a touched updated_at behind.
 func snapshot(t *testing.T) string {
 	t.Helper()
@@ -143,9 +143,9 @@ func snapshot(t *testing.T) string {
 	for _, q := range []string{
 		`SELECT member_id, account_id, occupant::text, basis::text, scopes::text, policy_version,
 		        created_at::text, updated_at::text
-		 FROM tessera.seats ORDER BY instance_id, member_id`,
+		 FROM nomen_product.seats ORDER BY instance_id, member_id`,
 		`SELECT member_id, workspace_id, created_at::text
-		 FROM tessera.seat_workspaces ORDER BY instance_id, member_id, workspace_id`,
+		 FROM nomen_product.seat_workspaces ORDER BY instance_id, member_id, workspace_id`,
 	} {
 		rows, err := rawPool.Query(ctx, q)
 		if err != nil {
@@ -228,7 +228,7 @@ func TestApply_BrokenLastEntryLeavesTheDatabaseByteIdentical(t *testing.T) {
 			// Entry 1 is valid and WOULD create m2's seat…
 			seatEntry("m2", "usage", "ws-0009"),
 			// …entry 2 hits a real constraint: no such user, so the seat's
-			// foreign key into zitadel.users refuses it.
+			// foreign key into nomen.users refuses it.
 			seatEntry("missing", "usage", "ws-0009"),
 		},
 	})

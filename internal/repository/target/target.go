@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	targetdomain "github.com/EonsofStupid/tessera/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	targetdomain "github.com/shippinAI/nomen/internal/execution/target"
 )
 
 const (

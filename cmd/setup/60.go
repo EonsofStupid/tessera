@@ -4,9 +4,9 @@ import (
 	"context"
 	_ "embed"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/serviceping"
-	"github.com/EonsofStupid/tessera/internal/v2/system"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/serviceping"
+	"github.com/shippinAI/nomen/internal/v2/system"
 )
 
 type GenerateSystemID struct {

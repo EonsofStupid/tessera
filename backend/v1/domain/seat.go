@@ -1,13 +1,13 @@
-// Package domain is Tessera's own domain layer.
+// Package domain is Nomen's own domain layer.
 //
 // The v1 is ours and is not a continuation of the compatibility backend next
-// door, which remains load-bearing while Tessera replaces its boundaries.
+// door, which remains load-bearing while Nomen replaces its boundaries.
 // This is the first product architecture *this* project has, so it
 // starts at one, and the number says which of the two a file belongs to without
 // anybody having to remember.
 //
 // Seat tokens are the first thing to live here because they are the first thing
-// Tessera owns outright rather than inherits: `shippin.seat-token.v1` is the
+// Nomen owns outright rather than inherits: `shippin.seat-token.v1` is the
 // product boundary, and nothing upstream has a concept of it.
 //
 // It is deliberately free of any OIDC or eventstore import. The token contract
@@ -134,7 +134,7 @@ type Actor struct {
 	Actor *Actor `json:"act,omitempty"`
 }
 
-// Claims is the Tessera-specific half of a seat token. The registered JWT
+// Claims is the Nomen-specific half of a seat token. The registered JWT
 // claims (`iss`, `sub`, `aud`, `exp`, `iat`, `nbf`, `jti`) are the OIDC
 // layer's to set; this is everything the contract adds on top.
 type Claims struct {
@@ -269,7 +269,7 @@ func WorkspaceFromAudience(audience []string) (string, error) {
 
 // workspaceOf reads the workspace half of one audience entry.
 //
-// Tessera puts project ids and client ids in `aud` as a matter of course, and
+// Nomen puts project ids and client ids in `aud` as a matter of course, and
 // those are numeric. Requiring the `ws-` prefix is what keeps a project id from
 // being mistaken for a workspace and silently becoming the tenant boundary.
 func workspaceOf(entry string) string {

@@ -3,11 +3,11 @@ package domain
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/backend/v3/api/object"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	v2_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2"
+	"github.com/shippinAI/nomen/backend/v3/api/object"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	v2_org "github.com/shippinAI/nomen/pkg/grpc/org/v2"
 )
 
 type ListOrgsQuery struct {

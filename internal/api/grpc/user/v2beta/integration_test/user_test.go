@@ -18,13 +18,13 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/integration/sink"
-	"github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2beta"
+	"github.com/shippinAI/nomen/internal/api/grpc"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration/sink"
+	"github.com/shippinAI/nomen/pkg/grpc/idp"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	user "github.com/shippinAI/nomen/pkg/grpc/user/v2beta"
 )
 
 var (
@@ -370,7 +370,7 @@ func TestServer_AddHumanUser(t *testing.T) {
 						Gender:            user.Gender_GENDER_DIVERSE.Enum(),
 					},
 					Email: &user.SetHumanEmail{
-						Email: "livio@zitadel.com",
+						Email: "livio@nomen.com",
 						Verification: &user.SetHumanEmail_IsVerified{
 							IsVerified: true,
 						},
@@ -417,7 +417,7 @@ func TestServer_AddHumanUser(t *testing.T) {
 						Gender:            user.Gender_GENDER_DIVERSE.Enum(),
 					},
 					Email: &user.SetHumanEmail{
-						Email: "livio@zitadel.com",
+						Email: "livio@nomen.com",
 						Verification: &user.SetHumanEmail_IsVerified{
 							IsVerified: true,
 						},
@@ -469,7 +469,7 @@ func TestServer_AddHumanUser(t *testing.T) {
 						Gender:            user.Gender_GENDER_DIVERSE.Enum(),
 					},
 					Email: &user.SetHumanEmail{
-						Email: "livio@zitadel.com",
+						Email: "livio@nomen.com",
 						Verification: &user.SetHumanEmail_IsVerified{
 							IsVerified: true,
 						},
@@ -2213,7 +2213,7 @@ func TestServer_StartIdentityProviderIntent(t *testing.T) {
 func TestServer_RetrieveIdentityProviderIntent(t *testing.T) {
 	oauthIdpID := Instance.AddGenericOAuthProvider(IamCTX, integration.IDPName()).GetId()
 	oidcIdpID := Instance.AddGenericOIDCProvider(IamCTX, integration.IDPName()).GetId()
-	zitadelIdpID := Instance.AddZitadelProvider(IamCTX, integration.IDPName()).GetId()
+	nomenIdpID := Instance.AddNomenProvider(IamCTX, integration.IDPName()).GetId()
 	samlIdpID := Instance.AddSAMLPostProvider(IamCTX)
 	ldapIdpID := Instance.AddLDAPProvider(IamCTX)
 	authURL, err := url.Parse(Instance.CreateIntent(CTX, oauthIdpID).GetAuthUrl())
@@ -2242,10 +2242,10 @@ func TestServer_RetrieveIdentityProviderIntent(t *testing.T) {
 	require.NoError(t, err)
 	oidcSuccessfulWithUserID, oidcWithUserIDToken, oidcWithUserIDChangeDate, oidcWithUserIDSequence, err := sink.SuccessfulOIDCIntent(Instance.ID(), oidcIdpID, "id", "user", expiry)
 	require.NoError(t, err)
-	// the ZITADEL provider reuses the OIDC user mapper
-	zitadelSuccessful, zitadelToken, zitadelChangeDate, zitadelSequence, err := sink.SuccessfulOIDCIntent(Instance.ID(), zitadelIdpID, "id", "", expiry)
+	// the NOMEN provider reuses the OIDC user mapper
+	nomenSuccessful, nomenToken, nomenChangeDate, nomenSequence, err := sink.SuccessfulOIDCIntent(Instance.ID(), nomenIdpID, "id", "", expiry)
 	require.NoError(t, err)
-	zitadelSuccessfulWithUserID, zitadelWithUserIDToken, zitadelWithUserIDChangeDate, zitadelWithUserIDSequence, err := sink.SuccessfulOIDCIntent(Instance.ID(), zitadelIdpID, "id", "user", expiry)
+	nomenSuccessfulWithUserID, nomenWithUserIDToken, nomenWithUserIDChangeDate, nomenWithUserIDSequence, err := sink.SuccessfulOIDCIntent(Instance.ID(), nomenIdpID, "id", "user", expiry)
 	require.NoError(t, err)
 	ldapSuccessfulID, ldapToken, ldapChangeDate, ldapSequence, err := sink.SuccessfulLDAPIntent(Instance.ID(), ldapIdpID, "id", "")
 	require.NoError(t, err)
@@ -2469,19 +2469,19 @@ func TestServer_RetrieveIdentityProviderIntent(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "retrieve successful zitadel intent",
+			name: "retrieve successful nomen intent",
 			args: args{
 				CTX,
 				&user.RetrieveIdentityProviderIntentRequest{
-					IdpIntentId:    zitadelSuccessful,
-					IdpIntentToken: zitadelToken,
+					IdpIntentId:    nomenSuccessful,
+					IdpIntentToken: nomenToken,
 				},
 			},
 			want: &user.RetrieveIdentityProviderIntentResponse{
 				Details: &object.Details{
-					ChangeDate:    timestamppb.New(zitadelChangeDate),
+					ChangeDate:    timestamppb.New(nomenChangeDate),
 					ResourceOwner: Instance.ID(),
-					Sequence:      zitadelSequence,
+					Sequence:      nomenSequence,
 				},
 				UserId: "",
 				IdpInformation: &user.IDPInformation{
@@ -2492,7 +2492,7 @@ func TestServer_RetrieveIdentityProviderIntent(t *testing.T) {
 							IdToken:      gu.Ptr("idToken"),
 						},
 					},
-					IdpId:    zitadelIdpID,
+					IdpId:    nomenIdpID,
 					UserId:   "id",
 					UserName: "username",
 					RawInformation: func() *structpb.Struct {
@@ -2508,19 +2508,19 @@ func TestServer_RetrieveIdentityProviderIntent(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "retrieve successful zitadel intent with linked user",
+			name: "retrieve successful nomen intent with linked user",
 			args: args{
 				CTX,
 				&user.RetrieveIdentityProviderIntentRequest{
-					IdpIntentId:    zitadelSuccessfulWithUserID,
-					IdpIntentToken: zitadelWithUserIDToken,
+					IdpIntentId:    nomenSuccessfulWithUserID,
+					IdpIntentToken: nomenWithUserIDToken,
 				},
 			},
 			want: &user.RetrieveIdentityProviderIntentResponse{
 				Details: &object.Details{
-					ChangeDate:    timestamppb.New(zitadelWithUserIDChangeDate),
+					ChangeDate:    timestamppb.New(nomenWithUserIDChangeDate),
 					ResourceOwner: Instance.ID(),
-					Sequence:      zitadelWithUserIDSequence,
+					Sequence:      nomenWithUserIDSequence,
 				},
 				UserId: "user",
 				IdpInformation: &user.IDPInformation{
@@ -2531,7 +2531,7 @@ func TestServer_RetrieveIdentityProviderIntent(t *testing.T) {
 							IdToken:      gu.Ptr("idToken"),
 						},
 					},
-					IdpId:    zitadelIdpID,
+					IdpId:    nomenIdpID,
 					UserId:   "id",
 					UserName: "username",
 					RawInformation: func() *structpb.Struct {

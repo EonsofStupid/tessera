@@ -398,9 +398,9 @@ func TestByteArray_Value(t *testing.T) {
 		},
 		{
 			"set",
-			ByteArray[byte]([]byte("{\"type\": \"object\", \"$schema\": \"urn:zitadel:schema:v1\"}")),
+			ByteArray[byte]([]byte("{\"type\": \"object\", \"$schema\": \"urn:nomen:schema:v1\"}")),
 			res{
-				want: driver.Value([]byte("{\"type\": \"object\", \"$schema\": \"urn:zitadel:schema:v1\"}")),
+				want: driver.Value([]byte("{\"type\": \"object\", \"$schema\": \"urn:nomen:schema:v1\"}")),
 			},
 		},
 	}

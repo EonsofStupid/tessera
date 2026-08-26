@@ -12,9 +12,9 @@ import (
 	sq "github.com/Masterminds/squirrel"
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -1312,7 +1312,7 @@ func Test_AppPrepare(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsNotFound(err) {
-						return fmt.Errorf("err should be zitadel.NotFoundError got: %w", err), false
+						return fmt.Errorf("err should be nomen.NotFoundError got: %w", err), false
 					}
 					return nil, true
 				},
@@ -2231,7 +2231,7 @@ func Test_ProjectIDByAppPrepare(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsNotFound(err) {
-						return fmt.Errorf("err should be zitadel.NotFoundError got: %w", err), false
+						return fmt.Errorf("err should be nomen.NotFoundError got: %w", err), false
 					}
 					return nil, true
 				},
@@ -2297,7 +2297,7 @@ func Test_ProjectByAppPrepare(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsNotFound(err) {
-						return fmt.Errorf("err should be zitadel.NotFoundError got: %w", err), false
+						return fmt.Errorf("err should be nomen.NotFoundError got: %w", err), false
 					}
 					return nil, true
 				},

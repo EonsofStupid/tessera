@@ -12,9 +12,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/application/v2"
-	org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/application/v2"
+	org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
 )
 
 func TestCreateApplication(t *testing.T) {

@@ -1,6 +1,6 @@
 # 05 — Minting a seat token
 
-**Status:** done and reproducible. Tessera mints `shippin.seat-token.v1` and
+**Status:** done and reproducible. Nomen mints `shippin.seat-token.v1` and
 Automaton's verifier accepts it.
 
 `04-building-the-trunk.md` got the trunk to serve OIDC. This is the path from
@@ -74,14 +74,14 @@ a consumer will see.
 
 ## The three traps
 
-**A scope Tessera does not declare is not merely ignored — it is erased from the
+**A scope Nomen does not declare is not merely ignored — it is erased from the
 audience too.** `op.ValidateAuthReqScopes` drops unrecognised scopes with
 `slices.DeleteFunc`, which compacts the caller's backing array *in place*. The
 client-credentials and jwt-profile paths then build their audience from
 `r.Data.Scope` — the same array, after that compaction. So an undeclared
 `urn:shippin:audience:…` does not fail: the token mints successfully, without
 the workspace, and `aud` quietly falls back to the client id. It cost an hour.
-`isScopeAllowed` in `client_converter.go` is where a Tessera scope gets declared,
+`isScopeAllowed` in `client_converter.go` is where a Nomen scope gets declared,
 and it is not optional.
 
 **The token lifetime has exactly one key, and the two obvious ones both fail

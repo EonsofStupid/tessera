@@ -11,13 +11,13 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	object_pb "github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	object_pb "github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func Test_idpIntentToIDPIntentPb(t *testing.T) {

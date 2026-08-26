@@ -1,6 +1,6 @@
 package user
 
-import "github.com/EonsofStupid/tessera/internal/domain"
+import "github.com/shippinAI/nomen/internal/domain"
 
 type SearchQuery_ResourceOwner struct{ ResourceOwner *ResourceOwnerQuery }
 

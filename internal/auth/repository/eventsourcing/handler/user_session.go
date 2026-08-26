@@ -5,17 +5,17 @@ import (
 	"slices"
 	"time"
 
-	auth_view "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/view"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/id"
-	query2 "github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	es_model "github.com/EonsofStupid/tessera/internal/user/repository/eventsourcing/model"
-	view_model "github.com/EonsofStupid/tessera/internal/user/repository/view/model"
+	auth_view "github.com/shippinAI/nomen/internal/auth/repository/eventsourcing/view"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/id"
+	query2 "github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	es_model "github.com/shippinAI/nomen/internal/user/repository/eventsourcing/model"
+	view_model "github.com/shippinAI/nomen/internal/user/repository/view/model"
 )
 
 const (

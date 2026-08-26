@@ -6,14 +6,14 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	authorization "github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2beta/authorizationconnect"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	authorization "github.com/shippinAI/nomen/pkg/grpc/authorization/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/authorization/v2beta/authorizationconnect"
 )
 
 var _ authorizationconnect.AuthorizationServiceHandler = (*Server)(nil)
@@ -47,7 +47,7 @@ func (s *Server) RegisterConnectServer(interceptors ...connect.Interceptor) (str
 }
 
 func (s *Server) FileDescriptor() protoreflect.FileDescriptor {
-	return authorization.File_zitadel_authorization_v2beta_authorization_service_proto
+	return authorization.File_nomen_authorization_v2beta_authorization_service_proto
 }
 
 func (s *Server) AppName() string {

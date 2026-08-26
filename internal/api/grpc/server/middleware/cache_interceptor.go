@@ -6,11 +6,11 @@ import (
 	"time"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
-	_ "github.com/EonsofStupid/tessera/internal/statik"
+	_ "github.com/shippinAI/nomen/internal/statik"
 )
 
 func NoCacheInterceptor() grpc.UnaryServerInterceptor {

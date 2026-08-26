@@ -3,13 +3,13 @@ package projection
 import (
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestIDPProjection_reduces(t *testing.T) {
@@ -31,7 +31,7 @@ func TestIDPProjection_reduces(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"idpConfigId": "idp-config-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"idpType": 0,
 	"stylingType": 0,
 	"autoRegister": true
@@ -54,7 +54,7 @@ func TestIDPProjection_reduces(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPConfigStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IDPConfigStylingTypeUnspecified,
 								true,
 								domain.IdentityProviderTypeSystem,
@@ -73,7 +73,7 @@ func TestIDPProjection_reduces(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"idpConfigId": "idp-config-id",
-	"name": "custom-zitadel-instance",
+	"name": "custom-nomen-instance",
 	"stylingType": 1,
 	"autoRegister": true
 }`),
@@ -88,7 +88,7 @@ func TestIDPProjection_reduces(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idps3 SET (name, styling_type, auto_register, change_date, sequence) = ($1, $2, $3, $4, $5) WHERE (id = $6) AND (instance_id = $7)",
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IDPConfigStylingTypeGoogle,
 								true,
 								anyArg{},
@@ -236,8 +236,8 @@ func TestIDPProjection_reduces(t *testing.T) {
         "keyId": "key-id"
     },
 	"issuer": "issuer",
-	"authorizationEndpoint": "https://api.zitadel.ch/authorize",
-    "tokenEndpoint": "https://api.zitadel.ch/token",
+	"authorizationEndpoint": "https://api.nomen.ch/authorize",
+    "tokenEndpoint": "https://api.nomen.ch/token",
     "scopes": ["profile"],
     "idpDisplayNameMapping": 0,
     "usernameMapping": 1
@@ -271,8 +271,8 @@ func TestIDPProjection_reduces(t *testing.T) {
 								database.TextArray[string]{"profile"},
 								domain.OIDCMappingFieldUnspecified,
 								domain.OIDCMappingFieldPreferredLoginName,
-								"https://api.zitadel.ch/authorize",
-								"https://api.zitadel.ch/token",
+								"https://api.nomen.ch/authorize",
+								"https://api.nomen.ch/token",
 							},
 						},
 					},
@@ -295,8 +295,8 @@ func TestIDPProjection_reduces(t *testing.T) {
         "keyId": "key-id"
     },
 	"issuer": "issuer",
-	"authorizationEndpoint": "https://api.zitadel.ch/authorize",
-    "tokenEndpoint": "https://api.zitadel.ch/token",
+	"authorizationEndpoint": "https://api.nomen.ch/authorize",
+    "tokenEndpoint": "https://api.nomen.ch/token",
     "scopes": ["profile"],
     "idpDisplayNameMapping": 0,
     "usernameMapping": 1
@@ -324,8 +324,8 @@ func TestIDPProjection_reduces(t *testing.T) {
 								"client-id",
 								anyArg{},
 								"issuer",
-								"https://api.zitadel.ch/authorize",
-								"https://api.zitadel.ch/token",
+								"https://api.nomen.ch/authorize",
+								"https://api.nomen.ch/token",
 								database.TextArray[string]{"profile"},
 								domain.OIDCMappingFieldUnspecified,
 								domain.OIDCMappingFieldPreferredLoginName,
@@ -365,9 +365,9 @@ func TestIDPProjection_reduces(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"idpConfigId": "idp-config-id",
-	"jwtEndpoint": "https://api.zitadel.ch/jwt",
+	"jwtEndpoint": "https://api.nomen.ch/jwt",
 	"issuer": "issuer",
-    "keysEndpoint": "https://api.zitadel.ch/keys",
+    "keysEndpoint": "https://api.nomen.ch/keys",
     "headerName": "hodor"
 }`),
 					), instance.IDPJWTConfigAddedEventMapper),
@@ -393,9 +393,9 @@ func TestIDPProjection_reduces(t *testing.T) {
 							expectedArgs: []interface{}{
 								"idp-config-id",
 								"instance-id",
-								"https://api.zitadel.ch/jwt",
+								"https://api.nomen.ch/jwt",
 								"issuer",
-								"https://api.zitadel.ch/keys",
+								"https://api.nomen.ch/keys",
 								"hodor",
 							},
 						},
@@ -412,9 +412,9 @@ func TestIDPProjection_reduces(t *testing.T) {
 						instance.AggregateType,
 						[]byte(`{
 	"idpConfigId": "idp-config-id",
-	"jwtEndpoint": "https://api.zitadel.ch/jwt",
+	"jwtEndpoint": "https://api.nomen.ch/jwt",
 	"issuer": "issuer",
-    "keysEndpoint": "https://api.zitadel.ch/keys",
+    "keysEndpoint": "https://api.nomen.ch/keys",
     "headerName": "hodor"
 }`),
 					), instance.IDPJWTConfigChangedEventMapper),
@@ -437,9 +437,9 @@ func TestIDPProjection_reduces(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idps3_jwt_config SET (endpoint, issuer, keys_endpoint, header_name) = ($1, $2, $3, $4) WHERE (idp_id = $5) AND (instance_id = $6)",
 							expectedArgs: []interface{}{
-								"https://api.zitadel.ch/jwt",
+								"https://api.nomen.ch/jwt",
 								"issuer",
-								"https://api.zitadel.ch/keys",
+								"https://api.nomen.ch/keys",
 								"hodor",
 								"idp-config-id",
 								"instance-id",
@@ -477,7 +477,7 @@ func TestIDPProjection_reduces(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "name": "custom-zitadel-instance",
+        "name": "custom-nomen-instance",
         "idpType": 0,
         "stylingType": 0,
         "autoRegister": true
@@ -500,7 +500,7 @@ func TestIDPProjection_reduces(t *testing.T) {
 								"ro-id",
 								"instance-id",
 								domain.IDPConfigStateActive,
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IDPConfigStylingTypeUnspecified,
 								true,
 								domain.IdentityProviderTypeOrg,
@@ -519,7 +519,7 @@ func TestIDPProjection_reduces(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "name": "custom-zitadel-instance",
+        "name": "custom-nomen-instance",
         "stylingType": 1,
         "autoRegister": true
         }`),
@@ -534,7 +534,7 @@ func TestIDPProjection_reduces(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idps3 SET (name, styling_type, auto_register, change_date, sequence) = ($1, $2, $3, $4, $5) WHERE (id = $6) AND (instance_id = $7)",
 							expectedArgs: []interface{}{
-								"custom-zitadel-instance",
+								"custom-nomen-instance",
 								domain.IDPConfigStylingTypeGoogle,
 								true,
 								anyArg{},
@@ -656,8 +656,8 @@ func TestIDPProjection_reduces(t *testing.T) {
         "keyId": "key-id"
         },
         "issuer": "issuer",
-        "authorizationEndpoint": "https://api.zitadel.ch/authorize",
-        "tokenEndpoint": "https://api.zitadel.ch/token",
+        "authorizationEndpoint": "https://api.nomen.ch/authorize",
+        "tokenEndpoint": "https://api.nomen.ch/token",
         "scopes": ["profile"],
         "idpDisplayNameMapping": 0,
         "usernameMapping": 1
@@ -691,8 +691,8 @@ func TestIDPProjection_reduces(t *testing.T) {
 								database.TextArray[string]{"profile"},
 								domain.OIDCMappingFieldUnspecified,
 								domain.OIDCMappingFieldPreferredLoginName,
-								"https://api.zitadel.ch/authorize",
-								"https://api.zitadel.ch/token",
+								"https://api.nomen.ch/authorize",
+								"https://api.nomen.ch/token",
 							},
 						},
 					},
@@ -715,8 +715,8 @@ func TestIDPProjection_reduces(t *testing.T) {
         "keyId": "key-id"
         },
         "issuer": "issuer",
-        "authorizationEndpoint": "https://api.zitadel.ch/authorize",
-        "tokenEndpoint": "https://api.zitadel.ch/token",
+        "authorizationEndpoint": "https://api.nomen.ch/authorize",
+        "tokenEndpoint": "https://api.nomen.ch/token",
         "scopes": ["profile"],
         "idpDisplayNameMapping": 0,
         "usernameMapping": 1
@@ -744,8 +744,8 @@ func TestIDPProjection_reduces(t *testing.T) {
 								"client-id",
 								anyArg{},
 								"issuer",
-								"https://api.zitadel.ch/authorize",
-								"https://api.zitadel.ch/token",
+								"https://api.nomen.ch/authorize",
+								"https://api.nomen.ch/token",
 								database.TextArray[string]{"profile"},
 								domain.OIDCMappingFieldUnspecified,
 								domain.OIDCMappingFieldPreferredLoginName,
@@ -785,9 +785,9 @@ func TestIDPProjection_reduces(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "jwtEndpoint": "https://api.zitadel.ch/jwt",
+        "jwtEndpoint": "https://api.nomen.ch/jwt",
         "issuer": "issuer",
-        "keysEndpoint": "https://api.zitadel.ch/keys",
+        "keysEndpoint": "https://api.nomen.ch/keys",
         "headerName": "hodor"
         }`),
 					), org.IDPJWTConfigAddedEventMapper),
@@ -813,9 +813,9 @@ func TestIDPProjection_reduces(t *testing.T) {
 							expectedArgs: []interface{}{
 								"idp-config-id",
 								"instance-id",
-								"https://api.zitadel.ch/jwt",
+								"https://api.nomen.ch/jwt",
 								"issuer",
-								"https://api.zitadel.ch/keys",
+								"https://api.nomen.ch/keys",
 								"hodor",
 							},
 						},
@@ -832,9 +832,9 @@ func TestIDPProjection_reduces(t *testing.T) {
 						org.AggregateType,
 						[]byte(`{
         "idpConfigId": "idp-config-id",
-        "jwtEndpoint": "https://api.zitadel.ch/jwt",
+        "jwtEndpoint": "https://api.nomen.ch/jwt",
         "issuer": "issuer",
-        "keysEndpoint": "https://api.zitadel.ch/keys",
+        "keysEndpoint": "https://api.nomen.ch/keys",
         "headerName": "hodor"
         }`),
 					), org.IDPJWTConfigChangedEventMapper),
@@ -857,9 +857,9 @@ func TestIDPProjection_reduces(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.idps3_jwt_config SET (endpoint, issuer, keys_endpoint, header_name) = ($1, $2, $3, $4) WHERE (idp_id = $5) AND (instance_id = $6)",
 							expectedArgs: []interface{}{
-								"https://api.zitadel.ch/jwt",
+								"https://api.nomen.ch/jwt",
 								"issuer",
-								"https://api.zitadel.ch/keys",
+								"https://api.nomen.ch/keys",
 								"hodor",
 								"idp-config-id",
 								"instance-id",

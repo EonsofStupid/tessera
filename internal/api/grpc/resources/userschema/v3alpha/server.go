@@ -5,19 +5,19 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	schema "github.com/EonsofStupid/tessera/pkg/grpc/resources/userschema/v3alpha"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	schema "github.com/shippinAI/nomen/pkg/grpc/resources/userschema/v3alpha"
 )
 
-var _ schema.ZITADELUserSchemasServer = (*Server)(nil)
+var _ schema.NOMENUserSchemasServer = (*Server)(nil)
 
 type Server struct {
-	schema.UnimplementedZITADELUserSchemasServer
+	schema.UnimplementedNOMENUserSchemasServer
 	systemDefaults systemdefaults.SystemDefaults
 	command        *command.Commands
 	query          *query.Queries
@@ -38,23 +38,23 @@ func CreateServer(
 }
 
 func (s *Server) RegisterServer(grpcServer *grpc.Server) {
-	schema.RegisterZITADELUserSchemasServer(grpcServer, s)
+	schema.RegisterNOMENUserSchemasServer(grpcServer, s)
 }
 
 func (s *Server) AppName() string {
-	return schema.ZITADELUserSchemas_ServiceDesc.ServiceName
+	return schema.NOMENUserSchemas_ServiceDesc.ServiceName
 }
 
 func (s *Server) MethodPrefix() string {
-	return schema.ZITADELUserSchemas_ServiceDesc.ServiceName
+	return schema.NOMENUserSchemas_ServiceDesc.ServiceName
 }
 
 func (s *Server) AuthMethods() authz.MethodMapping {
-	return schema.ZITADELUserSchemas_AuthMethods
+	return schema.NOMENUserSchemas_AuthMethods
 }
 
 func (s *Server) RegisterGateway() server.RegisterGatewayFunc {
-	return schema.RegisterZITADELUserSchemasHandler
+	return schema.RegisterNOMENUserSchemasHandler
 }
 
 func checkUserSchemaEnabled(ctx context.Context) error {

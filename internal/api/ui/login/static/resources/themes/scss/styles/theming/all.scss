@@ -20,7 +20,7 @@
 @import "../mfa/mfa_theme";
 @import "theming";
 
-@mixin zitadel-lgn-theme() {
+@mixin nomen-lgn-theme() {
   @include lgn-core-theme();
   @include lgn-header-theme();
   @include lgn-button-theme();

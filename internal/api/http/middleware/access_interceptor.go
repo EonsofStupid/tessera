@@ -8,14 +8,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server/middleware"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/logstore/record"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server/middleware"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/logstore/record"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 type AccessInterceptor struct {
@@ -141,7 +141,7 @@ func (a *AccessInterceptor) handle(publicAuthPathPrefixes ...string) func(http.H
 					// The management console guides the user when the cookie is set
 					http.Redirect(wrappedWriter, request, a.redirect, http.StatusFound)
 				} else {
-					http.Error(wrappedWriter, "Your ZITADEL instance is blocked.", http.StatusTooManyRequests)
+					http.Error(wrappedWriter, "Your NOMEN instance is blocked.", http.StatusTooManyRequests)
 				}
 			} else {
 				next.ServeHTTP(wrappedWriter, request)

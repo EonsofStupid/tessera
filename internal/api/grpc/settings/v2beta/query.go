@@ -6,11 +6,11 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2beta"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	filter_pb "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2beta"
+	"github.com/shippinAI/nomen/internal/api/grpc/filter/v2beta"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	filter_pb "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2beta"
 )
 
 func (s *Server) ListOrganizationSettings(ctx context.Context, req *connect.Request[settings.ListOrganizationSettingsRequest]) (*connect.Response[settings.ListOrganizationSettingsResponse], error) {

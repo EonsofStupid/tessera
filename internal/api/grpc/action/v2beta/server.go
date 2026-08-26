@@ -6,13 +6,13 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/query"
-	action "github.com/EonsofStupid/tessera/pkg/grpc/action/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/action/v2beta/actionconnect"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/query"
+	action "github.com/shippinAI/nomen/pkg/grpc/action/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/action/v2beta/actionconnect"
 )
 
 var _ actionconnect.ActionServiceHandler = (*Server)(nil)
@@ -51,7 +51,7 @@ func (s *Server) RegisterConnectServer(interceptors ...connect.Interceptor) (str
 }
 
 func (s *Server) FileDescriptor() protoreflect.FileDescriptor {
-	return action.File_zitadel_action_v2beta_action_service_proto
+	return action.File_nomen_action_v2beta_action_service_proto
 }
 
 func (s *Server) AppName() string {

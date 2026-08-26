@@ -3,7 +3,7 @@ package model
 import (
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 type NotifyUser struct {

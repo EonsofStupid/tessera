@@ -3,11 +3,11 @@ package view
 import (
 	"github.com/jinzhu/gorm"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	iam_model "github.com/EonsofStupid/tessera/internal/iam/model"
-	"github.com/EonsofStupid/tessera/internal/iam/repository/view/model"
-	"github.com/EonsofStupid/tessera/internal/view/repository"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	iam_model "github.com/shippinAI/nomen/internal/iam/model"
+	"github.com/shippinAI/nomen/internal/iam/repository/view/model"
+	"github.com/shippinAI/nomen/internal/view/repository"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func GetStylingByAggregateIDAndState(db *gorm.DB, table, aggregateID, instanceID string, state int32) (*model.LabelPolicyView, error) {

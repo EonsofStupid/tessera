@@ -6,10 +6,10 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func (s *Server) SetPhone(ctx context.Context, req *connect.Request[user.SetPhoneRequest]) (resp *connect.Response[user.SetPhoneResponse], err error) {

@@ -1,6 +1,6 @@
 package senders
 
-import "github.com/EonsofStupid/tessera/internal/notification/channels"
+import "github.com/shippinAI/nomen/internal/notification/channels"
 
 var _ channels.NotificationChannel = (*Chain)(nil)
 

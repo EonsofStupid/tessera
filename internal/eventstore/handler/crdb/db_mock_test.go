@@ -6,7 +6,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 type mockExpectation func(sqlmock.Sqlmock)

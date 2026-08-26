@@ -16,7 +16,7 @@ import (
 	"github.com/drone/envsubst"
 	"github.com/jarcoal/jpath"
 	"github.com/sony/sonyflake"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 type sonyflakeGenerator struct {

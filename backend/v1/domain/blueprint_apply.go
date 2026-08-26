@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // Outcome is what actually happened to one entry.
@@ -26,7 +26,7 @@ const (
 // BlueprintApplier makes one model's entries true. Implementations live in
 // storage; the engine never learns a table name.
 type BlueprintApplier interface {
-	// Model names what this applier handles: `tessera/seat`.
+	// Model names what this applier handles: `nomen/seat`.
 	Model() string
 	// Apply converges the entry's target to its declared state, inside the
 	// engine's transaction. The returned id is what later entries see through

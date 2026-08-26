@@ -9,9 +9,9 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -106,7 +106,7 @@ func Test_UserSchemaPrepares(t *testing.T) {
 							domain.UserSchemaStateActive,
 							"type",
 							1,
-							json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+							json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 							database.NumberArray[domain.AuthenticatorType]{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 						},
 					},
@@ -128,7 +128,7 @@ func Test_UserSchemaPrepares(t *testing.T) {
 						State:                  domain.UserSchemaStateActive,
 						Type:                   "type",
 						Revision:               1,
-						Schema:                 json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+						Schema:                 json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 						PossibleAuthenticators: database.NumberArray[domain.AuthenticatorType]{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 					},
 				},
@@ -151,7 +151,7 @@ func Test_UserSchemaPrepares(t *testing.T) {
 							domain.UserSchemaStateActive,
 							"type1",
 							1,
-							json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+							json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 							database.NumberArray[domain.AuthenticatorType]{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 						},
 						{
@@ -163,7 +163,7 @@ func Test_UserSchemaPrepares(t *testing.T) {
 							domain.UserSchemaStateInactive,
 							"type2",
 							2,
-							json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+							json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 							database.NumberArray[domain.AuthenticatorType]{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 						},
 					},
@@ -185,7 +185,7 @@ func Test_UserSchemaPrepares(t *testing.T) {
 						State:                  domain.UserSchemaStateActive,
 						Type:                   "type1",
 						Revision:               1,
-						Schema:                 json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+						Schema:                 json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 						PossibleAuthenticators: database.NumberArray[domain.AuthenticatorType]{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 					},
 					{
@@ -199,7 +199,7 @@ func Test_UserSchemaPrepares(t *testing.T) {
 						State:                  domain.UserSchemaStateInactive,
 						Type:                   "type2",
 						Revision:               2,
-						Schema:                 json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+						Schema:                 json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 						PossibleAuthenticators: database.NumberArray[domain.AuthenticatorType]{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 					},
 				},
@@ -233,7 +233,7 @@ func Test_UserSchemaPrepares(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsNotFound(err) {
-						return fmt.Errorf("err should be zitadel.NotFoundError got: %w", err), false
+						return fmt.Errorf("err should be nomen.NotFoundError got: %w", err), false
 					}
 					return nil, true
 				},
@@ -256,7 +256,7 @@ func Test_UserSchemaPrepares(t *testing.T) {
 						domain.UserSchemaStateActive,
 						"type",
 						1,
-						json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+						json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 						database.NumberArray[domain.AuthenticatorType]{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 					},
 				),
@@ -272,7 +272,7 @@ func Test_UserSchemaPrepares(t *testing.T) {
 				State:                  domain.UserSchemaStateActive,
 				Type:                   "type",
 				Revision:               1,
-				Schema:                 json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+				Schema:                 json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 				PossibleAuthenticators: database.NumberArray[domain.AuthenticatorType]{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 			},
 		},

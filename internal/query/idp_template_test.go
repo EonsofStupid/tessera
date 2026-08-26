@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -134,13 +134,13 @@ var (
 		` projections.idp_templates6_apple.key_id,` +
 		` projections.idp_templates6_apple.private_key,` +
 		` projections.idp_templates6_apple.scopes,` +
-		// zitadel
-		` projections.idp_templates6_zitadel.idp_id,` +
-		` projections.idp_templates6_zitadel.issuer,` +
-		` projections.idp_templates6_zitadel.client_id,` +
-		` projections.idp_templates6_zitadel.client_secret,` +
-		` projections.idp_templates6_zitadel.scopes,` +
-		` projections.idp_templates6_zitadel.instance_roles_info` +
+		// nomen
+		` projections.idp_templates6_nomen.idp_id,` +
+		` projections.idp_templates6_nomen.issuer,` +
+		` projections.idp_templates6_nomen.client_id,` +
+		` projections.idp_templates6_nomen.client_secret,` +
+		` projections.idp_templates6_nomen.scopes,` +
+		` projections.idp_templates6_nomen.instance_roles_info` +
 		` FROM projections.idp_templates6` +
 		` LEFT JOIN projections.idp_templates6_oauth2 ON projections.idp_templates6.id = projections.idp_templates6_oauth2.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_oauth2.instance_id` +
 		` LEFT JOIN projections.idp_templates6_oidc ON projections.idp_templates6.id = projections.idp_templates6_oidc.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_oidc.instance_id` +
@@ -154,7 +154,7 @@ var (
 		` LEFT JOIN projections.idp_templates6_saml ON projections.idp_templates6.id = projections.idp_templates6_saml.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_saml.instance_id` +
 		` LEFT JOIN projections.idp_templates6_ldap2 ON projections.idp_templates6.id = projections.idp_templates6_ldap2.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_ldap2.instance_id` +
 		` LEFT JOIN projections.idp_templates6_apple ON projections.idp_templates6.id = projections.idp_templates6_apple.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_apple.instance_id` +
-		` LEFT JOIN projections.idp_templates6_zitadel ON projections.idp_templates6.id = projections.idp_templates6_zitadel.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_zitadel.instance_id`
+		` LEFT JOIN projections.idp_templates6_nomen ON projections.idp_templates6.id = projections.idp_templates6_nomen.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_nomen.instance_id`
 	idpTemplateCols = []string{
 		"id",
 		"resource_owner",
@@ -274,7 +274,7 @@ var (
 		"key_id",
 		"private_key",
 		"scopes",
-		// zitadel config
+		// nomen config
 		"idp_id",
 		"issuer",
 		"client_id",
@@ -400,13 +400,13 @@ var (
 		` projections.idp_templates6_apple.key_id,` +
 		` projections.idp_templates6_apple.private_key,` +
 		` projections.idp_templates6_apple.scopes,` +
-		// zitadel
-		` projections.idp_templates6_zitadel.idp_id,` +
-		` projections.idp_templates6_zitadel.issuer,` +
-		` projections.idp_templates6_zitadel.client_id,` +
-		` projections.idp_templates6_zitadel.client_secret,` +
-		` projections.idp_templates6_zitadel.scopes,` +
-		` projections.idp_templates6_zitadel.instance_roles_info,` +
+		// nomen
+		` projections.idp_templates6_nomen.idp_id,` +
+		` projections.idp_templates6_nomen.issuer,` +
+		` projections.idp_templates6_nomen.client_id,` +
+		` projections.idp_templates6_nomen.client_secret,` +
+		` projections.idp_templates6_nomen.scopes,` +
+		` projections.idp_templates6_nomen.instance_roles_info,` +
 		` COUNT(*) OVER ()` +
 		` FROM projections.idp_templates6` +
 		` LEFT JOIN projections.idp_templates6_oauth2 ON projections.idp_templates6.id = projections.idp_templates6_oauth2.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_oauth2.instance_id` +
@@ -421,7 +421,7 @@ var (
 		` LEFT JOIN projections.idp_templates6_saml ON projections.idp_templates6.id = projections.idp_templates6_saml.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_saml.instance_id` +
 		` LEFT JOIN projections.idp_templates6_ldap2 ON projections.idp_templates6.id = projections.idp_templates6_ldap2.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_ldap2.instance_id` +
 		` LEFT JOIN projections.idp_templates6_apple ON projections.idp_templates6.id = projections.idp_templates6_apple.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_apple.instance_id` +
-		` LEFT JOIN projections.idp_templates6_zitadel ON projections.idp_templates6.id = projections.idp_templates6_zitadel.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_zitadel.instance_id`
+		` LEFT JOIN projections.idp_templates6_nomen ON projections.idp_templates6.id = projections.idp_templates6_nomen.idp_id AND projections.idp_templates6.instance_id = projections.idp_templates6_nomen.instance_id`
 	idpTemplatesCols = []string{
 		"id",
 		"resource_owner",
@@ -541,7 +541,7 @@ var (
 		"key_id",
 		"private_key",
 		"scopes",
-		// zitadel config
+		// nomen config
 		"idp_id",
 		"issuer",
 		"client_id",
@@ -575,7 +575,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsNotFound(err) {
-						return fmt.Errorf("err should be zitadel.NotFoundError got: %w", err), false
+						return fmt.Errorf("err should be nomen.NotFoundError got: %w", err), false
 					}
 					return nil, true
 				},
@@ -708,7 +708,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -872,7 +872,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -1034,7 +1034,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -1195,7 +1195,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -1354,7 +1354,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -1513,7 +1513,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -1673,7 +1673,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -1832,7 +1832,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -1997,7 +1997,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -2177,7 +2177,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						"key_id",
 						nil,
 						database.TextArray[string]{"profile"},
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -2213,7 +2213,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 			},
 		},
 		{
-			name:    "prepareIDPTemplateByIDQuery zitadel idp",
+			name:    "prepareIDPTemplateByIDQuery nomen idp",
 			prepare: prepareIDPTemplateByIDQuery,
 			want: want{
 				sqlExpectations: mockQuery(
@@ -2227,7 +2227,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						uint64(20211109),
 						domain.IDPConfigStateActive,
 						"idp-name",
-						domain.IDPTypeZitadel,
+						domain.IDPTypeNomen,
 						domain.IdentityProviderTypeOrg,
 						true,
 						true,
@@ -2338,7 +2338,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						"idp-id",
 						"issuer",
 						"client_id",
@@ -2356,14 +2356,14 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 				ID:                "idp-id",
 				State:             domain.IDPStateActive,
 				Name:              "idp-name",
-				Type:              domain.IDPTypeZitadel,
+				Type:              domain.IDPTypeNomen,
 				OwnerType:         domain.IdentityProviderTypeOrg,
 				IsCreationAllowed: true,
 				IsLinkingAllowed:  true,
 				IsAutoCreation:    true,
 				IsAutoUpdate:      true,
 				AutoLinking:       domain.AutoLinkingOptionUsername,
-				ZitadelIDPTemplate: &ZitadelIDPTemplate{
+				NomenIDPTemplate: &NomenIDPTemplate{
 					IDPID:        "idp-id",
 					Issuer:       "issuer",
 					ClientID:     "client_id",
@@ -2504,7 +2504,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						nil,
 						nil,
 						nil,
-						// zitadel
+						// nomen
 						nil,
 						nil,
 						nil,
@@ -2559,7 +2559,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsNotFound(err) {
-						return fmt.Errorf("err should be zitadel.NotFoundError got: %w", err), false
+						return fmt.Errorf("err should be nomen.NotFoundError got: %w", err), false
 					}
 					return nil, true
 				},
@@ -2693,7 +2693,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 							nil,
 							nil,
-							// zitadel
+							// nomen
 							nil,
 							nil,
 							nil,
@@ -2882,7 +2882,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 							nil,
 							nil,
-							// zitadel
+							// nomen
 							nil,
 							nil,
 							nil,
@@ -3044,7 +3044,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 							nil,
 							nil,
-							// zitadel
+							// nomen
 							nil,
 							nil,
 							nil,
@@ -3171,7 +3171,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 							nil,
 							nil,
-							// zitadel
+							// nomen
 							nil,
 							nil,
 							nil,
@@ -3298,7 +3298,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 							nil,
 							nil,
-							// zitadel
+							// nomen
 							nil,
 							nil,
 							nil,
@@ -3425,7 +3425,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 							nil,
 							nil,
-							// zitadel
+							// nomen
 							nil,
 							nil,
 							nil,
@@ -3552,7 +3552,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 							nil,
 							nil,
-							// zitadel
+							// nomen
 							nil,
 							nil,
 							nil,
@@ -3679,7 +3679,7 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 							nil,
 							nil,
-							// zitadel
+							// nomen
 							nil,
 							nil,
 							nil,
@@ -3688,14 +3688,14 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 						},
 						{
-							"idp-id-zitadel",
+							"idp-id-nomen",
 							"ro",
 							testNow,
 							testNow,
 							uint64(20211109),
 							domain.IDPConfigStateActive,
 							"idp-name",
-							domain.IDPTypeZitadel,
+							domain.IDPTypeNomen,
 							domain.IdentityProviderTypeOrg,
 							true,
 							true,
@@ -3806,8 +3806,8 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 							nil,
 							nil,
 							nil,
-							// zitadel
-							"idp-id-zitadel",
+							// nomen
+							"idp-id-nomen",
 							"issuer",
 							"client_id",
 							nil,
@@ -3996,18 +3996,18 @@ func Test_IDPTemplateTemplatesPrepares(t *testing.T) {
 						ChangeDate:        testNow,
 						Sequence:          20211109,
 						ResourceOwner:     "ro",
-						ID:                "idp-id-zitadel",
+						ID:                "idp-id-nomen",
 						State:             domain.IDPStateActive,
 						Name:              "idp-name",
-						Type:              domain.IDPTypeZitadel,
+						Type:              domain.IDPTypeNomen,
 						OwnerType:         domain.IdentityProviderTypeOrg,
 						IsCreationAllowed: true,
 						IsLinkingAllowed:  true,
 						IsAutoCreation:    true,
 						IsAutoUpdate:      true,
 						AutoLinking:       domain.AutoLinkingOptionUsername,
-						ZitadelIDPTemplate: &ZitadelIDPTemplate{
-							IDPID:        "idp-id-zitadel",
+						NomenIDPTemplate: &NomenIDPTemplate{
+							IDPID:        "idp-id-nomen",
 							Issuer:       "issuer",
 							ClientID:     "client_id",
 							ClientSecret: nil,

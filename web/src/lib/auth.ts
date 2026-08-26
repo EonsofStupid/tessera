@@ -1,8 +1,8 @@
 import { parseEnvironment, parseTokenResponse, type Environment } from './contracts'
 
-const tokenKey = 'tessera.ui.access_token'
-const verifierKey = 'tessera.ui.pkce_verifier'
-const stateKey = 'tessera.ui.oauth_state'
+const tokenKey = 'nomen.ui.access_token'
+const verifierKey = 'nomen.ui.pkce_verifier'
+const stateKey = 'nomen.ui.oauth_state'
 
 function encode(bytes: Uint8Array): string {
   return btoa(String.fromCharCode(...bytes)).replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '')
@@ -89,6 +89,6 @@ export async function finishSignIn(environment: Environment): Promise<boolean> {
   sessionStorage.setItem(tokenKey, result.access_token)
   sessionStorage.removeItem(verifierKey)
   sessionStorage.removeItem(stateKey)
-  window.history.replaceState({}, '', '/ui/console/')
+  window.history.replaceState({}, '', '/ui/console/overview')
   return true
 }

@@ -9,23 +9,23 @@ import (
 
 	"github.com/go-jose/go-jose/v4"
 	"github.com/muhlemmer/gu"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/authz/repository/eventsourcing/view"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	usr_model "github.com/EonsofStupid/tessera/internal/user/model"
-	usr_view "github.com/EonsofStupid/tessera/internal/user/repository/view"
-	"github.com/EonsofStupid/tessera/internal/user/repository/view/model"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/authz/repository/eventsourcing/view"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	usr_model "github.com/shippinAI/nomen/internal/user/model"
+	usr_view "github.com/shippinAI/nomen/internal/user/repository/view"
+	"github.com/shippinAI/nomen/internal/user/repository/view/model"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type TokenVerifierRepo struct {
@@ -146,7 +146,7 @@ func (repo *TokenVerifierRepo) verifyAccessTokenV2(ctx context.Context, token, s
 		return "", "", "", "", "", err
 	}
 	// If the subject doesn't match the userID from the database, the token probably got tampered with or truncated.
-	// See https://github.com/EonsofStupid/tessera/security/advisories/GHSA-6mq3-xmgp-pjm5
+	// See https://github.com/shippinAI/nomen/security/advisories/GHSA-6mq3-xmgp-pjm5
 	if activeToken.UserID != subject {
 		return "", "", "", "", "", zerrors.ThrowUnauthenticated(nil, "APP-3f4fs", "invalid token")
 	}

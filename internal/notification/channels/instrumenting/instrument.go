@@ -3,7 +3,7 @@ package instrumenting
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/channels"
 )
 
 func Wrap(

@@ -4,13 +4,13 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	member_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/member"
-	object_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	proj_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/project"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	member_grpc "github.com/shippinAI/nomen/internal/api/grpc/member"
+	object_grpc "github.com/shippinAI/nomen/internal/api/grpc/object"
+	proj_grpc "github.com/shippinAI/nomen/internal/api/grpc/project"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func (s *Server) GetProjectGrantByID(ctx context.Context, req *mgmt_pb.GetProjectGrantByIDRequest) (*mgmt_pb.GetProjectGrantByIDResponse, error) {

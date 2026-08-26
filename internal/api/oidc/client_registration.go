@@ -11,11 +11,11 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // registrationMaxBodyBytes bounds the size of a dynamic client registration request body.
@@ -249,7 +249,7 @@ func newRegistrationError(errorType, description string) *registrationError {
 
 // clientRegistrationRequest holds the client metadata of an OAuth 2.0 Dynamic Client
 // Registration request (RFC 7591 §2, extended by OpenID Connect Dynamic Client
-// Registration 1.0 §2). Only the members relevant for a ZITADEL OIDC application are
+// Registration 1.0 §2). Only the members relevant for a NOMEN OIDC application are
 // interpreted. Free-form metadata (client_uri, logo_uri, contacts, etc.) is accepted but
 // not persisted in this version. Members that imply unsupported behaviour (jwks/jwks_uri,
 // private_key_jwt) are rejected explicitly.
@@ -453,7 +453,7 @@ func normalizeResponseType(responseType string) string {
 // OpenID Connect Dynamic Client Registration 1.0 §2 defaults to web, but application_type is
 // an OpenID Connect member: clients that only implement RFC 7591, which does not define it,
 // omit it. Native hosts doing so (Cursor and other MCP clients) register custom-scheme
-// redirect URIs, which ZITADEL reserves for native applications, so the web default would
+// redirect URIs, which NOMEN reserves for native applications, so the web default would
 // reject them for a redirect URI that is in fact valid for what they are. Infer native in
 // exactly that case; everything that is accepted today keeps its current type.
 func registrationApplicationTypeToDomain(applicationType string, redirectURIs []string) (domain.OIDCApplicationType, *registrationError) {

@@ -8,13 +8,13 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2"
 )
 
 func (c *Commands) SetHostedLoginTranslation(ctx context.Context, req *settings.SetHostedLoginTranslationRequest) (res *settings.SetHostedLoginTranslationResponse, err error) {

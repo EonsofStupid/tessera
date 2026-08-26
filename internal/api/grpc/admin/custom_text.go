@@ -5,11 +5,11 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	text_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/text"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	text_grpc "github.com/shippinAI/nomen/internal/api/grpc/text"
+	"github.com/shippinAI/nomen/internal/domain"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) GetDefaultInitMessageText(ctx context.Context, req *admin_pb.GetDefaultInitMessageTextRequest) (*admin_pb.GetDefaultInitMessageTextResponse, error) {

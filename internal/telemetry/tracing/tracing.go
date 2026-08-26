@@ -6,8 +6,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/tracing"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/tracing"
 )
 
 func NewSpan(ctx context.Context) (context.Context, *instrumentation.Span) {

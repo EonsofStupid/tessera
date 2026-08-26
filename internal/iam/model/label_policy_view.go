@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 type LabelPolicySearchKey int32

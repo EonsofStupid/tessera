@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // -------------------------------------------------------------
@@ -26,7 +26,7 @@ func (o org) unqualifiedTableName() string {
 }
 
 func (o org) qualifiedTableName() string {
-	return "zitadel.organizations"
+	return "nomen.organizations"
 }
 
 func OrganizationRepository() domain.OrganizationRepository {
@@ -36,7 +36,7 @@ func OrganizationRepository() domain.OrganizationRepository {
 const queryOrganizationStmt = `SELECT organizations.id, organizations.name, organizations.instance_id, organizations.state, organizations.created_at, organizations.updated_at` +
 	` , jsonb_agg(DISTINCT jsonb_build_object('instanceId', org_domains.instance_id, 'orgId', org_domains.org_id, 'domain', org_domains.domain, 'isVerified', org_domains.is_verified, 'isPrimary', org_domains.is_primary, 'validationType', org_domains.validation_type, 'createdAt', org_domains.created_at, 'updatedAt', org_domains.updated_at)) FILTER (WHERE org_domains.org_id IS NOT NULL) AS domains` +
 	` , jsonb_agg(DISTINCT jsonb_build_object('instanceId', organization_metadata.instance_id, 'orgId', organization_metadata.organization_id, 'key', organization_metadata.key, 'value', encode(organization_metadata.value, 'base64'), 'createdAt', organization_metadata.created_at, 'updatedAt', organization_metadata.updated_at)) FILTER (WHERE organization_metadata.organization_id IS NOT NULL) AS metadata` +
-	` FROM zitadel.organizations`
+	` FROM nomen.organizations`
 
 // Get implements [domain.OrganizationRepository].
 func (o org) Get(ctx context.Context, client database.QueryExecutor, opts ...database.QueryOption) (*domain.Organization, error) {
@@ -234,7 +234,7 @@ func (o org) ExistsDomain(cond database.Condition) database.Condition {
 //	    database.WithCondition(
 //	        database.And(
 //	            orgRepo.InstanceIDCondition(instanceID),
-//	            orgRepo.MetadataExists(metadataRepo.KeyCondition(database.TextOperationEqual, "urn:zitadel:org:custom:my-key")),
+//	            orgRepo.MetadataExists(metadataRepo.KeyCondition(database.TextOperationEqual, "urn:nomen:org:custom:my-key")),
 //	        ),
 //	    ),
 //	)

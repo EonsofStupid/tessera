@@ -1,8 +1,8 @@
 package model
 
 import (
-	"github.com/EonsofStupid/tessera/internal/iam/model"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/iam/model"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 func PasswordComplexityViewToModel(policy *query.PasswordComplexityPolicy) *model.PasswordComplexityPolicyView {

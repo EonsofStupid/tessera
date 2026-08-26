@@ -15,27 +15,27 @@ import (
 	"github.com/crewjam/saml/samlsp"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 	"golang.org/x/text/language"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server/middleware"
-	oidc_api "github.com/EonsofStupid/tessera/internal/api/oidc"
-	saml_api "github.com/EonsofStupid/tessera/internal/api/saml"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/query"
-	action "github.com/EonsofStupid/tessera/pkg/grpc/action/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/metadata"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
-	saml_pb "github.com/EonsofStupid/tessera/pkg/grpc/saml/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/server/middleware"
+	oidc_api "github.com/shippinAI/nomen/internal/api/oidc"
+	saml_api "github.com/shippinAI/nomen/internal/api/saml"
+	"github.com/shippinAI/nomen/internal/domain"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/query"
+	action "github.com/shippinAI/nomen/pkg/grpc/action/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/metadata"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
+	saml_pb "github.com/shippinAI/nomen/pkg/grpc/saml/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 const (
@@ -697,7 +697,7 @@ func TestServer_ExecutionTargetPreUserinfo(t *testing.T) {
 			},
 			want: want{
 				addedLogClaims: map[string][]string{
-					"urn:zitadel:iam:action:function/preuserinfo:log": {"addedLog"},
+					"urn:nomen:iam:action:function/preuserinfo:log": {"addedLog"},
 				},
 			},
 			wantErr: false,
@@ -769,7 +769,7 @@ func TestServer_ExecutionTargetPreUserinfo(t *testing.T) {
 					{Key: "key3", Value: []byte("value3")},
 				},
 				addedLogClaims: map[string][]string{
-					"urn:zitadel:iam:action:function/preuserinfo:log": {"addedLog1", "addedLog2", "addedLog3"},
+					"urn:nomen:iam:action:function/preuserinfo:log": {"addedLog1", "addedLog2", "addedLog3"},
 				},
 			},
 			wantErr: false,
@@ -888,7 +888,7 @@ type CustomAccessTokenClaims struct {
 	Added1 string   `json:"added1,omitempty"`
 	Added2 string   `json:"added2,omitempty"`
 	Added3 string   `json:"added3,omitempty"`
-	Log    []string `json:"urn:zitadel:iam:action:function/preaccesstoken:log,omitempty"`
+	Log    []string `json:"urn:nomen:iam:action:function/preaccesstoken:log,omitempty"`
 }
 
 func getAccessTokenClaims(ctx context.Context, t *testing.T, instance *integration.Instance, callbackURL *url.URL) *CustomAccessTokenClaims {

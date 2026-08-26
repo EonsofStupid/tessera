@@ -21,14 +21,14 @@ import (
 	"go.uber.org/mock/gomock"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server/middleware"
-	"github.com/EonsofStupid/tessera/internal/api/oidc/sign"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/denylist"
-	"github.com/EonsofStupid/tessera/internal/execution"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	"github.com/EonsofStupid/tessera/pkg/actions"
+	"github.com/shippinAI/nomen/internal/api/grpc/server/middleware"
+	"github.com/shippinAI/nomen/internal/api/oidc/sign"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/denylist"
+	"github.com/shippinAI/nomen/internal/execution"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	"github.com/shippinAI/nomen/pkg/actions"
 )
 
 func Test_Call(t *testing.T) {

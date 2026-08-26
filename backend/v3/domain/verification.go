@@ -3,7 +3,7 @@ package domain
 import (
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
+	"github.com/shippinAI/nomen/internal/crypto"
 )
 
 type Verification struct {

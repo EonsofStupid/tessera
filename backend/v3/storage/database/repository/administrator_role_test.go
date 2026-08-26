@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
 )
 
 type administratorRolePermissionRow struct {
@@ -179,7 +179,7 @@ func TestAdministratorRoleRepository_PrimaryKeyCondition(t *testing.T) {
 func listAdministratorRolePermissions(t *testing.T, tx database.QueryExecutor, condition database.Condition) []administratorRolePermissionRow {
 	t.Helper()
 
-	builder := database.NewStatementBuilder(`SELECT instance_id, role_name, permission FROM zitadel.administrator_role_permissions`)
+	builder := database.NewStatementBuilder(`SELECT instance_id, role_name, permission FROM nomen.administrator_role_permissions`)
 	if condition != nil {
 		builder.WriteString(" WHERE ")
 		condition.Write(builder)

@@ -9,10 +9,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	app "github.com/EonsofStupid/tessera/pkg/grpc/app/v2beta"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	app "github.com/shippinAI/nomen/pkg/grpc/app/v2beta"
 )
 
 func TestCreateOIDCAppRequestToDomain(t *testing.T) {

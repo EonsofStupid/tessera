@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	internaldb "github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	internaldb "github.com/shippinAI/nomen/internal/database"
 )
 
 var _ domain.AuthorizationRepository = (*authorization)(nil)
@@ -22,7 +22,7 @@ func (a authorization) unqualifiedTableName() string {
 }
 
 func (a authorization) qualifiedTableName() string {
-	return "zitadel." + a.unqualifiedTableName()
+	return "nomen." + a.unqualifiedTableName()
 }
 
 func (a authorization) unqualifiedAuthorizationRolesTableName() string {
@@ -30,7 +30,7 @@ func (a authorization) unqualifiedAuthorizationRolesTableName() string {
 }
 
 func (a authorization) qualifiedAuthorizationRolesTableName() string {
-	return "zitadel." + a.unqualifiedAuthorizationRolesTableName()
+	return "nomen." + a.unqualifiedAuthorizationRolesTableName()
 }
 
 // -------------------------------------------------------------
@@ -49,8 +49,8 @@ func (a authorization) Create(ctx context.Context, client database.QueryExecutor
 		updatedAt = authorization.UpdatedAt
 	}
 
-	builder := database.NewStatementBuilder("WITH roles AS (INSERT INTO zitadel.authorization_roles (instance_id, authorization_id, grant_id, project_id, role_key)"+
-		" VALUES ($1, $2, $3, $4, unnest($5::text[]))) INSERT INTO zitadel.authorizations (instance_id, id, grant_id, project_id, user_id, state, created_at, updated_at) VALUES ($1, $2, $3, $4, $6, $7, ",
+	builder := database.NewStatementBuilder("WITH roles AS (INSERT INTO nomen.authorization_roles (instance_id, authorization_id, grant_id, project_id, role_key)"+
+		" VALUES ($1, $2, $3, $4, unnest($5::text[]))) INSERT INTO nomen.authorizations (instance_id, id, grant_id, project_id, user_id, state, created_at, updated_at) VALUES ($1, $2, $3, $4, $6, $7, ",
 		authorization.InstanceID, authorization.ID, authorization.GrantID, authorization.ProjectID, authorization.Roles, authorization.UserID, authorization.State,
 	)
 	builder.WriteArgs(createdAt, updatedAt)
@@ -69,20 +69,20 @@ func (a authorization) Create(ctx context.Context, client database.QueryExecutor
 	return nil
 }
 
-const queryAuthorizationStmt = `SELECT zitadel.authorizations.instance_id,
-       zitadel.authorizations.id,
-       zitadel.authorizations.user_id,
-       zitadel.authorizations.grant_id,
-       zitadel.authorizations.project_id,
-       zitadel.authorizations.state,
-       zitadel.authorizations.created_at,
-       zitadel.authorizations.updated_at,
+const queryAuthorizationStmt = `SELECT nomen.authorizations.instance_id,
+       nomen.authorizations.id,
+       nomen.authorizations.user_id,
+       nomen.authorizations.grant_id,
+       nomen.authorizations.project_id,
+       nomen.authorizations.state,
+       nomen.authorizations.created_at,
+       nomen.authorizations.updated_at,
        ARRAY_AGG(authorization_roles.role_key)
        FILTER (WHERE authorization_roles.authorization_id IS NOT NULL) AS roles
-FROM zitadel.authorizations
-         LEFT JOIN zitadel.authorization_roles
-                   ON zitadel.authorizations.instance_id = zitadel.authorization_roles.instance_id
-                       AND zitadel.authorizations.id = zitadel.authorization_roles.authorization_id`
+FROM nomen.authorizations
+         LEFT JOIN nomen.authorization_roles
+                   ON nomen.authorizations.instance_id = nomen.authorization_roles.instance_id
+                       AND nomen.authorizations.id = nomen.authorization_roles.authorization_id`
 
 // Get implements [domain.AuthorizationRepository].
 func (a authorization) Get(ctx context.Context, client database.QueryExecutor, opts ...database.QueryOption) (*domain.Authorization, error) {
@@ -124,17 +124,17 @@ func (a authorization) prepareQuery(opts []database.QueryOption) (*database.Stat
 	return builder, nil
 }
 
-const queryUpdateAuthorizationRoleStmt = `SELECT instance_id, id, project_id, grant_id, $1::text[] as roles from zitadel.authorizations`
+const queryUpdateAuthorizationRoleStmt = `SELECT instance_id, id, project_id, grant_id, $1::text[] as roles from nomen.authorizations`
 
 const updateAuthorizationRoleStmt = `deleted_roles AS (
-    DELETE FROM zitadel.authorization_roles as azr
+    DELETE FROM nomen.authorization_roles as azr
 	USING az
         WHERE azr.instance_id = az.instance_id
             AND azr.authorization_id = az.id
             AND NOT azr.role_key = ANY ($1::text[])
         RETURNING *
 ), inserted_roles AS (
-    INSERT INTO zitadel.authorization_roles (instance_id, authorization_id, project_id, grant_id, role_key)
+    INSERT INTO nomen.authorization_roles (instance_id, authorization_id, project_id, grant_id, role_key)
         SELECT instance_id,
                id,
                project_id,
@@ -144,7 +144,7 @@ const updateAuthorizationRoleStmt = `deleted_roles AS (
         ON CONFLICT DO NOTHING
         RETURNING *
 )
-UPDATE zitadel.authorizations SET `
+UPDATE nomen.authorizations SET `
 
 const updateAuthorizationRoleStmtWhere = ` FROM az
 WHERE az.instance_id = authorizations.instance_id
@@ -191,7 +191,7 @@ func (a authorization) Delete(ctx context.Context, client database.QueryExecutor
 		return 0, database.NewMissingConditionError(a.InstanceIDColumn())
 	}
 
-	builder := database.NewStatementBuilder("DELETE FROM zitadel.authorizations")
+	builder := database.NewStatementBuilder("DELETE FROM nomen.authorizations")
 	writeCondition(builder, condition)
 
 	return client.Exec(ctx, builder.String(), builder.Args()...)

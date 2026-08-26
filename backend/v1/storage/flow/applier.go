@@ -6,14 +6,14 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // FlowModel is what a blueprint entry names to reach this applier.
-const FlowModel = "tessera/flow"
+const FlowModel = "nomen/flow"
 
-// Applier converges `tessera/flow` entries — login configuration as reviewed
+// Applier converges `nomen/flow` entries — login configuration as reviewed
 // YAML, through the same engine and the same transaction discipline as seats.
 type Applier struct{}
 

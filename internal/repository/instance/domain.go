@@ -3,8 +3,8 @@ package instance
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
@@ -55,7 +55,7 @@ func (e *DomainAddedEvent) Fields() []*eventstore.FieldOperation {
 			InstanceDomainSearchField,
 			&eventstore.Value{
 				Value: e.Domain,
-				// TODO: (adlerhurst) ensure uniqueness if we go with fields table: https://github.com/EonsofStupid/tessera/issues/9009
+				// TODO: (adlerhurst) ensure uniqueness if we go with fields table: https://github.com/shippinAI/nomen/issues/9009
 				MustBeUnique: false,
 				ShouldIndex:  true,
 			},

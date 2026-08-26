@@ -13,8 +13,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/denylist"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/denylist"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const testVerifier = "challenge-token-value"
@@ -23,7 +23,7 @@ func TestValidateDomainHTTP_Success(t *testing.T) {
 	t.Parallel()
 
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		assert.Equal(t, "/.well-known/zitadel-challenge/"+testVerifier+".txt", r.URL.Path)
+		assert.Equal(t, "/.well-known/nomen-challenge/"+testVerifier+".txt", r.URL.Path)
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte(testVerifier))
 	}))

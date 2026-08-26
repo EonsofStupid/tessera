@@ -1,6 +1,6 @@
 package domain
 
-import "github.com/EonsofStupid/tessera/backend/v3/storage/database"
+import "github.com/shippinAI/nomen/backend/v3/storage/database"
 
 type SessionMetadata struct {
 	Metadata

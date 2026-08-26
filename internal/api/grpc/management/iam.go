@@ -3,7 +3,7 @@ package management
 import (
 	"context"
 
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func (s *Server) GetIAM(ctx context.Context, _ *mgmt_pb.GetIAMRequest) (*mgmt_pb.GetIAMResponse, error) {

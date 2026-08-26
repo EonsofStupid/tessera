@@ -6,8 +6,8 @@ import (
 
 	"github.com/dop251/goja"
 
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/logstore/record"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/logstore/record"
 )
 
 func TestSetFields(t *testing.T) {

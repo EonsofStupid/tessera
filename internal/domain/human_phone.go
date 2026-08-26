@@ -9,9 +9,9 @@ import (
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const defaultRegion = "CH"
@@ -60,7 +60,7 @@ func (p *Phone) Normalize() error {
 	if err != nil {
 		return err
 	}
-	// Issue for avoiding mutating state: https://github.com/EonsofStupid/tessera/issues/5412
+	// Issue for avoiding mutating state: https://github.com/shippinAI/nomen/issues/5412
 	p.PhoneNumber = normalizedNumber
 	return nil
 }

@@ -9,16 +9,16 @@
   .lgn-list,
   ul {
     li::before {
-      color: var(--zitadel-color-primary);
+      color: var(--nomen-color-primary);
     }
 
     li i {
       &.lgn-warn {
-        color: var(--zitadel-color-warn);
+        color: var(--nomen-color-warn);
       }
 
       &.lgn-valid {
-        color: var(--zitadel-color-success);
+        color: var(--nomen-color-success);
       }
     }
   }

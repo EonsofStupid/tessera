@@ -1,3 +1,3 @@
-DROP TABLE IF EXISTS zitadel.settings;
-DROP TYPE IF EXISTS zitadel.settings_type;
-DROP TYPE IF EXISTS zitadel.settings_state;
+DROP TABLE IF EXISTS nomen.settings;
+DROP TYPE IF EXISTS nomen.settings_type;
+DROP TYPE IF EXISTS nomen.settings_state;

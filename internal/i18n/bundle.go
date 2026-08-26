@@ -10,17 +10,17 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"golang.org/x/text/language"
 	"sigs.k8s.io/yaml"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 const i18nPath = "/i18n"
 
 var translationMessages = map[Namespace]map[language.Tag]*i18n.MessageFile{
-	ZITADEL:      make(map[language.Tag]*i18n.MessageFile),
+	NOMEN:      make(map[language.Tag]*i18n.MessageFile),
 	LOGIN:        make(map[language.Tag]*i18n.MessageFile),
 	NOTIFICATION: make(map[language.Tag]*i18n.MessageFile),
 }

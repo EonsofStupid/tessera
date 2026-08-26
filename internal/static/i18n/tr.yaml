@@ -62,7 +62,7 @@ Errors:
     CouldNotDialTLS: "TLS kullanarak SMTP sunucusuna bağlanılamadı, port ve güvenlik duvarı sorunlarını kontrol edin..."
     CouldNotCreateClient: "smtp istemcisi oluşturulamadı"
     CouldNotStartTLS: "tls başlatılamadı"
-    CouldNotAuth: "smtp kimlik doğrulaması eklenemedi, kullanıcı adı ve şifrenizin doğru olup olmadığını kontrol edin, doğruysa sağlayıcınız Zitadel tarafından desteklenmeyen bir kimlik doğrulama yöntemi gerektirebilir"
+    CouldNotAuth: "smtp kimlik doğrulaması eklenemedi, kullanıcı adı ve şifrenizin doğru olup olmadığını kontrol edin, doğruysa sağlayıcınız Nomen tarafından desteklenmeyen bir kimlik doğrulama yöntemi gerektirebilir"
     CouldNotSetSender: "gönderen ayarlanamadı"
     CouldNotSetRecipient: "alıcı ayarlanamadı"
   SMTPConfig:
@@ -154,7 +154,7 @@ Errors:
       Invalid: "Şifre geçersiz"
       NotSet: "Kullanıcı şifre ayarlamamış"
       NotChanged: "Yeni şifre mevcut şifrenizle aynı olamaz"
-      NotSupported: "Şifre hash kodlaması desteklenmiyor. Kontrol edin https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Şifre hash kodlaması desteklenmiyor. Kontrol edin https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Şifre politikası bulunamadı"
       MinLength: "Şifre çok kısa"
@@ -208,7 +208,7 @@ Errors:
     NotActive: "Organizasyon aktif değil"
     NotChanged: "Organizasyon değişmedi"
     DefaultOrgNotDeletable: "Varsayılan Organizasyon silinmemeli"
-    ZitadelOrgNotDeletable: "Zitadel projesi olan organizasyon silinmemeli"
+    NomenOrgNotDeletable: "Nomen projesi olan organizasyon silinmemeli"
     InvalidDomain: "Geçersiz domain"
     DomainMissing: "Domain eksik"
     DomainNotOnOrg: "Domain organizasyonda mevcut değil"
@@ -217,8 +217,8 @@ Errors:
     DomainVerificationTypeInvalid: "Domain doğrulama türü geçersiz"
     DomainVerificationMissing: "Domain doğrulaması henüz başlatılmamış"
     DomainVerificationFailed: "Domain doğrulaması başarısız"
-    DomainVerificationTXTNotFound: "Domain'iniz için _zitadel-challenge TXT kaydı bulunamadı. DNS sunucunuza eklediğinizden emin olun veya yeni kaydın yayılmasını bekleyin"
-    DomainVerificationTXTNoMatch: "Domain'iniz için _zitadel-challenge TXT kaydı bulundu ancak doğru token metnini içermiyor. DNS sunucunuza doğru token'ı eklediğinizden emin olun veya yeni kaydın yayılmasını bekleyin"
+    DomainVerificationTXTNotFound: "Domain'iniz için _nomen-challenge TXT kaydı bulunamadı. DNS sunucunuza eklediğinizden emin olun veya yeni kaydın yayılmasını bekleyin"
+    DomainVerificationTXTNoMatch: "Domain'iniz için _nomen-challenge TXT kaydı bulundu ancak doğru token metnini içermiyor. DNS sunucunuza doğru token'ı eklediğinizden emin olun veya yeni kaydın yayılmasını bekleyin"
     DomainVerificationHTTPNotFound: "Challenge içeren dosya beklenen URL'de bulunamadı. Dosyayı okuma izinleriyle doğru yere yüklediğinizden emin olun"
     DomainVerificationHTTPNoMatch: "Challenge içeren dosya beklenen URL'de bulundu ancak doğru token metnini içermiyor. İçeriğini kontrol edin"
     DomainVerificationTimeout: "DNS sunucusunu sorgularken zaman aşımı oluştu"
@@ -343,7 +343,7 @@ Errors:
   Instance:
     AlreadyExists: "Instance zaten mevcut"
     NotChanged: "Instance değişmedi"
-    NotFound: "Instance bulunamadı. Domain'in doğru olduğundan emin olun. Kontrol edin https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Instance bulunamadı. Domain'in doğru olduğundan emin olun. Kontrol edin https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Roller değişmedi"
     MemberInvalid: "Üye geçersiz"
@@ -1110,20 +1110,20 @@ EventTypes:
         changed: "Şifre kilitleme politikası değiştirildi"
   iam:
     setup:
-      started: "Zitadel kurulumu başlatıldı"
-      done: "Zitadel kurulumu tamamlandı"
+      started: "Nomen kurulumu başlatıldı"
+      done: "Nomen kurulumu tamamlandı"
     global:
       org:
         set: "Global organizasyon ayarlandı"
     project:
       iam:
-        set: "Zitadel projesi ayarlandı"
+        set: "Nomen projesi ayarlandı"
     member:
-      added: "Zitadel üyesi eklendi"
-      changed: "Zitadel üyesi değiştirildi"
-      removed: "Zitadel üyesi kaldırıldı"
+      added: "Nomen üyesi eklendi"
+      changed: "Nomen üyesi değiştirildi"
+      removed: "Nomen üyesi kaldırıldı"
       cascade:
-        removed: "Zitadel üyesi basamaklı kaldırıldı"
+        removed: "Nomen üyesi basamaklı kaldırıldı"
     idp:
       config:
         added: "IDP yapılandırması eklendi"
@@ -1236,9 +1236,9 @@ EventTypes:
       removed: "Domain kaldırıldı"
     iam:
       console:
-        set: "Zitadel Yönetim Konsolu uygulaması ayarlandı"
+        set: "Nomen Yönetim Konsolu uygulaması ayarlandı"
       project:
-        set: "Zitadel projesi ayarlandı"
+        set: "Nomen projesi ayarlandı"
     mail:
       template:
         added: "E-Posta şablonu eklendi"

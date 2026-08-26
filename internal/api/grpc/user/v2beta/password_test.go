@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2beta"
+	"github.com/shippinAI/nomen/internal/domain"
+	user "github.com/shippinAI/nomen/pkg/grpc/user/v2beta"
 )
 
 func Test_notificationTypeToDomain(t *testing.T) {

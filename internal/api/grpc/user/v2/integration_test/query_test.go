@@ -14,12 +14,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	v2 "github.com/EonsofStupid/tessera/pkg/grpc/metadata/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	v2 "github.com/shippinAI/nomen/pkg/grpc/metadata/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func TestServer_GetUserByID(t *testing.T) {
@@ -1172,11 +1172,11 @@ func TestServer_SystemUsers_ListUsers(t *testing.T) {
 	iamOwnerCtx := InstancePermissionV2.WithAuthorizationToken(OrgCTX, integration.UserTypeIAMOwner)
 
 	org1 := InstancePermissionV2.CreateOrganization(iamOwnerCtx, integration.OrganizationName(), integration.Email())
-	org2 := InstancePermissionV2.CreateOrganization(iamOwnerCtx, integration.OrganizationName(), "org2@zitadel.com")
+	org2 := InstancePermissionV2.CreateOrganization(iamOwnerCtx, integration.OrganizationName(), "org2@nomen.com")
 	org3 := InstancePermissionV2.CreateOrganization(iamOwnerCtx, integration.OrganizationName(), integration.Email())
-	_ = createUserWithUserName(iamOwnerCtx, InstancePermissionV2, "Test_SystemUsers_ListUser1@zitadel.com", org1.OrganizationId, false)
-	_ = createUserWithUserName(iamOwnerCtx, InstancePermissionV2, "Test_SystemUsers_ListUser2@zitadel.com", org2.OrganizationId, false)
-	_ = createUserWithUserName(iamOwnerCtx, InstancePermissionV2, "Test_SystemUsers_ListUser3@zitadel.com", org3.OrganizationId, false)
+	_ = createUserWithUserName(iamOwnerCtx, InstancePermissionV2, "Test_SystemUsers_ListUser1@nomen.com", org1.OrganizationId, false)
+	_ = createUserWithUserName(iamOwnerCtx, InstancePermissionV2, "Test_SystemUsers_ListUser2@nomen.com", org2.OrganizationId, false)
+	_ = createUserWithUserName(iamOwnerCtx, InstancePermissionV2, "Test_SystemUsers_ListUser3@nomen.com", org3.OrganizationId, false)
 
 	tests := []struct {
 		name                       string
@@ -1192,7 +1192,7 @@ func TestServer_SystemUsers_ListUsers(t *testing.T) {
 			// the number of users returned will vary from test run to test run,
 			// so just check the system user gets back users from different orgs whcih it is not a memeber of
 			checkNumberOfUsersReturned: false,
-			expectedFoundUsernames:     []string{"Test_SystemUsers_ListUser1@zitadel.com", "Test_SystemUsers_ListUser2@zitadel.com", "Test_SystemUsers_ListUser3@zitadel.com"},
+			expectedFoundUsernames:     []string{"Test_SystemUsers_ListUser1@nomen.com", "Test_SystemUsers_ListUser2@nomen.com", "Test_SystemUsers_ListUser3@nomen.com"},
 		},
 		{
 			name: "list users without neccessary permissions",
@@ -1207,7 +1207,7 @@ func TestServer_SystemUsers_ListUsers(t *testing.T) {
 				Queries: []*user.SearchQuery{OrganizationIdQuery(org2.OrganizationId)},
 			},
 			ctx:                        SystemCTX,
-			expectedFoundUsernames:     []string{"Test_SystemUsers_ListUser2@zitadel.com", "org2@zitadel.com"},
+			expectedFoundUsernames:     []string{"Test_SystemUsers_ListUser2@nomen.com", "org2@nomen.com"},
 			checkNumberOfUsersReturned: true,
 		},
 		{

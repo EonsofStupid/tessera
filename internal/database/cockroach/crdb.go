@@ -11,9 +11,9 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
 	"github.com/mitchellh/mapstructure"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/database/dialect"
+	"github.com/shippinAI/nomen/internal/database/dialect"
 )
 
 func init() {
@@ -154,7 +154,7 @@ type User struct {
 }
 
 type AdminUser struct {
-	// ExistingDatabase is the database to connect to before the ZITADEL database exists
+	// ExistingDatabase is the database to connect to before the NOMEN database exists
 	ExistingDatabase string
 	User             `mapstructure:",squash"`
 }

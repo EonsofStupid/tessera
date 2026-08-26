@@ -8,12 +8,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
-	"github.com/EonsofStupid/tessera/internal/notification/messages"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/messages"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func InitChannel(ctx context.Context, cfg Config) (channels.NotificationChannel, error) {

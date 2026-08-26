@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
 )
 
 func TestAppendExternalIDPAddedEvent(t *testing.T) {

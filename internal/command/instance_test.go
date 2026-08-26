@@ -12,24 +12,24 @@ import (
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/cache/connector/noop"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/id"
-	id_mock "github.com/EonsofStupid/tessera/internal/id/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/milestone"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/cache/connector/noop"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/id"
+	id_mock "github.com/shippinAI/nomen/internal/id/mock"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/milestone"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
-func instanceSetupZitadelIDs() ZitadelConfig {
-	return ZitadelConfig{
+func instanceSetupNomenIDs() NomenConfig {
+	return NomenConfig{
 		instanceID:             "INSTANCE",
 		orgID:                  "ORG",
 		projectID:              "PROJECT",
@@ -44,7 +44,7 @@ func projectAddedEvents(ctx context.Context, instanceID, orgID, id string, exter
 	events := []eventstore.Command{
 		project.NewProjectAddedEvent(ctx,
 			&project.NewAggregate(id, orgID).Aggregate,
-			"ZITADEL",
+			"NOMEN",
 			false,
 			false,
 			false,
@@ -306,9 +306,9 @@ func setupInstanceElementsFilters(instanceID string) []expect {
 
 func setupInstanceElementsConfig() *InstanceSetup {
 	conf := instanceSetupPoliciesConfig()
-	conf.InstanceName = "ZITADEL"
+	conf.InstanceName = "NOMEN"
 	conf.DefaultLanguage = language.English
-	conf.zitadel = instanceSetupZitadelIDs()
+	conf.nomen = instanceSetupNomenIDs()
 	conf.SecretGenerators = instanceElementsConfig()
 	conf.EmailTemplate = []byte("something")
 	return conf
@@ -400,7 +400,7 @@ func setupInstanceEvents(
 func setupInstanceConfig() *InstanceSetup {
 	conf := setupInstanceElementsConfig()
 	conf.Org = InstanceOrgSetup{
-		Name:        "ZITADEL",
+		Name:        "NOMEN",
 		Machine:     instanceSetupMachineConfig(),
 		Human:       instanceSetupHumanConfig(),
 		LoginClient: instanceSetupLoginClientConfig(),
@@ -527,11 +527,11 @@ func humanFilters(orgID string) []expect {
 
 func instanceSetupHumanConfig() *AddHuman {
 	return &AddHuman{
-		Username:  "zitadel-admin",
-		FirstName: "ZITADEL",
+		Username:  "nomen-admin",
+		FirstName: "NOMEN",
 		LastName:  "Admin",
 		Email: Email{
-			Address:  domain.EmailAddress("admin@zitadel.test"),
+			Address:  domain.EmailAddress("admin@nomen.test"),
 			Verified: true,
 		},
 		PreferredLanguage:      language.English,
@@ -566,8 +566,8 @@ func machineFilters(orgID string, pat bool) []expect {
 func instanceSetupMachineConfig() *AddMachine {
 	return &AddMachine{
 		Machine: &Machine{
-			Username:        "zitadel-admin-machine",
-			Name:            "ZITADEL-machine",
+			Username:        "nomen-admin-machine",
+			Name:            "NOMEN-machine",
 			Description:     "Admin",
 			AccessTokenType: domain.OIDCTokenTypeBearer,
 		},
@@ -610,8 +610,8 @@ func loginClientFilters(orgID string, pat bool) []expect {
 func instanceSetupLoginClientConfig() *AddLoginClient {
 	return &AddLoginClient{
 		Machine: &Machine{
-			Username:        "zitadel-login-client",
-			Name:            "ZITADEL-login-client",
+			Username:        "nomen-login-client",
+			Name:            "NOMEN-login-client",
 			Description:     "Login Client",
 			AccessTokenType: domain.OIDCTokenTypeBearer,
 		},
@@ -674,14 +674,14 @@ func addHumanEvent(ctx context.Context, orgID, userID string) *user.HumanAddedEv
 		event := user.NewHumanAddedEvent(
 			ctx,
 			&agg.Aggregate,
-			"zitadel-admin",
-			"ZITADEL",
+			"nomen-admin",
+			"NOMEN",
 			"Admin",
 			"",
-			"ZITADEL Admin",
+			"NOMEN Admin",
 			language.English,
 			0,
-			"admin@zitadel.test",
+			"admin@nomen.test",
 			false,
 		)
 		event.AddPasswordData("$plain$x$password", false)
@@ -716,8 +716,8 @@ func addMachineEvent(ctx context.Context, orgID, userID string) *user.MachineAdd
 	agg := user.NewAggregate(userID, orgID)
 	return user.NewMachineAddedEvent(ctx,
 		&agg.Aggregate,
-		"zitadel-admin-machine",
-		"ZITADEL-machine",
+		"nomen-admin-machine",
+		"NOMEN-machine",
 		"Admin",
 		false,
 		domain.OIDCTokenTypeBearer,
@@ -750,8 +750,8 @@ func addLoginClientEvent(ctx context.Context, orgID, userID string) *user.Machin
 	agg := user.NewAggregate(userID, orgID)
 	return user.NewMachineAddedEvent(ctx,
 		&agg.Aggregate,
-		"zitadel-login-client",
-		"ZITADEL-login-client",
+		"nomen-login-client",
+		"NOMEN-login-client",
 		"Login Client",
 		false,
 		domain.OIDCTokenTypeBearer,
@@ -779,7 +779,7 @@ func TestCommandSide_setupMinimalInterfaces(t *testing.T) {
 		instanceAgg *instance.Aggregate
 		orgAgg      *org.Aggregate
 		owner       string
-		ids         ZitadelConfig
+		ids         NomenConfig
 	}
 	type res struct {
 		err func(error) bool
@@ -815,7 +815,7 @@ func TestCommandSide_setupMinimalInterfaces(t *testing.T) {
 				instanceAgg: instance.NewAggregate("INSTANCE"),
 				orgAgg:      org.NewAggregate("ORG"),
 				owner:       "owner",
-				ids:         instanceSetupZitadelIDs(),
+				ids:         instanceSetupNomenIDs(),
 			},
 			res: res{
 				err: nil,
@@ -841,7 +841,7 @@ func TestCommandSide_setupMinimalInterfaces(t *testing.T) {
 		})
 	}
 }
-func validZitadelRoles() []authz.RoleMapping {
+func validNomenRoles() []authz.RoleMapping {
 	return []authz.RoleMapping{
 		{Role: domain.RoleOrgOwner, Permissions: []string{""}},
 		{Role: domain.RoleIAMOwner, Permissions: []string{""}},
@@ -898,7 +898,7 @@ func TestCommandSide_setupAdmins(t *testing.T) {
 				),
 				idGenerator:        id_mock.NewIDGeneratorExpectIDs(t, "USER"),
 				userPasswordHasher: mockPasswordHasher("x"),
-				roles:              validZitadelRoles(),
+				roles:              validNomenRoles(),
 			},
 			args: args{
 				ctx:         contextWithInstanceSetupInfo(context.Background(), "INSTANCE", "PROJECT", "console-id", "DOMAIN", language.Dutch),
@@ -933,7 +933,7 @@ func TestCommandSide_setupAdmins(t *testing.T) {
 					)...,
 				),
 				idGenerator:  id_mock.NewIDGeneratorExpectIDs(t, "USER-MACHINE", "PAT"),
-				roles:        validZitadelRoles(),
+				roles:        validNomenRoles(),
 				keyAlgorithm: crypto.CreateMockEncryptionAlg(gomock.NewController(t)),
 			},
 			args: args{
@@ -979,7 +979,7 @@ func TestCommandSide_setupAdmins(t *testing.T) {
 				),
 				userPasswordHasher: mockPasswordHasher("x"),
 				idGenerator:        id_mock.NewIDGeneratorExpectIDs(t, "USER-MACHINE", "PAT", "USER"),
-				roles:              validZitadelRoles(),
+				roles:              validNomenRoles(),
 				keyAlgorithm:       crypto.CreateMockEncryptionAlg(gomock.NewController(t)),
 			},
 			args: args{
@@ -1034,7 +1034,7 @@ func TestCommandSide_setupAdmins(t *testing.T) {
 				),
 				userPasswordHasher: mockPasswordHasher("x"),
 				idGenerator:        id_mock.NewIDGeneratorExpectIDs(t, "USER-MACHINE", "PAT", "USER", "USER-LOGIN-CLIENT", "LOGIN-CLIENT-PAT"),
-				roles:              validZitadelRoles(),
+				roles:              validNomenRoles(),
 				keyAlgorithm:       crypto.CreateMockEncryptionAlg(gomock.NewController(t)),
 			},
 			args: args{
@@ -1059,7 +1059,7 @@ func TestCommandSide_setupAdmins(t *testing.T) {
 			r := &Commands{
 				eventstore:         tt.fields.eventstore(t),
 				idGenerator:        tt.fields.idGenerator,
-				zitadelRoles:       tt.fields.roles,
+				nomenRoles:       tt.fields.roles,
 				userPasswordHasher: tt.fields.userPasswordHasher,
 				keyAlgorithm:       tt.fields.keyAlgorithm,
 				authAlgorithm:      &mockAuthCrypto{},
@@ -1112,7 +1112,7 @@ func TestCommandSide_setupDefaultOrg(t *testing.T) {
 		machine     *AddMachine
 		human       *AddHuman
 		loginClient *AddLoginClient
-		ids         ZitadelConfig
+		ids         NomenConfig
 	}
 	type res struct {
 		pat            bool
@@ -1143,7 +1143,7 @@ func TestCommandSide_setupDefaultOrg(t *testing.T) {
 									orgEvents(context.Background(),
 										"INSTANCE",
 										"ORG",
-										"ZITADEL",
+										"NOMEN",
 										"PROJECT",
 										"DOMAIN",
 										false,
@@ -1158,17 +1158,17 @@ func TestCommandSide_setupDefaultOrg(t *testing.T) {
 				),
 				userPasswordHasher: mockPasswordHasher("x"),
 				idGenerator:        id_mock.NewIDGeneratorExpectIDs(t, orgIDs()...),
-				roles:              validZitadelRoles(),
+				roles:              validNomenRoles(),
 				keyAlgorithm:       crypto.CreateMockEncryptionAlg(gomock.NewController(t)),
 			},
 			args: args{
 				ctx:         contextWithInstanceSetupInfo(context.Background(), "INSTANCE", "PROJECT", "console-id", "DOMAIN", language.Dutch),
 				instanceAgg: instance.NewAggregate("INSTANCE"),
-				orgName:     "ZITADEL",
+				orgName:     "NOMEN",
 				machine: &AddMachine{
 					Machine: &Machine{
-						Username:        "zitadel-admin-machine",
-						Name:            "ZITADEL-machine",
+						Username:        "nomen-admin-machine",
+						Name:            "NOMEN-machine",
 						Description:     "Admin",
 						AccessTokenType: domain.OIDCTokenTypeBearer,
 					},
@@ -1184,11 +1184,11 @@ func TestCommandSide_setupDefaultOrg(t *testing.T) {
 					*/
 				},
 				human: &AddHuman{
-					Username:  "zitadel-admin",
-					FirstName: "ZITADEL",
+					Username:  "nomen-admin",
+					FirstName: "NOMEN",
 					LastName:  "Admin",
 					Email: Email{
-						Address:  domain.EmailAddress("admin@zitadel.test"),
+						Address:  domain.EmailAddress("admin@nomen.test"),
 						Verified: true,
 					},
 					PreferredLanguage:      language.English,
@@ -1197,8 +1197,8 @@ func TestCommandSide_setupDefaultOrg(t *testing.T) {
 				},
 				loginClient: &AddLoginClient{
 					Machine: &Machine{
-						Username:        "zitadel-login-client",
-						Name:            "ZITADEL-login-client",
+						Username:        "nomen-login-client",
+						Name:            "NOMEN-login-client",
 						Description:     "Login Client",
 						AccessTokenType: domain.OIDCTokenTypeBearer,
 					},
@@ -1207,7 +1207,7 @@ func TestCommandSide_setupDefaultOrg(t *testing.T) {
 						Scopes:         nil,
 					},
 				},
-				ids: ZitadelConfig{
+				ids: NomenConfig{
 					instanceID:             "INSTANCE",
 					orgID:                  "ORG",
 					projectID:              "PROJECT",
@@ -1230,7 +1230,7 @@ func TestCommandSide_setupDefaultOrg(t *testing.T) {
 			r := &Commands{
 				eventstore:         tt.fields.eventstore(t),
 				idGenerator:        tt.fields.idGenerator,
-				zitadelRoles:       tt.fields.roles,
+				nomenRoles:       tt.fields.roles,
 				userPasswordHasher: tt.fields.userPasswordHasher,
 				keyAlgorithm:       tt.fields.keyAlgorithm,
 				authAlgorithm:      &mockAuthCrypto{},
@@ -1295,7 +1295,7 @@ func TestCommandSide_setupInstanceElements(t *testing.T) {
 							expectPush(
 								setupInstanceElementsEvents(context.Background(),
 									"INSTANCE",
-									"ZITADEL",
+									"NOMEN",
 									language.English,
 								)...,
 							),
@@ -1369,8 +1369,8 @@ func TestCommandSide_setUpInstance(t *testing.T) {
 									"ORG",
 									"PROJECT",
 									"console-id",
-									"ZITADEL",
-									"ZITADEL",
+									"NOMEN",
+									"NOMEN",
 									language.English,
 									"DOMAIN",
 									false,
@@ -1382,7 +1382,7 @@ func TestCommandSide_setUpInstance(t *testing.T) {
 				),
 				userPasswordHasher: mockPasswordHasher("x"),
 				idGenerator:        id_mock.NewIDGeneratorExpectIDs(t, orgIDs()...),
-				roles:              validZitadelRoles(),
+				roles:              validNomenRoles(),
 				keyAlgorithm:       crypto.CreateMockEncryptionAlg(gomock.NewController(t)),
 				generateDomain: func(string, string) (string, error) {
 					return "DOMAIN", nil
@@ -1402,7 +1402,7 @@ func TestCommandSide_setUpInstance(t *testing.T) {
 			r := &Commands{
 				eventstore:         tt.fields.eventstore(t),
 				idGenerator:        tt.fields.idGenerator,
-				zitadelRoles:       tt.fields.roles,
+				nomenRoles:       tt.fields.roles,
 				userPasswordHasher: tt.fields.userPasswordHasher,
 				keyAlgorithm:       tt.fields.keyAlgorithm,
 				GenerateDomain:     tt.fields.generateDomain,

@@ -11,13 +11,13 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/stdlib"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	new_db "github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	new_sql "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/sql"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/database/dialect"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	new_db "github.com/shippinAI/nomen/backend/v3/storage/database"
+	new_sql "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/sql"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/database/dialect"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 func init() {

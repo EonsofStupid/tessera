@@ -6,8 +6,8 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/pkg/grpc/webkey/v2"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/pkg/grpc/webkey/v2"
 )
 
 func (s *Server) CreateWebKey(ctx context.Context, req *connect.Request[webkey.CreateWebKeyRequest]) (_ *connect.Response[webkey.CreateWebKeyResponse], err error) {

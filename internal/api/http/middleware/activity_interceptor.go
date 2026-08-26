@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/internal/api/info"
+	"github.com/shippinAI/nomen/internal/api/info"
 )
 
 func ActivityHandler(next http.Handler) http.Handler {

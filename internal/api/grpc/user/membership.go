@@ -1,10 +1,10 @@
 package user
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	user_pb "github.com/EonsofStupid/tessera/pkg/grpc/user"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	user_pb "github.com/shippinAI/nomen/pkg/grpc/user"
 )
 
 func MembershipQueriesToQuery(queries []*user_pb.MembershipQuery) (_ []query.SearchQuery, err error) {

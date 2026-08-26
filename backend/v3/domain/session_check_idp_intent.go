@@ -4,12 +4,12 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/idpintent"
-	"github.com/EonsofStupid/tessera/internal/repository/session"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/idpintent"
+	"github.com/shippinAI/nomen/internal/repository/session"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type CheckIDPIntentType struct {

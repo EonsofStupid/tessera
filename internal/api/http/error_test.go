@@ -9,10 +9,10 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
-func TestZitadelErrorToHTTPStatusCode(t *testing.T) {
+func TestNomenErrorToHTTPStatusCode(t *testing.T) {
 	type args struct {
 		err error
 	}
@@ -119,7 +119,7 @@ func TestZitadelErrorToHTTPStatusCode(t *testing.T) {
 			wantOk:         true,
 		},
 		{
-			name: "no zitadel error",
+			name: "no nomen error",
 			args: args{
 				err: errors.New("error"),
 			},
@@ -129,18 +129,18 @@ func TestZitadelErrorToHTTPStatusCode(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotStatusCode, gotOk := ZitadelErrorToHTTPStatusCode(t.Context(), tt.args.err)
+			gotStatusCode, gotOk := NomenErrorToHTTPStatusCode(t.Context(), tt.args.err)
 			if gotStatusCode != tt.wantStatusCode {
-				t.Errorf("ZitadelErrorToHTTPStatusCode() gotStatusCode = %v, want %v", gotStatusCode, tt.wantStatusCode)
+				t.Errorf("NomenErrorToHTTPStatusCode() gotStatusCode = %v, want %v", gotStatusCode, tt.wantStatusCode)
 			}
 			if gotOk != tt.wantOk {
-				t.Errorf("ZitadelErrorToHTTPStatusCode() gotOk = %v, want %v", gotOk, tt.wantOk)
+				t.Errorf("NomenErrorToHTTPStatusCode() gotOk = %v, want %v", gotOk, tt.wantOk)
 			}
 		})
 	}
 }
 
-func TestHTTPStatusCodeToZitadelError(t *testing.T) {
+func TestHTTPStatusCodeToNomenError(t *testing.T) {
 	type args struct {
 		statusCode int
 		id         string
@@ -280,7 +280,7 @@ func TestHTTPStatusCodeToZitadelError(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := HTTPStatusCodeToZitadelError(tt.args.parent, tt.args.statusCode, tt.args.id, tt.args.message)
+			err := HTTPStatusCodeToNomenError(tt.args.parent, tt.args.statusCode, tt.args.id, tt.args.message)
 			assert.ErrorIs(t, err, tt.wantErr)
 			if tt.args.parent != nil {
 				assert.ErrorIs(t, err, tt.args.parent)

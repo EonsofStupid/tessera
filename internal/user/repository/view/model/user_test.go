@@ -5,12 +5,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/user/model"
-	es_model "github.com/EonsofStupid/tessera/internal/user/repository/eventsourcing/model"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/user/model"
+	es_model "github.com/shippinAI/nomen/internal/user/repository/eventsourcing/model"
 )
 
 func mockUserData(user *es_model.User) []byte {

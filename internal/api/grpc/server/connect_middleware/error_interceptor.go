@@ -6,9 +6,9 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/gerrors"
-	_ "github.com/EonsofStupid/tessera/internal/statik"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/grpc/gerrors"
+	_ "github.com/shippinAI/nomen/internal/statik"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func ErrorHandler() connect.UnaryInterceptorFunc {
@@ -32,7 +32,7 @@ func toConnectError(ctx context.Context, req connect.AnyRequest, handler connect
 			}
 		}
 		cause := err // avoid passing the transport error as cancel cause.
-		err = gerrors.ZITADELToConnectError(ctx, err)
+		err = gerrors.NOMENToConnectError(ctx, err)
 		cancel(cause)
 	}()
 	return handler(ctx, req)

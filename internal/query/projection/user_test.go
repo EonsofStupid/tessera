@@ -5,13 +5,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestUserProjection_reduces(t *testing.T) {
@@ -40,7 +40,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						"displayName": "display-name",
 						"preferredLanguage": "ch-DE",
 						"gender": 1,
-						"email": "email@zitadel.com",
+						"email": "email@nomen.com",
 						"phone": "+41 00 000 00 00",
 						"changeRequired": true
 					}`),
@@ -78,7 +78,7 @@ func TestUserProjection_reduces(t *testing.T) {
 								&sql.NullString{String: "display-name", Valid: true},
 								&sql.NullString{String: "ch-DE", Valid: true},
 								&sql.NullInt16{Int16: int16(domain.GenderFemale), Valid: true},
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "+41 00 000 00 00", Valid: true},
 								true,
 								&sql.NullTime{Time: testNow, Valid: false},
@@ -89,7 +89,7 @@ func TestUserProjection_reduces(t *testing.T) {
 							expectedArgs: []interface{}{
 								"agg-id",
 								"instance-id",
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "+41 00 000 00 00", Valid: true},
 								false,
 							},
@@ -113,7 +113,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						"displayName": "display-name",
 						"preferredLanguage": "ch-DE",
 						"gender": 1,
-						"email": "email@zitadel.com",
+						"email": "email@nomen.com",
 						"phone": "+41 00 000 00 00"
 					}`),
 						testNow,
@@ -150,7 +150,7 @@ func TestUserProjection_reduces(t *testing.T) {
 								&sql.NullString{String: "display-name", Valid: true},
 								&sql.NullString{String: "ch-DE", Valid: true},
 								&sql.NullInt16{Int16: int16(domain.GenderFemale), Valid: true},
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "+41 00 000 00 00", Valid: true},
 								false,
 								&sql.NullTime{Time: testNow, Valid: false},
@@ -161,7 +161,7 @@ func TestUserProjection_reduces(t *testing.T) {
 							expectedArgs: []interface{}{
 								"agg-id",
 								"instance-id",
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "+41 00 000 00 00", Valid: true},
 								false,
 							},
@@ -181,7 +181,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						"username": "user-name",
 						"firstName": "first-name",
 						"lastName": "last-name",
-						"email": "email@zitadel.com"
+						"email": "email@nomen.com"
 					}`),
 						testNow,
 					), user.HumanAddedEventMapper),
@@ -217,7 +217,7 @@ func TestUserProjection_reduces(t *testing.T) {
 								&sql.NullString{},
 								&sql.NullString{String: "und", Valid: false},
 								&sql.NullInt16{},
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{},
 								false,
 								&sql.NullTime{Time: testNow, Valid: false},
@@ -228,7 +228,7 @@ func TestUserProjection_reduces(t *testing.T) {
 							expectedArgs: []interface{}{
 								"agg-id",
 								"instance-id",
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "", Valid: false},
 								false,
 							},
@@ -252,7 +252,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						"displayName": "display-name",
 						"preferredLanguage": "ch-DE",
 						"gender": 1,
-						"email": "email@zitadel.com",
+						"email": "email@nomen.com",
 						"phone": "+41 00 000 00 00",
 						"changeRequired": true
 					}`),
@@ -290,7 +290,7 @@ func TestUserProjection_reduces(t *testing.T) {
 								&sql.NullString{String: "display-name", Valid: true},
 								&sql.NullString{String: "ch-DE", Valid: true},
 								&sql.NullInt16{Int16: int16(domain.GenderFemale), Valid: true},
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "+41 00 000 00 00", Valid: true},
 								true,
 								&sql.NullTime{Time: testNow, Valid: false},
@@ -301,7 +301,7 @@ func TestUserProjection_reduces(t *testing.T) {
 							expectedArgs: []interface{}{
 								"agg-id",
 								"instance-id",
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "+41 00 000 00 00", Valid: true},
 								false,
 							},
@@ -325,7 +325,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						"displayName": "display-name",
 						"preferredLanguage": "ch-DE",
 						"gender": 1,
-						"email": "email@zitadel.com",
+						"email": "email@nomen.com",
 						"phone": "+41 00 000 00 00"
 					}`),
 						testNow,
@@ -362,7 +362,7 @@ func TestUserProjection_reduces(t *testing.T) {
 								&sql.NullString{String: "display-name", Valid: true},
 								&sql.NullString{String: "ch-DE", Valid: true},
 								&sql.NullInt16{Int16: int16(domain.GenderFemale), Valid: true},
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "+41 00 000 00 00", Valid: true},
 								false,
 								&sql.NullTime{Time: testNow, Valid: false},
@@ -373,7 +373,7 @@ func TestUserProjection_reduces(t *testing.T) {
 							expectedArgs: []interface{}{
 								"agg-id",
 								"instance-id",
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "+41 00 000 00 00", Valid: true},
 								false,
 							},
@@ -393,7 +393,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						"username": "user-name",
 						"firstName": "first-name",
 						"lastName": "last-name",
-						"email": "email@zitadel.com"
+						"email": "email@nomen.com"
 					}`),
 						testNow,
 					), user.HumanRegisteredEventMapper),
@@ -429,7 +429,7 @@ func TestUserProjection_reduces(t *testing.T) {
 								&sql.NullString{},
 								&sql.NullString{String: "und", Valid: false},
 								&sql.NullInt16{},
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{},
 								false,
 								&sql.NullTime{Time: testNow, Valid: false},
@@ -440,7 +440,7 @@ func TestUserProjection_reduces(t *testing.T) {
 							expectedArgs: []interface{}{
 								"agg-id",
 								"instance-id",
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								&sql.NullString{String: "", Valid: false},
 								false,
 							},
@@ -1156,7 +1156,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						user.HumanEmailChangedType,
 						user.AggregateType,
 						[]byte(`{
-						"email": "email@zitadel.com"
+						"email": "email@nomen.com"
 					}`),
 					), user.HumanEmailChangedEventMapper),
 			},
@@ -1178,7 +1178,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.users14_humans SET (email, is_email_verified) = ($1, $2) WHERE (user_id = $3) AND (instance_id = $4)",
 							expectedArgs: []interface{}{
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								false,
 								"agg-id",
 								"instance-id",
@@ -1187,7 +1187,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.users14_notifications SET last_email = $1 WHERE (user_id = $2) AND (instance_id = $3)",
 							expectedArgs: []interface{}{
-								&sql.NullString{String: "email@zitadel.com", Valid: true},
+								&sql.NullString{String: "email@nomen.com", Valid: true},
 								"agg-id",
 								"instance-id",
 							},
@@ -1204,7 +1204,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						user.UserV1EmailChangedType,
 						user.AggregateType,
 						[]byte(`{
-						"email": "email@zitadel.com"
+						"email": "email@nomen.com"
 					}`),
 					), user.HumanEmailChangedEventMapper),
 			},
@@ -1226,7 +1226,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.users14_humans SET (email, is_email_verified) = ($1, $2) WHERE (user_id = $3) AND (instance_id = $4)",
 							expectedArgs: []interface{}{
-								domain.EmailAddress("email@zitadel.com"),
+								domain.EmailAddress("email@nomen.com"),
 								false,
 								"agg-id",
 								"instance-id",
@@ -1235,7 +1235,7 @@ func TestUserProjection_reduces(t *testing.T) {
 						{
 							expectedStmt: "UPDATE projections.users14_notifications SET last_email = $1 WHERE (user_id = $2) AND (instance_id = $3)",
 							expectedArgs: []interface{}{
-								&sql.NullString{String: "email@zitadel.com", Valid: true},
+								&sql.NullString{String: "email@nomen.com", Valid: true},
 								"agg-id",
 								"instance-id",
 							},

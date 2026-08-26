@@ -16,7 +16,7 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-const Name = "zitadel/backend/v3/instrumentation/tracing"
+const Name = "nomen/backend/v3/instrumentation/tracing"
 
 type Config struct {
 	ServiceName string

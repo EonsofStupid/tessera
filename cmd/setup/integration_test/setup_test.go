@@ -1,6 +1,6 @@
 // Package setup_test implements tests for procedural PostgreSQL functions,
-// created in the database during Zitadel setup.
-// Tests depend on `zitadel setup` being run first and therefore is run as integration tests.
+// created in the database during Nomen setup.
+// Tests depend on `nomen setup` being run first and therefore is run as integration tests.
 // A PGX connection is used directly to the integration test database.
 // This package assumes the database server available as per integration test defaults.
 // See the [ConnString] constant.
@@ -28,12 +28,12 @@ func getEnv(key, fallback string) string {
 
 var ConnString = fmt.Sprintf(
 	"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-	getEnv("TESSERA_DATABASE_POSTGRES_HOST", "localhost"),
-	getEnv("TESSERA_DATABASE_POSTGRES_PORT", "5433"),
-	getEnv("TESSERA_DATABASE_POSTGRES_USER", "zitadel"),
-	getEnv("TESSERA_DATABASE_POSTGRES_PASSWORD", "zitadel"),
-	getEnv("TESSERA_DATABASE_POSTGRES_DATABASE", "zitadel"),
-	getEnv("TESSERA_DATABASE_POSTGRES_SSL_MODE", "disable"),
+	getEnv("NOMEN_DATABASE_POSTGRES_HOST", "localhost"),
+	getEnv("NOMEN_DATABASE_POSTGRES_PORT", "5433"),
+	getEnv("NOMEN_DATABASE_POSTGRES_USER", "nomen"),
+	getEnv("NOMEN_DATABASE_POSTGRES_PASSWORD", "nomen"),
+	getEnv("NOMEN_DATABASE_POSTGRES_DATABASE", "nomen"),
+	getEnv("NOMEN_DATABASE_POSTGRES_SSL_MODE", "disable"),
 )
 
 var (

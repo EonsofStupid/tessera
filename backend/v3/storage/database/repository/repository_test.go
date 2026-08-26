@@ -13,12 +13,12 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres/embedded"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/integration"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres/embedded"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/integration"
 )
 
 func TestMain(m *testing.M) {
@@ -51,7 +51,7 @@ func runTests(m *testing.M) int {
 
 func newEmbeddedDB(ctx context.Context) (pool database.PoolTest, stop func(), err error) {
 	var connector database.Connector
-	if url := os.Getenv("TESSERA_TEST_POSTGRES_URL"); url != "" {
+	if url := os.Getenv("NOMEN_TEST_POSTGRES_URL"); url != "" {
 		log.Println("using database provided by env")
 		connector, err = postgres.DecodeConfig(url)
 		if err != nil {

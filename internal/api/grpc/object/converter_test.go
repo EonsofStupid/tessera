@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	object_pb "github.com/EonsofStupid/tessera/pkg/grpc/object"
+	object_pb "github.com/shippinAI/nomen/pkg/grpc/object"
 )
 
 func Test_ListQueryToModel(t *testing.T) {

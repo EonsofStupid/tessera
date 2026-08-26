@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/i18n"
+	"github.com/shippinAI/nomen/internal/i18n"
 )
 
 var (

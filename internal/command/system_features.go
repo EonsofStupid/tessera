@@ -3,10 +3,10 @@ package command
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/feature"
-	"github.com/EonsofStupid/tessera/internal/repository/feature/feature_v2"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/feature"
+	"github.com/shippinAI/nomen/internal/repository/feature/feature_v2"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type SystemFeatures struct {

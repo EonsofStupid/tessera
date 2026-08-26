@@ -12,13 +12,13 @@ import (
 	"github.com/go-jose/go-jose/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/integration"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
 )
 
 func TestServer_Keys(t *testing.T) {
@@ -26,7 +26,7 @@ func TestServer_Keys(t *testing.T) {
 	ctxLogin := instance.WithAuthorization(CTX, integration.UserTypeLogin)
 
 	clientID, _ := createClient(t, instance)
-	authRequestID := createAuthRequest(t, instance, clientID, redirectURI, oidc.ScopeOpenID, oidc.ScopeOfflineAccess, zitadelAudienceScope)
+	authRequestID := createAuthRequest(t, instance, clientID, redirectURI, oidc.ScopeOpenID, oidc.ScopeOfflineAccess, nomenAudienceScope)
 
 	instance.RegisterUserPasskey(instance.WithAuthorization(CTX, integration.UserTypeOrgOwner), instance.AdminUserID)
 	sessionID, sessionToken, _, _ := instance.CreateVerifiedWebAuthNSession(t, ctxLogin, instance.AdminUserID)

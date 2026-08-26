@@ -3,8 +3,8 @@ package object
 import (
 	"github.com/dop251/goja"
 
-	"github.com/EonsofStupid/tessera/internal/actions"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/actions"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 // TokenActorField accepts a domain.TokenActor pointer and copies its content so scripts can't mutate the domain object.

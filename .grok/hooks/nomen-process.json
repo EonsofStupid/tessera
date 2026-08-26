@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s\\n' 'Nomen process: read docs/02 and docs/26. Public edition is the deployable default. Enterprise withholds Redis, Vault, and Mesh. Hosted demo is public plus NOMEN_DEMO_CAPS. Never write usernames, passwords, PATs, or recovery artifacts into git. The first human account is created at setup from deploy-time env only, otherwise passkey enrollment. Project hooks need /hooks-trust.'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|search_replace|Bash|run_terminal_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 dev/agent-hooks/pretooluse.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash dev/agent-hooks/stop-verify.sh",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

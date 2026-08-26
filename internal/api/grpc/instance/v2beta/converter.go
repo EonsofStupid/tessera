@@ -3,13 +3,13 @@ package instance
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/cmd/build"
-	filter "github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2beta"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	instance "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
+	"github.com/shippinAI/nomen/cmd/build"
+	filter "github.com/shippinAI/nomen/internal/api/grpc/filter/v2beta"
+	"github.com/shippinAI/nomen/internal/api/grpc/object/v2"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	instance "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
 )
 
 func InstancesToPb(instances []*query.Instance) []*instance.Instance {

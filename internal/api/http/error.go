@@ -5,11 +5,11 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
-func ZitadelErrorToHTTPStatusCode(ctx context.Context, err error) (statusCode int, ok bool) {
+func NomenErrorToHTTPStatusCode(ctx context.Context, err error) (statusCode int, ok bool) {
 	if err == nil {
 		return http.StatusOK, true
 	}
@@ -26,13 +26,13 @@ func ZitadelErrorToHTTPStatusCode(ctx context.Context, err error) (statusCode in
 const statusUnknown = 0
 
 func extractError(err error) (statusCode int, msg, id string, lvl slog.Level) {
-	zitadelErr, ok := zerrors.AsZitadelError(err)
+	nomenErr, ok := zerrors.AsNomenError(err)
 	if !ok {
 		return statusUnknown, err.Error(), "", slog.LevelError
 	}
-	msg, id = zitadelErr.GetMessage(), zitadelErr.GetID()
+	msg, id = nomenErr.GetMessage(), nomenErr.GetID()
 
-	switch zitadelErr.Kind {
+	switch nomenErr.Kind {
 	case zerrors.KindAlreadyExists:
 		statusCode, lvl = http.StatusConflict, slog.LevelError
 	case zerrors.KindDeadlineExceeded:
@@ -73,7 +73,7 @@ func extractError(err error) (statusCode int, msg, id string, lvl slog.Level) {
 	return statusCode, msg, id, lvl
 }
 
-func HTTPStatusCodeToZitadelError(parent error, statusCode int, id string, message string) error {
+func HTTPStatusCodeToNomenError(parent error, statusCode int, id string, message string) error {
 	if statusCode == http.StatusOK {
 		return nil
 	}

@@ -3,13 +3,13 @@ package view
 import (
 	"context"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/query"
-	usr_model "github.com/EonsofStupid/tessera/internal/user/model"
-	"github.com/EonsofStupid/tessera/internal/user/repository/view"
-	"github.com/EonsofStupid/tessera/internal/user/repository/view/model"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/query"
+	usr_model "github.com/shippinAI/nomen/internal/user/model"
+	"github.com/shippinAI/nomen/internal/user/repository/view"
+	"github.com/shippinAI/nomen/internal/user/repository/view/model"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

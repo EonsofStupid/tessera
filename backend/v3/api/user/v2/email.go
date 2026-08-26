@@ -3,8 +3,8 @@ package userv2
 // import (
 // 	"context"
 
-// 	"github.com/EonsofStupid/tessera/backend/v3/domain"
-// 	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+// 	"github.com/shippinAI/nomen/backend/v3/domain"
+// 	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 // )
 
 // func SetEmail(ctx context.Context, req *user.SetEmailRequest) (resp *user.SetEmailResponse, err error) {

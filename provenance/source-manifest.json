@@ -1,0 +1,139 @@
+{
+  "schema": "nomen.source-provenance-manifest.v1",
+  "baseline_import": {
+    "commit": "31c07a1093908546409842d486bcc62e9e15688e",
+    "source_id": "nomen-native",
+    "relationship": "native",
+    "overrides": []
+  },
+  "sources": [
+    {
+      "id": "nomen-native",
+      "name": "Nomen",
+      "repository": "https://github.com/shippinAI/nomen",
+      "revision": "SELF",
+      "revision_status": "the containing release commit is authoritative",
+      "license_expression": "LicenseRef-AngryVibes-LLC AND LicenseRef-shippin.ai",
+      "license_reference": "LICENSE"
+    },
+    {
+      "id": "authentik-concepts",
+      "name": "authentik (design study only; not absorbed)",
+      "repository": "https://github.com/goauthentik/authentik",
+      "revision": "64d4b97dbd81a65a3dbe8e0e3dc7d13cb8831ff8",
+      "revision_status": "non-product reference snapshot; not shipped; not Nomen's license",
+      "license_expression": "LicenseRef-Not-Absorbed",
+      "license_reference": "docs/23-release-governance-record.md"
+    }
+  ],
+  "path_rules": [
+    {
+      "id": "nomen-runtime-compatibility-import",
+      "patterns": [
+        "internal/execution/target/**",
+        "internal/repository/target/**",
+        "pkg/grpc/**"
+      ],
+      "source_id": "nomen-native",
+      "relationship": "native",
+      "reason": "Nomen runtime compatibility code. Licensed only by AngryVibes LLC and shippin.ai; no third-party product license is absorbed."
+    },
+    {
+      "id": "authentik-blueprint-inspiration",
+      "patterns": [
+        "backend/v1/domain/blueprint*.go",
+        "backend/v1/storage/blueprint/**",
+        "backend/v1/storage/seat/applier*.go",
+        "backend/v1/storage/seat/atomicity_test.go",
+        "blueprints/dev/seats.yaml.tmpl",
+        "cmd/blueprint/**"
+      ],
+      "source_id": "nomen-native",
+      "relationship": "native",
+      "inspired_by": [
+        "authentik-concepts"
+      ],
+      "reason": "Authentik blueprint concepts reimplemented over Nomen's domain and transaction boundary."
+    },
+    {
+      "id": "authentik-flow-inspiration",
+      "patterns": [
+        "backend/v1/domain/flow*.go",
+        "backend/v1/storage/flow/**",
+        "backend/v1/storage/migration/002_flows.go",
+        "backend/v1/storage/migration/002_flows/**",
+        "backend/v1/storage/seat/crossmodel_test.go",
+        "blueprints/dev/flows.yaml",
+        "dev/flow-probe.sh",
+        "internal/api/flows/**"
+      ],
+      "source_id": "nomen-native",
+      "relationship": "native",
+      "inspired_by": [
+        "authentik-concepts"
+      ],
+      "reason": "Authentik flow and stage concepts reimplemented in Go over Nomen sessions."
+    },
+    {
+      "id": "nomen-v1-domain",
+      "patterns": [
+        "backend/v1/**"
+      ],
+      "source_id": "nomen-native",
+      "relationship": "native",
+      "reason": "Nomen-owned provider-neutral domain and storage code added after the trunk import."
+    },
+    {
+      "id": "nomen-seat-command",
+      "patterns": [
+        "cmd/seat/**"
+      ],
+      "source_id": "nomen-native",
+      "relationship": "native",
+      "reason": "Nomen seat management surface."
+    },
+    {
+      "id": "nomen-seat-claims",
+      "patterns": [
+        "internal/api/oidc/seat_claims*.go",
+        "internal/domain/seat_scope.go"
+      ],
+      "source_id": "nomen-native",
+      "relationship": "native",
+      "reason": "Nomen seat-token minting and workspace audience rules."
+    },
+    {
+      "id": "nomen-management-protocol",
+      "patterns": [
+        "proto/nomen/**"
+      ],
+      "source_id": "nomen-native",
+      "relationship": "native",
+      "reason": "Nomen-owned provider-neutral management protocol."
+    },
+    {
+      "id": "nomen-standalone-console",
+      "patterns": [
+        "internal/api/ui/console/**"
+      ],
+      "source_id": "nomen-native",
+      "relationship": "native",
+      "reason": "Nomen-owned embedded standalone console and generated web assets."
+    },
+    {
+      "id": "nomen-integration-key-safety",
+      "patterns": [
+        "internal/integration/system_key_test.go"
+      ],
+      "source_id": "nomen-native",
+      "relationship": "native",
+      "reason": "Nomen regression coverage that generates integration keys at test time and prevents repository key fixtures."
+    }
+  ],
+  "reviewed_path_patterns": [],
+  "default_classification": {
+    "source_id": "nomen-native",
+    "relationship": "native",
+    "rule_id": "nomen-native-default"
+  }
+}

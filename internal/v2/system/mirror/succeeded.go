@@ -3,8 +3,8 @@ package mirror
 import (
 	"github.com/shopspring/decimal"
 
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type succeededPayload struct {

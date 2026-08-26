@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
 )
 
 type Cache struct {

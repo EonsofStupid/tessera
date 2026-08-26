@@ -67,7 +67,7 @@ func (c OperatorActionCatalog) Validate() error {
 			return fmt.Errorf("duplicate action %q", action.ID)
 		}
 		seen[action.ID] = struct{}{}
-		if !action.Stage.Valid() || !action.Exposure.Valid() || !strings.HasPrefix(action.Href, "/tessera/v1/") || !json.Valid(action.IntentSchema) {
+		if !action.Stage.Valid() || !action.Exposure.Valid() || !strings.HasPrefix(action.Href, "/nomen/v1/") || !json.Valid(action.IntentSchema) {
 			return fmt.Errorf("action %s has an invalid execution contract", action.ID)
 		}
 		if action.Exposure != UIExposureEnabled && strings.TrimSpace(action.Reason) == "" {

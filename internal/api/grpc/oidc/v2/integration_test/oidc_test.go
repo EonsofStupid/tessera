@@ -12,18 +12,18 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
-	project_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
+	project_v2beta "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 func TestServer_GetAuthRequest(t *testing.T) {

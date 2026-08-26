@@ -4,12 +4,12 @@ import (
 	"encoding/base64"
 	"net/http"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
+	http_mw "github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 const (

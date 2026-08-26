@@ -15,12 +15,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/integration/scim"
-	"github.com/EonsofStupid/tessera/internal/test"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/scim/resources"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration/scim"
+	"github.com/shippinAI/nomen/internal/test"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 var (
@@ -48,7 +48,7 @@ func TestReplaceUser(t *testing.T) {
 		wantErr          bool
 		scimErrorType    string
 		errorStatus      int
-		zitadelErrID     string
+		nomenErrID     string
 	}{
 		{
 			name: "minimal user",
@@ -182,7 +182,7 @@ func TestReplaceUser(t *testing.T) {
 			name:          "invalid profile url",
 			wantErr:       true,
 			scimErrorType: "invalidValue",
-			zitadelErrID:  "SCIM-htturl1",
+			nomenErrID:  "SCIM-htturl1",
 			body:          invalidProfileUrlUserJson,
 		},
 		{
@@ -256,8 +256,8 @@ func TestReplaceUser(t *testing.T) {
 
 				scimErr := scim.RequireScimError(t, statusCode, err)
 				assert.Equal(t, tt.scimErrorType, scimErr.Error.ScimType)
-				if tt.zitadelErrID != "" {
-					assert.Equal(t, tt.zitadelErrID, scimErr.Error.ZitadelDetail.ID)
+				if tt.nomenErrID != "" {
+					assert.Equal(t, tt.nomenErrID, scimErr.Error.NomenDetail.ID)
 				}
 
 				return
@@ -308,7 +308,7 @@ func TestReplaceUser_removeOldMetadata(t *testing.T) {
 		for i := range md.Result {
 			mdMap[md.Result[i].Key] = string(md.Result[i].Value)
 		}
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:emails", fmt.Sprintf("[{\"value\":\"%s@example.com\",\"primary\":true}]", username))
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:emails", fmt.Sprintf("[{\"value\":\"%s@example.com\",\"primary\":true}]", username))
 	}, retryDuration, tick)
 }
 
@@ -334,7 +334,7 @@ func TestReplaceUser_emailType(t *testing.T) {
 			mdMap[md.Result[i].Key] = string(md.Result[i].Value)
 		}
 
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:emails", fmt.Sprintf("[{\"value\":\"%s@example.com\",\"primary\":true,\"type\":\"work\"}]", replacedUsername))
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:emails", fmt.Sprintf("[{\"value\":\"%s@example.com\",\"primary\":true,\"type\":\"work\"}]", replacedUsername))
 	}, retryDuration, tick)
 }
 
@@ -364,7 +364,7 @@ func TestReplaceUser_scopedExternalID(t *testing.T) {
 		}
 
 		// both external IDs should be present on the user
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:externalId", "701984")
-		test.AssertMapContains(tt, mdMap, "urn:zitadel:scim:fooBazz:externalId", "replaced-external-id")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:externalId", "701984")
+		test.AssertMapContains(tt, mdMap, "urn:nomen:scim:fooBazz:externalId", "replaced-external-id")
 	}, retryDuration, tick)
 }

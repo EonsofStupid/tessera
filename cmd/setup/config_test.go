@@ -14,10 +14,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/feature"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/feature"
 )
 
 func TestMustNewConfig(t *testing.T) {
@@ -43,7 +43,7 @@ DefaultInstance:
     ConsoleUseV2UserApi: true
     LoginV2:
       Required: true
-      BaseURI: 'http://zitadel:8080'
+      BaseURI: 'http://nomen:8080'
 Log:
   Level: info
 Actions:
@@ -57,7 +57,7 @@ Actions:
 				ManagementConsoleUseV2UserApi: gu.Ptr(true),
 				LoginV2: &feature.LoginV2{
 					Required: true,
-					BaseURI:  &url.URL{Scheme: "http", Host: "zitadel:8080"},
+					BaseURI:  &url.URL{Scheme: "http", Host: "nomen:8080"},
 				},
 			})
 		},

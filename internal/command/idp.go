@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type GenericOAuthProvider struct {
@@ -138,7 +138,7 @@ type AppleProvider struct {
 	IDPOptions idp.Options
 }
 
-type ZitadelProvider struct {
+type NomenProvider struct {
 	Name              string
 	Issuer            string
 	ClientID          string

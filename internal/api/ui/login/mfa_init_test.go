@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 // Test_isMFAPromptStep guards the fix for the unauthenticated MFA-enrollment / phone-overwrite

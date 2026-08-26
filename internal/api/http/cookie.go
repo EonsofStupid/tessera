@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/securecookie"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

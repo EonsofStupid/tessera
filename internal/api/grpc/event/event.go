@@ -4,10 +4,10 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	eventpb "github.com/EonsofStupid/tessera/pkg/grpc/event"
-	"github.com/EonsofStupid/tessera/pkg/grpc/message"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	eventpb "github.com/shippinAI/nomen/pkg/grpc/event"
+	"github.com/shippinAI/nomen/pkg/grpc/message"
 )
 
 func EventsToPb(events []*query.Event) (response []*eventpb.Event, err error) {

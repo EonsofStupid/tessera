@@ -11,17 +11,17 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	domainmock "github.com/EonsofStupid/tessera/backend/v3/domain/mock"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dbmock"
-	noopdb "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/noop"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	old_domain "github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/session"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	domainmock "github.com/shippinAI/nomen/backend/v3/domain/mock"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dbmock"
+	noopdb "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/noop"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	old_domain "github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/session"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestPasskeyCheckCommand_Validate(t *testing.T) {

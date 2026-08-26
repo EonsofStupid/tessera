@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package nomen.management.v1;
+
+import "nomen/management/v1/operation.proto";
+
+option go_package = "github.com/shippinAI/nomen/pkg/grpc/management/v1;management";
+
+enum ManagementErrorType {
+  MANAGEMENT_ERROR_TYPE_UNSPECIFIED = 0;
+  MANAGEMENT_ERROR_TYPE_AUTHENTICATION_REQUIRED = 1;
+  MANAGEMENT_ERROR_TYPE_ENTITLEMENT_REQUIRED = 2;
+  MANAGEMENT_ERROR_TYPE_PERMISSION_REQUIRED = 3;
+  MANAGEMENT_ERROR_TYPE_STEP_UP_REQUIRED = 4;
+  MANAGEMENT_ERROR_TYPE_CONFLICT = 5;
+  MANAGEMENT_ERROR_TYPE_INVALID_REQUEST = 6;
+  MANAGEMENT_ERROR_TYPE_RATE_LIMITED = 7;
+  MANAGEMENT_ERROR_TYPE_SERVICE_UNAVAILABLE = 8;
+}
+
+enum ManagementRemedyKind {
+  MANAGEMENT_REMEDY_KIND_UNSPECIFIED = 0;
+  MANAGEMENT_REMEDY_KIND_SIGN_IN = 1;
+  MANAGEMENT_REMEDY_KIND_REQUEST_ENTITLEMENT = 2;
+  MANAGEMENT_REMEDY_KIND_REQUEST_PERMISSION = 3;
+  MANAGEMENT_REMEDY_KIND_STEP_UP = 4;
+  MANAGEMENT_REMEDY_KIND_REFRESH_AND_REVIEW = 5;
+  MANAGEMENT_REMEDY_KIND_CORRECT_REQUEST = 6;
+  MANAGEMENT_REMEDY_KIND_RETRY_AFTER = 7;
+  MANAGEMENT_REMEDY_KIND_RETRY_LATER = 8;
+}
+
+message ManagementRemedy {
+  ManagementRemedyKind kind = 1;
+  string label = 2;
+}
+
+message ManagementError {
+  ManagementErrorType type = 1;
+  string reason = 2;
+  string message = 3;
+  ManagementRemedy remedy = 4;
+  RetryDirective retry = 5;
+  string missing_entitlement = 6;
+  string required_permission = 7;
+  string required_assurance = 8;
+  string field = 9;
+  string current_revision = 10;
+  uint32 retry_after_seconds = 11;
+  string diagnostic_ref = 12;
+}

@@ -10,7 +10,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/cache"
+	"github.com/shippinAI/nomen/backend/v3/storage/cache"
 )
 
 type mapCache[I, K comparable, V cache.Entry[I, K]] struct {

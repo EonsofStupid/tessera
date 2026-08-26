@@ -4,12 +4,12 @@ import (
 	"context"
 	"database/sql"
 
-	v3_sql "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/sql"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/permission"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	v3_sql "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/sql"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/permission"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (p *relationalTablesProjection) reduceAdministratorRolePermissionAdded(event eventstore.Event) (*handler.Statement, error) {

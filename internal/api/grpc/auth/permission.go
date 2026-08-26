@@ -3,19 +3,19 @@ package auth
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	user_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/user"
-	"github.com/EonsofStupid/tessera/internal/query"
-	auth_pb "github.com/EonsofStupid/tessera/pkg/grpc/auth"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	user_grpc "github.com/shippinAI/nomen/internal/api/grpc/user"
+	"github.com/shippinAI/nomen/internal/query"
+	auth_pb "github.com/shippinAI/nomen/pkg/grpc/auth"
 )
 
-func (s *Server) ListMyZitadelPermissions(ctx context.Context, _ *auth_pb.ListMyZitadelPermissionsRequest) (*auth_pb.ListMyZitadelPermissionsResponse, error) {
-	perms, err := s.query.MyZitadelPermissions(ctx, authz.GetCtxData(ctx).OrgID, authz.GetCtxData(ctx).UserID)
+func (s *Server) ListMyNomenPermissions(ctx context.Context, _ *auth_pb.ListMyNomenPermissionsRequest) (*auth_pb.ListMyNomenPermissionsResponse, error) {
+	perms, err := s.query.MyNomenPermissions(ctx, authz.GetCtxData(ctx).OrgID, authz.GetCtxData(ctx).UserID)
 	if err != nil {
 		return nil, err
 	}
-	return &auth_pb.ListMyZitadelPermissionsResponse{
+	return &auth_pb.ListMyNomenPermissionsResponse{
 		Result: perms.Permissions,
 	}, nil
 }

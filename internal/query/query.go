@@ -7,20 +7,20 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/cache/connector"
-	sd "github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	es_v4 "github.com/EonsofStupid/tessera/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/cache/connector"
+	sd "github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	es_v4 "github.com/shippinAI/nomen/internal/v2/eventstore"
 )
 
 type Queries struct {
@@ -42,7 +42,7 @@ type Queries struct {
 	LoginTranslationFileContents        map[string][]byte
 	NotificationTranslationFileContents map[string][]byte
 	supportedLangs                      []language.Tag
-	zitadelRoles                        []authz.RoleMapping
+	nomenRoles                        []authz.RoleMapping
 	multifactors                        domain.MultifactorConfigs
 	defaultAuditLogRetention            time.Duration
 	defaultSecretGenerators             map[domain.SecretGeneratorType]*crypto.GeneratorConfig
@@ -57,7 +57,7 @@ func StartQueries(
 	projections projection.Config,
 	defaults sd.SystemDefaults,
 	idpConfigEncryption, otpEncryption, keyEncryptionAlgorithm, certEncryptionAlgorithm, targetEncryptionAlgorithm, smsEncryptionAlgorithm, smtpEncryptionAlgorithm crypto.EncryptionAlgorithm,
-	zitadelRoles []authz.RoleMapping,
+	nomenRoles []authz.RoleMapping,
 	sessionTokenVerifier func(ctx context.Context, sessionToken string, sessionID string, tokenID string) (err error),
 	permissionCheck func(q *Queries) domain.PermissionCheck,
 	defaultAuditLogRetention time.Duration,
@@ -72,7 +72,7 @@ func StartQueries(
 		DefaultLanguage:                     language.Und,
 		LoginTranslationFileContents:        make(map[string][]byte),
 		NotificationTranslationFileContents: make(map[string][]byte),
-		zitadelRoles:                        zitadelRoles,
+		nomenRoles:                        nomenRoles,
 		keyEncryptionAlgorithm:              keyEncryptionAlgorithm,
 		idpConfigEncryption:                 idpConfigEncryption,
 		targetEncryptionAlgorithm:           targetEncryptionAlgorithm,

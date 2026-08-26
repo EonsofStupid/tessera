@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"reflect"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
 )
 
 type ProjectGrant struct {

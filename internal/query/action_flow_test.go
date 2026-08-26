@@ -11,7 +11,7 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 var (

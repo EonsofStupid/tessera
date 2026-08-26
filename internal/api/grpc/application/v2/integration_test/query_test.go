@@ -14,9 +14,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/application/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/application/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
 )
 
 func TestGetApplication(t *testing.T) {

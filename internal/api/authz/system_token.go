@@ -12,10 +12,10 @@ import (
 	"time"
 
 	"github.com/go-jose/go-jose/v4"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	zcrypto "github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	zcrypto "github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var _ SystemTokenVerifier = (*SystemTokenVerifierFromConfig)(nil)

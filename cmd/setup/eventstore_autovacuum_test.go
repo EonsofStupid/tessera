@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 func Test_eventstoreAutovacuum_Execute(t *testing.T) {

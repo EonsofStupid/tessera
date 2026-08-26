@@ -5,7 +5,7 @@ import (
 	"net/smtp"
 	"slices"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // golang net/smtp: SMTP AUTH LOGIN or PLAIN Auth Handler

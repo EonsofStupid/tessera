@@ -15,8 +15,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	db_mock "github.com/EonsofStupid/tessera/internal/database/mock"
+	"github.com/shippinAI/nomen/internal/database"
+	db_mock "github.com/shippinAI/nomen/internal/database/mock"
 )
 
 var (

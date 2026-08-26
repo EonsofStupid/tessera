@@ -1,3 +1,3 @@
 package id
 
-//go:generate mockgen -package mock -destination ./mock/generator.mock.go github.com/EonsofStupid/tessera/internal/id Generator
+//go:generate mockgen -package mock -destination ./mock/generator.mock.go github.com/shippinAI/nomen/internal/id Generator

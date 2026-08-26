@@ -13,18 +13,18 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2"
-	v2beta "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	v2beta_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
-	v2beta_project "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/authorization/v2"
+	v2beta "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
+	v2beta_org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
+	v2beta_project "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func getEnv(key, fallback string) string {
@@ -36,12 +36,12 @@ func getEnv(key, fallback string) string {
 
 var ConnString = fmt.Sprintf(
 	"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-	getEnv("TESSERA_DATABASE_POSTGRES_HOST", "localhost"),
-	getEnv("TESSERA_DATABASE_POSTGRES_PORT", "5433"),
-	getEnv("TESSERA_DATABASE_POSTGRES_USER", "zitadel"),
-	getEnv("TESSERA_DATABASE_POSTGRES_PASSWORD", "zitadel"),
-	getEnv("TESSERA_DATABASE_POSTGRES_DATABASE", "zitadel"),
-	getEnv("TESSERA_DATABASE_POSTGRES_SSL_MODE", "disable"),
+	getEnv("NOMEN_DATABASE_POSTGRES_HOST", "localhost"),
+	getEnv("NOMEN_DATABASE_POSTGRES_PORT", "5433"),
+	getEnv("NOMEN_DATABASE_POSTGRES_USER", "nomen"),
+	getEnv("NOMEN_DATABASE_POSTGRES_PASSWORD", "nomen"),
+	getEnv("NOMEN_DATABASE_POSTGRES_DATABASE", "nomen"),
+	getEnv("NOMEN_DATABASE_POSTGRES_SSL_MODE", "disable"),
 )
 
 var (
@@ -94,7 +94,7 @@ func TestMain(m *testing.M) {
 			panic(err)
 		}
 		dbConfig.AfterConnect = func(ctx context.Context, conn *pgx.Conn) error {
-			orgState, err := conn.LoadType(ctx, "zitadel.organization_state")
+			orgState, err := conn.LoadType(ctx, "nomen.organization_state")
 			if err != nil {
 				return err
 			}

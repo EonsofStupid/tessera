@@ -1,6 +1,6 @@
 package migration
 
-import "github.com/EonsofStupid/tessera/internal/eventstore"
+import "github.com/shippinAI/nomen/internal/eventstore"
 
 var _ eventstore.QueryReducer = (*StepStates)(nil)
 

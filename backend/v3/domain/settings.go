@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	db_json "github.com/EonsofStupid/tessera/backend/v3/storage/database/json"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	db_json "github.com/shippinAI/nomen/backend/v3/storage/database/json"
 )
 
 //go:generate enumer -type SettingType -transform snake -trimprefix SettingType -sql

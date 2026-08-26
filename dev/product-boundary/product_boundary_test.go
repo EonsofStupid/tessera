@@ -36,15 +36,15 @@ func TestStandaloneProductBoundaryIsAuthoritative(t *testing.T) {
 	root := repositoryRoot(t)
 	required := map[string][]string{
 		"AGENTS.md": {
-			"Tessera is a standalone identity and access management product",
+			"Nomen is a standalone identity and access management product",
 			"docs/02-standalone-product-contract.md",
 		},
 		"README.md": {
-			"Tessera is a standalone identity and access management platform",
-			"Tessera product law lives in this repository",
+			"Nomen is a standalone identity and access management platform",
+			"Nomen product law lives in this repository",
 		},
 		"docs/00-charter.md": {
-			"Tessera first; managed operation second; host-product integration third.",
+			"Nomen first; managed operation second; host-product integration third.",
 		},
 		"docs/02-standalone-product-contract.md": {
 			"without installing or contacting Shippin",
@@ -60,12 +60,12 @@ func TestStandaloneProductBoundaryIsAuthoritative(t *testing.T) {
 			"AI may draft and explain. It cannot silently approve its own high-impact plan",
 		},
 		"docs/19-tenancy-and-authority-contract.md": {
-			"Every new Tessera-owned PostgreSQL table",
+			"Every new Nomen-owned PostgreSQL table",
 			"Community mode uses PostgreSQL row-level security",
-			"Tessera never merges two simultaneous writers by last-write-wins",
+			"Nomen never merges two simultaneous writers by last-write-wins",
 		},
 		"web/package.json": {
-			"@tessera/ui",
+			"@nomen/ui",
 			"@tanstack/react-router",
 		},
 	}
@@ -100,8 +100,8 @@ func TestPrimaryProductDocsDoNotDeclareShippinOwnership(t *testing.T) {
 	forbidden := []string{
 		"Identity and authorization for the Shippin umbrella",
 		"the token contract is the product boundary",
-		"Product surface: Tessera inside the persistent Shippin member shell",
-		"Tessera does not ship a second customer shell",
+		"Product surface: Nomen inside the persistent Shippin member shell",
+		"Nomen does not ship a second customer shell",
 	}
 
 	for _, name := range files {

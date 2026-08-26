@@ -8,24 +8,24 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	seatdomain "github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
-	"github.com/EonsofStupid/tessera/internal/api/assets"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/auth/repository"
-	"github.com/EonsofStupid/tessera/internal/cache"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain/federatedlogout"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/notification/handlers"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	seatdomain "github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
+	"github.com/shippinAI/nomen/internal/api/assets"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/auth/repository"
+	"github.com/shippinAI/nomen/internal/cache"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain/federatedlogout"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/notification/handlers"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type Config struct {
@@ -238,7 +238,7 @@ func NewServer(
 
 // authCallbackPathSuffix mirrors the unexported suffix used by op.RegisterLegacyServer to
 // register the authorize callback handler under the authorization endpoint.
-// Keep in sync with github.com/zitadel/oidc/v3/pkg/op (authCallbackPathSuffix). The
+// Keep in sync with github.com/shippinAI/nomen/oidc/v3/pkg/op (authCallbackPathSuffix). The
 // existing authorization-flow integration tests exercise this route and would fail if the
 // library changed the suffix.
 const authCallbackPathSuffix = "/callback"

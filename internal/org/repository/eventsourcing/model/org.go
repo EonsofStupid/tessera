@@ -1,12 +1,12 @@
 package model
 
 import (
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	iam_es_model "github.com/EonsofStupid/tessera/internal/iam/repository/eventsourcing/model"
-	org_model "github.com/EonsofStupid/tessera/internal/org/model"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	iam_es_model "github.com/shippinAI/nomen/internal/iam/repository/eventsourcing/model"
+	org_model "github.com/shippinAI/nomen/internal/org/model"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type Org struct {

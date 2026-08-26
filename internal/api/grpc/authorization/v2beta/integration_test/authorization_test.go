@@ -12,11 +12,11 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	authorization "github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2beta"
-	project "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/integration"
+	authorization "github.com/shippinAI/nomen/pkg/grpc/authorization/v2beta"
+	project "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func TestServer_CreateAuthorization(t *testing.T) {

@@ -1,8 +1,8 @@
 package model
 
 import (
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	iam_es_model "github.com/EonsofStupid/tessera/internal/iam/repository/eventsourcing/model"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	iam_es_model "github.com/shippinAI/nomen/internal/iam/repository/eventsourcing/model"
 )
 
 func (o *Org) appendAddDomainPolicyEvent(event eventstore.Event) error {

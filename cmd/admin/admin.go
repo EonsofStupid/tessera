@@ -7,22 +7,22 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/EonsofStupid/tessera/cmd/initialise"
-	"github.com/EonsofStupid/tessera/cmd/key"
-	"github.com/EonsofStupid/tessera/cmd/setup"
-	"github.com/EonsofStupid/tessera/cmd/start"
+	"github.com/shippinAI/nomen/cmd/initialise"
+	"github.com/shippinAI/nomen/cmd/key"
+	"github.com/shippinAI/nomen/cmd/setup"
+	"github.com/shippinAI/nomen/cmd/start"
 )
 
 func New() *cobra.Command {
 	adminCMD := &cobra.Command{
 		Use:        "admin",
-		Short:      "The Tessera admin CLI lets you interact with your instance",
-		Long:       `The Tessera admin CLI lets you interact with your instance`,
-		Deprecated: "please use subcommands directly, e.g. `tessera start`",
+		Short:      "The Nomen admin CLI lets you interact with your instance",
+		Long:       `The Nomen admin CLI lets you interact with your instance`,
+		Deprecated: "please use subcommands directly, e.g. `nomen start`",
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
 				if err != nil {
-					slog.Error("tessera admin command failed", "err", err)
+					slog.Error("nomen admin command failed", "err", err)
 				}
 			}()
 			return errors.New("no additional command provided")

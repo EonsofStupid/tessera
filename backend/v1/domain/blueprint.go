@@ -10,12 +10,12 @@ import (
 // BlueprintSchema is the wire identifier a blueprint file must carry. A file
 // without it is not a blueprint, whatever else it contains — the same rule the
 // seat token applies to its own schema claim.
-const BlueprintSchema = "tessera.blueprint.v1"
+const BlueprintSchema = "nomen.blueprint.v1"
 
 // DesiredState is what an entry declares should be true of its target.
 //
 // Two states, on purpose. `absent` of something already gone is success — a
-// desired state reached twice is reached. Authentik's must_created guard is
+// desired state reached twice is reached. Nomen's must_created guard is
 // deferred until something needs it; a state nobody uses is a state nobody
 // tests.
 type DesiredState string
@@ -44,7 +44,7 @@ func ParseState(raw string) (DesiredState, error) {
 
 // Entry declares one thing that should be true.
 type Entry struct {
-	// Model names the applier: `tessera/seat`. Whether a registered applier
+	// Model names the applier: `nomen/seat`. Whether a registered applier
 	// exists for it is the registry's question, not this struct's — validation
 	// here is structural, so a blueprint can be validated in a context that has
 	// no appliers at all (an editor, a CI check, the panel).
@@ -72,7 +72,7 @@ type Blueprint struct {
 
 // describe names an entry the way a review comment would: by position, model
 // and handle. Every validation error goes through this, because "entry 3
-// (tessera/seat \"probe\")" is findable in a file and "invalid entry" is not.
+// (nomen/seat \"probe\")" is findable in a file and "invalid entry" is not.
 func describe(i int, e *Entry) string {
 	if e.ID != "" {
 		return fmt.Sprintf("entry %d (%s %q)", i+1, e.Model, e.ID)

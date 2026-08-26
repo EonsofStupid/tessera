@@ -6,7 +6,7 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/feature"
+	"github.com/shippinAI/nomen/internal/feature"
 )
 
 func Test_reduceInstanceFeature(t *testing.T) {

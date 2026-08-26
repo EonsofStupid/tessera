@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration"
 )
 
 // TestServer_DynamicClientRegistration_Management covers the OAuth 2.0 Dynamic Client

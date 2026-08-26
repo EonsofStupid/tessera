@@ -4,17 +4,17 @@ import (
 	"context"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // DCRProjectName is the name of the dedicated project that holds clients created through
 // OAuth 2.0 Dynamic Client Registration (RFC 7591). It is auto-provisioned per
 // organization on the first registration.
-const DCRProjectName = "ZITADEL DCR"
+const DCRProjectName = "NOMEN DCR"
 
 // EnsureDCRProject returns the dedicated project that holds dynamically registered OIDC
 // clients in the given organization, creating it on first use. Like AddDynamicOIDCClient it

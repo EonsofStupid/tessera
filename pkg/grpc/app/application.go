@@ -1,6 +1,6 @@
 package app
 
-import "github.com/EonsofStupid/tessera/internal/api/grpc/server/middleware"
+import "github.com/shippinAI/nomen/internal/api/grpc/server/middleware"
 
 func (a *App) Localizers() []middleware.Localizer {
 	if a == nil {

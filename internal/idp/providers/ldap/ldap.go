@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp"
 )
 
 const DefaultPort = "389"

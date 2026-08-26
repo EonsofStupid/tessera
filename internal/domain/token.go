@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/authz"
 )
 
 func AddAudScopeToAudience(ctx context.Context, audience, scopes []string) []string {
@@ -13,7 +13,7 @@ func AddAudScopeToAudience(ctx context.Context, audience, scopes []string) []str
 			continue
 		}
 		projectID := strings.TrimSuffix(strings.TrimPrefix(scope, ProjectIDScope), AudSuffix)
-		if projectID == ProjectIDScopeZITADEL {
+		if projectID == ProjectIDScopeNOMEN {
 			projectID = authz.GetInstance(ctx).ProjectID()
 		}
 		audience = addProjectID(audience, projectID)

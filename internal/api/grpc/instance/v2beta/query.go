@@ -5,10 +5,10 @@ import (
 
 	"connectrpc.com/connect"
 
-	instancev2 "github.com/EonsofStupid/tessera/backend/v3/api/instance/v2"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	filter "github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2beta"
-	instance "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
+	instancev2 "github.com/shippinAI/nomen/backend/v3/api/instance/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	filter "github.com/shippinAI/nomen/internal/api/grpc/filter/v2beta"
+	instance "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
 )
 
 func (s *Server) GetInstance(ctx context.Context, request *connect.Request[instance.GetInstanceRequest]) (*connect.Response[instance.GetInstanceResponse], error) {

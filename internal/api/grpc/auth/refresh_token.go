@@ -3,11 +3,11 @@ package auth
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	user_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/user"
-	"github.com/EonsofStupid/tessera/internal/user/model"
-	"github.com/EonsofStupid/tessera/pkg/grpc/auth"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	user_grpc "github.com/shippinAI/nomen/internal/api/grpc/user"
+	"github.com/shippinAI/nomen/internal/user/model"
+	"github.com/shippinAI/nomen/pkg/grpc/auth"
 )
 
 func (s *Server) ListMyRefreshTokens(ctx context.Context, req *auth.ListMyRefreshTokensRequest) (*auth.ListMyRefreshTokensResponse, error) {

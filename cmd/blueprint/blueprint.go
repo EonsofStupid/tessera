@@ -1,7 +1,7 @@
 // Package blueprint is how declared state reaches a database.
 //
-//	tessera blueprint validate --dir ./blueprints
-//	tessera blueprint apply    --dir ./blueprints --instance <id>
+//	nomen blueprint validate --dir ./blueprints
+//	nomen blueprint apply    --dir ./blueprints --instance <id>
 //
 // validate needs no database and no configuration — it is the CI check and the
 // editor's loop. apply is one transaction per file: a file that fails on its
@@ -17,16 +17,16 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	old_logging "github.com/zitadel/logging" //nolint:staticcheck
+	old_logging "github.com/shippinAI/nomen/logging" //nolint:staticcheck
 
-	seatdomain "github.com/EonsofStupid/tessera/backend/v1/domain"
-	blueprintstorage "github.com/EonsofStupid/tessera/backend/v1/storage/blueprint"
-	flowstorage "github.com/EonsofStupid/tessera/backend/v1/storage/flow"
-	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
-	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
-	v3db "github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	v3_postgres "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
-	"github.com/EonsofStupid/tessera/internal/database"
+	seatdomain "github.com/shippinAI/nomen/backend/v1/domain"
+	blueprintstorage "github.com/shippinAI/nomen/backend/v1/storage/blueprint"
+	flowstorage "github.com/shippinAI/nomen/backend/v1/storage/flow"
+	nomenmigration "github.com/shippinAI/nomen/backend/v1/storage/migration"
+	seatstorage "github.com/shippinAI/nomen/backend/v1/storage/seat"
+	v3db "github.com/shippinAI/nomen/backend/v3/storage/database"
+	v3_postgres "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 // engine builds the one registry there is. A new model means a new applier
@@ -112,8 +112,8 @@ func newApplyCmd() *cobra.Command {
 				return fmt.Errorf("cannot connect: %w", err)
 			}
 			defer func() { _ = db.Close() }()
-			if err := tesseramigration.Migrate(cmd.Context(), db.Pool); err != nil {
-				return fmt.Errorf("cannot migrate the tessera schema: %w", err)
+			if err := nomenmigration.Migrate(cmd.Context(), db.Pool); err != nil {
+				return fmt.Errorf("cannot migrate the nomen schema: %w", err)
 			}
 
 			return Apply(cmd.Context(), v3_postgres.PGxPool(db.Pool), instance, files, func(format string, a ...any) {
@@ -169,7 +169,7 @@ func ApplyOnStart(ctx context.Context, cfg StartupConfig, db v3db.Pool) error {
 		return err
 	}
 
-	rows, err := db.Query(ctx, "SELECT id FROM zitadel.instances ORDER BY id")
+	rows, err := db.Query(ctx, "SELECT id FROM nomen.instances ORDER BY id")
 	if err != nil {
 		return fmt.Errorf("listing instances: %w", err)
 	}

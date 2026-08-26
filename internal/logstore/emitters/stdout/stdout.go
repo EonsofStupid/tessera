@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/logstore"
+	"github.com/shippinAI/nomen/internal/logstore"
 )
 
 func NewStdoutEmitter[T logstore.LogRecord[T]]() logstore.LogEmitter[T] {

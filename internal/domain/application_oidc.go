@@ -9,8 +9,8 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
 )
 
 const (

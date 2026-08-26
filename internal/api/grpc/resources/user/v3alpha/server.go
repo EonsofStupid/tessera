@@ -3,16 +3,16 @@ package user
 import (
 	"google.golang.org/grpc"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/command"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/resources/user/v3alpha"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/command"
+	user "github.com/shippinAI/nomen/pkg/grpc/resources/user/v3alpha"
 )
 
-var _ user.ZITADELUsersServer = (*Server)(nil)
+var _ user.NOMENUsersServer = (*Server)(nil)
 
 type Server struct {
-	user.UnimplementedZITADELUsersServer
+	user.UnimplementedNOMENUsersServer
 	command *command.Commands
 }
 
@@ -27,21 +27,21 @@ func CreateServer(
 }
 
 func (s *Server) RegisterServer(grpcServer *grpc.Server) {
-	user.RegisterZITADELUsersServer(grpcServer, s)
+	user.RegisterNOMENUsersServer(grpcServer, s)
 }
 
 func (s *Server) AppName() string {
-	return user.ZITADELUsers_ServiceDesc.ServiceName
+	return user.NOMENUsers_ServiceDesc.ServiceName
 }
 
 func (s *Server) MethodPrefix() string {
-	return user.ZITADELUsers_ServiceDesc.ServiceName
+	return user.NOMENUsers_ServiceDesc.ServiceName
 }
 
 func (s *Server) AuthMethods() authz.MethodMapping {
-	return user.ZITADELUsers_AuthMethods
+	return user.NOMENUsers_AuthMethods
 }
 
 func (s *Server) RegisterGateway() server.RegisterGatewayFunc {
-	return user.RegisterZITADELUsersHandler
+	return user.RegisterNOMENUsersHandler
 }

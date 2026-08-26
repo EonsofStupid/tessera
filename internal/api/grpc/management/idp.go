@@ -3,12 +3,12 @@ package management
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	idp_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/idp"
-	object_pb "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	idp_grpc "github.com/shippinAI/nomen/internal/api/grpc/idp"
+	object_pb "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func (s *Server) GetOrgIDPByID(ctx context.Context, req *mgmt_pb.GetOrgIDPByIDRequest) (*mgmt_pb.GetOrgIDPByIDResponse, error) {
@@ -459,23 +459,23 @@ func (s *Server) DeleteProvider(ctx context.Context, req *mgmt_pb.DeleteProvider
 	}, nil
 }
 
-func (s *Server) AddZitadelProvider(ctx context.Context, req *mgmt_pb.AddZitadelProviderRequest) (*mgmt_pb.AddZitadelProviderResponse, error) {
-	id, details, err := s.command.AddOrgZitadelProvider(ctx, authz.GetCtxData(ctx).OrgID, addZitadelProviderToCommand(req))
+func (s *Server) AddNomenProvider(ctx context.Context, req *mgmt_pb.AddNomenProviderRequest) (*mgmt_pb.AddNomenProviderResponse, error) {
+	id, details, err := s.command.AddOrgNomenProvider(ctx, authz.GetCtxData(ctx).OrgID, addNomenProviderToCommand(req))
 	if err != nil {
 		return nil, err
 	}
-	return &mgmt_pb.AddZitadelProviderResponse{
+	return &mgmt_pb.AddNomenProviderResponse{
 		Id:      id,
 		Details: object_pb.DomainToAddDetailsPb(details),
 	}, nil
 }
 
-func (s *Server) UpdateZitadelProvider(ctx context.Context, req *mgmt_pb.UpdateZitadelProviderRequest) (*mgmt_pb.UpdateZitadelProviderResponse, error) {
-	details, err := s.command.UpdateOrgZitadelProvider(ctx, req.Id, authz.GetCtxData(ctx).OrgID, updateZitadelProviderToCommand(req))
+func (s *Server) UpdateNomenProvider(ctx context.Context, req *mgmt_pb.UpdateNomenProviderRequest) (*mgmt_pb.UpdateNomenProviderResponse, error) {
+	details, err := s.command.UpdateOrgNomenProvider(ctx, req.Id, authz.GetCtxData(ctx).OrgID, updateNomenProviderToCommand(req))
 	if err != nil {
 		return nil, err
 	}
-	return &mgmt_pb.UpdateZitadelProviderResponse{
+	return &mgmt_pb.UpdateNomenProviderResponse{
 		Details: object_pb.DomainToChangeDetailsPb(details),
 	}, nil
 }

@@ -11,20 +11,11 @@ import (
 	"testing"
 )
 
-// These literals name the inherited database schema. They are persistence
-// compatibility details, not operator or customer language.
-var allowedTechnicalLiterals = map[string]map[string]struct{}{
-	"cmd/blueprint/blueprint.go": {
-		"SELECT id FROM zitadel.instances ORDER BY id": {},
-	},
-	"cmd/setup/transactional_tables.go": {
-		"DROP SCHEMA IF EXISTS zitadel CASCADE": {},
-		"DELETE FROM projections.current_states WHERE projection_name LIKE $1 || '%' OR projection_name = $2": {},
-		"zitadel.": {},
-	},
-}
+// Remaining Zitadel tokens are forbidden in executable command strings.
+// The only exception is a third-party IdP type, which is not in cmd/.
+var allowedTechnicalLiterals = map[string]map[string]struct{}{}
 
-func TestCommandLanguageUsesTesseraProductName(t *testing.T) {
+func TestCommandLanguageUsesNomenProductName(t *testing.T) {
 	t.Parallel()
 
 	root := "../.."

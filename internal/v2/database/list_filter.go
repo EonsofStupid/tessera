@@ -1,6 +1,6 @@
 package database
 
-import "github.com/zitadel/logging"
+import "github.com/shippinAI/nomen/logging"
 
 type ListFilter[V value] struct {
 	comp listCompare

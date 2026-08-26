@@ -6,12 +6,12 @@ import (
 	"strings"
 	"time"
 
-	httphelper "github.com/zitadel/oidc/v3/pkg/http"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	httphelper "github.com/shippinAI/nomen/oidc/v3/pkg/http"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oauth"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp/providers/oauth"
 )
 
 var _ idp.Session = (*Session)(nil)

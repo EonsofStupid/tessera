@@ -4,19 +4,19 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 //go:generate enumer -type OrgState -transform lower -trimprefix OrgState -sql
 type OrgState uint8
 
-// Must be in the same order and quantity as zitadel/org/v2/org.proto
+// Must be in the same order and quantity as nomen/org/v2/org.proto
 const (
 	OrgStateUnspecified OrgState = iota
 	OrgStateActive
 	OrgStateInactive
 
-	// TODO(IAM-Marco): This should be removed in next versions of Zitadel I believe. We are hard deleting,
+	// TODO(IAM-Marco): This should be removed in next versions of Nomen I believe. We are hard deleting,
 	// so not sure when this state would be used. It is kept here just for compatibility with the gRPC model
 	OrgStateRemoved
 )

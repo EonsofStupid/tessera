@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2"
 )
 
 var (

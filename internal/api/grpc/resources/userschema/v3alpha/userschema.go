@@ -5,12 +5,12 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	resource_object "github.com/EonsofStupid/tessera/internal/api/grpc/resources/object/v3alpha"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
-	schema "github.com/EonsofStupid/tessera/pkg/grpc/resources/userschema/v3alpha"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	resource_object "github.com/shippinAI/nomen/internal/api/grpc/resources/object/v3alpha"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
+	schema "github.com/shippinAI/nomen/pkg/grpc/resources/userschema/v3alpha"
 )
 
 func (s *Server) CreateUserSchema(ctx context.Context, req *schema.CreateUserSchemaRequest) (*schema.CreateUserSchemaResponse, error) {

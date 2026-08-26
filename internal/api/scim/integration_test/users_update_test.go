@@ -15,11 +15,11 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/integration/scim"
-	"github.com/EonsofStupid/tessera/internal/test"
+	"github.com/shippinAI/nomen/internal/api/scim/resources"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration/scim"
+	"github.com/shippinAI/nomen/internal/test"
 )
 
 var (

@@ -9,9 +9,9 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2beta"
+	"github.com/shippinAI/nomen/internal/domain"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	user "github.com/shippinAI/nomen/pkg/grpc/user/v2beta"
 )
 
 func Test_totpDetailsToPb(t *testing.T) {

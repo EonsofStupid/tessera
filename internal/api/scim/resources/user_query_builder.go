@@ -3,13 +3,13 @@ package resources
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/scim/metadata"
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources/filter"
-	"github.com/EonsofStupid/tessera/internal/api/scim/serrors"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/scim/metadata"
+	"github.com/shippinAI/nomen/internal/api/scim/resources/filter"
+	"github.com/shippinAI/nomen/internal/api/scim/serrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // fieldPathColumnMapping maps lowercase json field names of the scim user to the matching column in the projection
@@ -69,7 +69,7 @@ func (h *UsersHandler) buildListQuery(ctx context.Context, request *ListRequest)
 		SearchRequest: searchRequest,
 	}
 
-	// the zitadel scim implementation only supports User (Humans) for now
+	// the nomen scim implementation only supports User (Humans) for now
 	userTypeQuery, err := query.NewUserTypeSearchQuery(domain.UserTypeHuman)
 	if err != nil {
 		return nil, err

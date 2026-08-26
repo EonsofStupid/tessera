@@ -6,15 +6,15 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	db_json "github.com/EonsofStupid/tessera/backend/v3/storage/database/json"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	db_json "github.com/shippinAI/nomen/backend/v3/storage/database/json"
 )
 
 type settings struct{}
 
 func (s settings) qualifiedTableName() string {
-	return "zitadel." + s.unqualifiedTableName()
+	return "nomen." + s.unqualifiedTableName()
 }
 
 func (settings) unqualifiedTableName() string {

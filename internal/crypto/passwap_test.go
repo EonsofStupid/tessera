@@ -9,18 +9,18 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/passwap"
-	"github.com/zitadel/passwap/argon2"
-	"github.com/zitadel/passwap/bcrypt"
-	"github.com/zitadel/passwap/drupal7"
-	"github.com/zitadel/passwap/md5"
-	"github.com/zitadel/passwap/md5salted"
-	"github.com/zitadel/passwap/pbkdf2"
-	"github.com/zitadel/passwap/scrypt"
-	"github.com/zitadel/passwap/sha2"
-	"github.com/zitadel/passwap/verifier"
+	"github.com/shippinAI/nomen/passwap"
+	"github.com/shippinAI/nomen/passwap/argon2"
+	"github.com/shippinAI/nomen/passwap/bcrypt"
+	"github.com/shippinAI/nomen/passwap/drupal7"
+	"github.com/shippinAI/nomen/passwap/md5"
+	"github.com/shippinAI/nomen/passwap/md5salted"
+	"github.com/shippinAI/nomen/passwap/pbkdf2"
+	"github.com/shippinAI/nomen/passwap/scrypt"
+	"github.com/shippinAI/nomen/passwap/sha2"
+	"github.com/shippinAI/nomen/passwap/verifier"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type skipHasher struct{}
@@ -598,7 +598,7 @@ func TestHasherConfig_decodeParams(t *testing.T) {
 				A: 1,
 				B: 2,
 			},
-			wantErr: false, // https://github.com/EonsofStupid/tessera/issues/6913
+			wantErr: false, // https://github.com/shippinAI/nomen/issues/6913
 		},
 		{
 			name: "ok",

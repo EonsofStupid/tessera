@@ -1,4 +1,4 @@
-// Package management assembles Tessera's provider-neutral management reads.
+// Package management assembles Nomen's provider-neutral management reads.
 package management
 
 import (
@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 type OverviewSource interface {

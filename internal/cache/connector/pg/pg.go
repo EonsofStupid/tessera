@@ -13,8 +13,8 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 
-	"github.com/EonsofStupid/tessera/internal/cache"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/cache"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 var (
@@ -42,7 +42,7 @@ type PGXPool interface {
 
 type pgCache[I ~int, K ~string, V cache.Entry[I, K]] struct {
 	purpose        cache.Purpose
-	zitadelVersion string
+	nomenVersion string
 	config         *cache.Config
 	indices        []I
 	connector      *Connector
@@ -50,10 +50,10 @@ type pgCache[I ~int, K ~string, V cache.Entry[I, K]] struct {
 }
 
 // NewCache returns a cache that stores and retrieves objects using PostgreSQL unlogged tables.
-func NewCache[I ~int, K ~string, V cache.Entry[I, K]](ctx context.Context, purpose cache.Purpose, zitadelVersion string, config cache.Config, indices []I, connector *Connector) (cache.PrunerCache[I, K, V], error) {
+func NewCache[I ~int, K ~string, V cache.Entry[I, K]](ctx context.Context, purpose cache.Purpose, nomenVersion string, config cache.Config, indices []I, connector *Connector) (cache.PrunerCache[I, K, V], error) {
 	c := &pgCache[I, K, V]{
 		purpose:        purpose,
-		zitadelVersion: zitadelVersion,
+		nomenVersion: nomenVersion,
 		config:         &config,
 		indices:        indices,
 		connector:      connector,
@@ -186,7 +186,7 @@ func (c *pgCache[I, K, V]) indexKeysFromEntry(entry V) []indexKey[I] {
 }
 
 func (c *pgCache[I, K, V]) versionedKey(key K) string {
-	return fmt.Sprintf("%s:%s", c.zitadelVersion, key)
+	return fmt.Sprintf("%s:%s", c.nomenVersion, key)
 }
 
 func (c *pgCache[I, K, V]) versionedKeys(key []K) []string {

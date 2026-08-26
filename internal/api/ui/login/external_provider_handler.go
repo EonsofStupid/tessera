@@ -11,35 +11,35 @@ import (
 
 	crewjam_saml "github.com/crewjam/saml"
 	"github.com/crewjam/saml/samlsp"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/oauth2"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/domain/federatedlogout"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/apple"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/azuread"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/github"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/gitlab"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/google"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/jwt"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/ldap"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oauth"
-	openid "github.com/EonsofStupid/tessera/internal/idp/providers/oidc"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/saml"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/saml/requesttracker"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/zitadel"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	http_mw "github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain/federatedlogout"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp/providers/apple"
+	"github.com/shippinAI/nomen/internal/idp/providers/azuread"
+	"github.com/shippinAI/nomen/internal/idp/providers/github"
+	"github.com/shippinAI/nomen/internal/idp/providers/gitlab"
+	"github.com/shippinAI/nomen/internal/idp/providers/google"
+	"github.com/shippinAI/nomen/internal/idp/providers/jwt"
+	"github.com/shippinAI/nomen/internal/idp/providers/ldap"
+	"github.com/shippinAI/nomen/internal/idp/providers/oauth"
+	openid "github.com/shippinAI/nomen/internal/idp/providers/oidc"
+	"github.com/shippinAI/nomen/internal/idp/providers/saml"
+	"github.com/shippinAI/nomen/internal/idp/providers/saml/requesttracker"
+	"github.com/shippinAI/nomen/internal/idp/providers/nomen"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
@@ -48,9 +48,9 @@ const (
 	queryRelayState            = "RelayState"
 	queryMethod                = "method"
 	tmplExternalNotFoundOption = "externalnotfoundoption"
-	// zitadelProjectRolesClaim is the token claim a ZITADEL provider uses to convey
+	// nomenProjectRolesClaim is the token claim a NOMEN provider uses to convey
 	// a user's project roles ({role: {orgID: orgDomain}}).
-	zitadelProjectRolesClaim = "urn:zitadel:iam:org:project:roles"
+	nomenProjectRolesClaim = "urn:nomen:iam:org:project:roles"
 )
 
 var (
@@ -201,8 +201,8 @@ func (l *Login) handleIDP(w http.ResponseWriter, r *http.Request, authReq *domai
 		provider, err = l.ldapProvider(r.Context(), identityProvider)
 	case domain.IDPTypeSAML:
 		provider, err = l.samlProvider(r.Context(), identityProvider)
-	case domain.IDPTypeZitadel:
-		provider, err = l.zitadelProvider(r.Context(), identityProvider)
+	case domain.IDPTypeNomen:
+		provider, err = l.nomenProvider(r.Context(), identityProvider)
 	case domain.IDPTypeUnspecified:
 		fallthrough
 	default:
@@ -398,8 +398,8 @@ func (l *Login) handleExternalLoginCallback(w http.ResponseWriter, r *http.Reque
 			l.externalAuthCallbackFailed(w, r, authReq, nil, nil, err)
 			return
 		}
-	case domain.IDPTypeZitadel:
-		provider, err := l.zitadelProvider(r.Context(), identityProvider)
+	case domain.IDPTypeNomen:
+		provider, err := l.nomenProvider(r.Context(), identityProvider)
 		if err != nil {
 			l.externalAuthCallbackFailed(w, r, authReq, nil, nil, err)
 			return
@@ -496,8 +496,8 @@ func (l *Login) handleExternalUserAuthenticated(
 	callback func(w http.ResponseWriter, r *http.Request, authReq *domain.AuthRequest),
 ) {
 	externalUser := mapIDPUserToExternalUser(user, provider.ID)
-	// a ZITADEL provider may convey support-user project roles, which are carried through to user creation
-	if provider.Type == domain.IDPTypeZitadel {
+	// a NOMEN provider may convey support-user project roles, which are carried through to user creation
+	if provider.Type == domain.IDPTypeNomen {
 		externalUser.ProjectRoles = projectRolesFromIDPUser(user)
 	}
 	// ensure the linked IDP is added to the login policy
@@ -571,7 +571,7 @@ func (l *Login) handleExternalUserAuthenticated(
 	callback(w, r, authReq)
 }
 
-// checkAutoLinking checks if a user with the provided information (username or email) already exists within ZITADEL.
+// checkAutoLinking checks if a user with the provided information (username or email) already exists within NOMEN.
 // The decision, which information will be checked is based on the IdP template option.
 // The function returns a boolean whether a user was found or not, resp. if it was linked.
 // If single a user was found, it will be automatically linked.
@@ -603,7 +603,7 @@ func (l *Login) checkAutoLinking(r *http.Request, authReq *domain.AuthRequest, p
 		}
 		queries = append(queries, usernameQuery)
 	case domain.AutoLinkingOptionEmail:
-		// When checking for email matches, we need to make sure that both (the one from the IdP and the one in Zitadel)
+		// When checking for email matches, we need to make sure that both (the one from the IdP and the one in Nomen)
 		// are verified to prevent potential account takeovers.
 		if !externalUser.IsEmailVerified {
 			return false, nil
@@ -852,7 +852,7 @@ func (l *Login) handleExternalNotFoundOptionCheck(w http.ResponseWriter, r *http
 	}
 	linkingUser := authReq.LinkingUsers[len(authReq.LinkingUsers)-1]
 	externalUser := mapExternalNotFoundOptionFormDataToLoginUser(data, linkingUser)
-	// the form only carries the editable profile fields, so preserve the ZITADEL project
+	// the form only carries the editable profile fields, so preserve the NOMEN project
 	// roles captured at authentication (stored on the linking user) to keep the
 	// support-user instance membership grant working on the manual creation path.
 	preserveProjectRoles(externalUser, authReq.LinkingUsers)
@@ -899,7 +899,7 @@ func (l *Login) registerExternalUser(w http.ResponseWriter, r *http.Request, pro
 		l.renderError(w, r, authReq, err)
 		return
 	}
-	// a ZITADEL provider may grant a support user an instance membership based on the roles present in its token claim.
+	// a NOMEN provider may grant a support user an instance membership based on the roles present in its token claim.
 	if err = l.ensureSupportUserInstanceMembership(r, provider, authReq, externalUser); err != nil {
 		l.renderError(w, r, authReq, err)
 		return
@@ -908,8 +908,8 @@ func (l *Login) registerExternalUser(w http.ResponseWriter, r *http.Request, pro
 }
 
 // ensureSupportUserInstanceMembership makes sure an external user holds the instance member
-// roles conveyed by their `urn:zitadel:iam:org:project:roles` claim when they authenticated
-// via a ZITADEL provider.
+// roles conveyed by their `urn:nomen:iam:org:project:roles` claim when they authenticated
+// via a NOMEN provider.
 func (l *Login) ensureSupportUserInstanceMembership(r *http.Request, provider *query.IDPTemplate, authReq *domain.AuthRequest, externalUser *domain.ExternalUser) error {
 	roles := supportUserInstanceRoles(provider, externalUser)
 	if len(roles) == 0 {
@@ -928,7 +928,7 @@ func (l *Login) ensureSupportUserInstanceMembership(r *http.Request, provider *q
 }
 
 // supportUserInstanceRoles returns the instance member roles an external user must hold,
-// derived from the IAM roles of their ZITADEL project roles claim. Only roles claimed for an
+// derived from the IAM roles of their NOMEN project roles claim. Only roles claimed for an
 // organization configured in the IDP's InstanceRolesInfo are returned so that the set of
 // organizations able to confer instance roles stays under the control of the instance admins.
 func supportUserInstanceRoles(provider *query.IDPTemplate, externalUser *domain.ExternalUser) []string {
@@ -939,8 +939,8 @@ func supportUserInstanceRoles(provider *query.IDPTemplate, externalUser *domain.
 	if provider.OwnerType != domain.IdentityProviderTypeSystem {
 		return nil
 	}
-	// only a ZITADEL provider conveys support-user project roles
-	if provider.Type != domain.IDPTypeZitadel || provider.ZitadelIDPTemplate == nil {
+	// only a NOMEN provider conveys support-user project roles
+	if provider.Type != domain.IDPTypeNomen || provider.NomenIDPTemplate == nil {
 		return nil
 	}
 	var roles []string
@@ -950,7 +950,7 @@ func supportUserInstanceRoles(provider *query.IDPTemplate, externalUser *domain.
 			continue
 		}
 		// a claim org must be the same as a configured organization (ID and domain)
-		if !claimMatchesConfiguredOrg(claimOrgs, provider.ZitadelIDPTemplate) {
+		if !claimMatchesConfiguredOrg(claimOrgs, provider.NomenIDPTemplate) {
 			continue
 		}
 		roles = append(roles, role)
@@ -962,10 +962,10 @@ func supportUserInstanceRoles(provider *query.IDPTemplate, externalUser *domain.
 
 // claimMatchesConfiguredOrg reports whether any organization from the roles claim
 // (orgID → orgDomain) exactly matches an organization (by ID and domain)
-// configured in the ZITADEL IDP's InstanceRolesInfo.
-func claimMatchesConfiguredOrg(claimOrgs map[string]string, zitadelTemplate *query.ZitadelIDPTemplate) bool {
+// configured in the NOMEN IDP's InstanceRolesInfo.
+func claimMatchesConfiguredOrg(claimOrgs map[string]string, nomenTemplate *query.NomenIDPTemplate) bool {
 	for orgID, orgDomain := range claimOrgs {
-		for _, configured := range zitadelTemplate.InstanceRolesInfo {
+		for _, configured := range nomenTemplate.InstanceRolesInfo {
 			if configured.OrganizationID == orgID && configured.OrganizationDomain == orgDomain {
 				return true
 			}
@@ -1428,17 +1428,17 @@ func (l *Login) appleProvider(ctx context.Context, identityProvider *query.IDPTe
 	)
 }
 
-func (l *Login) zitadelProvider(ctx context.Context, identityProvider *query.IDPTemplate) (*zitadel.Provider, error) {
-	secret, err := crypto.DecryptString(identityProvider.ZitadelIDPTemplate.ClientSecret, l.idpConfigAlg)
+func (l *Login) nomenProvider(ctx context.Context, identityProvider *query.IDPTemplate) (*nomen.Provider, error) {
+	secret, err := crypto.DecryptString(identityProvider.NomenIDPTemplate.ClientSecret, l.idpConfigAlg)
 	if err != nil {
 		return nil, err
 	}
-	return zitadel.New(
-		identityProvider.ZitadelIDPTemplate.Issuer,
-		identityProvider.ZitadelIDPTemplate.ClientID,
+	return nomen.New(
+		identityProvider.NomenIDPTemplate.Issuer,
+		identityProvider.NomenIDPTemplate.ClientID,
 		secret,
 		l.baseURL(ctx)+EndpointExternalLoginCallback,
-		identityProvider.ZitadelIDPTemplate.Scopes,
+		identityProvider.NomenIDPTemplate.Scopes,
 		l.httpClient,
 		openid.WithSelectAccount(),
 	)
@@ -1657,7 +1657,7 @@ func ExternalLogoutPath(sessionID string) string {
 	return HandlerPrefix + EndpointExternalLogout + "?" + v.Encode()
 }
 
-// handleExternalLogout is called when a user signed out of ZITADEL with a federated logout
+// handleExternalLogout is called when a user signed out of NOMEN with a federated logout
 func (l *Login) handleExternalLogout(w http.ResponseWriter, r *http.Request) {
 	data := new(federatedLogoutData)
 	err := l.parser.Parse(r, data)
@@ -1766,7 +1766,7 @@ func (l *Login) externalUserID(ctx context.Context, userID, idpID string) (strin
 // It's used if an error occurs during the login process with an external IDP and local authentication is allowed,
 // respectively used as fallback.
 type IdPError struct {
-	err *zerrors.ZitadelError
+	err *zerrors.NomenError
 }
 
 func (e *IdPError) Error() string {
@@ -1783,16 +1783,16 @@ func (e *IdPError) Is(target error) bool {
 }
 
 func WrapIdPError(err error) *IdPError {
-	zErr := new(zerrors.ZitadelError)
+	zErr := new(zerrors.NomenError)
 	id := "LOGIN-JWo3f"
 	// keep the original error id if there is one
 	if errors.As(err, &zErr) {
 		id = zErr.ID
 	}
-	return &IdPError{err: zerrors.CreateZitadelError(zerrors.KindPreconditionFailed, err, id, "Errors.User.ExternalIDP.LoginFailedSwitchLocal", 1)}
+	return &IdPError{err: zerrors.CreateNomenError(zerrors.KindPreconditionFailed, err, id, "Errors.User.ExternalIDP.LoginFailedSwitchLocal", 1)}
 }
 
-// projectRolesFromIDPUser extracts the ZITADEL project-roles claim from an IDP
+// projectRolesFromIDPUser extracts the NOMEN project-roles claim from an IDP
 // user's OIDC userinfo and returns it as a map {role: {orgID: orgDomain}}.
 // It returns nil when the user is not an OIDC user or the claim is absent or malformed.
 func projectRolesFromIDPUser(user idp.User) map[string]map[string]string {
@@ -1800,7 +1800,7 @@ func projectRolesFromIDPUser(user idp.User) map[string]map[string]string {
 	if !ok || oidcUser.UserInfo == nil {
 		return nil
 	}
-	rawRoles, ok := oidcUser.Claims[zitadelProjectRolesClaim].(map[string]any)
+	rawRoles, ok := oidcUser.Claims[nomenProjectRolesClaim].(map[string]any)
 	if !ok {
 		return nil
 	}
@@ -1830,7 +1830,7 @@ func projectRolesFromIDPUser(user idp.User) map[string]map[string]string {
 	return roles
 }
 
-// preserveProjectRoles carries the ZITADEL project roles captured at authentication
+// preserveProjectRoles carries the NOMEN project roles captured at authentication
 // onto the form-mapped external user. The "external user not found" form only submits profile fields.
 // The roles claim is restored from the most recent linking user stored on the auth request.
 func preserveProjectRoles(user *domain.ExternalUser, linkingUsers []*domain.ExternalUser) {

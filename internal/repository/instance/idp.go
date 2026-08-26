@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/idp"
 )
 
 const (
@@ -38,8 +38,8 @@ const (
 	SAMLIDPAddedEventType               eventstore.EventType = "instance.idp.saml.added"
 	SAMLIDPChangedEventType             eventstore.EventType = "instance.idp.saml.changed"
 	IDPRemovedEventType                 eventstore.EventType = "instance.idp.removed"
-	ZitadelIDPAddedEventType            eventstore.EventType = "instance.idp.zitadel.added"
-	ZitadelIDPChangedEventType          eventstore.EventType = "instance.idp.zitadel.changed"
+	NomenIDPAddedEventType            eventstore.EventType = "instance.idp.nomen.added"
+	NomenIDPChangedEventType          eventstore.EventType = "instance.idp.nomen.changed"
 )
 
 type OAuthIDPAddedEvent struct {
@@ -1133,11 +1133,11 @@ func IDPRemovedEventMapper(event eventstore.Event) (eventstore.Event, error) {
 	return &IDPRemovedEvent{RemovedEvent: *e.(*idp.RemovedEvent)}, nil
 }
 
-type ZitadelIDPAddedEvent struct {
-	idp.ZitadelIDPAddedEvent
+type NomenIDPAddedEvent struct {
+	idp.NomenIDPAddedEvent
 }
 
-func NewZitadelIDPAddedEvent(
+func NewNomenIDPAddedEvent(
 	ctx context.Context,
 	aggregate *eventstore.Aggregate,
 	id,
@@ -1148,14 +1148,14 @@ func NewZitadelIDPAddedEvent(
 	scopes []string,
 	options idp.Options,
 	instanceRolesInfo []idp.RolesInfo,
-) *ZitadelIDPAddedEvent {
+) *NomenIDPAddedEvent {
 
-	return &ZitadelIDPAddedEvent{
-		ZitadelIDPAddedEvent: *idp.NewZitadelIDPAddedEvent(
+	return &NomenIDPAddedEvent{
+		NomenIDPAddedEvent: *idp.NewNomenIDPAddedEvent(
 			eventstore.NewBaseEventForPush(
 				ctx,
 				aggregate,
-				ZitadelIDPAddedEventType,
+				NomenIDPAddedEventType,
 			),
 			id,
 			name,
@@ -1169,32 +1169,32 @@ func NewZitadelIDPAddedEvent(
 	}
 }
 
-func (e *ZitadelIDPAddedEvent) SetBaseEvent(event *eventstore.BaseEvent) {
+func (e *NomenIDPAddedEvent) SetBaseEvent(event *eventstore.BaseEvent) {
 	e.BaseEvent = *event
 }
 
-type ZitadelIDPChangedEvent struct {
-	idp.ZitadelIDPChangedEvent
+type NomenIDPChangedEvent struct {
+	idp.NomenIDPChangedEvent
 }
 
-func NewZitadelIDPChangedEvent(
+func NewNomenIDPChangedEvent(
 	ctx context.Context,
 	aggregate *eventstore.Aggregate,
 	id string,
-	changes []idp.ZitadelIDPChanges,
-) *ZitadelIDPChangedEvent {
-	changedEvent := idp.NewZitadelIDPChangedEvent(
+	changes []idp.NomenIDPChanges,
+) *NomenIDPChangedEvent {
+	changedEvent := idp.NewNomenIDPChangedEvent(
 		eventstore.NewBaseEventForPush(
 			ctx,
 			aggregate,
-			ZitadelIDPChangedEventType,
+			NomenIDPChangedEventType,
 		),
 		id,
 		changes,
 	)
-	return &ZitadelIDPChangedEvent{ZitadelIDPChangedEvent: *changedEvent}
+	return &NomenIDPChangedEvent{NomenIDPChangedEvent: *changedEvent}
 }
 
-func (e *ZitadelIDPChangedEvent) SetBaseEvent(event *eventstore.BaseEvent) {
+func (e *NomenIDPChangedEvent) SetBaseEvent(event *eventstore.BaseEvent) {
 	e.BaseEvent = *event
 }

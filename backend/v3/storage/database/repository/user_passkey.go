@@ -3,9 +3,9 @@ package repository
 import (
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type userPasskey struct{}
@@ -15,7 +15,7 @@ func (u userPasskey) unqualifiedTableName() string {
 }
 
 func (u userPasskey) qualifiedTableName() string {
-	return "zitadel.user_passkeys"
+	return "nomen.user_passkeys"
 }
 
 // -------------------------------------------------------------

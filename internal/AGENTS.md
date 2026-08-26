@@ -1,7 +1,7 @@
-# ZITADEL Internal Backend Guide for AI Agents
+# NOMEN Internal Backend Guide for AI Agents
 
 ## Context
-`internal/` contains core backend domain logic for ZITADEL: commands, queries, repositories, eventstore integration, API service layers, and supporting infrastructure.
+`internal/` contains core backend domain logic for NOMEN: commands, queries, repositories, eventstore integration, API service layers, and supporting infrastructure.
 
 ## Source of Truth
 - **Go Toolchain**: Inspect root `go.mod` before Go work.
@@ -15,6 +15,6 @@
 
 ## Validation Workflow
 - Use API project targets to validate backend changes:
-  - `pnpm nx run @zitadel/api:lint`
-  - `pnpm nx run @zitadel/api:test-unit`
-  - `pnpm nx run @zitadel/api:test-integration`
+  - `pnpm nx run @nomen/api:lint`
+  - `pnpm nx run @nomen/api:test-unit`
+  - `pnpm nx run @nomen/api:test-integration`

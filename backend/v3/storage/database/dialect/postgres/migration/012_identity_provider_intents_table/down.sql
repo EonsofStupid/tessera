@@ -1,2 +1,2 @@
-DROP TABLE IF EXISTS zitadel.identity_provider_intents;
-DROP TYPE IF EXISTS zitadel.idp_intent_state;
+DROP TABLE IF EXISTS nomen.identity_provider_intents;
+DROP TYPE IF EXISTS nomen.idp_intent_state;

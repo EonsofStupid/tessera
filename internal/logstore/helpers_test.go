@@ -3,8 +3,8 @@ package logstore_test
 import (
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 type emitterOption func(config *logstore.EmitterConfig)

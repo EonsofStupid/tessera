@@ -3,7 +3,7 @@ package instrumentation
 import (
 	"cloud.google.com/go/profiler"
 
-	"github.com/EonsofStupid/tessera/cmd/build"
+	"github.com/shippinAI/nomen/cmd/build"
 )
 
 type ProfileConfig struct {

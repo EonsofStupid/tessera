@@ -1,2 +1,2 @@
-DROP TABLE zitadel.organizations;
-DROP Type zitadel.organization_state;
+DROP TABLE nomen.organizations;
+DROP Type nomen.organization_state;

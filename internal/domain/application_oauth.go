@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"github.com/EonsofStupid/tessera/internal/id"
+	"github.com/shippinAI/nomen/internal/id"
 )
 
 type oAuthApplication interface {

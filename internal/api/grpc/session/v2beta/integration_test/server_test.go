@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	session "github.com/EonsofStupid/tessera/pkg/grpc/session/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	session "github.com/shippinAI/nomen/pkg/grpc/session/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 var (

@@ -11,7 +11,7 @@ import (
 
 	"github.com/go-jose/go-jose/v4"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var _ EncryptionAlgorithm = (*AESCrypto)(nil)

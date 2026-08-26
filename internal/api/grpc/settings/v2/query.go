@@ -6,16 +6,16 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	filter_pb "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	object_pb "github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/filter/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/object/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	filter_pb "github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	object_pb "github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2"
 )
 
 func (s *Server) GetLoginSettings(ctx context.Context, req *connect.Request[settings.GetLoginSettingsRequest]) (*connect.Response[settings.GetLoginSettingsResponse], error) {

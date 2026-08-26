@@ -3,7 +3,7 @@ package readmodel
 import (
 	"database/sql"
 
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
 )
 
 type QueryOpt func(opts []eventstore.QueryOpt) []eventstore.QueryOpt

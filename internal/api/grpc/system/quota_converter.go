@@ -4,8 +4,8 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/pkg/grpc/quota"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/pkg/grpc/quota"
 )
 
 type setQuotaRequest interface {

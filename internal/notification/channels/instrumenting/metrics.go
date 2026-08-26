@@ -3,11 +3,11 @@ package instrumenting
 import (
 	"context"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"go.opentelemetry.io/otel/attribute"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
+	"github.com/shippinAI/nomen/internal/notification/channels"
 )
 
 func countMessages(ctx context.Context, channel channels.NotificationChannel, successMetricName, errorMetricName string) channels.NotificationChannel {

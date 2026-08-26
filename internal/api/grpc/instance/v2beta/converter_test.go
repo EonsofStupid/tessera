@@ -9,13 +9,13 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	instance "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	instance "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
 )
 
 func Test_InstancesToPb(t *testing.T) {

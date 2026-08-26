@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	internal_net "github.com/EonsofStupid/tessera/internal/net"
+	internal_net "github.com/shippinAI/nomen/internal/net"
 )
 
 var _ AddressChecker = (*HostChecker)(nil)

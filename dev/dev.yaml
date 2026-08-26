@@ -1,16 +1,16 @@
-# Tessera's dev cluster — trust auth on loopback, port 5433.
+# Nomen's dev cluster — trust auth on loopback, port 5433.
 Database:
   postgres:
     Host: 127.0.0.1
     Port: 5433
-    Database: zitadel
+    Database: nomen
     User:
-      Username: zitadel
+      Username: nomen
       Password: ""
       SSL:
         Mode: disable
     Admin:
-      Username: tessera
+      Username: nomen
       Password: ""
       ExistingDatabase: postgres
       SSL:

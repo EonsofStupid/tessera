@@ -6,17 +6,17 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/zitadel/logging"
-	"github.com/zitadel/passwap"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/passwap"
 
-	commandErrors "github.com/EonsofStupid/tessera/internal/command/errors"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	commandErrors "github.com/shippinAI/nomen/internal/command/errors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (

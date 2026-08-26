@@ -8,7 +8,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"sigs.k8s.io/yaml"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type ValidatableConfiguration interface {

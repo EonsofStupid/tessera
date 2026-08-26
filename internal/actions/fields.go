@@ -2,7 +2,7 @@ package actions
 
 import (
 	"github.com/dop251/goja"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 type fields map[string]interface{}

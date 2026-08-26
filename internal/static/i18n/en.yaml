@@ -63,7 +63,7 @@ Errors:
     CouldNotDialTLS: "could not contact with the SMTP server using TLS, check the port, firewall issues..."
     CouldNotCreateClient: "could not create smtp client"
     CouldNotStartTLS: "could not start tls"
-    CouldNotAuth: "could not add smtp auth, check if both your user and password are correct, if they're correct maybe your provider requires an auth method not supported by Zitadel"
+    CouldNotAuth: "could not add smtp auth, check if both your user and password are correct, if they're correct maybe your provider requires an auth method not supported by Nomen"
     CouldNotSetSender: "could not set sender"
     CouldNotSetRecipient: "could not set recipient"
   SMTPConfig:
@@ -155,7 +155,7 @@ Errors:
       Invalid: "Password is invalid"
       NotSet: "User has not set a password"
       NotChanged: "New password cannot be the same as your current password"
-      NotSupported: "Password hash encoding not supported. Check out https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Password hash encoding not supported. Check out https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Password policy not found"
       MinLength: "Password is too short"
@@ -210,7 +210,7 @@ Errors:
     NotActive: "Organisation is not active"
     NotChanged: "Organisation not changed"
     DefaultOrgNotDeletable: "Default Organisation must not be deleted"
-    ZitadelOrgNotDeletable: "Organisation with Zitadel project must not be deleted"
+    NomenOrgNotDeletable: "Organisation with Nomen project must not be deleted"
     InvalidDomain: "Invalid domain"
     DomainMissing: "Domain missing"
     DomainNotOnOrg: "Domain doesn't exist on organization"
@@ -219,8 +219,8 @@ Errors:
     DomainVerificationTypeInvalid: "Domain verification type is invalid"
     DomainVerificationMissing: "Domain verification not yet started"
     DomainVerificationFailed: "Domain verification failed"
-    DomainVerificationTXTNotFound: "The _zitadel-challenge TXT record was not found for your domain. Check that you've added it to your DNS server or wait till the new record is propagated"
-    DomainVerificationTXTNoMatch: "The _zitadel-challenge TXT record has been found for your domain but it doesn't contain the right token text. Check that you've added the right token to your DNS server or wait till the new record is propagated"
+    DomainVerificationTXTNotFound: "The _nomen-challenge TXT record was not found for your domain. Check that you've added it to your DNS server or wait till the new record is propagated"
+    DomainVerificationTXTNoMatch: "The _nomen-challenge TXT record has been found for your domain but it doesn't contain the right token text. Check that you've added the right token to your DNS server or wait till the new record is propagated"
     DomainVerificationHTTPNotFound: "The file containing the challenge was not found in the expected URL. Check that you've uploaded the file in the right place with read permissions"
     DomainVerificationHTTPNoMatch: "The file containing the challenge has been found in the expected URL but it doesn't contain the right token text. Check its content"
     DomainVerificationTimeout: "There was a timeout querying the DNS server"
@@ -345,7 +345,7 @@ Errors:
   Instance:
     AlreadyExists: "Instance already exists"
     NotChanged: "Instance not changed"
-    NotFound: "Instance not found. Make sure you got the domain right. Check out https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Instance not found. Make sure you got the domain right. Check out https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Roles have not been changed"
     MemberInvalid: "Member is invalid"
@@ -1114,20 +1114,20 @@ EventTypes:
         changed: "Password lockout policy changed"
   iam:
     setup:
-      started: "Zitadel setup started"
-      done: "Zitadel setup done"
+      started: "Nomen setup started"
+      done: "Nomen setup done"
     global:
       org:
         set: "Global org set"
     project:
       iam:
-        set: "Zitadel project set"
+        set: "Nomen project set"
     member:
-      added: "Zitadel member added"
-      changed: "Zitadel member changed"
-      removed: "Zitadel member removed"
+      added: "Nomen member added"
+      changed: "Nomen member changed"
+      removed: "Nomen member removed"
       cascade:
-        removed: "Zitadel member cascade removed"
+        removed: "Nomen member cascade removed"
     idp:
       config:
         added: "IDP configuration added"
@@ -1240,9 +1240,9 @@ EventTypes:
       removed: "Domain removed"
     iam:
       console:
-        set: "Zitadel Management Console application set"
+        set: "Nomen Management Console application set"
       project:
-        set: "Zitadel project set"
+        set: "Nomen project set"
     mail:
       template:
         added: "E-Mail template added"

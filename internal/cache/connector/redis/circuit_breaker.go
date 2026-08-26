@@ -7,7 +7,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 	"github.com/sony/gobreaker/v2"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 const defaultInflightSize = 100000

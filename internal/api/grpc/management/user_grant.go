@@ -3,11 +3,11 @@ package management
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	obj_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/user"
-	"github.com/EonsofStupid/tessera/internal/query"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	obj_grpc "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/api/grpc/user"
+	"github.com/shippinAI/nomen/internal/query"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func (s *Server) GetUserGrantByID(ctx context.Context, req *mgmt_pb.GetUserGrantByIDRequest) (*mgmt_pb.GetUserGrantByIDResponse, error) {

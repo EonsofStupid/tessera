@@ -3,25 +3,25 @@ package management
 import (
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
-type TesseraAuthorizer struct {
+type NomenAuthorizer struct {
 	verifier authz.APITokenVerifier
 	system   authz.Config
 	internal authz.Config
 }
 
-func NewTesseraAuthorizer(verifier authz.APITokenVerifier, system, internal authz.Config) *TesseraAuthorizer {
-	return &TesseraAuthorizer{verifier: verifier, system: system, internal: internal}
+func NewNomenAuthorizer(verifier authz.APITokenVerifier, system, internal authz.Config) *NomenAuthorizer {
+	return &NomenAuthorizer{verifier: verifier, system: system, internal: internal}
 }
 
 type authorizationRequest struct{}
 
-func (a *TesseraAuthorizer) Authorize(r *http.Request, permission string) (*http.Request, *domain.ManagementError) {
+func (a *NomenAuthorizer) Authorize(r *http.Request, permission string) (*http.Request, *domain.ManagementError) {
 	token := http_util.GetAuthorization(r)
 	if token == "" || a == nil || a.verifier == nil {
 		managementError := authenticationError()

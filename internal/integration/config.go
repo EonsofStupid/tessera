@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"sigs.k8s.io/yaml"
 )
 

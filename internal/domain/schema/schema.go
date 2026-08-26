@@ -7,16 +7,16 @@ import (
 
 	"github.com/santhosh-tekuri/jsonschema/v5"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
-	//go:embed zitadel.schema.v1.json
-	zitadelJSON string
+	//go:embed nomen.schema.v1.json
+	nomenJSON string
 )
 
 const (
-	MetaSchemaID = "urn:zitadel:schema:v1"
+	MetaSchemaID = "urn:nomen:schema:v1"
 )
 
 func NewSchema(role Role, r io.Reader) (*jsonschema.Schema, error) {
@@ -24,7 +24,7 @@ func NewSchema(role Role, r io.Reader) (*jsonschema.Schema, error) {
 	if err := c.AddResource(PermissionSchemaID, strings.NewReader(permissionJSON)); err != nil {
 		return nil, err
 	}
-	if err := c.AddResource(MetaSchemaID, strings.NewReader(zitadelJSON)); err != nil {
+	if err := c.AddResource(MetaSchemaID, strings.NewReader(nomenJSON)); err != nil {
 		return nil, err
 	}
 	c.RegisterExtension(PermissionSchemaID, permissionSchema, permissionExtension{

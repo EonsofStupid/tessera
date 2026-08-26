@@ -8,13 +8,13 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/id/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/user/schema"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/id/mock"
+	"github.com/shippinAI/nomen/internal/repository/user/schema"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommands_CreateUserSchema(t *testing.T) {
@@ -148,7 +148,7 @@ func TestCommands_CreateUserSchema(t *testing.T) {
 							&schema.NewAggregate("id1", "instanceID").Aggregate,
 							"type",
 							json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -168,7 +168,7 @@ func TestCommands_CreateUserSchema(t *testing.T) {
 					ResourceOwner: "instanceID",
 					Type:          "type",
 					Schema: json.RawMessage(`{
-						"$schema": "urn:zitadel:schema:v1",
+						"$schema": "urn:nomen:schema:v1",
 						"type": "object",
 						"properties": {
 							"name": {
@@ -199,12 +199,12 @@ func TestCommands_CreateUserSchema(t *testing.T) {
 					ResourceOwner: "instanceID",
 					Type:          "type",
 					Schema: json.RawMessage(`{
-						"$schema": "urn:zitadel:schema:v1",
+						"$schema": "urn:nomen:schema:v1",
 						"type": "object",
 						"properties": {
 							"name": {
 								"type": "string",
-								"urn:zitadel:schema:permission": true
+								"urn:nomen:schema:permission": true
 							}
 						}
 					}`),
@@ -228,12 +228,12 @@ func TestCommands_CreateUserSchema(t *testing.T) {
 							&schema.NewAggregate("id1", "instanceID").Aggregate,
 							"type",
 							json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
 										"type": "string",
-										"urn:zitadel:schema:permission": {
+										"urn:nomen:schema:permission": {
 											"self": "rw"
 										}
 									}
@@ -251,12 +251,12 @@ func TestCommands_CreateUserSchema(t *testing.T) {
 					ResourceOwner: "instanceID",
 					Type:          "type",
 					Schema: json.RawMessage(`{
-						"$schema": "urn:zitadel:schema:v1",
+						"$schema": "urn:nomen:schema:v1",
 						"type": "object",
 						"properties": {
 							"name": {
 								"type": "string",
-								"urn:zitadel:schema:permission": {
+								"urn:nomen:schema:permission": {
 									"self": "rw"
 								}
 							}
@@ -497,12 +497,12 @@ func TestCommands_ChangeUserSchema(t *testing.T) {
 								&schema.NewAggregate("id1", "instanceID").Aggregate,
 								"type",
 								json.RawMessage(`{
-									"$schema": "urn:zitadel:schema:v1",
+									"$schema": "urn:nomen:schema:v1",
 									"type": "object",
 									"properties": {
 										"name": {
 											"type": "string",
-											"urn:zitadel:schema:permission": {
+											"urn:nomen:schema:permission": {
 												"self": "rw"
 											}
 										}
@@ -519,18 +519,18 @@ func TestCommands_ChangeUserSchema(t *testing.T) {
 							[]schema.Changes{
 								schema.IncreaseRevision(1),
 								schema.ChangeSchema(json.RawMessage(`{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
 										"type": "string",
-										"urn:zitadel:schema:permission": {
+										"urn:nomen:schema:permission": {
 											"self": "rw"
 										}
 									},
 									"description": {
 										"type": "string",
-										"urn:zitadel:schema:permission": {
+										"urn:nomen:schema:permission": {
 											"self": "rw"
 										}
 									}
@@ -545,18 +545,18 @@ func TestCommands_ChangeUserSchema(t *testing.T) {
 				userSchema: &ChangeUserSchema{
 					ID: "id1",
 					Schema: json.RawMessage(`{
-						"$schema": "urn:zitadel:schema:v1",
+						"$schema": "urn:nomen:schema:v1",
 						"type": "object",
 						"properties": {
 							"name": {
 								"type": "string",
-								"urn:zitadel:schema:permission": {
+								"urn:nomen:schema:permission": {
 									"self": "rw"
 								}
 							},
 							"description": {
 								"type": "string",
-								"urn:zitadel:schema:permission": {
+								"urn:nomen:schema:permission": {
 									"self": "rw"
 								}
 							}

@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // -------------------------------------------------------------
@@ -63,7 +63,7 @@ func (u user) Delete(ctx context.Context, client database.QueryExecutor, conditi
 		return 0, err
 	}
 
-	builder := database.NewStatementBuilder("DELETE FROM zitadel.users")
+	builder := database.NewStatementBuilder("DELETE FROM nomen.users")
 	writeCondition(builder, condition)
 	return client.Exec(ctx, builder.String(), builder.Args()...)
 }
@@ -93,16 +93,16 @@ var queryUserStmt = "SELECT users.instance_id, users.organization_id, users.id, 
 	`, 'totp', CASE WHEN users.totp_secret IS NOT NULL THEN jsonb_build_object('secret', encode(users.totp_secret, 'escape')::JSONB, 'verifiedAt', users.totp_verified_at, 'lastSuccessfullyCheckedAt', users.totp_last_successful_check, 'failedAttempts', users.totp_failed_attempts) ELSE NULL END` +
 	`, 'recoveryCodes', CASE WHEN users.recovery_codes IS NOT NULL THEN jsonb_build_object('codes', users.recovery_codes, 'lastSuccessfullyCheckedAt', users.recovery_code_last_successful_check, 'failedAttempts', users.recovery_code_failed_attempts) ELSE NULL END` +
 	`, 'passkeys', jsonb_agg(DISTINCT jsonb_build_object('id', user_passkeys.token_id, 'keyId', encode(user_passkeys.key_id, 'base64'), 'type', user_passkeys.type, 'name', user_passkeys.name, 'signCount', user_passkeys.sign_count, 'challenge', encode(user_passkeys.challenge, 'base64'), 'publicKey', encode(user_passkeys.public_key, 'base64'), 'attestationType', user_passkeys.attestation_type, 'aaGuid', encode(user_passkeys.authenticator_attestation_guid, 'base64'), 'rpId', user_passkeys.relying_party_id, 'createdAt', user_passkeys.created_at, 'updatedAt', user_passkeys.updated_at, 'verifiedAt', user_passkeys.verified_at)) FILTER (WHERE user_passkeys.user_id IS NOT NULL)` +
-	`, 'verifications', (SELECT jsonb_agg(jsonb_build_object('id', verifications.id, 'code', encode(verifications.code, 'escape')::JSONB, 'createdAt', verifications.created_at, 'updatedAt', verifications.updated_at, 'expiresAt', verifications.created_at+verifications.expiry, 'failedAttempts', verifications.failed_attempts)) FROM zitadel.verifications WHERE verifications.instance_id = users.instance_id AND verifications.user_id = users.id AND verifications.id NOT IN (COALESCE(users.password_verification_id, ''), COALESCE(users.email_verification_id, ''), COALESCE(users.phone_verification_id, ''), COALESCE(users.invite_verification_id, '')))` +
+	`, 'verifications', (SELECT jsonb_agg(jsonb_build_object('id', verifications.id, 'code', encode(verifications.code, 'escape')::JSONB, 'createdAt', verifications.created_at, 'updatedAt', verifications.updated_at, 'expiresAt', verifications.created_at+verifications.expiry, 'failedAttempts', verifications.failed_attempts)) FROM nomen.verifications WHERE verifications.instance_id = users.instance_id AND verifications.user_id = users.id AND verifications.id NOT IN (COALESCE(users.password_verification_id, ''), COALESCE(users.email_verification_id, ''), COALESCE(users.phone_verification_id, ''), COALESCE(users.invite_verification_id, '')))` +
 	`, 'identityProviderLinks', jsonb_agg(DISTINCT jsonb_build_object('providerId', user_identity_provider_links.identity_provider_id, 'providedUserId', user_identity_provider_links.provided_user_id, 'providedUsername', user_identity_provider_links.provided_username, 'createdAt', user_identity_provider_links.created_at, 'updatedAt', user_identity_provider_links.updated_at)) FILTER (WHERE user_identity_provider_links.user_id IS NOT NULL)` +
 	`, 'invite', CASE WHEN users.invite_verification_id IS NOT NULL OR users.invite_accepted_at IS NOT NULL THEN jsonb_build_object('acceptedAt', users.invite_accepted_at, 'failedAttempts', users.invite_failed_attempts, 'pendingVerification', ` + verificationQuery(userHuman{}.inviteVerificationIDColumn()) + `) ELSE NULL END` +
-	`) END AS human FROM zitadel.users`
+	`) END AS human FROM nomen.users`
 
 func verificationQuery(column database.Column) string {
 	var builder database.StatementBuilder
 	builder.WriteString("CASE WHEN ")
 	column.WriteQualified(&builder)
-	builder.WriteString(` IS NOT NULL THEN (SELECT row_to_json(res.*) FROM (SELECT verifications.id, encode(verifications.code, 'escape')::JSONB AS code, verifications.created_at as "createdAt", verifications.updated_at as "updatedAt", verifications.created_at+verifications.expiry AS "expiresAt", verifications.failed_attempts as "failedAttempts" FROM zitadel.verifications WHERE verifications.instance_id = users.instance_id AND verifications.id = `)
+	builder.WriteString(` IS NOT NULL THEN (SELECT row_to_json(res.*) FROM (SELECT verifications.id, encode(verifications.code, 'escape')::JSONB AS code, verifications.created_at as "createdAt", verifications.updated_at as "updatedAt", verifications.created_at+verifications.expiry AS "expiresAt", verifications.failed_attempts as "failedAttempts" FROM nomen.verifications WHERE verifications.instance_id = users.instance_id AND verifications.id = `)
 	column.WriteQualified(&builder)
 	builder.WriteString(`) AS res) ELSE NULL END`)
 	return builder.String()
@@ -167,14 +167,14 @@ func (u user) Update(ctx context.Context, client database.QueryExecutor, conditi
 		changes = append(changes, u.clearUpdatedAt())
 	}
 
-	builder := database.NewStatementBuilder("WITH existing_user AS (SELECT * FROM zitadel.users")
+	builder := database.NewStatementBuilder("WITH existing_user AS (SELECT * FROM nomen.users")
 	writeCondition(builder, condition)
 	builder.WriteString(") ")
 	for i, change := range changes {
 		sessionCTE(change, i, 0, builder)
 	}
 
-	builder.WriteString("UPDATE zitadel.users SET ")
+	builder.WriteString("UPDATE nomen.users SET ")
 	if err := database.Changes(changes).Write(builder); err != nil {
 		return 0, err
 	}
@@ -197,9 +197,9 @@ func (u user) unqualifiedTableName() string {
 
 func (u user) qualifiedTableName() string {
 	if u.tableName != "" {
-		return "zitadel." + u.tableName
+		return "nomen." + u.tableName
 	}
-	return "zitadel.users"
+	return "nomen.users"
 }
 
 // -------------------------------------------------------------

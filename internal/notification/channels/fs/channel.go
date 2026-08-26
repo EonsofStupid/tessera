@@ -9,11 +9,11 @@ import (
 	"time"
 
 	"github.com/k3a/html2text"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
-	"github.com/EonsofStupid/tessera/internal/notification/messages"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/messages"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func InitFSChannel(config Config) (channels.NotificationChannel, error) {

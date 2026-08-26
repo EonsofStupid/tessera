@@ -3,16 +3,16 @@ package management
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	authn_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/authn"
-	change_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/change"
-	object_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	project_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/project"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	authn_grpc "github.com/shippinAI/nomen/internal/api/grpc/authn"
+	change_grpc "github.com/shippinAI/nomen/internal/api/grpc/change"
+	object_grpc "github.com/shippinAI/nomen/internal/api/grpc/object"
+	project_grpc "github.com/shippinAI/nomen/internal/api/grpc/project"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func (s *Server) GetAppByID(ctx context.Context, req *mgmt_pb.GetAppByIDRequest) (*mgmt_pb.GetAppByIDResponse, error) {

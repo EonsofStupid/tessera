@@ -3,10 +3,10 @@ package admin
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) SetRestrictions(ctx context.Context, req *admin.SetRestrictionsRequest) (*admin.SetRestrictionsResponse, error) {

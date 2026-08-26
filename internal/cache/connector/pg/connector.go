@@ -1,8 +1,8 @@
 package pg
 
 import (
-	"github.com/EonsofStupid/tessera/internal/cache"
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/internal/cache"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 type Config struct {

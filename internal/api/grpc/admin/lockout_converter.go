@@ -1,8 +1,8 @@
 package admin
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func UpdateLockoutPolicyToDomain(p *admin.UpdateLockoutPolicyRequest) *domain.LockoutPolicy {

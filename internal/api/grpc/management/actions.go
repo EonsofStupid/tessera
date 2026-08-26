@@ -3,10 +3,10 @@ package management
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	action_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/action"
-	obj_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	action_grpc "github.com/shippinAI/nomen/internal/api/grpc/action"
+	obj_grpc "github.com/shippinAI/nomen/internal/api/grpc/object"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func (s *Server) ListActions(ctx context.Context, req *mgmt_pb.ListActionsRequest) (*mgmt_pb.ListActionsResponse, error) {

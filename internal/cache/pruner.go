@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/jonboulle/clockwork"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 // Pruner is an optional [Cache] interface.

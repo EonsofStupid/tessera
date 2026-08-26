@@ -6,9 +6,9 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	instancev2 "github.com/EonsofStupid/tessera/backend/v3/api/instance/v2"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	instance "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
+	instancev2 "github.com/shippinAI/nomen/backend/v3/api/instance/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	instance "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
 )
 
 func (s *Server) AddCustomDomain(ctx context.Context, req *connect.Request[instance.AddCustomDomainRequest]) (*connect.Response[instance.AddCustomDomainResponse], error) {

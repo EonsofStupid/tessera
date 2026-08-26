@@ -6,13 +6,13 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/api/instance/v2/convert"
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	filter_v2 "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	filter_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	instance_v2 "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	instance_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
+	"github.com/shippinAI/nomen/backend/v3/api/instance/v2/convert"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	filter_v2 "github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	filter_v2beta "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	instance_v2 "github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	instance_v2beta "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
 )
 
 // =================
@@ -93,7 +93,7 @@ func ListInstancesBeta(ctx context.Context, request *connect.Request[instance_v2
 		Msg: &instance_v2beta.ListInstancesResponse{
 			Instances: convert.DomainInstanceListModelToGRPCBetaResponse(instances),
 			Pagination: &filter_v2beta.PaginationResponse{
-				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10955
+				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10955
 				TotalResult:  uint64(len(instances)),
 				AppliedLimit: uint64(request.Msg.GetPagination().GetLimit()),
 			},
@@ -179,7 +179,7 @@ func ListInstances(ctx context.Context, request *connect.Request[instance_v2.Lis
 		Msg: &instance_v2.ListInstancesResponse{
 			Instances: convert.DomainInstanceListModelToGRPCResponse(instances),
 			Pagination: &filter_v2.PaginationResponse{
-				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/EonsofStupid/tessera/issues/10955
+				// TODO(IAM-Marco): return correct value. Tracked in https://github.com/shippinAI/nomen/issues/10955
 				TotalResult:  uint64(len(instances)),
 				AppliedLimit: uint64(request.Msg.GetPagination().GetLimit()),
 			},

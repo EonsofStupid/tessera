@@ -3,10 +3,10 @@ package filter
 import (
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
 )
 
 func TextMethodPbToQuery(method filter.TextFilterMethod) query.TextComparison {

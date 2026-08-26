@@ -62,7 +62,7 @@ Errors:
     CouldNotDialTLS: "не вдалося зв'язатися з SMTP сервером через TLS, перевірте порт, проблеми з брандмауером..."
     CouldNotCreateClient: "не вдалося створити smtp клієнт"
     CouldNotStartTLS: "не вдалося запустити tls"
-    CouldNotAuth: "не вдалося додати smtp аутентифікацію, перевірте чи правильні ваші користувач та пароль, якщо вони правильні, можливо ваш провайдер вимагає метод аутентифікації, не підтримуваний Zitadel"
+    CouldNotAuth: "не вдалося додати smtp аутентифікацію, перевірте чи правильні ваші користувач та пароль, якщо вони правильні, можливо ваш провайдер вимагає метод аутентифікації, не підтримуваний Nomen"
     CouldNotSetSender: "не вдалося встановити відправника"
     CouldNotSetRecipient: "не вдалося встановити отримувача"
   SMTPConfig:
@@ -153,7 +153,7 @@ Errors:
       Invalid: "Пароль недійсний"
       NotSet: "Користувач не встановив пароль"
       NotChanged: "Новий пароль не може бути таким же як поточний пароль"
-      NotSupported: "Кодування хеша пароля не підтримується. Перегляньте https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Кодування хеша пароля не підтримується. Перегляньте https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Політика паролів не знайдена"
       MinLength: "Пароль занадто короткий"
@@ -202,7 +202,7 @@ Errors:
     NotActive: "Організація неактивна"
     NotChanged: "Організація не змінена"
     DefaultOrgNotDeletable: "Організація за замовчуванням не може бути видалена"
-    ZitadelOrgNotDeletable: "Організація з проектом Zitadel не може бути видалена"
+    NomenOrgNotDeletable: "Організація з проектом Nomen не може бути видалена"
     InvalidDomain: "Недійсний домен"
     DomainMissing: "Відсутній домен"
     DomainNotOnOrg: "Домен не існує в організації"
@@ -211,8 +211,8 @@ Errors:
     DomainVerificationTypeInvalid: "Тип верифікації домену недійсний"
     DomainVerificationMissing: "Верифікація домену ще не розпочата"
     DomainVerificationFailed: "Верифікація домену не вдалася"
-    DomainVerificationTXTNotFound: "TXT запис _zitadel-challenge не знайдено для вашого домену. Переконайтеся, що ви додали його до DNS сервера або зачекайте поки новий запис пошириться"
-    DomainVerificationTXTNoMatch: "TXT запис _zitadel-challenge знайдено для вашого домену, але він не містить правильний текст токену. Переконайтеся, що ви додали правильний токен до DNS сервера або зачекайте поки новий запис пошириться"
+    DomainVerificationTXTNotFound: "TXT запис _nomen-challenge не знайдено для вашого домену. Переконайтеся, що ви додали його до DNS сервера або зачекайте поки новий запис пошириться"
+    DomainVerificationTXTNoMatch: "TXT запис _nomen-challenge знайдено для вашого домену, але він не містить правильний текст токену. Переконайтеся, що ви додали правильний токен до DNS сервера або зачекайте поки новий запис пошириться"
     DomainVerificationHTTPNotFound: "Файл з викликом не знайдено за очікуваним URL. Переконайтеся, що ви завантажили файл у правильне місце з правами читання"
     DomainVerificationHTTPNoMatch: "Файл з викликом знайдено за очікуваним URL, але він не містить правильний текст токену. Перевірте його вміст"
     DomainVerificationTimeout: "Сталася помилка часу очікування при запиті до DNS сервера"
@@ -337,7 +337,7 @@ Errors:
   Instance:
     AlreadyExists: "Інстанс вже існує"
     NotChanged: "Інстанс не змінено"
-    NotFound: "Інстанс не знайдено. Переконайтеся, що домен правильний. Перегляньте https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Інстанс не знайдено. Переконайтеся, що домен правильний. Перегляньте https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Ролі не були змінені"
     MemberInvalid: "Член недійсний"
@@ -1104,20 +1104,20 @@ EventTypes:
         changed: "Політика блокування паролів змінена"
   iam:
     setup:
-      started: "Налаштування Zitadel розпочато"
-      done: "Налаштування Zitadel завершено"
+      started: "Налаштування Nomen розпочато"
+      done: "Налаштування Nomen завершено"
     global:
       org:
         set: "Глобальна організація встановлена"
     project:
       iam:
-        set: "Проект Zitadel встановлено"
+        set: "Проект Nomen встановлено"
     member:
-      added: "Член Zitadel доданий"
-      changed: "Член Zitadel змінений"
-      removed: "Член Zitadel видалений"
+      added: "Член Nomen доданий"
+      changed: "Член Nomen змінений"
+      removed: "Член Nomen видалений"
       cascade:
-        removed: "Член Zitadel каскадно видалений"
+        removed: "Член Nomen каскадно видалений"
     idp:
       config:
         added: "Конфігурація IDP додана"
@@ -1230,9 +1230,9 @@ EventTypes:
       removed: "Домен видалений"
     iam:
       console:
-        set: "Програма консолі керування Zitadel налаштована"
+        set: "Програма консолі керування Nomen налаштована"
       project:
-        set: "Проект Zitadel встановлено"
+        set: "Проект Nomen встановлено"
     mail:
       template:
         added: "Шаблон електронної пошти доданий"

@@ -6,11 +6,11 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	idp_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/idp"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object"
-	policy_pb "github.com/EonsofStupid/tessera/pkg/grpc/policy"
+	idp_grpc "github.com/shippinAI/nomen/internal/api/grpc/idp"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/pkg/grpc/object"
+	policy_pb "github.com/shippinAI/nomen/pkg/grpc/policy"
 )
 
 func ModelLoginPolicyToPb(policy *query.LoginPolicy) *policy_pb.LoginPolicy {

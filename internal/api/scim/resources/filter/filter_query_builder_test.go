@@ -9,9 +9,9 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/test"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/test"
 )
 
 var fieldPathColumnMapping = FieldPathMapping{

@@ -6,13 +6,13 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	domain_schema "github.com/EonsofStupid/tessera/internal/domain/schema"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/user/schemauser"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	domain_schema "github.com/shippinAI/nomen/internal/domain/schema"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/user/schemauser"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type UserV3WriteModel struct {

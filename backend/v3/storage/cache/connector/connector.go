@@ -5,9 +5,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/cache"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/cache/connector/gomap"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/cache/connector/noop"
+	"github.com/shippinAI/nomen/backend/v3/storage/cache"
+	"github.com/shippinAI/nomen/backend/v3/storage/cache/connector/gomap"
+	"github.com/shippinAI/nomen/backend/v3/storage/cache/connector/noop"
 )
 
 type CachesConfig struct {

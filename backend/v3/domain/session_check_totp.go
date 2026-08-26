@@ -6,12 +6,12 @@ import (
 
 	"github.com/pquerna/otp/totp"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/session"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/session"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type CheckTOTPType struct {
@@ -206,7 +206,7 @@ func (t *TOTPCheckCommand) Validate(ctx context.Context, opts *InvokeOpts) (err 
 		database.WithCondition(
 			userRepo.PrimaryKeyCondition(t.InstanceID, session.UserID),
 		),
-		// TODO(IAM-Marco): This might not work if we do manual transaction management. See https://github.com/EonsofStupid/tessera/pull/11886#discussion_r3014948862
+		// TODO(IAM-Marco): This might not work if we do manual transaction management. See https://github.com/shippinAI/nomen/pull/11886#discussion_r3014948862
 		database.WithResultLock(),
 	)
 	if err := handleGetError(err, "DOM-PZvWq0", "user"); err != nil {

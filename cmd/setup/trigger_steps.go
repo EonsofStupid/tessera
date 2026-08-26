@@ -3,12 +3,12 @@ package setup
 import (
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/metadata"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/migration"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	"github.com/EonsofStupid/tessera/internal/serviceping"
+	"github.com/shippinAI/nomen/internal/api/scim/metadata"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/migration"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	"github.com/shippinAI/nomen/internal/serviceping"
 )
 
 // triggerSteps defines the repeatable migrations that set up triggers

@@ -92,11 +92,11 @@ func TestOptionsFromURL(t *testing.T) {
 	t.Run("overlays client name", func(t *testing.T) {
 		c := Config{
 			URL:        "redis://localhost:6379/0",
-			ClientName: "zitadel",
+			ClientName: "nomen",
 		}
 		opts, err := optionsFromURL(c)
 		require.NoError(t, err)
-		assert.Equal(t, "zitadel", opts.ClientName)
+		assert.Equal(t, "nomen", opts.ClientName)
 	})
 
 	t.Run("overlays circuit breaker", func(t *testing.T) {

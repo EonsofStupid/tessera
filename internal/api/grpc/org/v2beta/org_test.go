@@ -10,11 +10,11 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2beta"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
+	user "github.com/shippinAI/nomen/pkg/grpc/user/v2beta"
 )
 
 func Test_createOrganizationRequestToCommand(t *testing.T) {

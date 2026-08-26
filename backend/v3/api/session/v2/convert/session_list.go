@@ -5,10 +5,10 @@ import (
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	session_grpc "github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	session_grpc "github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 // ListSessionsRequestGRPCToDomain converts a gRPC [session_grpc.ListSessionsRequest] to

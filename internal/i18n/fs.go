@@ -4,20 +4,20 @@ import (
 	"net/http"
 
 	"github.com/rakyll/statik/fs"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
 	// ensure fs is setup
-	_ "github.com/EonsofStupid/tessera/internal/api/ui/login/statik"
-	_ "github.com/EonsofStupid/tessera/internal/notification/statik"
-	_ "github.com/EonsofStupid/tessera/internal/statik"
+	_ "github.com/shippinAI/nomen/internal/api/ui/login/statik"
+	_ "github.com/shippinAI/nomen/internal/notification/statik"
+	_ "github.com/shippinAI/nomen/internal/statik"
 )
 
-var zitadelFS, loginFS, notificationFS http.FileSystem
+var nomenFS, loginFS, notificationFS http.FileSystem
 
 type Namespace string
 
 const (
-	ZITADEL      Namespace = "zitadel"
+	NOMEN        Namespace = "nomen"
 	LOGIN        Namespace = "login"
 	NOTIFICATION Namespace = "notification"
 )
@@ -30,12 +30,12 @@ func LoadFilesystem(ns Namespace) http.FileSystem {
 		}
 	}()
 	switch ns {
-	case ZITADEL:
-		if zitadelFS != nil {
-			return zitadelFS
+	case NOMEN:
+		if nomenFS != nil {
+			return nomenFS
 		}
-		zitadelFS, err = fs.NewWithNamespace(string(ns))
-		return zitadelFS
+		nomenFS, err = fs.NewWithNamespace(string(ns))
+		return nomenFS
 	case LOGIN:
 		if loginFS != nil {
 			return loginFS

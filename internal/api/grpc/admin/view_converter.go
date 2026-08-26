@@ -3,8 +3,8 @@ package admin
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/query"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/query"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func CurrentSequencesToPb(database string, currentSequences *query.CurrentStates) []*admin_pb.View {

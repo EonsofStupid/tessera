@@ -8,15 +8,15 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/passwap"
-	"github.com/zitadel/passwap/bcrypt"
+	"github.com/shippinAI/nomen/passwap"
+	"github.com/shippinAI/nomen/passwap/bcrypt"
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/instance"
 )
 
 func mockEncryptedCode(code string, exp time.Duration) encrypedCodeFunc {

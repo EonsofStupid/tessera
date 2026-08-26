@@ -1,11 +1,11 @@
 # 01 — The seat token contract
 
-**Status:** implemented integration profile; not the Tessera product boundary.
+**Status:** implemented integration profile; not the Nomen product boundary.
 **Schema:** `shippin.seat-token.v1`
 **Verified by:** Automaton (`engine/serve/identity.mjs`), DevForge, and every
 consumer that opts into the Shippin profile.
 
-This contract is an optional Tessera integration profile. Tessera's standalone
+This contract is an optional Nomen integration profile. Nomen's standalone
 product contract is `02-standalone-product-contract.md`; a standalone or managed
 customer deployment must remain fully operable when this profile is disabled.
 
@@ -16,7 +16,7 @@ caller who they say they are, and what are they allowed to do?* If each one
 learns the answer from a vendor's SDK, the vendor becomes load-bearing and
 swapping it is a migration across every repo.
 
-For consumers of this profile, the boundary is a **token**, not Tessera's
+For consumers of this profile, the boundary is a **token**, not Nomen's
 internal implementation. Consumers never need an implementation-specific SDK.
 
 This is also why the contract is written before the service: Automaton is

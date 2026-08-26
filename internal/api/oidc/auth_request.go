@@ -10,29 +10,29 @@ import (
 	"time"
 
 	"github.com/go-jose/go-jose/v4"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/crypto"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/crypto"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	zdomain "github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/api/oidc/sign"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/handler"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/domain/federatedlogout"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	zdomain "github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/api/oidc/sign"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/auth/repository/eventsourcing/handler"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain/federatedlogout"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
-	LoginClientHeader            = "x-zitadel-login-client"
+	LoginClientHeader            = "x-nomen-login-client"
 	LoginPostLogoutRedirectParam = "post_logout_redirect"
 	LoginLogoutHintParam         = "logout_hint"
 	LoginUILocalesParam          = "ui_locales"
@@ -235,11 +235,11 @@ func (o *OPStorage) CreateAccessAndRefreshTokens(context.Context, op.TokenReques
 }
 
 func (*OPStorage) panicErr(method string) error {
-	return fmt.Errorf("OPStorage.%s should not be called anymore. This is a bug. Please report https://github.com/EonsofStupid/tessera/issues", method)
+	return fmt.Errorf("OPStorage.%s should not be called anymore. This is a bug. Please report https://github.com/shippinAI/nomen/issues", method)
 }
 
 func (o *OPStorage) TokenRequestByRefreshToken(ctx context.Context, refreshToken string) (_ op.RefreshTokenRequest, err error) {
-	panic("TokenRequestByRefreshToken should not be called anymore. This is a bug. Please report https://github.com/EonsofStupid/tessera/issues")
+	panic("TokenRequestByRefreshToken should not be called anymore. This is a bug. Please report https://github.com/shippinAI/nomen/issues")
 }
 
 func (o *OPStorage) TerminateSession(ctx context.Context, userID, clientID string) (err error) {

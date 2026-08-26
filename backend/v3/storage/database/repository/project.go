@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // -------------------------------------------------------------
@@ -153,7 +153,7 @@ func (p project) StateCondition(state domain.ProjectState) database.Condition {
 // -------------------------------------------------------------
 
 func (p project) qualifiedTableName() string {
-	return "zitadel.projects"
+	return "nomen.projects"
 }
 
 func (project) unqualifiedTableName() string {
@@ -234,8 +234,8 @@ const queryProjectStmt = `SELECT
 	projects.used_labeling_setting_owner,
 	NULL::TEXT AS grant_id, 
 	NULL::TEXT AS granted_organization_id,  
-	NULL::zitadel.project_grant_state AS grant_state    
-	FROM zitadel.projects`
+	NULL::nomen.project_grant_state AS grant_state    
+	FROM nomen.projects`
 
 func (p project) prepareGetQuery(opts []database.QueryOption) (*database.StatementBuilder, error) {
 	options := new(database.QueryOpts)
@@ -266,8 +266,8 @@ const queryGrantedProjectStmt = `SELECT
 	grants.id AS grant_id,
 	grants.granted_organization_id,
 	grants.state as grant_state
-	FROM zitadel.projects 
-	INNER JOIN zitadel.project_grants as grants
+	FROM nomen.projects 
+	INNER JOIN nomen.project_grants as grants
 	    ON grants.instance_id = projects.instance_id 
 	    AND grants.granting_organization_id = projects.organization_id
 	    AND grants.project_id = projects.id`

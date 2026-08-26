@@ -1,8 +1,8 @@
 package messages
 
 import (
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/notification/channels"
 )
 
 var _ channels.Message = (*SMS)(nil)

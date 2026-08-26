@@ -3,7 +3,7 @@ package object
 import (
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/internal/actions"
+	"github.com/shippinAI/nomen/internal/actions"
 )
 
 // HTTPRequestField accepts the http.Request by value, so it's not mutated

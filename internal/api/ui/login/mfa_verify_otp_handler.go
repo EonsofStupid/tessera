@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	http_mw "github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 const (

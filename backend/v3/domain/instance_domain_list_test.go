@@ -7,16 +7,16 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	domainmock "github.com/EonsofStupid/tessera/backend/v3/domain/mock"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dbmock"
-	noopdb "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/noop"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	instance "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	domainmock "github.com/shippinAI/nomen/backend/v3/domain/mock"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dbmock"
+	noopdb "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/noop"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	instance "github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
 )
 
 func TestListInstanceDomainsQuery_Validate(t *testing.T) {

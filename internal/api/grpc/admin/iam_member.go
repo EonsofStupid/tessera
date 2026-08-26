@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/member"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/member"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) ListIAMMemberRoles(ctx context.Context, req *admin_pb.ListIAMMemberRolesRequest) (*admin_pb.ListIAMMemberRolesResponse, error) {

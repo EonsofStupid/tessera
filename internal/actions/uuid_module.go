@@ -5,12 +5,12 @@ import (
 
 	"github.com/dop251/goja"
 	"github.com/google/uuid"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 func WithUUID(ctx context.Context) Option {
 	return func(c *runConfig) {
-		c.modules["zitadel/uuid"] = func(runtime *goja.Runtime, module *goja.Object) {
+		c.modules["nomen/uuid"] = func(runtime *goja.Runtime, module *goja.Object) {
 			requireUUID(ctx, runtime, module)
 		}
 	}

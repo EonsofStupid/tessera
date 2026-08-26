@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v1/domain"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

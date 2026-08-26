@@ -4,14 +4,14 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/user/model"
-	es_model "github.com/EonsofStupid/tessera/internal/user/repository/eventsourcing/model"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/user/model"
+	es_model "github.com/shippinAI/nomen/internal/user/repository/eventsourcing/model"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
@@ -42,7 +42,7 @@ type UserSessionView struct {
 	State         sql.Null[domain.UserSessionState] `json:"-" gorm:"column:state"`
 	UserAgentID   string                            `json:"userAgentID" gorm:"column:user_agent_id;primary_key"`
 	UserID        string                            `json:"userID" gorm:"column:user_id;primary_key"`
-	// As of https://github.com/EonsofStupid/tessera/pull/7199 the following 4 attributes
+	// As of https://github.com/shippinAI/nomen/pull/7199 the following 4 attributes
 	// are not projected in the user session handler anymore
 	// and are therefore annotated with a `gorm:"-"`.
 	// They will be read from the corresponding projection directly.

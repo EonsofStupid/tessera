@@ -9,16 +9,16 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc/metadata"
 
-	oidc_api "github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
+	oidc_api "github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
 )
 
 func TestServer_UserInfo(t *testing.T) {
@@ -283,7 +283,7 @@ func TestServer_UserInfo_OrgIDRoles(t *testing.T) {
 	}
 }
 
-// https://github.com/EonsofStupid/tessera/issues/6662
+// https://github.com/shippinAI/nomen/issues/6662
 func TestServer_UserInfo_Issue6662(t *testing.T) {
 	const (
 		roleFoo = "foo"
@@ -343,7 +343,7 @@ func addProjectOrgGrant(t *testing.T, userID, projectID string, roles ...string)
 	})
 	require.NoError(t, err)
 
-	ctxOrg := metadata.AppendToOutgoingContext(CTXIAM, "x-zitadel-orgid", grantedOrg.GetOrganizationId())
+	ctxOrg := metadata.AppendToOutgoingContext(CTXIAM, "x-nomen-orgid", grantedOrg.GetOrganizationId())
 	_, err = Instance.Client.Mgmt.AddUserGrant(ctxOrg, &management.AddUserGrantRequest{
 		UserId:         userID,
 		ProjectId:      projectID,

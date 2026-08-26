@@ -3,11 +3,11 @@ package setup
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/cache/connector"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/cache/connector"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 type externalConfigChange struct {

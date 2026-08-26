@@ -3,7 +3,7 @@ package ldap
 import (
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 type User struct {

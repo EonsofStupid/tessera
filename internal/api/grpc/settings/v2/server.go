@@ -7,15 +7,15 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/internal/api/assets"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2/settingsconnect"
+	"github.com/shippinAI/nomen/internal/api/assets"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2/settingsconnect"
 )
 
 var _ settingsconnect.SettingsServiceHandler = (*Server)(nil)
@@ -49,7 +49,7 @@ func (s *Server) RegisterConnectServer(interceptors ...connect.Interceptor) (str
 }
 
 func (s *Server) FileDescriptor() protoreflect.FileDescriptor {
-	return settings.File_zitadel_settings_v2_settings_service_proto
+	return settings.File_nomen_settings_v2_settings_service_proto
 }
 
 func (s *Server) AppName() string {

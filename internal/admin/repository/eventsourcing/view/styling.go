@@ -1,9 +1,9 @@
 package view
 
 import (
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/iam/repository/view"
-	"github.com/EonsofStupid/tessera/internal/iam/repository/view/model"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/iam/repository/view"
+	"github.com/shippinAI/nomen/internal/iam/repository/view/model"
 )
 
 const (

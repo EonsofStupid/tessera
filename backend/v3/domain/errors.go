@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func NewSlug(resource, cause string) zerrors.Slug {
@@ -16,7 +16,7 @@ var (
 	// SlugInternalError is a general slug for any internal error, where the client doesn't have any influence on the error.
 	// It's returned when an unexpected condition in the server occurs, such as a database error, an external service failure, or any other error that is not caused by the client's request.
 	// The error details might contain additional information.
-	SlugInternalError = NewSlug("zitadel", "internal_error")
+	SlugInternalError = NewSlug("nomen", "internal_error")
 
 	// SlugRequestInvalid is a general slug for any request containing missing, malformed or otherwise invalid parameters.
 	// The details typically contain additional information on how to resolve the problem.
@@ -30,38 +30,38 @@ var (
 var (
 	// ErrIDMissing is an error that can be returned on any resource if the necessary (resource) ID is missing
 	ErrIDMissing = func() error {
-		return zerrors.CreateZitadelError(zerrors.KindInvalidArgument, nil, string(SlugRequestInvalid), "validation failed: id is required", 1).
+		return zerrors.CreateNomenError(zerrors.KindInvalidArgument, nil, string(SlugRequestInvalid), "validation failed: id is required", 1).
 			WithDetails(zerrors.ErrorDetailsMap{"id": "required"})
 	}
 
 	// ErrInstanceIDMissing is an error that can be returned on any resource if the necessary instance ID is missing
 	ErrInstanceIDMissing = func() error {
-		return zerrors.CreateZitadelError(zerrors.KindInvalidArgument, nil, string(SlugRequestInvalid), "validation failed: instance_id is required", 1).
+		return zerrors.CreateNomenError(zerrors.KindInvalidArgument, nil, string(SlugRequestInvalid), "validation failed: instance_id is required", 1).
 			WithDetails(zerrors.ErrorDetailsMap{"instance_id": "required"})
 	}
 
 	// ErrInvalidRequest is a general error for any invalid request type, like missing or wrong parameters.
 	ErrInvalidRequest = func(message string) error {
-		return zerrors.CreateZitadelError(zerrors.KindInvalidArgument, nil, string(SlugRequestInvalid), message, 1)
+		return zerrors.CreateNomenError(zerrors.KindInvalidArgument, nil, string(SlugRequestInvalid), message, 1)
 	}
 
 	// ErrInternal is a general error for any internal error, where the client doesn't have any influence on the error.
 	// This error should be used for any error that is not caused by the client's request, but rather by an unexpected condition in the server.
 	ErrInternal = func(err error, message string) error {
-		return zerrors.CreateZitadelError(zerrors.KindInternal, err, string(SlugInternalError), message, 1)
+		return zerrors.CreateNomenError(zerrors.KindInternal, err, string(SlugInternalError), message, 1)
 	}
 
 	// ErrMoreThanOneRowAffected is an error that can be returned when a database operation affects more rows than expected,
 	// which could indicate a potential issue with the query or the data integrity.
 	ErrMoreThanOneRowAffected = func(message string, rows int64) error {
-		return zerrors.CreateZitadelError(zerrors.KindInternal, nil, string(SlugInternalError), message, 1).
+		return zerrors.CreateNomenError(zerrors.KindInternal, nil, string(SlugInternalError), message, 1).
 			WithDetails(zerrors.ErrorDetailsMap{"rows": rows})
 	}
 
 	// ErrAuthMissingPermission is an error that can be returned when a user tries to perform an action that requires a specific permission,
 	// but the user does not have that permission.
 	ErrAuthMissingPermission = func(err error, message, permission string) error {
-		return zerrors.CreateZitadelError(zerrors.KindPermissionDenied, err, string(SlugAuthMissingPermission), message, 1).
+		return zerrors.CreateNomenError(zerrors.KindPermissionDenied, err, string(SlugAuthMissingPermission), message, 1).
 			WithDetails(zerrors.ErrorDetailsMap{"permission": permission})
 	}
 )
@@ -164,10 +164,10 @@ func handleGetError(inputErr error, errorID, objectType string) error {
 	}
 
 	if errors.Is(inputErr, &database.NoRowFoundError{}) {
-		return zerrors.CreateZitadelError(zerrors.KindNotFound, inputErr, errorID, fmt.Sprintf("%s not found", objectType), 1)
+		return zerrors.CreateNomenError(zerrors.KindNotFound, inputErr, errorID, fmt.Sprintf("%s not found", objectType), 1)
 	}
 
-	return zerrors.CreateZitadelError(zerrors.KindInternal, inputErr, errorID, fmt.Sprintf("failed fetching %s", objectType), 1)
+	return zerrors.CreateNomenError(zerrors.KindInternal, inputErr, errorID, fmt.Sprintf("failed fetching %s", objectType), 1)
 }
 
 func handleUpdateError(inputErr error, expectedRowCount, actualRowCount int64, errorID, objectType string) error {
@@ -176,15 +176,15 @@ func handleUpdateError(inputErr error, expectedRowCount, actualRowCount int64, e
 	}
 
 	if inputErr != nil {
-		return zerrors.CreateZitadelError(zerrors.KindInternal, inputErr, errorID, fmt.Sprintf("failed updating %s", objectType), 1)
+		return zerrors.CreateNomenError(zerrors.KindInternal, inputErr, errorID, fmt.Sprintf("failed updating %s", objectType), 1)
 	}
 
 	if actualRowCount == 0 {
-		return zerrors.CreateZitadelError(zerrors.KindNotFound, nil, errorID, fmt.Sprintf("%s not found", objectType), 1)
+		return zerrors.CreateNomenError(zerrors.KindNotFound, nil, errorID, fmt.Sprintf("%s not found", objectType), 1)
 	}
 
 	if actualRowCount != expectedRowCount {
-		return zerrors.CreateZitadelError(zerrors.KindInternal, NewMultipleObjectsUpdatedError(expectedRowCount, actualRowCount), errorID, "unexpected number of rows updated", 1)
+		return zerrors.CreateNomenError(zerrors.KindInternal, NewMultipleObjectsUpdatedError(expectedRowCount, actualRowCount), errorID, "unexpected number of rows updated", 1)
 	}
 
 	return nil

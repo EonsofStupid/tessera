@@ -21,13 +21,13 @@ import (
 	"github.com/crewjam/saml/samlidp"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	saml_xml "github.com/zitadel/saml/pkg/provider/xml"
-	"github.com/zitadel/saml/pkg/provider/xml/md"
+	saml_xml "github.com/shippinAI/nomen/saml/pkg/provider/xml"
+	"github.com/shippinAI/nomen/saml/pkg/provider/xml/md"
 	"golang.org/x/crypto/bcrypt"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 var (
@@ -458,7 +458,7 @@ func TestServer_SAMLACS(t *testing.T) {
 	}
 }
 
-func getIDP(zitadelBaseURL string, idpIDs []string, user1, user2 string) (*saml.IdentityProvider, error) {
+func getIDP(nomenBaseURL string, idpIDs []string, user1, user2 string) (*saml.IdentityProvider, error) {
 	baseURL, err := url.Parse("http://localhost:8000")
 	if err != nil {
 		return nil, err
@@ -492,7 +492,7 @@ func getIDP(zitadelBaseURL string, idpIDs []string, user1, user2 string) (*saml.
 		return nil, err
 	}
 	for _, idpID := range idpIDs {
-		metadata, err := saml_xml.ReadMetadataFromURL(http.DefaultClient, zitadelBaseURL+"/idps/"+idpID+"/saml/metadata")
+		metadata, err := saml_xml.ReadMetadataFromURL(http.DefaultClient, nomenBaseURL+"/idps/"+idpID+"/saml/metadata")
 		if err != nil {
 			return nil, err
 		}

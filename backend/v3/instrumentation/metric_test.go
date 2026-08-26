@@ -320,7 +320,7 @@ func Test_newMeterProvider_autoexport(t *testing.T) {
 				"OTEL_METRICS_EXPORTER": "console",
 			},
 		},
-		// Backward compatibility: explicit ZITADEL types take priority over OTEL env vars
+		// Backward compatibility: explicit NOMEN types take priority over OTEL env vars
 		{
 			name: "stdout type ignores OTEL_METRICS_EXPORTER",
 			cfg: MetricConfig{

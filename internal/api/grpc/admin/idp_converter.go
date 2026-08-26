@@ -5,16 +5,16 @@ import (
 	"github.com/muhlemmer/gu"
 	dsig "github.com/russellhaering/goxmldsig"
 
-	idp_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/idp"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	idp_pb "github.com/EonsofStupid/tessera/pkg/grpc/idp"
+	idp_grpc "github.com/shippinAI/nomen/internal/api/grpc/idp"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
+	idp_pb "github.com/shippinAI/nomen/pkg/grpc/idp"
 )
 
 func addOIDCIDPRequestToDomain(req *admin_pb.AddOIDCIDPRequest) *domain.IDPConfig {
@@ -549,8 +549,8 @@ func signatureAlgorithmToCommand(signatureAlgorithm idp_pb.SAMLSignatureAlgorith
 	}
 }
 
-func addZitadelProviderToCommand(req *admin_pb.AddZitadelProviderRequest) command.ZitadelProvider {
-	return command.ZitadelProvider{
+func addNomenProviderToCommand(req *admin_pb.AddNomenProviderRequest) command.NomenProvider {
+	return command.NomenProvider{
 		Name:              req.Name,
 		Issuer:            req.Issuer,
 		ClientID:          req.ClientId,
@@ -561,8 +561,8 @@ func addZitadelProviderToCommand(req *admin_pb.AddZitadelProviderRequest) comman
 	}
 }
 
-func updateZitadelProviderToCommand(req *admin_pb.UpdateZitadelProviderRequest) command.ZitadelProvider {
-	return command.ZitadelProvider{
+func updateNomenProviderToCommand(req *admin_pb.UpdateNomenProviderRequest) command.NomenProvider {
+	return command.NomenProvider{
 		Name:              req.Name,
 		Issuer:            req.Issuer,
 		ClientID:          req.ClientId,

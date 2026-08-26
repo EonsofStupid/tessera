@@ -3,8 +3,8 @@ package system
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/query"
-	system_pb "github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/query"
+	system_pb "github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func FailedEventsToPb(database string, failedEvents *query.FailedEvents) []*system_pb.FailedEvent {

@@ -5,18 +5,18 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // oidcError ensures [*oidc.Error] and [op.StatusError] types for err.
 // It must be used when an error passes the package boundary towards oidc.
 // When err is already of the correct type is passed as-is.
-// If the err is a Zitadel error, it is transformed with a proper HTTP status code.
+// If the err is a Nomen error, it is transformed with a proper HTTP status code.
 // Unknown errors are treated as internal server errors.
 func oidcError(ctx context.Context, err error) error {
 	if err == nil {
@@ -28,7 +28,7 @@ func oidcError(ctx context.Context, err error) error {
 	var (
 		sError op.StatusError
 		oError *oidc.Error
-		zError *zerrors.ZitadelError
+		zError *zerrors.NomenError
 	)
 	if errors.As(err, &sError) || errors.As(err, &oError) {
 		return err
@@ -40,7 +40,7 @@ func oidcError(ctx context.Context, err error) error {
 		errors.As(err, &zError)
 	}
 
-	statusCode, _ := http_util.ZitadelErrorToHTTPStatusCode(ctx, err)
+	statusCode, _ := http_util.NomenErrorToHTTPStatusCode(ctx, err)
 	newOidcErr := oidc.ErrServerError
 	if statusCode < 500 {
 		newOidcErr = oidc.ErrInvalidRequest

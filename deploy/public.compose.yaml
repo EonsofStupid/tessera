@@ -1,0 +1,45 @@
+# Public-edition Nomen. PostgreSQL is required. Redis is refused.
+# Provide secrets as files or an untracked env file — never commit them.
+#
+#   export NOMEN_MASTERKEY="$(head -c 32 /dev/urandom | base64 | head -c 32)"
+#   podman compose -f deploy/public.compose.yaml up
+#
+# Without the human password, setup creates no human. Enroll the first owner
+# with NOMEN_BOOTSTRAP_AUTHORITY and the passkey ceremony.
+
+services:
+  postgres:
+    image: docker.io/library/postgres:18
+    environment:
+      POSTGRES_USER: nomen
+      POSTGRES_DB: nomen
+      POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nomen -d nomen"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  nomen:
+    image: ${NOMEN_IMAGE:-localhost/nomen:public}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      NOMEN_EDITION: public
+      NOMEN_DEMO_CAPS: "false"
+      NOMEN_MASTERKEY: ${NOMEN_MASTERKEY:?set NOMEN_MASTERKEY to 32 characters}
+      NOMEN_DATABASE_POSTGRES_HOST: postgres
+      NOMEN_DATABASE_POSTGRES_PORT: "5432"
+      NOMEN_DATABASE_POSTGRES_DATABASE: nomen
+      NOMEN_DATABASE_POSTGRES_USER_USERNAME: nomen
+      NOMEN_DATABASE_POSTGRES_ADMIN_USERNAME: nomen
+      NOMEN_DATABASE_POSTGRES_ADMIN_EXISTINGDATABASE: nomen
+      NOMEN_EXTERNALDOMAIN: ${NOMEN_EXTERNALDOMAIN:-localhost}
+      NOMEN_EXTERNALPORT: "8080"
+      NOMEN_EXTERNALSECURE: "false"
+      NOMEN_TLS_ENABLED: "false"
+      NOMEN_BOOTSTRAP_AUTHORITY: ${NOMEN_BOOTSTRAP_AUTHORITY:-}
+    command: ["start-from-init", "--masterkeyFromEnv", "--tlsMode", "external"]

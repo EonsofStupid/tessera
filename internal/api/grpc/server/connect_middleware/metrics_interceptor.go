@@ -6,12 +6,12 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"go.opentelemetry.io/otel/attribute"
 	"google.golang.org/grpc/codes"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
-	_ "github.com/EonsofStupid/tessera/internal/statik"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
+	_ "github.com/shippinAI/nomen/internal/statik"
 )
 
 const (

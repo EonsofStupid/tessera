@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type localizers interface {
@@ -29,7 +29,7 @@ func translateError(ctx context.Context, err error, translator *i18n.Translator)
 	if translator == nil || err == nil {
 		return err
 	}
-	caosErr := new(zerrors.ZitadelError)
+	caosErr := new(zerrors.NomenError)
 	if errors.As(err, &caosErr) {
 		caosErr.SetMessage(translator.LocalizeFromCtx(ctx, caosErr.GetMessage(), nil))
 	}

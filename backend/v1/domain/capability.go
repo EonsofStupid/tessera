@@ -10,8 +10,8 @@ import (
 type ComponentRole string
 
 const (
-	ComponentTessera         ComponentRole = "tessera"
-	ComponentTesseraOperator ComponentRole = "tessera_operator"
+	ComponentNomen         ComponentRole = "nomen"
+	ComponentNomenOperator ComponentRole = "nomen_operator"
 	ComponentClickHouse      ComponentRole = "clickhouse"
 	ComponentVaultix         ComponentRole = "vaultix"
 	ComponentZuul            ComponentRole = "zuul"
@@ -19,8 +19,8 @@ const (
 )
 
 func (r ComponentRole) Valid() bool {
-	return r == ComponentTessera ||
-		r == ComponentTesseraOperator ||
+	return r == ComponentNomen ||
+		r == ComponentNomenOperator ||
 		r == ComponentClickHouse ||
 		r == ComponentVaultix ||
 		r == ComponentZuul ||
@@ -205,7 +205,7 @@ func validateComponents(components []ComponentCompatibility) error {
 			return fmt.Errorf("component %s requires a compatibility reason", component.Role)
 		}
 	}
-	for _, mandatory := range []ComponentRole{ComponentTessera} {
+	for _, mandatory := range []ComponentRole{ComponentNomen} {
 		if _, ok := seen[mandatory]; !ok {
 			return fmt.Errorf("mandatory component %s is missing", mandatory)
 		}

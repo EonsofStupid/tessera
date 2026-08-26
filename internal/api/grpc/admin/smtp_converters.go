@@ -1,11 +1,11 @@
 package admin
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	settings_pb "github.com/EonsofStupid/tessera/pkg/grpc/settings"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
+	settings_pb "github.com/shippinAI/nomen/pkg/grpc/settings"
 )
 
 func listSMTPConfigsToModel(req *admin_pb.ListSMTPConfigsRequest) (*query.SMTPConfigsSearchQueries, error) {

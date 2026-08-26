@@ -62,7 +62,7 @@ Errors:
     CouldNotDialTLS: "TLS を使用して SMTP サーバーに接続できませんでした。ポート、ファイアウォールの問題を確認してください..."
     CouldNotCreateClient: "SMTPクライアントを作成できませんでした"
     CouldNotStartTLS: "TLSを開始できませんでした"
-    CouldNotAuth: "smtp 認証を追加できませんでした。ユーザーとパスワードの両方が正しいかどうかを確認してください。正しい場合は、プロバイダーが Zitadel でサポートされていない認証方法を必要としている可能性があります。"
+    CouldNotAuth: "smtp 認証を追加できませんでした。ユーザーとパスワードの両方が正しいかどうかを確認してください。正しい場合は、プロバイダーが Nomen でサポートされていない認証方法を必要としている可能性があります。"
     CouldNotSetSender: "送信者を設定できませんでした"
     CouldNotSetRecipient: "受信者を設定できませんでした"
   SMTPConfig:
@@ -154,7 +154,7 @@ Errors:
       Invalid: "無効なパスワードです"
       NotSet: "パスワードが未設置です"
       NotChanged: "新しいパスワードは現在のパスワードと同じにすることはできません"
-      NotSupported: "パスワードハッシュエンコードはサポートされていません。 https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets を参照してください。"
+      NotSupported: "パスワードハッシュエンコードはサポートされていません。 https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets を参照してください。"
     PasswordComplexityPolicy:
       NotFound: "パスワードポリシーが見つかりません"
       MinLength: "パスワードが短すぎます"
@@ -208,7 +208,7 @@ Errors:
     NotActive: "組織はアクティブではありません"
     NotChanged: "組織は変更されていません"
     DefaultOrgNotDeletable: "デフォルトの組織は削除できません"
-    ZitadelOrgNotDeletable: "Zitadelプロジェクトの組織は削除できません"
+    NomenOrgNotDeletable: "Nomenプロジェクトの組織は削除できません"
     InvalidDomain: "無効なドメインです"
     DomainMissing: "ドメインがありません"
     DomainNotOnOrg: "ドメインは組織に存在しません"
@@ -217,8 +217,8 @@ Errors:
     DomainVerificationTypeInvalid: "ドメイン認証タイプが無効です"
     DomainVerificationMissing: "ドメイン認証はまだ開始されていません"
     DomainVerificationFailed: "ドメイン認証に失敗しました"
-    DomainVerificationTXTNotFound: "_zitadel-challenge TXT レコードがドメインで見つかりませんでした。 DNS サーバーに追加したことを確認するか、新しいレコードが伝播されるまで待ちます"
-    DomainVerificationTXTNoMatch: "ドメインの _zitadel-challenge TXT レコードが見つかりましたが、正しいトークン テキストが含まれていません。 DNS サーバーに正しいトークンを追加したかどうかを確認するか、新しいレコードが伝播されるまで待ちます"
+    DomainVerificationTXTNotFound: "_nomen-challenge TXT レコードがドメインで見つかりませんでした。 DNS サーバーに追加したことを確認するか、新しいレコードが伝播されるまで待ちます"
+    DomainVerificationTXTNoMatch: "ドメインの _nomen-challenge TXT レコードが見つかりましたが、正しいトークン テキストが含まれていません。 DNS サーバーに正しいトークンを追加したかどうかを確認するか、新しいレコードが伝播されるまで待ちます"
     DomainVerificationHTTPNotFound: "チャレンジを含むファイルが予期された URL に見つかりませんでした。読み取り権限のある適切な場所にファイルがアップロードされていることを確認してください"
     DomainVerificationHTTPNoMatch: "チャレンジを含むファイルが予期された URL で見つかりましたが、正しいトークン テキストが含まれていません。内容を確認してください"
     DomainVerificationTimeout: "DNSサーバーへのクエリでタイムアウトが発生しました"
@@ -343,7 +343,7 @@ Errors:
   Instance:
     AlreadyExists: "すでに存在するインスタンス"
     NotChanged: "インスタンスは変更されていません"
-    NotFound: "インスタンスが見つかりません。正しいドメインを持っていることを確認してください。 https://zitadel.com/docs/apis/introduction#domains を参照してください"
+    NotFound: "インスタンスが見つかりません。正しいドメインを持っていることを確認してください。 https://nomen.com/docs/apis/introduction#domains を参照してください"
     Member:
       RolesNotChanged: "ロールは変更されていません"
     MemberInvalid: "無効なメンバーです"
@@ -1110,20 +1110,20 @@ EventTypes:
         changed: "パスワードロックアウトポリシーの変更"
   iam:
     setup:
-      started: "Zitadelセットアップの開始"
-      done: "Zitadelセットアップの完了"
+      started: "Nomenセットアップの開始"
+      done: "Nomenセットアップの完了"
     global:
       org:
         set: "グローバル組織のセット"
     project:
       iam:
-        set: "Zitadelプロジェクトのセット"
+        set: "Nomenプロジェクトのセット"
     member:
-      added: "Zitadelメンバーの追加"
-      changed: "Zitadelメンバーの変更"
-      removed: "Zitadelメンバーの削除"
+      added: "Nomenメンバーの追加"
+      changed: "Nomenメンバーの変更"
+      removed: "Nomenメンバーの削除"
       cascade:
-        removed: "Zitadelメンバーカスケードの削除"
+        removed: "Nomenメンバーカスケードの削除"
     idp:
       config:
         added: "IDP構成の追加"
@@ -1236,9 +1236,9 @@ EventTypes:
       removed: "ドメインの削除"
     iam:
       console:
-        set: "Zitadel管理コンソールアプリケーションのセット"
+        set: "Nomen管理コンソールアプリケーションのセット"
       project:
-        set: "Zitadelプロジェクトのセット"
+        set: "Nomenプロジェクトのセット"
     mail:
       template:
         added: "メールテンプレートの追加"

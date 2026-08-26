@@ -3,8 +3,8 @@ package admin
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) ListSecretGenerators(ctx context.Context, req *admin_pb.ListSecretGeneratorsRequest) (*admin_pb.ListSecretGeneratorsResponse, error) {

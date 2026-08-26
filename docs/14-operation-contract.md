@@ -166,10 +166,10 @@ P1.3 assigns HTTP/gRPC mappings. P1.2 establishes the stable operation reasons:
 
 ## Wire schema
 
-`proto/tessera/management/v1/operation.proto` is the provider-neutral wire
+`proto/nomen/management/v1/operation.proto` is the provider-neutral wire
 vocabulary. Domain-specific plan endpoints reuse `OperationPlan`; apply and
 verify requests use the shared id and digest fields. The standalone browser
-reaches these resources through Tessera's same-origin management API. External
+reaches these resources through Nomen's same-origin management API. External
 panels may use a server-side adapter with the same wire contract; an adapter is
 never a product prerequisite.
 
@@ -182,5 +182,5 @@ deployment supports.
 - progress sequencing, phase monotonicity and terminal behavior are tested;
 - protobuf lint and generation pass from tracked source;
 - the domain package imports no transport, database or inherited provider code;
-- source provenance classifies the new Tessera-owned protocol separately from
+- source provenance classifies the new Nomen-owned protocol separately from
   the inherited compatibility protocol tree.

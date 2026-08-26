@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 var _ domain.IDProviderRepository = (*idProvider)(nil)
@@ -18,12 +18,12 @@ func IDProviderRepository() domain.IDProviderRepository {
 }
 
 func (idProvider) qualifiedTableName() string {
-	return "zitadel.identity_providers"
+	return "nomen.identity_providers"
 }
 
 const queryIDProviderStmt = `SELECT instance_id, org_id, id, state, name, type, allow_creation, allow_auto_creation,` +
 	` allow_auto_update, allow_linking, auto_linking_field, payload, created_at, updated_at` +
-	` FROM zitadel.identity_providers`
+	` FROM nomen.identity_providers`
 
 func (i *idProvider) Get(ctx context.Context, client database.QueryExecutor, opts ...database.QueryOption) (*domain.IdentityProvider, error) {
 	options := new(database.QueryOpts)
@@ -57,7 +57,7 @@ func (i *idProvider) List(ctx context.Context, client database.QueryExecutor, op
 }
 
 const (
-	createIDProviderStmtStart = `INSERT INTO zitadel.identity_providers` +
+	createIDProviderStmtStart = `INSERT INTO nomen.identity_providers` +
 		` (instance_id, org_id, id, state, name, type, allow_creation, allow_auto_creation,` +
 		` allow_auto_update, allow_linking, auto_linking_field, payload, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, `
 	createIDProviderStmtEnd = `) RETURNING created_at, updated_at`
@@ -100,7 +100,7 @@ func (i *idProvider) Update(ctx context.Context, client database.QueryExecutor, 
 		dbChanges = append(dbChanges, i.SetUpdatedAt(nil))
 	}
 
-	builder := database.NewStatementBuilder(`UPDATE zitadel.identity_providers SET `)
+	builder := database.NewStatementBuilder(`UPDATE nomen.identity_providers SET `)
 	err := dbChanges.Write(builder)
 	if err != nil {
 		return 0, err

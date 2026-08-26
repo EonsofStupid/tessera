@@ -1,8 +1,8 @@
 {
-  "$id": "urn:zitadel:schema:permission-schema:v1",
+  "$id": "urn:nomen:schema:permission-schema:v1",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$defs": {
-    "urn:zitadel:schema:property-permission": {
+    "urn:nomen:schema:property-permission": {
       "oneOf": [
         {
           "type": "string",
@@ -12,15 +12,15 @@
     }
   },
   "properties": {
-    "urn:zitadel:schema:permission": {
+    "urn:nomen:schema:permission": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "owner": {
-          "$ref": "#/$defs/urn:zitadel:schema:property-permission"
+          "$ref": "#/$defs/urn:nomen:schema:property-permission"
         },
         "self": {
-          "$ref": "#/$defs/urn:zitadel:schema:property-permission"
+          "$ref": "#/$defs/urn:nomen:schema:property-permission"
         }
       }
     }

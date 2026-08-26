@@ -6,33 +6,33 @@
 
 ## Purpose
 
-`GET /tessera/v1/overview` is the first provider-neutral read model consumed by
-the standalone Tessera management application. It summarizes identity facts
-Tessera owns; it does not expose an inherited administration response,
+`GET /nomen/v1/overview` is the first provider-neutral read model consumed by
+the standalone Nomen management application. It summarizes identity facts
+Nomen owns; it does not expose an inherited administration response,
 infrastructure inventory, billing policy, credentials or raw audit payloads.
 
-The same-origin browser calls this endpoint with the user's Tessera session.
+The same-origin browser calls this endpoint with the user's Nomen session.
 External panels may call through a server-side adapter with a least-privilege
-credential. Tessera requires `tessera.overview.read` in either case. Management
+credential. Nomen requires `nomen.overview.read` in either case. Management
 permissions use dot-separated action names because a colon is reserved for an
 optional resource context suffix. Missing authentication is typed `401`;
 missing permission is typed `403` and names that permission.
 
 ## Wire response
 
-The management API uses snake-case JSON. Tessera's data client validates and
+The management API uses snake-case JSON. Nomen's data client validates and
 maps this wire shape into typed view models. Optional adapters may map it into
-their host convention without changing the Tessera contract.
+their host convention without changing the Nomen contract.
 
 ```json
 {
   "schema_version": 1,
-  "service_id": "tessera",
+  "service_id": "nomen",
   "resource_revision": "sha256:<lowercase hex>",
   "observed_at": "2026-08-19T00:00:00Z",
   "readiness": {
     "status": "ready",
-    "issuer": "https://id.tessera.test",
+    "issuer": "https://id.nomen.test",
     "signing_keys": 1,
     "flows": 3,
     "policy_revision": "sha256:<lowercase hex>",
@@ -44,7 +44,7 @@ their host convention without changing the Tessera contract.
       "label": "Infrastructure",
       "value": 7,
       "unit": "attachments",
-      "detail": "Workspace identity attachments managed by Tessera.",
+      "detail": "Workspace identity attachments managed by Nomen.",
       "status": "ready"
     },
     {
@@ -60,7 +60,7 @@ their host convention without changing the Tessera contract.
       "label": "Customers",
       "value": 18,
       "unit": "human seats",
-      "detail": "Human seats managed by Tessera.",
+      "detail": "Human seats managed by Nomen.",
       "status": "ready"
     }
   ],
@@ -84,11 +84,11 @@ resources populate those arrays from their own projections.
   named live policy.
 - `signing_keys` counts usable active asymmetric signing keys. A shared-secret
   verifier is not counted.
-- `ready` requires at least one usable signing key and one configured Tessera
+- `ready` requires at least one usable signing key and one configured Nomen
   flow. Otherwise status is `degraded` and `reasons` names every missing fact.
 - A storage or signing-key read failure returns typed `503 service_unavailable`
   with a safe diagnostic reference. It never returns a healthy-looking zero.
-- Lens values come from Tessera-owned seat and tenant-attachment tables. They
+- Lens values come from Nomen-owned seat and tenant-attachment tables. They
   do not claim host infrastructure inventory or billing truth.
 
 ## Failure and caching
@@ -98,7 +98,7 @@ no-store`. Typed errors follow contract 15 and are also non-cacheable. The
 handler emits JSON only, rejects non-GET methods through routing, and never
 serializes upstream errors, SQL, secrets, tokens or stack traces.
 
-The Tessera browser client has a bounded timeout and performs no automatic
+The Nomen browser client has a bounded timeout and performs no automatic
 retry for a user's mutation. A timeout or malformed success renders the typed
 service-unavailable remedy; `401` and `403` preserve their distinct structured
 meaning. External adapters follow the same rule.
@@ -107,7 +107,7 @@ meaning. External adapters follow the same rule.
 
 - domain validation rejects an incomplete or falsely-ready overview;
 - a storage-backed source reports seats, attachments, flows and policy facts;
-- the HTTP handler enforces `tessera.overview.read` and emits typed failures;
-- the running Tessera router owns `/tessera/v1/overview`;
-- standalone browser fixtures and a live Tessera handler satisfy the same
+- the HTTP handler enforces `nomen.overview.read` and emits typed failures;
+- the running Nomen router owns `/nomen/v1/overview`;
+- standalone browser fixtures and a live Nomen handler satisfy the same
   mapping tests; optional adapters prove the same wire mapping independently.

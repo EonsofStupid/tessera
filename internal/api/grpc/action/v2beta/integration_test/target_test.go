@@ -11,9 +11,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	action "github.com/EonsofStupid/tessera/pkg/grpc/action/v2beta"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/integration"
+	action "github.com/shippinAI/nomen/pkg/grpc/action/v2beta"
 )
 
 func TestServer_CreateTarget(t *testing.T) {

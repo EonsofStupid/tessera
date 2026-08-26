@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 func (notify Notify) SendOTPSMSCode(ctx context.Context, code string, expiry time.Duration) error {

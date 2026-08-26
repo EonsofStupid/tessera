@@ -20,9 +20,9 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func TestServer_Limits_Block(t *testing.T) {
@@ -232,7 +232,7 @@ func publicAPIBlockingTest(domain string) *test {
 // If expectSet is false, we expect the cookie to be deleted
 func assertSetLimitingCookie(t assert.TestingT, response *http.Response, expectSet bool) {
 	for _, cookie := range response.Cookies() {
-		if cookie.Name == "zitadel.quota.exhausted" {
+		if cookie.Name == "nomen.quota.exhausted" {
 			if expectSet {
 				assert.Greater(t, cookie.MaxAge, 0)
 			} else {

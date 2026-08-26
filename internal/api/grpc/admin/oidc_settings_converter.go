@@ -3,11 +3,11 @@ package admin
 import (
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	obj_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	settings_pb "github.com/EonsofStupid/tessera/pkg/grpc/settings"
+	obj_grpc "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
+	settings_pb "github.com/shippinAI/nomen/pkg/grpc/settings"
 )
 
 func OIDCSettingsToPb(config *query.OIDCSettings) *settings_pb.OIDCSettings {

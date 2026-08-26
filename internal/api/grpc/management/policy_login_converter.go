@@ -1,12 +1,12 @@
 package management
 
 import (
-	idp_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/idp"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	policy_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/policy"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	idp_grpc "github.com/shippinAI/nomen/internal/api/grpc/idp"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	policy_grpc "github.com/shippinAI/nomen/internal/api/grpc/policy"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func AddLoginPolicyToCommand(p *mgmt_pb.AddCustomLoginPolicyRequest) *command.AddLoginPolicy {

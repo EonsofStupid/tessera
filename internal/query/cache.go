@@ -5,11 +5,11 @@ import (
 	"time"
 
 	"github.com/hashicorp/golang-lru/v2/expirable"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/cache"
-	"github.com/EonsofStupid/tessera/internal/cache/connector"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/cache"
+	"github.com/shippinAI/nomen/internal/cache/connector"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 type Caches struct {

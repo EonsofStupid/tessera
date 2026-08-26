@@ -5,9 +5,9 @@ import (
 
 	gomock "go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	database "github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	database "github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
 )
 
 func NewOrgRepo(ctrl *gomock.Controller) *OrgRepo {

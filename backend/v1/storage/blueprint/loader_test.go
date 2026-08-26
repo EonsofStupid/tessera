@@ -14,10 +14,10 @@ func write(t *testing.T, dir, name, content string) {
 	}
 }
 
-const valid = `schema: tessera.blueprint.v1
+const valid = `schema: nomen.blueprint.v1
 name: %s
 entries:
-  - model: tessera/seat
+  - model: nomen/seat
     identifiers: {member: mem_1}
     attrs: {account: acc_1}
 `
@@ -51,7 +51,7 @@ func TestLoad_EmptyDirIsAWrongDirNotSuccess(t *testing.T) {
 func TestLoad_ErrorsNameTheFile(t *testing.T) {
 	dir := t.TempDir()
 	// A typo'd top level would load as an empty blueprint without strictness.
-	write(t, dir, "a.yaml", "schema: tessera.blueprint.v1\nentrys: []\n")
+	write(t, dir, "a.yaml", "schema: nomen.blueprint.v1\nentrys: []\n")
 	// And a structurally invalid one fails Validate.
 	write(t, dir, "b.yaml", "schema: wrong\nentries: []\n")
 

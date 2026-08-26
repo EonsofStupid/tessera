@@ -6,19 +6,19 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/cmd/key"
-	"github.com/EonsofStupid/tessera/cmd/setup"
-	"github.com/EonsofStupid/tessera/cmd/tls"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/cmd/key"
+	"github.com/shippinAI/nomen/cmd/setup"
+	"github.com/shippinAI/nomen/cmd/tls"
 )
 
 func NewStartFromSetup(server chan<- *Server) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "start-from-setup",
-		Short: "cold starts Tessera",
-		Long: `cold starts Tessera.
+		Short: "cold starts Nomen",
+		Long: `cold starts Nomen.
 First the initial events are created.
-Last Tessera starts.
+Last Nomen starts.
 
 Requirements:
 - database
@@ -26,7 +26,7 @@ Requirements:
 `,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera start-from-setup command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen start-from-setup command failed")
 			}()
 
 			err = tls.ModeFromFlag(cmd)
@@ -67,7 +67,7 @@ Requirements:
 				return err
 			}
 
-			return startZitadel(cmd.Context(), startConfig, masterKey, server)
+			return startNomen(cmd.Context(), startConfig, masterKey, server)
 		},
 	}
 

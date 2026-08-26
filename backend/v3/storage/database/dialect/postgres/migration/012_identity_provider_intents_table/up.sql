@@ -1,15 +1,15 @@
-CREATE TYPE zitadel.idp_intent_state AS ENUM (
+CREATE TYPE nomen.idp_intent_state AS ENUM (
     'started',
     'succeeded',
     'failed',
     'consumed'
     );
 
-CREATE TABLE zitadel.identity_provider_intents
+CREATE TABLE nomen.identity_provider_intents
 (
     instance_id             TEXT                        NOT NULL,
     id                      TEXT                        NOT NULL CHECK ( id <> '' ),
-    state                   zitadel.idp_intent_state    NOT NULL DEFAULT 'started',
+    state                   nomen.idp_intent_state    NOT NULL DEFAULT 'started',
     success_url             TEXT,
     failure_url             TEXT,
     created_at              TIMESTAMPTZ                 NOT NULL DEFAULT NOW(),
@@ -31,12 +31,12 @@ CREATE TABLE zitadel.identity_provider_intents
     expires_at              TIMESTAMPTZ,
 
     PRIMARY KEY (instance_id, id),
-    FOREIGN KEY (instance_id, idp_id) REFERENCES zitadel.identity_providers (instance_id, id) ON DELETE CASCADE
+    FOREIGN KEY (instance_id, idp_id) REFERENCES nomen.identity_providers (instance_id, id) ON DELETE CASCADE
 );
 
 CREATE TRIGGER trigger_set_updated_at
     BEFORE UPDATE
-    ON zitadel.identity_provider_intents
+    ON nomen.identity_provider_intents
     FOR EACH ROW
     WHEN (NEW.updated_at IS NULL)
-EXECUTE FUNCTION zitadel.set_updated_at();
+EXECUTE FUNCTION nomen.set_updated_at();

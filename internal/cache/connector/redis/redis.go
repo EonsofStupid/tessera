@@ -13,8 +13,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
 
-	"github.com/EonsofStupid/tessera/internal/cache"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/cache"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 var (
@@ -39,7 +39,7 @@ var (
 
 type redisCache[I, K comparable, V cache.Entry[I, K]] struct {
 	db             int
-	zitadelVersion string
+	nomenVersion string
 	config         *cache.Config
 	indices        []I
 	connector      *Connector
@@ -47,10 +47,10 @@ type redisCache[I, K comparable, V cache.Entry[I, K]] struct {
 }
 
 // NewCache returns a cache that stores and retrieves object using single Redis.
-func NewCache[I, K comparable, V cache.Entry[I, K]](config cache.Config, zitadelVersion string, client *Connector, db int, indices []I) cache.Cache[I, K, V] {
+func NewCache[I, K comparable, V cache.Entry[I, K]](config cache.Config, nomenVersion string, client *Connector, db int, indices []I) cache.Cache[I, K, V] {
 	return &redisCache[I, K, V]{
 		config:         &config,
-		zitadelVersion: zitadelVersion,
+		nomenVersion: nomenVersion,
 		db:             db,
 		indices:        indices,
 		connector:      client,
@@ -168,7 +168,7 @@ func (c *redisCache[I, K, V]) Truncate(ctx context.Context) (err error) {
 func (c *redisCache[I, K, V]) redisIndexKeys(index I, keys ...K) []string {
 	out := make([]string, len(keys))
 	for i, k := range keys {
-		out[i] = fmt.Sprintf("%s:%v:%v", c.zitadelVersion, index, k)
+		out[i] = fmt.Sprintf("%s:%v:%v", c.nomenVersion, index, k)
 	}
 	return out
 }

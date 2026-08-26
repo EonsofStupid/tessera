@@ -16,11 +16,11 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/text"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/text"
+	"github.com/shippinAI/nomen/pkg/grpc/user"
 )
 
 func TestServer_Restrictions_AllowedLanguages(t *testing.T) {
@@ -98,7 +98,7 @@ func TestServer_Restrictions_AllowedLanguages(t *testing.T) {
 	t.Run("preferred languages are not restricted by the supported languages", func(tt *testing.T) {
 		tt.Run("change user profile", func(ttt *testing.T) {
 			resp, err := instance.Client.Mgmt.ListUsers(iamOwnerCtx, &management.ListUsersRequest{Queries: []*user.SearchQuery{{Query: &user.SearchQuery_UserNameQuery{UserNameQuery: &user.UserNameQuery{
-				UserName: "zitadel-admin@zitadel.localhost"}},
+				UserName: "nomen-admin@nomen.localhost"}},
 			}}})
 			require.NoError(ttt, err)
 			require.Len(ttt, resp.GetResult(), 1)

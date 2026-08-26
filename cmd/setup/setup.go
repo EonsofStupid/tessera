@@ -17,35 +17,35 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/cmd/encryption"
-	"github.com/EonsofStupid/tessera/cmd/key"
-	"github.com/EonsofStupid/tessera/cmd/tls"
-	admin_handler "github.com/EonsofStupid/tessera/internal/admin/repository/eventsourcing/handler"
-	admin_view "github.com/EonsofStupid/tessera/internal/admin/repository/eventsourcing/view"
-	internal_authz "github.com/EonsofStupid/tessera/internal/api/authz"
-	auth_handler "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/handler"
-	auth_view "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/view"
-	"github.com/EonsofStupid/tessera/internal/authz"
-	authz_es "github.com/EonsofStupid/tessera/internal/authz/repository/eventsourcing/eventstore"
-	"github.com/EonsofStupid/tessera/internal/cache/connector"
-	"github.com/EonsofStupid/tessera/internal/command"
-	cryptoDB "github.com/EonsofStupid/tessera/internal/crypto/database"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	old_es "github.com/EonsofStupid/tessera/internal/eventstore/repository/sql"
-	new_es "github.com/EonsofStupid/tessera/internal/eventstore/v3"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/migration"
-	notify_handler "github.com/EonsofStupid/tessera/internal/notification"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	"github.com/EonsofStupid/tessera/internal/queue"
-	es_v4 "github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	es_v4_pg "github.com/EonsofStupid/tessera/internal/v2/eventstore/postgres"
-	"github.com/EonsofStupid/tessera/internal/webauthn"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/cmd/encryption"
+	"github.com/shippinAI/nomen/cmd/key"
+	"github.com/shippinAI/nomen/cmd/tls"
+	admin_handler "github.com/shippinAI/nomen/internal/admin/repository/eventsourcing/handler"
+	admin_view "github.com/shippinAI/nomen/internal/admin/repository/eventsourcing/view"
+	internal_authz "github.com/shippinAI/nomen/internal/api/authz"
+	auth_handler "github.com/shippinAI/nomen/internal/auth/repository/eventsourcing/handler"
+	auth_view "github.com/shippinAI/nomen/internal/auth/repository/eventsourcing/view"
+	"github.com/shippinAI/nomen/internal/authz"
+	authz_es "github.com/shippinAI/nomen/internal/authz/repository/eventsourcing/eventstore"
+	"github.com/shippinAI/nomen/internal/cache/connector"
+	"github.com/shippinAI/nomen/internal/command"
+	cryptoDB "github.com/shippinAI/nomen/internal/crypto/database"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	old_es "github.com/shippinAI/nomen/internal/eventstore/repository/sql"
+	new_es "github.com/shippinAI/nomen/internal/eventstore/v3"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/migration"
+	notify_handler "github.com/shippinAI/nomen/internal/notification"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	"github.com/shippinAI/nomen/internal/queue"
+	es_v4 "github.com/shippinAI/nomen/internal/v2/eventstore"
+	es_v4_pg "github.com/shippinAI/nomen/internal/v2/eventstore/postgres"
+	"github.com/shippinAI/nomen/internal/webauthn"
 )
 
 var (
@@ -57,13 +57,13 @@ var (
 func New() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "setup",
-		Short: "setup Tessera instance",
-		Long: `sets up data to start Tessera.
+		Short: "setup Nomen instance",
+		Long: `sets up data to start Nomen.
 Requirements:
 - postgreSQL`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera setup command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen setup command failed")
 			}()
 
 			err = tls.ModeFromFlag(cmd)
@@ -184,7 +184,7 @@ func Setup(ctx context.Context, config *Config, steps *Steps, masterKey string) 
 	steps.FirstInstance.db = dbClient
 	steps.FirstInstance.es = eventstoreClient
 	steps.FirstInstance.defaults = config.SystemDefaults
-	steps.FirstInstance.zitadelRoles = config.InternalAuthZ.RolePermissionMappings
+	steps.FirstInstance.nomenRoles = config.InternalAuthZ.RolePermissionMappings
 	steps.FirstInstance.externalDomain = config.ExternalDomain
 	steps.FirstInstance.externalSecure = config.ExternalSecure
 	steps.FirstInstance.externalPort = config.ExternalPort

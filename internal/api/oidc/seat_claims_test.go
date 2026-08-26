@@ -5,10 +5,10 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	seat "github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
+	seat "github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
 )
 
 // The rules are tested in `backend/v1/domain` and the SQL in
@@ -41,14 +41,14 @@ func ctxWithInstance() context.Context {
 
 func serverWith(s *seat.Seat) *Server { return &Server{seats: fakeSeats{seat: s}} }
 
-// Tessera is still an ordinary identity provider for things that are not seats.
+// Nomen is still an ordinary identity provider for things that are not seats.
 // If this regresses, every non-seat integration breaks at once and the error
 // looks like it came from somewhere else.
 func TestSetSeatClaims_AudienceWithoutAWorkspaceIsLeftAlone(t *testing.T) {
 	srv := serverWith(&seat.Seat{MemberID: "mem_1", Workspaces: []string{"ws-0001"}})
 	for _, aud := range [][]string{
-		{"280895440851832833"},         // a Zitadel project id
-		{"280895440851832833@tessera"}, // a client id
+		{"280895440851832833"},         // a Nomen project id
+		{"280895440851832833@nomen"}, // a client id
 		{},                             // none at all
 		{"https://some.api.example/"},  // an ordinary resource server
 	} {

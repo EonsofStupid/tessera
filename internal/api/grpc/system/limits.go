@@ -3,9 +3,9 @@ package system
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	objectpb "github.com/EonsofStupid/tessera/pkg/grpc/object"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	objectpb "github.com/shippinAI/nomen/pkg/grpc/object"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func (s *Server) SetLimits(ctx context.Context, req *system.SetLimitsRequest) (*system.SetLimitsResponse, error) {

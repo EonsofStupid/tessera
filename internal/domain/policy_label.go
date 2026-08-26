@@ -3,8 +3,8 @@ package domain
 import (
 	"regexp"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var colorRegex = regexp.MustCompile("^$|^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")

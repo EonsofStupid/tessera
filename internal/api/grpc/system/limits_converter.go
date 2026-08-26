@@ -3,8 +3,8 @@ package system
 import (
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func setInstanceLimitsPbToCommand(req *system.SetLimitsRequest) *command.SetLimits {

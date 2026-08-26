@@ -9,17 +9,17 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/cache/connector"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	crypto_db "github.com/EonsofStupid/tessera/internal/crypto/database"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/denylist"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/cache/connector"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/crypto"
+	crypto_db "github.com/shippinAI/nomen/internal/crypto/database"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/denylist"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 type FirstInstance struct {
@@ -42,7 +42,7 @@ type FirstInstance struct {
 	db                *database.DB
 	es                *eventstore.Eventstore
 	defaults          systemdefaults.SystemDefaults
-	zitadelRoles      []authz.RoleMapping
+	nomenRoles        []authz.RoleMapping
 	externalDomain    string
 	externalSecure    bool
 	externalPort      uint16
@@ -77,7 +77,7 @@ func (mig *FirstInstance) Execute(ctx context.Context, _ eventstore.Event) error
 		mig.es,
 		connector.Connectors{},
 		mig.defaults,
-		mig.zitadelRoles,
+		mig.nomenRoles,
 		nil,
 		nil,
 		mig.externalDomain,
@@ -111,24 +111,29 @@ func (mig *FirstInstance) Execute(ctx context.Context, _ eventstore.Event) error
 	mig.instanceSetup.TrustedDomains = mig.TrustedDomains
 	mig.instanceSetup.DefaultLanguage = mig.DefaultLanguage
 	mig.instanceSetup.Org = mig.Org
+	if err := applyFirstHumanFromDeployEnv(&mig.instanceSetup.Org); err != nil {
+		return err
+	}
 	// check if username is email style or else append @<orgname>.<custom-domain>
 	//this way we have the same value as before changing `UserLoginMustBeDomain` to false
-	if !mig.instanceSetup.DomainPolicy.UserLoginMustBeDomain && !strings.Contains(mig.instanceSetup.Org.Human.Username, "@") {
+	if mig.instanceSetup.Org.Human != nil && !mig.instanceSetup.DomainPolicy.UserLoginMustBeDomain && !strings.Contains(mig.instanceSetup.Org.Human.Username, "@") {
 		orgDomain, err := domain.NewIAMDomainName(mig.instanceSetup.Org.Name, mig.instanceSetup.CustomDomain)
 		if err != nil {
 			return err
 		}
 		mig.instanceSetup.Org.Human.Username = mig.instanceSetup.Org.Human.Username + "@" + orgDomain
 	}
-	mig.instanceSetup.Org.Human.Email.Address = mig.instanceSetup.Org.Human.Email.Address.Normalize()
-	if mig.instanceSetup.Org.Human.Email.Address == "" {
-		mig.instanceSetup.Org.Human.Email.Address = domain.EmailAddress(mig.instanceSetup.Org.Human.Username)
-		if !strings.Contains(string(mig.instanceSetup.Org.Human.Email.Address), "@") {
-			orgDomain, err := domain.NewIAMDomainName(mig.instanceSetup.Org.Name, mig.instanceSetup.CustomDomain)
-			if err != nil {
-				return err
+	if mig.instanceSetup.Org.Human != nil {
+		mig.instanceSetup.Org.Human.Email.Address = mig.instanceSetup.Org.Human.Email.Address.Normalize()
+		if mig.instanceSetup.Org.Human.Email.Address == "" {
+			mig.instanceSetup.Org.Human.Email.Address = domain.EmailAddress(mig.instanceSetup.Org.Human.Username)
+			if !strings.Contains(string(mig.instanceSetup.Org.Human.Email.Address), "@") {
+				orgDomain, err := domain.NewIAMDomainName(mig.instanceSetup.Org.Name, mig.instanceSetup.CustomDomain)
+				if err != nil {
+					return err
+				}
+				mig.instanceSetup.Org.Human.Email.Address = domain.EmailAddress(mig.instanceSetup.Org.Human.Username + "@" + orgDomain)
 			}
-			mig.instanceSetup.Org.Human.Email.Address = domain.EmailAddress(mig.instanceSetup.Org.Human.Username + "@" + orgDomain)
 		}
 	}
 
@@ -144,6 +149,46 @@ func (mig *FirstInstance) Execute(ctx context.Context, _ eventstore.Event) error
 		return err
 	}
 	return mig.outputMachineAuthentication(key, token, loginClientToken)
+}
+
+// applyFirstHumanFromDeployEnv never reads a password from the steps file.
+// A non-empty YAML password is a deploy defect. With NOMEN_FIRSTINSTANCE_ORG_HUMAN_PASSWORD
+// set, that value is the only password used. Without it, no human is created and
+// the operator enrolls the first owner with the passkey ceremony.
+func applyFirstHumanFromDeployEnv(org *command.InstanceOrgSetup) error {
+	if org == nil {
+		return nil
+	}
+	if org.Human != nil {
+		if strings.TrimSpace(org.Human.Password) != "" || strings.TrimSpace(org.Human.EncodedPasswordHash) != "" {
+			return fmt.Errorf("setup steps must not contain a first-human password or hash; supply NOMEN_FIRSTINSTANCE_ORG_HUMAN_PASSWORD at deploy time")
+		}
+	}
+	password := os.Getenv("NOMEN_FIRSTINSTANCE_ORG_HUMAN_PASSWORD")
+	if password == "" {
+		org.Human = nil
+		return nil
+	}
+	if org.Human == nil {
+		username := os.Getenv("NOMEN_FIRSTINSTANCE_ORG_HUMAN_USERNAME")
+		if username == "" {
+			username = "nomen-admin"
+		}
+		org.Human = &command.AddHuman{
+			Username:  username,
+			FirstName: os.Getenv("NOMEN_FIRSTINSTANCE_ORG_HUMAN_FIRSTNAME"),
+			LastName:  os.Getenv("NOMEN_FIRSTINSTANCE_ORG_HUMAN_LASTNAME"),
+		}
+		if org.Human.FirstName == "" {
+			org.Human.FirstName = "Nomen"
+		}
+		if org.Human.LastName == "" {
+			org.Human.LastName = "Owner"
+		}
+	}
+	org.Human.Password = password
+	org.Human.EncodedPasswordHash = ""
+	return nil
 }
 
 func (mig *FirstInstance) verifyEncryptionKeys(ctx context.Context) (*crypto_db.Database, error) {

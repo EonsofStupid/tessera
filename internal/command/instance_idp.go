@@ -5,17 +5,17 @@ import (
 	"crypto/x509"
 	"strings"
 
-	"github.com/zitadel/saml/pkg/provider/xml"
+	"github.com/shippinAI/nomen/saml/pkg/provider/xml"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/apple"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/saml"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/idp/providers/apple"
+	"github.com/shippinAI/nomen/internal/idp/providers/saml"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) AddInstanceGenericOAuthProvider(ctx context.Context, provider GenericOAuthProvider) (string, *domain.ObjectDetails, error) {
@@ -1940,7 +1940,7 @@ func (c *Commands) prepareDeleteInstanceProvider(a *instance.Aggregate, id strin
 	}
 }
 
-func (c *Commands) AddInstanceZitadelProvider(ctx context.Context, provider ZitadelProvider) (string, *domain.ObjectDetails, error) {
+func (c *Commands) AddInstanceNomenProvider(ctx context.Context, provider NomenProvider) (string, *domain.ObjectDetails, error) {
 	instanceID := authz.GetInstance(ctx).InstanceID()
 	instanceAgg := instance.NewAggregate(instanceID)
 	id, err := c.idGenerator.Next()
@@ -1948,13 +1948,13 @@ func (c *Commands) AddInstanceZitadelProvider(ctx context.Context, provider Zita
 		return "", nil, err
 	}
 
-	err = c.validateInstanceZitadelProvider(&provider, true)
+	err = c.validateInstanceNomenProvider(&provider, true)
 	if err != nil {
 		return "", nil, err
 	}
 
-	writeModel := NewInstanceZitadelIDPWriteModel(instanceID, id)
-	cmds, err := preparation.PrepareCommands(ctx, c.eventstore.Filter, c.prepareAddInstanceZitadelProvider(instanceAgg, writeModel, provider)) //nolint:staticcheck
+	writeModel := NewInstanceNomenIDPWriteModel(instanceID, id)
+	cmds, err := preparation.PrepareCommands(ctx, c.eventstore.Filter, c.prepareAddInstanceNomenProvider(instanceAgg, writeModel, provider)) //nolint:staticcheck
 	if err != nil {
 		return "", nil, err
 	}
@@ -1965,7 +1965,7 @@ func (c *Commands) AddInstanceZitadelProvider(ctx context.Context, provider Zita
 	return id, pushedEventsToObjectDetails(pushedEvents), nil
 }
 
-func (c *Commands) prepareAddInstanceZitadelProvider(a *instance.Aggregate, writeModel *InstanceZitadelIDPWriteModel, provider ZitadelProvider) preparation.Validation {
+func (c *Commands) prepareAddInstanceNomenProvider(a *instance.Aggregate, writeModel *InstanceNomenIDPWriteModel, provider NomenProvider) preparation.Validation {
 	return func() (preparation.CreateCommands, error) {
 		return func(ctx context.Context, filter preparation.FilterToQueryReducer) ([]eventstore.Command, error) {
 			events, err := filter(ctx, writeModel.Query())
@@ -1981,7 +1981,7 @@ func (c *Commands) prepareAddInstanceZitadelProvider(a *instance.Aggregate, writ
 				return nil, err
 			}
 			return []eventstore.Command{
-				instance.NewZitadelIDPAddedEvent(
+				instance.NewNomenIDPAddedEvent(
 					ctx,
 					&a.Aggregate,
 					writeModel.ID,
@@ -1998,15 +1998,15 @@ func (c *Commands) prepareAddInstanceZitadelProvider(a *instance.Aggregate, writ
 	}
 }
 
-func (c *Commands) UpdateInstanceZitadelProvider(ctx context.Context, id string, provider ZitadelProvider) (*domain.ObjectDetails, error) {
+func (c *Commands) UpdateInstanceNomenProvider(ctx context.Context, id string, provider NomenProvider) (*domain.ObjectDetails, error) {
 	instanceID := authz.GetInstance(ctx).InstanceID()
 	instanceAgg := instance.NewAggregate(instanceID)
-	err := c.validateInstanceZitadelProvider(&provider, false)
+	err := c.validateInstanceNomenProvider(&provider, false)
 	if err != nil {
 		return nil, err
 	}
-	writeModel := NewInstanceZitadelIDPWriteModel(instanceID, id)
-	cmds, err := preparation.PrepareCommands(ctx, c.eventstore.Filter, c.prepareUpdateInstanceZitadelProvider(instanceAgg, writeModel, provider)) //nolint:staticcheck
+	writeModel := NewInstanceNomenIDPWriteModel(instanceID, id)
+	cmds, err := preparation.PrepareCommands(ctx, c.eventstore.Filter, c.prepareUpdateInstanceNomenProvider(instanceAgg, writeModel, provider)) //nolint:staticcheck
 	if err != nil {
 		return nil, err
 	}
@@ -2025,7 +2025,7 @@ func (c *Commands) UpdateInstanceZitadelProvider(ctx context.Context, id string,
 	return pushedEventsToObjectDetails(pushedEvents), nil
 }
 
-func (c *Commands) prepareUpdateInstanceZitadelProvider(a *instance.Aggregate, writeModel *InstanceZitadelIDPWriteModel, provider ZitadelProvider) preparation.Validation {
+func (c *Commands) prepareUpdateInstanceNomenProvider(a *instance.Aggregate, writeModel *InstanceNomenIDPWriteModel, provider NomenProvider) preparation.Validation {
 	return func() (preparation.CreateCommands, error) {
 		if writeModel.ID = strings.TrimSpace(writeModel.ID); writeModel.ID == "" {
 			return nil, zerrors.ThrowInvalidArgument(nil, "INST-3pxLbA", "Errors.Invalid.Argument")
@@ -2063,7 +2063,7 @@ func (c *Commands) prepareUpdateInstanceZitadelProvider(a *instance.Aggregate, w
 	}
 }
 
-func (c *Commands) validateInstanceZitadelProvider(provider *ZitadelProvider, create bool) error {
+func (c *Commands) validateInstanceNomenProvider(provider *NomenProvider, create bool) error {
 	if provider.Name = strings.TrimSpace(provider.Name); provider.Name == "" {
 		return zerrors.ThrowInvalidArgument(nil, "INST-Sgtj5", "Errors.Invalid.Argument")
 	}

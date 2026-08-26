@@ -9,15 +9,15 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	analytics "github.com/EonsofStupid/tessera/pkg/grpc/analytics/v2beta"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	analytics "github.com/shippinAI/nomen/pkg/grpc/analytics/v2beta"
 )
 
 const (

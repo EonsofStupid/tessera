@@ -1,3 +1,3 @@
-DROP TABLE IF EXISTS zitadel.authorization_roles;
-DROP TABLE IF EXISTS zitadel.authorizations;
-DROP TYPE IF EXISTS zitadel.authorization_state;
+DROP TABLE IF EXISTS nomen.authorization_roles;
+DROP TABLE IF EXISTS nomen.authorizations;
+DROP TYPE IF EXISTS nomen.authorization_state;

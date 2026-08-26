@@ -7,11 +7,11 @@ import (
 	"github.com/muhlemmer/gu"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	action "github.com/EonsofStupid/tessera/pkg/grpc/action/v2beta"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	action "github.com/shippinAI/nomen/pkg/grpc/action/v2beta"
 )
 
 func (s *Server) CreateTarget(ctx context.Context, req *connect.Request[action.CreateTargetRequest]) (*connect.Response[action.CreateTargetResponse], error) {

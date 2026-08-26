@@ -1,6 +1,6 @@
 package domain
 
-import "github.com/zitadel/logging"
+import "github.com/shippinAI/nomen/logging"
 
 type IDPState int32
 
@@ -38,7 +38,7 @@ const (
 	IDPTypeGoogle
 	IDPTypeApple
 	IDPTypeSAML
-	IDPTypeZitadel
+	IDPTypeNomen
 )
 
 func (t IDPType) GetCSSClass() string {
@@ -86,8 +86,8 @@ func (t IDPType) DisplayName() string {
 		return "Google"
 	case IDPTypeApple:
 		return "Apple"
-	case IDPTypeZitadel:
-		return "ZITADEL"
+	case IDPTypeNomen:
+		return "NOMEN"
 	case IDPTypeUnspecified,
 		IDPTypeOIDC,
 		IDPTypeJWT,

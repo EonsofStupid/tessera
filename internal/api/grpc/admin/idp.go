@@ -3,12 +3,12 @@ package admin
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	idp_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/idp"
-	object_pb "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	idp_grpc "github.com/shippinAI/nomen/internal/api/grpc/idp"
+	object_pb "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) GetIDPByID(ctx context.Context, req *admin_pb.GetIDPByIDRequest) (*admin_pb.GetIDPByIDResponse, error) {
@@ -467,23 +467,23 @@ func (s *Server) DeleteProvider(ctx context.Context, req *admin_pb.DeleteProvide
 	}, nil
 }
 
-func (s *Server) AddZitadelProvider(ctx context.Context, req *admin_pb.AddZitadelProviderRequest) (*admin_pb.AddZitadelProviderResponse, error) {
-	id, details, err := s.command.AddInstanceZitadelProvider(ctx, addZitadelProviderToCommand(req))
+func (s *Server) AddNomenProvider(ctx context.Context, req *admin_pb.AddNomenProviderRequest) (*admin_pb.AddNomenProviderResponse, error) {
+	id, details, err := s.command.AddInstanceNomenProvider(ctx, addNomenProviderToCommand(req))
 	if err != nil {
 		return nil, err
 	}
-	return &admin_pb.AddZitadelProviderResponse{
+	return &admin_pb.AddNomenProviderResponse{
 		Id:      id,
 		Details: object_pb.DomainToAddDetailsPb(details),
 	}, nil
 }
 
-func (s *Server) UpdateZitadelProvider(ctx context.Context, req *admin_pb.UpdateZitadelProviderRequest) (*admin_pb.UpdateZitadelProviderResponse, error) {
-	details, err := s.command.UpdateInstanceZitadelProvider(ctx, req.Id, updateZitadelProviderToCommand(req))
+func (s *Server) UpdateNomenProvider(ctx context.Context, req *admin_pb.UpdateNomenProviderRequest) (*admin_pb.UpdateNomenProviderResponse, error) {
+	details, err := s.command.UpdateInstanceNomenProvider(ctx, req.Id, updateNomenProviderToCommand(req))
 	if err != nil {
 		return nil, err
 	}
-	return &admin_pb.UpdateZitadelProviderResponse{
+	return &admin_pb.UpdateNomenProviderResponse{
 		Details: object_pb.DomainToChangeDetailsPb(details),
 	}, nil
 }

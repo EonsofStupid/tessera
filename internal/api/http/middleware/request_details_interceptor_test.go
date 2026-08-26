@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/internal/api/call"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/internal/api/call"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
 )
 
 func TestRequestDetailsHandler(t *testing.T) {

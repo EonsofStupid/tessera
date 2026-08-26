@@ -1,9 +1,9 @@
 package user
 
 import (
-	"github.com/EonsofStupid/tessera/internal/v2/avatar"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/v2/avatar"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type HumanAvatarAddedEvent eventstore.Event[avatar.AddedPayload]

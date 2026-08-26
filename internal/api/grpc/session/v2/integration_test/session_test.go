@@ -19,14 +19,14 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/integration/sink"
-	"github.com/EonsofStupid/tessera/pkg/grpc/feature/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration/sink"
+	"github.com/shippinAI/nomen/pkg/grpc/feature/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func verifyCurrentSession(t *testing.T, id, token string, sequence uint64, creationDate, changeDate *timestamppb.Timestamp, metadata map[string][]byte, userAgent *session.UserAgent, expirationWindow time.Duration, userID string, factors ...wantFactor) *session.Session {
@@ -283,7 +283,7 @@ func TestServer_CreateSession_lock_user(t *testing.T) {
 
 	// enable password lockout
 	maxAttempts := 2
-	ctxOrg := metadata.AppendToOutgoingContext(IAMOwnerCTX, "x-zitadel-orgid", org.GetOrganizationId())
+	ctxOrg := metadata.AppendToOutgoingContext(IAMOwnerCTX, "x-nomen-orgid", org.GetOrganizationId())
 	_, err := Instance.Client.Mgmt.AddCustomLockoutPolicy(ctxOrg, &mgmt.AddCustomLockoutPolicyRequest{
 		MaxPasswordAttempts: uint32(maxAttempts),
 	})
@@ -1037,7 +1037,7 @@ t.Cleanup(func() {
 	require.Nil(t, sessionResp)
 }
 
-func Test_TESSERA_API_missing_authentication(t *testing.T) {
+func Test_NOMEN_API_missing_authentication(t *testing.T) {
 	// create new, empty session
 	createResp, err := Client.CreateSession(LoginCTX, &session.CreateSessionRequest{})
 	require.NoError(t, err)
@@ -1053,7 +1053,7 @@ func Test_TESSERA_API_missing_authentication(t *testing.T) {
 	}, retryDuration, tick)
 }
 
-func Test_TESSERA_API_missing_mfa(t *testing.T) {
+func Test_NOMEN_API_missing_mfa(t *testing.T) {
 	mfaUser := createFullUser(CTX)
 
 	// make sure the session works even with a not fully set up MFA factor
@@ -1075,7 +1075,7 @@ func Test_TESSERA_API_missing_mfa(t *testing.T) {
 	require.Nil(t, sessionResp)
 }
 
-func Test_TESSERA_API_success(t *testing.T) {
+func Test_NOMEN_API_success(t *testing.T) {
 	id, token, _, _ := Instance.CreateVerifiedWebAuthNSession(t, LoginCTX, User.GetUserId())
 	ctx := integration.WithAuthorizationToken(context.Background(), token)
 
@@ -1091,7 +1091,7 @@ func Test_TESSERA_API_success(t *testing.T) {
 	}, retryDuration, tick)
 }
 
-func Test_TESSERA_API_session_not_found(t *testing.T) {
+func Test_NOMEN_API_session_not_found(t *testing.T) {
 	id, token, _, _ := Instance.CreateVerifiedWebAuthNSession(t, LoginCTX, User.GetUserId())
 
 	// test session token works
@@ -1122,7 +1122,7 @@ func Test_TESSERA_API_session_not_found(t *testing.T) {
 	}, retryDuration, tick)
 }
 
-func Test_TESSERA_API_session_expired(t *testing.T) {
+func Test_NOMEN_API_session_expired(t *testing.T) {
 	id, token, _, _ := Instance.CreateVerifiedWebAuthNSessionWithLifetime(t, LoginCTX, User.GetUserId(), 20*time.Second)
 
 	// test session token works

@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres/embedded"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres/embedded"
 )
 
 func TestMigrate(t *testing.T) {
@@ -21,12 +21,12 @@ func TestMigrate(t *testing.T) {
 	}{
 		{
 			name: "schema",
-			stmt: "SELECT EXISTS(SELECT 1 FROM information_schema.schemata where schema_name = 'zitadel') ;",
+			stmt: "SELECT EXISTS(SELECT 1 FROM information_schema.schemata where schema_name = 'nomen') ;",
 			res:  []any{true},
 		},
 		{
 			name: "001",
-			stmt: "SELECT EXISTS(SELECT 1 FROM pg_catalog.pg_tables WHERE schemaname = 'zitadel' and tablename=$1)",
+			stmt: "SELECT EXISTS(SELECT 1 FROM pg_catalog.pg_tables WHERE schemaname = 'nomen' and tablename=$1)",
 			args: []any{"instances"},
 			res:  []any{true},
 		},

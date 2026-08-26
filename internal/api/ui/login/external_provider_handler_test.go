@@ -5,13 +5,13 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/language"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/idp"
-	openid "github.com/EonsofStupid/tessera/internal/idp/providers/oidc"
-	"github.com/EonsofStupid/tessera/internal/query"
-	provideridp "github.com/EonsofStupid/tessera/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/idp"
+	openid "github.com/shippinAI/nomen/internal/idp/providers/oidc"
+	"github.com/shippinAI/nomen/internal/query"
+	provideridp "github.com/shippinAI/nomen/internal/repository/idp"
 )
 
 // Test_mapExternalNotFoundOptionFormDataToLoginUser is a regression test for
@@ -493,13 +493,13 @@ func Test_projectRolesFromIDPUser(t *testing.T) {
 		},
 		{
 			"claim wrong type",
-			openid.NewUser(&oidc.UserInfo{Claims: map[string]any{zitadelProjectRolesClaim: "not-a-map"}}),
+			openid.NewUser(&oidc.UserInfo{Claims: map[string]any{nomenProjectRolesClaim: "not-a-map"}}),
 			nil,
 		},
 		{
 			"role with non-map orgs is skipped",
 			openid.NewUser(&oidc.UserInfo{Claims: map[string]any{
-				zitadelProjectRolesClaim: map[string]any{
+				nomenProjectRolesClaim: map[string]any{
 					"IAM_OWNER_VIEWER": "not-a-map",
 				}},
 			}),
@@ -508,7 +508,7 @@ func Test_projectRolesFromIDPUser(t *testing.T) {
 		{
 			"single role and org",
 			openid.NewUser(&oidc.UserInfo{Claims: map[string]any{
-				zitadelProjectRolesClaim: map[string]any{
+				nomenProjectRolesClaim: map[string]any{
 					"IAM_OWNER_VIEWER": map[string]any{
 						"orgID1": "org1.example.com",
 					},
@@ -521,7 +521,7 @@ func Test_projectRolesFromIDPUser(t *testing.T) {
 		{
 			"multiple roles and orgs",
 			openid.NewUser(&oidc.UserInfo{Claims: map[string]any{
-				zitadelProjectRolesClaim: map[string]any{
+				nomenProjectRolesClaim: map[string]any{
 					"IAM_OWNER_VIEWER": map[string]any{
 						"orgID1": "org1.example.com",
 						"orgID2": "org2.example.com",
@@ -539,7 +539,7 @@ func Test_projectRolesFromIDPUser(t *testing.T) {
 		{
 			"non-string org domain is skipped",
 			openid.NewUser(&oidc.UserInfo{Claims: map[string]any{
-				zitadelProjectRolesClaim: map[string]any{
+				nomenProjectRolesClaim: map[string]any{
 					"IAM_OWNER_VIEWER": map[string]any{
 						"orgID1": 55,
 					},
@@ -550,7 +550,7 @@ func Test_projectRolesFromIDPUser(t *testing.T) {
 		{
 			"role keeps only orgs with string domains",
 			openid.NewUser(&oidc.UserInfo{Claims: map[string]any{
-				zitadelProjectRolesClaim: map[string]any{
+				nomenProjectRolesClaim: map[string]any{
 					"IAM_OWNER_VIEWER": map[string]any{
 						"orgID1": "org1.example.com",
 						"orgID2": 55,
@@ -573,55 +573,55 @@ func Test_claimMatchesConfiguredOrg(t *testing.T) {
 	tests := []struct {
 		name      string
 		claimOrgs map[string]string
-		template  *query.ZitadelIDPTemplate
+		template  *query.NomenIDPTemplate
 		want      bool
 	}{
 		{
 			"id and domain match",
 			map[string]string{"orgID1": "org1.example.com"},
-			&query.ZitadelIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
+			&query.NomenIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
 			true,
 		},
 		{
 			"id matches, domain differs",
 			map[string]string{"orgID1": "evil.example.com"},
-			&query.ZitadelIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
+			&query.NomenIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
 			false,
 		},
 		{
 			"domain matches, id differs",
 			map[string]string{"otherID": "org1.example.com"},
-			&query.ZitadelIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
+			&query.NomenIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
 			false,
 		},
 		{
 			"neither id nor domain match",
 			map[string]string{"orgIDx": "orgx.example.com"},
-			&query.ZitadelIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
+			&query.NomenIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
 			false,
 		},
 		{
 			"no configured orgs",
 			map[string]string{"orgID1": "org1.example.com"},
-			&query.ZitadelIDPTemplate{},
+			&query.NomenIDPTemplate{},
 			false,
 		},
 		{
 			"no claim orgs",
 			map[string]string{},
-			&query.ZitadelIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
+			&query.NomenIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
 			false,
 		},
 		{
 			"one of multiple claim orgs matches",
 			map[string]string{"orgIDx": "orgx.example.com", "orgID1": "org1.example.com"},
-			&query.ZitadelIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
+			&query.NomenIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}}},
 			true,
 		},
 		{
 			"one of multiple configured orgs matches",
 			map[string]string{"orgID2": "org2.example.com"},
-			&query.ZitadelIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{
+			&query.NomenIDPTemplate{InstanceRolesInfo: []provideridp.RolesInfo{
 				{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"},
 				{OrganizationID: "orgID2", OrganizationDomain: "org2.example.com"},
 			}},
@@ -684,7 +684,7 @@ func Test_preserveProjectRoles(t *testing.T) {
 }
 
 func Test_supportUserInstanceRoles(t *testing.T) {
-	configured := &query.ZitadelIDPTemplate{
+	configured := &query.NomenIDPTemplate{
 		InstanceRolesInfo: []provideridp.RolesInfo{{OrganizationID: "orgID1", OrganizationDomain: "org1.example.com"}},
 	}
 	supportClaim := map[string]map[string]string{
@@ -697,14 +697,14 @@ func Test_supportUserInstanceRoles(t *testing.T) {
 		want         []string
 	}{
 		{
-			name:         "instance zitadel provider, support role claim, matching org",
-			provider:     &query.IDPTemplate{OwnerType: domain.IdentityProviderTypeSystem, Type: domain.IDPTypeZitadel, ZitadelIDPTemplate: configured},
+			name:         "instance nomen provider, support role claim, matching org",
+			provider:     &query.IDPTemplate{OwnerType: domain.IdentityProviderTypeSystem, Type: domain.IDPTypeNomen, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{ProjectRoles: supportClaim},
 			want:         []string{domain.RoleIAMOwnerViewer},
 		},
 		{
 			name:     "multiple IAM roles claimed, all returned sorted",
-			provider: &query.IDPTemplate{Type: domain.IDPTypeZitadel, ZitadelIDPTemplate: configured},
+			provider: &query.IDPTemplate{Type: domain.IDPTypeNomen, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{ProjectRoles: map[string]map[string]string{
 				domain.RoleIAMOwnerViewer: {"orgID1": "org1.example.com"},
 				domain.RoleIAMOwner:       {"orgID1": "org1.example.com"},
@@ -713,7 +713,7 @@ func Test_supportUserInstanceRoles(t *testing.T) {
 		},
 		{
 			name:     "only the roles of a configured org are returned",
-			provider: &query.IDPTemplate{Type: domain.IDPTypeZitadel, ZitadelIDPTemplate: configured},
+			provider: &query.IDPTemplate{Type: domain.IDPTypeNomen, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{ProjectRoles: map[string]map[string]string{
 				domain.RoleIAMOwnerViewer: {"orgID1": "org1.example.com"},
 				domain.RoleIAMOwner:       {"orgID2": "org2.example.com"},
@@ -722,7 +722,7 @@ func Test_supportUserInstanceRoles(t *testing.T) {
 		},
 		{
 			name:     "non-IAM roles are not returned",
-			provider: &query.IDPTemplate{Type: domain.IDPTypeZitadel, ZitadelIDPTemplate: configured},
+			provider: &query.IDPTemplate{Type: domain.IDPTypeNomen, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{ProjectRoles: map[string]map[string]string{
 				domain.RoleIAMOwnerViewer: {"orgID1": "org1.example.com"},
 				domain.RoleOrgOwner:       {"orgID1": "org1.example.com"},
@@ -730,44 +730,44 @@ func Test_supportUserInstanceRoles(t *testing.T) {
 			want: []string{domain.RoleIAMOwnerViewer},
 		},
 		{
-			name:         "org-scoped zitadel provider, matching org, skipped",
-			provider:     &query.IDPTemplate{OwnerType: domain.IdentityProviderTypeOrg, Type: domain.IDPTypeZitadel, ZitadelIDPTemplate: configured},
+			name:         "org-scoped nomen provider, matching org, skipped",
+			provider:     &query.IDPTemplate{OwnerType: domain.IdentityProviderTypeOrg, Type: domain.IDPTypeNomen, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{ProjectRoles: supportClaim},
 			want:         nil,
 		},
 		{
-			name:         "non-zitadel provider, skipped",
-			provider:     &query.IDPTemplate{Type: domain.IDPTypeOIDC, ZitadelIDPTemplate: configured},
+			name:         "non-nomen provider, skipped",
+			provider:     &query.IDPTemplate{Type: domain.IDPTypeOIDC, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{ProjectRoles: supportClaim},
 			want:         nil,
 		},
 		{
-			name:         "zitadel type but no zitadel template, skipped",
-			provider:     &query.IDPTemplate{Type: domain.IDPTypeZitadel},
+			name:         "nomen type but no nomen template, skipped",
+			provider:     &query.IDPTemplate{Type: domain.IDPTypeNomen},
 			externalUser: &domain.ExternalUser{ProjectRoles: supportClaim},
 			want:         nil,
 		},
 		{
 			name:         "no roles claim at all, skipped",
-			provider:     &query.IDPTemplate{Type: domain.IDPTypeZitadel, ZitadelIDPTemplate: configured},
+			provider:     &query.IDPTemplate{Type: domain.IDPTypeNomen, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{},
 			want:         nil,
 		},
 		{
 			name:         "roles claim without an IAM role, skipped",
-			provider:     &query.IDPTemplate{Type: domain.IDPTypeZitadel, ZitadelIDPTemplate: configured},
+			provider:     &query.IDPTemplate{Type: domain.IDPTypeNomen, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{ProjectRoles: map[string]map[string]string{"OTHER_ROLE": {"orgID1": "org1.example.com"}}},
 			want:         nil,
 		},
 		{
 			name:         "support role present but empty org set, skipped",
-			provider:     &query.IDPTemplate{Type: domain.IDPTypeZitadel, ZitadelIDPTemplate: configured},
+			provider:     &query.IDPTemplate{Type: domain.IDPTypeNomen, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{ProjectRoles: map[string]map[string]string{domain.RoleIAMOwnerViewer: {}}},
 			want:         nil,
 		},
 		{
 			name:         "support role claim for a non-configured org, skipped",
-			provider:     &query.IDPTemplate{Type: domain.IDPTypeZitadel, ZitadelIDPTemplate: configured},
+			provider:     &query.IDPTemplate{Type: domain.IDPTypeNomen, NomenIDPTemplate: configured},
 			externalUser: &domain.ExternalUser{ProjectRoles: map[string]map[string]string{domain.RoleIAMOwnerViewer: {"orgID1": "evil.example.com"}}},
 			want:         nil,
 		},

@@ -6,8 +6,8 @@ import (
 	"github.com/go-webauthn/webauthn/protocol"
 	"github.com/go-webauthn/webauthn/webauthn"
 
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 func WebAuthNsToCredentials(ctx context.Context, webAuthNs []*domain.WebAuthNToken, rpID string) []webauthn.Credential {

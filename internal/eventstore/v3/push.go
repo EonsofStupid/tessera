@@ -6,15 +6,15 @@ import (
 	"fmt"
 
 	"github.com/riverqueue/river"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/sql"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/queue"
-	exec_repo "github.com/EonsofStupid/tessera/internal/repository/execution"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dialect/sql"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/queue"
+	exec_repo "github.com/shippinAI/nomen/internal/repository/execution"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 func (es *Eventstore) Push(ctx context.Context, client database.QueryExecutor, commands ...eventstore.Command) (events []eventstore.Event, err error) {

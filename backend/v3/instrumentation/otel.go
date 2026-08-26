@@ -15,7 +15,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/resource"
 	semconv "go.opentelemetry.io/otel/semconv/v1.17.0"
 
-	"github.com/EonsofStupid/tessera/cmd/build"
+	"github.com/shippinAI/nomen/cmd/build"
 )
 
 //go:generate enumer -type=ExporterType -trimprefix=ExporterType -text -linecomment

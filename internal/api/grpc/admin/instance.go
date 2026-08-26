@@ -3,9 +3,9 @@ package admin
 import (
 	"context"
 
-	instance_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/instance"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	instance_grpc "github.com/shippinAI/nomen/internal/api/grpc/instance"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) GetMyInstance(ctx context.Context, _ *admin_pb.GetMyInstanceRequest) (*admin_pb.GetMyInstanceResponse, error) {

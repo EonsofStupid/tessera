@@ -17,9 +17,9 @@ func TestErrorMethod(t *testing.T) {
 	assert.Equal(t, subExptected, err.Error())
 }
 
-func TestZitadelError_Is(t *testing.T) {
+func TestNomenError_Is(t *testing.T) {
 	parent := errors.New("parent error")
-	target := CreateZitadelError(KindAborted, parent, "id", "message", 0)
+	target := CreateNomenError(KindAborted, parent, "id", "message", 0)
 	tests := []struct {
 		name string // description of this test case
 		err  error
@@ -32,27 +32,27 @@ func TestZitadelError_Is(t *testing.T) {
 		},
 		{
 			name: "different kind",
-			err:  CreateZitadelError(KindNotFound, parent, "id", "message", 0),
+			err:  CreateNomenError(KindNotFound, parent, "id", "message", 0),
 			want: false,
 		},
 		{
 			name: "different id",
-			err:  CreateZitadelError(KindAborted, parent, "otherID", "message", 0),
+			err:  CreateNomenError(KindAborted, parent, "otherID", "message", 0),
 			want: false,
 		},
 		{
 			name: "different message",
-			err:  CreateZitadelError(KindAborted, parent, "id", "other message", 0),
+			err:  CreateNomenError(KindAborted, parent, "id", "other message", 0),
 			want: false,
 		},
 		{
 			name: "different parent",
-			err:  CreateZitadelError(KindAborted, errors.New("other parent"), "id", "message", 0),
+			err:  CreateNomenError(KindAborted, errors.New("other parent"), "id", "message", 0),
 			want: false,
 		},
 		{
 			name: "same error",
-			err:  CreateZitadelError(KindAborted, parent, "id", "message", 0),
+			err:  CreateNomenError(KindAborted, parent, "id", "message", 0),
 			want: true,
 		},
 	}

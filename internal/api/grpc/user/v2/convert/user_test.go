@@ -9,12 +9,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	metadata "github.com/EonsofStupid/tessera/pkg/grpc/metadata/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	metadata "github.com/shippinAI/nomen/pkg/grpc/metadata/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func Test_userQueryToQuery(t *testing.T) {

@@ -10,10 +10,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/authorization/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func TestServer_ListAuthorizations(t *testing.T) {

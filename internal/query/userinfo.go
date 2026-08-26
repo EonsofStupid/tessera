@@ -9,15 +9,15 @@ import (
 	"sync"
 	"text/template"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
-// oidcUserInfoTriggerHandlers slice can only be created after zitadel
+// oidcUserInfoTriggerHandlers slice can only be created after nomen
 // is fully initialized, otherwise the handlers are nil.
 // OnceValue takes care of creating the slice on the first request
 // and than will always return the same slice on subsequent requests.

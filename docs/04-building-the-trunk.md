@@ -1,10 +1,10 @@
-# 04 — Building Tessera cleanly
+# 04 — Building Nomen cleanly
 
 **Status:** reproducible from a clean child worktree.
 
-Tessera contains generated protocol clients, OpenAPI documents and embedded
+Nomen contains generated protocol clients, OpenAPI documents and embedded
 runtime assets. The supported build path pins every generator under
-`.artifacts/bin`, bootstraps the protocol option needed by Tessera's custom
+`.artifacts/bin`, bootstraps the protocol option needed by Nomen's custom
 generator, generates the complete graph, then creates the embedded assets.
 
 ## Canonical build
@@ -15,14 +15,14 @@ archive/download utilities used by `dev/toolchain.sh`.
 ```bash
 bash dev/generate.sh
 go test ./...
-go build -o .artifacts/tessera .
+go build -o .artifacts/nomen .
 ```
 
 `dev/generate.sh` is the single authority for ordering. It:
 
 1. installs the pinned generators into `.artifacts/bin`;
 2. generates the bootstrap protocol option;
-3. builds Tessera's custom protocol plugins;
+3. builds Nomen's custom protocol plugins;
 4. generates Go, Connect, gRPC and OpenAPI outputs;
 5. copies the outputs into their runtime package locations;
 6. generates the assets and embedded statik archives.
@@ -47,10 +47,10 @@ protected external integration estate explicitly supplies key-file paths.
 
 ## Acceptance gates
 
-- `tessera --help` and the runtime banner use Tessera product language;
-- discovery names the configured Tessera issuer;
+- `nomen --help` and the runtime banner use Nomen product language;
+- discovery names the configured Nomen issuer;
 - JWKS publishes only allowed asymmetric signing algorithms;
-- `GET /tessera/v1/overview` and `/capabilities` enforce typed authorization;
+- `GET /nomen/v1/overview` and `/capabilities` enforce typed authorization;
 - `bash dev/seat-probe.sh` applies declared seats and flows twice, proves the
   second apply is a no-op, mints a 15-minute token and passes Automaton's real
   verifier;

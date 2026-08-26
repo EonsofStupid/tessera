@@ -13,18 +13,18 @@ cd "$ROOT"
 # option with the standard Go generator before compiling the custom plugins.
 buf generate \
   --template buf.gen.bootstrap.yaml \
-  --path proto/zitadel/protoc_gen_zitadel/v2/options.proto
+  --path proto/nomen/protoc_gen_nomen/v2/options.proto
 mkdir -p pkg/grpc/protoc/v2
-cp .artifacts/grpc/github.com/EonsofStupid/tessera/pkg/grpc/protoc/v2/*.go pkg/grpc/protoc/v2/
+cp .artifacts/grpc/github.com/shippinAI/nomen/pkg/grpc/protoc/v2/*.go pkg/grpc/protoc/v2/
 
 GOBIN="$BIN" go install \
   ./internal/protoc/protoc-gen-authoption \
-  ./internal/protoc/protoc-gen-zitadel
+  ./internal/protoc/protoc-gen-nomen
 
 buf generate
-mkdir -p pkg/grpc openapi/v2/zitadel apps/docs/content/apis/assets
-cp -R .artifacts/grpc/github.com/EonsofStupid/tessera/pkg/grpc/. pkg/grpc/
-cp .artifacts/grpc/zitadel/*.swagger.json openapi/v2/zitadel/
+mkdir -p pkg/grpc openapi/v2/nomen apps/docs/content/apis/assets
+cp -R .artifacts/grpc/github.com/shippinAI/nomen/pkg/grpc/. pkg/grpc/
+cp .artifacts/grpc/nomen/*.swagger.json openapi/v2/nomen/
 
 (cd internal/api/assets/generator && go run . -directory ./)
 go generate internal/api/ui/login/statik/generate.go

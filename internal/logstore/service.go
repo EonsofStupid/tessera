@@ -3,9 +3,9 @@ package logstore
 import (
 	"context"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/repository/quota"
+	"github.com/shippinAI/nomen/internal/repository/quota"
 )
 
 type UsageStorer[T LogRecord[T]] interface {

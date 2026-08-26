@@ -14,26 +14,26 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"google.golang.org/api/option"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	action_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/action"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/authn"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/management"
-	org_converter "github.com/EonsofStupid/tessera/internal/api/grpc/org"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	management_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/policy"
-	v1_pb "github.com/EonsofStupid/tessera/pkg/grpc/v1"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	action_grpc "github.com/shippinAI/nomen/internal/api/grpc/action"
+	"github.com/shippinAI/nomen/internal/api/grpc/authn"
+	"github.com/shippinAI/nomen/internal/api/grpc/management"
+	org_converter "github.com/shippinAI/nomen/internal/api/grpc/org"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
+	management_pb "github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/policy"
+	v1_pb "github.com/shippinAI/nomen/pkg/grpc/v1"
 )
 
 type importResponse struct {
@@ -1365,7 +1365,7 @@ func errorToImportError(err error) string {
 	if err == nil {
 		return ""
 	}
-	zErr := new(zerrors.ZitadelError)
+	zErr := new(zerrors.NomenError)
 	if errors.As(err, &zErr) {
 		zErr.Parent = nil // prevent leaking unnecessary details
 	}

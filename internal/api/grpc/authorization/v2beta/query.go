@@ -7,11 +7,11 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	filter "github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2beta"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	authorization "github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2beta"
-	filter_pb "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
+	filter "github.com/shippinAI/nomen/internal/api/grpc/filter/v2beta"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	authorization "github.com/shippinAI/nomen/pkg/grpc/authorization/v2beta"
+	filter_pb "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
 )
 
 func (s *Server) ListAuthorizations(ctx context.Context, req *connect.Request[authorization.ListAuthorizationsRequest]) (*connect.Response[authorization.ListAuthorizationsResponse], error) {

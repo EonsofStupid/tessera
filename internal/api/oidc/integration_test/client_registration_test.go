@@ -13,14 +13,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2"
 )
 
 // TestServer_DynamicClientRegistration covers the OAuth 2.0 Dynamic Client Registration
@@ -198,7 +198,7 @@ func TestServer_DynamicClientRegistration_disabled(t *testing.T) {
 //
 // It is safe to call more than once on the same instance. The security settings are instance
 // wide and several tests here share an instance, so the requested values may already be in
-// place from an earlier test. ZITADEL answers a write that changes nothing with a failed
+// place from an earlier test. NOMEN answers a write that changes nothing with a failed
 // precondition ("Errors.NoChangesFound"), which for this helper means the desired state is
 // already reached rather than a failure.
 func enableDynamicClientRegistration(t *testing.T, ctx context.Context, instance *integration.Instance, allowUnauthenticated bool) {

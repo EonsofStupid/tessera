@@ -10,14 +10,14 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/smtp"
-	"github.com/EonsofStupid/tessera/internal/query"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	object_pb "github.com/EonsofStupid/tessera/pkg/grpc/object"
-	settings_pb "github.com/EonsofStupid/tessera/pkg/grpc/settings"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/notification/channels/smtp"
+	"github.com/shippinAI/nomen/internal/query"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
+	object_pb "github.com/shippinAI/nomen/pkg/grpc/object"
+	settings_pb "github.com/shippinAI/nomen/pkg/grpc/settings"
 )
 
 func Test_listEmailProvidersToModel(t *testing.T) {

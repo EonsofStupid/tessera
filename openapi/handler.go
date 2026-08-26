@@ -11,7 +11,7 @@ const (
 	HandlerPrefix = "/openapi/v2/swagger"
 )
 
-//go:embed v2/zitadel/*
+//go:embed v2/nomen/*
 var openapi embed.FS
 
 func Start() (http.Handler, error) {

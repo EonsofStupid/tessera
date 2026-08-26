@@ -6,23 +6,23 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	openid "github.com/zitadel/oidc/v3/pkg/oidc"
+	openid "github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/id"
-	id_mock "github.com/EonsofStupid/tessera/internal/id/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/id"
+	id_mock "github.com/shippinAI/nomen/internal/id/mock"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestAddOrg(t *testing.T) {
@@ -76,7 +76,7 @@ func TestCommandSide_AddOrg(t *testing.T) {
 	type fields struct {
 		eventstore   func(t *testing.T) *eventstore.Eventstore
 		idGenerator  id.Generator
-		zitadelRoles []authz.RoleMapping
+		nomenRoles []authz.RoleMapping
 	}
 	type args struct {
 		ctx            context.Context
@@ -217,7 +217,7 @@ func TestCommandSide_AddOrg(t *testing.T) {
 					),
 				),
 				idGenerator: id_mock.NewIDGeneratorExpectIDs(t, "org2"),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "ORG_OWNER",
 					},
@@ -283,7 +283,7 @@ func TestCommandSide_AddOrg(t *testing.T) {
 					),
 				),
 				idGenerator: id_mock.NewIDGeneratorExpectIDs(t, "org2"),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "ORG_OWNER",
 					},
@@ -344,7 +344,7 @@ func TestCommandSide_AddOrg(t *testing.T) {
 					),
 				),
 				idGenerator: id_mock.NewIDGeneratorExpectIDs(t, "org2"),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "ORG_OWNER",
 					},
@@ -413,7 +413,7 @@ func TestCommandSide_AddOrg(t *testing.T) {
 					),
 				),
 				idGenerator: id_mock.NewIDGeneratorExpectIDs(t, "org2"),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "ORG_OWNER",
 					},
@@ -443,7 +443,7 @@ func TestCommandSide_AddOrg(t *testing.T) {
 			r := &Commands{
 				eventstore:   tt.fields.eventstore(t),
 				idGenerator:  tt.fields.idGenerator,
-				zitadelRoles: tt.fields.zitadelRoles,
+				nomenRoles: tt.fields.nomenRoles,
 			}
 			got, err := r.AddOrg(tt.args.ctx, tt.args.name, tt.args.userID, tt.args.resourceOwner, tt.args.claimedUserIDs)
 			if tt.res.err == nil {
@@ -535,7 +535,7 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 				),
 			},
 			args: args{
-				ctx:   http_util.WithRequestedHost(context.Background(), "zitadel.ch"),
+				ctx:   http_util.WithRequestedHost(context.Background(), "nomen.ch"),
 				orgID: "org1",
 				name:  " org ",
 			},
@@ -564,7 +564,7 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 				),
 			},
 			args: args{
-				ctx:   http_util.WithRequestedHost(context.Background(), "zitadel.ch"),
+				ctx:   http_util.WithRequestedHost(context.Background(), "nomen.ch"),
 				orgID: "org1",
 				name:  "neworg",
 			},
@@ -592,12 +592,12 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 						eventFromEventPusher(
 							org.NewDomainAddedEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 						eventFromEventPusher(
 							org.NewDomainVerifiedEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 					),
 					expectPush(
@@ -605,19 +605,19 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 							&org.NewAggregate("org1").Aggregate, "org", "neworg",
 						),
 						org.NewDomainAddedEvent(context.Background(),
-							&org.NewAggregate("org1").Aggregate, "neworg.zitadel.ch",
+							&org.NewAggregate("org1").Aggregate, "neworg.nomen.ch",
 						),
 						org.NewDomainVerifiedEvent(context.Background(),
-							&org.NewAggregate("org1").Aggregate, "neworg.zitadel.ch",
+							&org.NewAggregate("org1").Aggregate, "neworg.nomen.ch",
 						),
 						org.NewDomainRemovedEvent(context.Background(),
-							&org.NewAggregate("org1").Aggregate, "org.zitadel.ch", true,
+							&org.NewAggregate("org1").Aggregate, "org.nomen.ch", true,
 						),
 					),
 				),
 			},
 			args: args{
-				ctx:   http_util.WithRequestedHost(context.Background(), "zitadel.ch"),
+				ctx:   http_util.WithRequestedHost(context.Background(), "nomen.ch"),
 				orgID: "org1",
 				name:  "neworg",
 			},
@@ -643,17 +643,17 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 						eventFromEventPusher(
 							org.NewDomainAddedEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 						eventFromEventPusher(
 							org.NewDomainVerifiedEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 						eventFromEventPusher(
 							org.NewDomainPrimarySetEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 					),
 					expectPush(
@@ -661,22 +661,22 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 							&org.NewAggregate("org1").Aggregate, "org", "neworg",
 						),
 						org.NewDomainAddedEvent(context.Background(),
-							&org.NewAggregate("org1").Aggregate, "neworg.zitadel.ch",
+							&org.NewAggregate("org1").Aggregate, "neworg.nomen.ch",
 						),
 						org.NewDomainVerifiedEvent(context.Background(),
-							&org.NewAggregate("org1").Aggregate, "neworg.zitadel.ch",
+							&org.NewAggregate("org1").Aggregate, "neworg.nomen.ch",
 						),
 						org.NewDomainPrimarySetEvent(context.Background(),
-							&org.NewAggregate("org1").Aggregate, "neworg.zitadel.ch",
+							&org.NewAggregate("org1").Aggregate, "neworg.nomen.ch",
 						),
 						org.NewDomainRemovedEvent(context.Background(),
-							&org.NewAggregate("org1").Aggregate, "org.zitadel.ch", true,
+							&org.NewAggregate("org1").Aggregate, "org.nomen.ch", true,
 						),
 					),
 				),
 			},
 			args: args{
-				ctx:   http_util.WithRequestedHost(context.Background(), "zitadel.ch"),
+				ctx:   http_util.WithRequestedHost(context.Background(), "nomen.ch"),
 				orgID: "org1",
 				name:  "neworg",
 			},
@@ -702,17 +702,17 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 						eventFromEventPusher(
 							org.NewDomainAddedEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 						eventFromEventPusher(
 							org.NewDomainVerifiedEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 						eventFromEventPusher(
 							org.NewDomainPrimarySetEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 					),
 					expectPush(
@@ -723,7 +723,7 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 				),
 			},
 			args: args{
-				ctx:   http_util.WithRequestedHost(context.Background(), "zitadel.ch"),
+				ctx:   http_util.WithRequestedHost(context.Background(), "nomen.ch"),
 				orgID: "org1",
 				name:  "ORG",
 			},
@@ -749,17 +749,17 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 						eventFromEventPusher(
 							org.NewDomainAddedEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 						eventFromEventPusher(
 							org.NewDomainVerifiedEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 						eventFromEventPusher(
 							org.NewDomainPrimarySetEvent(context.Background(),
 								&org.NewAggregate("org1").Aggregate,
-								"org.zitadel.ch"),
+								"org.nomen.ch"),
 						),
 					),
 					expectPush(
@@ -770,7 +770,7 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 				),
 			},
 			args: args{
-				ctx:             http_util.WithRequestedHost(context.Background(), "zitadel.ch"),
+				ctx:             http_util.WithRequestedHost(context.Background(), "nomen.ch"),
 				orgID:           "org1",
 				name:            "ORG",
 				permissionCheck: newMockOrganizationPermissionCheckAllowed(),
@@ -783,7 +783,7 @@ func TestCommandSide_ChangeOrg(t *testing.T) {
 				eventstore: expectEventstore(),
 			},
 			args: args{
-				ctx:             http_util.WithRequestedHost(context.Background(), "zitadel.ch"),
+				ctx:             http_util.WithRequestedHost(context.Background(), "nomen.ch"),
 				orgID:           "org1",
 				name:            "ORG",
 				permissionCheck: newMockOrganizationPermissionCheckNotAllowed(),
@@ -1190,14 +1190,14 @@ func TestCommandSide_RemoveOrg(t *testing.T) {
 			},
 		},
 		{
-			name: "zitadel org, error",
+			name: "nomen org, error",
 			fields: fields{
 				eventstore: expectEventstore(
 					expectFilter(
 						eventFromEventPusher(
 							project.NewProjectAddedEvent(context.Background(),
 								&project.NewAggregate("projectID", "org1").Aggregate,
-								"ZITADEL",
+								"NOMEN",
 								false,
 								false,
 								false,
@@ -1218,7 +1218,7 @@ func TestCommandSide_RemoveOrg(t *testing.T) {
 			name: "org not found, must exist, error",
 			fields: fields{
 				eventstore: expectEventstore(
-					expectFilter(), // zitadel project check
+					expectFilter(), // nomen project check
 					expectFilter(),
 				),
 			},
@@ -1235,7 +1235,7 @@ func TestCommandSide_RemoveOrg(t *testing.T) {
 			name: "org not found, ok",
 			fields: fields{
 				eventstore: expectEventstore(
-					expectFilter(), // zitadel project check
+					expectFilter(), // nomen project check
 					expectFilter(),
 				),
 			},
@@ -1249,7 +1249,7 @@ func TestCommandSide_RemoveOrg(t *testing.T) {
 			name: "push failed, error",
 			fields: fields{
 				eventstore: expectEventstore(
-					expectFilter(), // zitadel project check
+					expectFilter(), // nomen project check
 					expectFilter(
 						eventFromEventPusher(
 							org.NewOrgAddedEvent(context.Background(),
@@ -1292,7 +1292,7 @@ func TestCommandSide_RemoveOrg(t *testing.T) {
 			name: "remove org",
 			fields: fields{
 				eventstore: expectEventstore(
-					expectFilter(), // zitadel project check
+					expectFilter(), // nomen project check
 					expectFilter(
 						eventFromEventPusher(
 							org.NewOrgAddedEvent(context.Background(),
@@ -1332,7 +1332,7 @@ func TestCommandSide_RemoveOrg(t *testing.T) {
 			name: "remove org with usernames and domains",
 			fields: fields{
 				eventstore: expectEventstore(
-					expectFilter(), // zitadel project check
+					expectFilter(), // nomen project check
 					expectFilter(
 						eventFromEventPusher(
 							org.NewOrgAddedEvent(context.Background(),
@@ -1423,7 +1423,7 @@ func TestCommandSide_RemoveOrg(t *testing.T) {
 			name: "remove org (with permission check)",
 			fields: fields{
 				eventstore: expectEventstore(
-					expectFilter(), // zitadel project check
+					expectFilter(), // nomen project check
 					expectFilter(
 						eventFromEventPusher(
 							org.NewOrgAddedEvent(context.Background(),
@@ -2146,7 +2146,7 @@ func TestCommandSide_SetUpOrg(t *testing.T) {
 				idGenerator:      tt.fields.idGenerator,
 				newEncryptedCode: tt.fields.newCode,
 				keyAlgorithm:     tt.fields.keyAlgorithm,
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: domain.RoleOrgOwner,
 					},

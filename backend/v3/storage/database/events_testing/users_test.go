@@ -16,14 +16,14 @@ import (
 	"github.com/stretchr/testify/require"
 	"gopkg.in/headzoo/surf.v1"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user"
-	v2_user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user"
+	v2_user "github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func TestServer_TestHumanUserReduces(t *testing.T) {
@@ -137,7 +137,7 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 
 		ctx := t.Context()
 		instanceRepo := repository.InstanceRepository()
-		instance, err := instanceRepo.Get(ctx, pool, database.WithCondition(instanceRepo.NameCondition(database.TextOperationEqual, "ZITADEL")))
+		instance, err := instanceRepo.Get(ctx, pool, database.WithCondition(instanceRepo.NameCondition(database.TextOperationEqual, "NOMEN")))
 		assert.NoError(t, err)
 		instanceID := instance.ID
 
@@ -685,11 +685,11 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 		token := integration.SystemToken
 
 		instanceRepo := repository.InstanceRepository()
-		instance, err := instanceRepo.Get(ctx, pool, database.WithCondition(instanceRepo.NameCondition(database.TextOperationEqual, "ZITADEL")))
+		instance, err := instanceRepo.Get(ctx, pool, database.WithCondition(instanceRepo.NameCondition(database.TextOperationEqual, "NOMEN")))
 		instanceID := instance.ID
 		require.NoError(t, err)
 		orgRepo := repository.OrganizationRepository()
-		org_, err := orgRepo.Get(ctx, pool, database.WithCondition(database.And(orgRepo.InstanceIDCondition(instanceID), orgRepo.NameCondition(database.TextOperationEqual, "ZITADEL"))))
+		org_, err := orgRepo.Get(ctx, pool, database.WithCondition(database.And(orgRepo.InstanceIDCondition(instanceID), orgRepo.NameCondition(database.TextOperationEqual, "NOMEN"))))
 		require.NoError(t, err)
 		orgID := org_.ID
 
@@ -701,7 +701,7 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 		require.NoError(t, err)
 		client := resty.New()
 		out, err := client.R().SetAuthToken(token).
-			SetHeader("x-zitadel-orgid", orgID).
+			SetHeader("x-nomen-orgid", orgID).
 			SetBody(deleteUserReqJSON).
 			Delete("http://localhost:8082" + "/v2beta/users/human")
 		require.NoError(t, err)
@@ -745,7 +745,7 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 		require.NoError(t, err)
 		client = resty.New()
 		out, err = client.R().SetAuthToken(token).
-			SetHeader("x-zitadel-orgid", orgID).
+			SetHeader("x-nomen-orgid", orgID).
 			SetBody(createUserReqJSON).
 			Post("http://localhost:8082" + "/v2beta/users/human")
 		require.NoError(t, err)
@@ -758,7 +758,7 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 		before := time.Now()
 		out, err = client.R().SetAuthToken(token).
 			SetMultipartField("file", "filename", "image/png", bytes.NewReader(picture)).
-			SetHeader("x-zitadel-orgid", orgID).
+			SetHeader("x-nomen-orgid", orgID).
 			Post("http://localhost:8082" + "/assets/v1" + "/users/me/avatar")
 		require.NoError(t, err)
 		require.Equal(t, 200, out.StatusCode())
@@ -791,11 +791,11 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 		token := integration.SystemToken
 
 		instanceRepo := repository.InstanceRepository()
-		instance, err := instanceRepo.Get(ctx, pool, database.WithCondition(instanceRepo.NameCondition(database.TextOperationEqual, "ZITADEL")))
+		instance, err := instanceRepo.Get(ctx, pool, database.WithCondition(instanceRepo.NameCondition(database.TextOperationEqual, "NOMEN")))
 		instanceID := instance.ID
 		require.NoError(t, err)
 		orgRepo := repository.OrganizationRepository()
-		org_, err := orgRepo.Get(ctx, pool, database.WithCondition(database.And(orgRepo.InstanceIDCondition(instanceID), orgRepo.NameCondition(database.TextOperationEqual, "ZITADEL"))))
+		org_, err := orgRepo.Get(ctx, pool, database.WithCondition(database.And(orgRepo.InstanceIDCondition(instanceID), orgRepo.NameCondition(database.TextOperationEqual, "NOMEN"))))
 		require.NoError(t, err)
 		orgID := org_.ID
 
@@ -807,7 +807,7 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 		require.NoError(t, err)
 		client := resty.New()
 		out, err := client.R().SetAuthToken(token).
-			SetHeader("x-zitadel-orgid", orgID).
+			SetHeader("x-nomen-orgid", orgID).
 			SetBody(deleteUserReqJSON).
 			Delete("http://localhost:8082" + "/v2beta/users/human")
 		require.NoError(t, err)
@@ -851,7 +851,7 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 		require.NoError(t, err)
 		client = resty.New()
 		out, err = client.R().SetAuthToken(token).
-			SetHeader("x-zitadel-orgid", orgID).
+			SetHeader("x-nomen-orgid", orgID).
 			SetBody(createUserReqJSON).
 			Post("http://localhost:8082" + "/v2beta/users/human")
 		require.NoError(t, err)
@@ -862,7 +862,7 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 		// POST avatar
 		out, err = client.R().SetAuthToken(token).
 			SetMultipartField("file", "filename", "image/png", bytes.NewReader(picture)).
-			SetHeader("x-zitadel-orgid", orgID).
+			SetHeader("x-nomen-orgid", orgID).
 			Post("http://localhost:8082" + "/assets/v1" + "/users/me/avatar")
 		require.NoError(t, err)
 		require.Equal(t, 200, out.StatusCode())
@@ -889,7 +889,7 @@ func TestServer_TestHumanUserReduces(t *testing.T) {
 		// delete avatar
 		before := time.Now()
 		out, err = client.R().SetAuthToken(token).
-			SetHeader("x-zitadel-orgid", orgID).
+			SetHeader("x-nomen-orgid", orgID).
 			Delete("http://localhost:8082/auth/v1/users/me/avatar")
 		require.NoError(t, err)
 		require.Equal(t, 200, out.StatusCode())

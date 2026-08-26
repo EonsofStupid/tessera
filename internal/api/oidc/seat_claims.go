@@ -4,14 +4,14 @@ import (
 	"context"
 	"errors"
 
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	// Tessera's own domain layer. Aliased because the package is `domain` and
+	// Nomen's own domain layer. Aliased because the package is `domain` and
 	// every other file in this package means `internal/domain` by that name —
 	// two different domains under one spelling is how the wrong one gets
 	// imported at three in the morning.
-	seat "github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
+	seat "github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
 )
 
 // setSeatClaims stamps `shippin.seat-token.v1` onto an access token, or leaves
@@ -26,7 +26,7 @@ import (
 // Two outcomes are both correct and only one is an error:
 //
 //   - The audience names no workspace. This is an ordinary OIDC client asking
-//     for an ordinary token, and it gets one — Tessera is still a working
+//     for an ordinary token, and it gets one — Nomen is still a working
 //     identity provider for things that are not seats. Nothing is stamped.
 //   - The audience names exactly one workspace the seat occupies. It carries
 //     the contract's claims.
@@ -51,7 +51,7 @@ func (s *Server) setSeatClaims(ctx context.Context, claims *oidc.AccessTokenClai
 		}
 		// RFC 8693's `invalid_target`: the audience the caller asked for is one
 		// this issuer will not mint. Anything else surfaces as `server_error`,
-		// which tells an operator that Tessera broke rather than that they
+		// which tells an operator that Nomen broke rather than that they
 		// asked for a workspace nobody granted them — and they would go read
 		// our logs instead of their own configuration.
 		return oidc.ErrInvalidTarget().WithParent(err).WithDescription("%s", err.Error())

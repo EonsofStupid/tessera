@@ -6,10 +6,10 @@ import (
 
 	"github.com/riverqueue/river"
 
-	"github.com/EonsofStupid/tessera/internal/queue"
+	"github.com/shippinAI/nomen/internal/queue"
 )
 
-//go:generate mockgen -package mock -destination ./mock/queue.mock.go github.com/EonsofStupid/tessera/internal/eventstore ExecutionQueue
+//go:generate mockgen -package mock -destination ./mock/queue.mock.go github.com/shippinAI/nomen/internal/eventstore ExecutionQueue
 
 type ExecutionQueue interface {
 	// InsertManyFastTx wraps [river.Client.InsertManyFastTx] to insert all jobs in

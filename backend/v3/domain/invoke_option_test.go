@@ -7,8 +7,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var _ database.QueryExecutor = (*nonBeginnerDB)(nil)
@@ -114,12 +114,12 @@ func TestStartTransactionFromDB(t *testing.T) {
 		{
 			testName:      "when input DB doesn't implement database.Beginner should return internal error",
 			inputDB:       &nonBeginnerDB{},
-			expectedError: zerrors.CreateZitadelError(zerrors.KindInternal, nil, "DOM-LqxZbk", "database doesn't implement database.Beginner", 1),
+			expectedError: zerrors.CreateNomenError(zerrors.KindInternal, nil, "DOM-LqxZbk", "database doesn't implement database.Beginner", 1),
 		},
 		{
 			testName:      "when transaction Begin fails should return internal error",
 			inputDB:       &beginnerDB{errOnBegin: txErr},
-			expectedError: zerrors.CreateZitadelError(zerrors.KindInternal, txErr, "DOM-sAAd3V", "failed starting transaction", 1),
+			expectedError: zerrors.CreateNomenError(zerrors.KindInternal, txErr, "DOM-sAAd3V", "failed starting transaction", 1),
 		},
 		{
 			testName:                 "when transaction Begin succeeds should return transaction",

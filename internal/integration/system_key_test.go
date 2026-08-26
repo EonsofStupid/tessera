@@ -12,8 +12,8 @@ import (
 )
 
 func TestIntegrationPrivateKeyIsGeneratedWithoutARepositoryFixture(t *testing.T) {
-	t.Setenv("TESSERA_TEST_GENERATED_KEY_FILE", "")
-	key, err := integrationPrivateKey("TESSERA_TEST_GENERATED_KEY_FILE")
+	t.Setenv("NOMEN_TEST_GENERATED_KEY_FILE", "")
+	key, err := integrationPrivateKey("NOMEN_TEST_GENERATED_KEY_FILE")
 	require.NoError(t, err)
 	block, _ := pem.Decode(key)
 	require.NotNil(t, block)
@@ -24,8 +24,8 @@ func TestIntegrationPrivateKeyIsGeneratedWithoutARepositoryFixture(t *testing.T)
 }
 
 func TestIntegrationPrivateKeyReadsOnlyAnExplicitProtectedPath(t *testing.T) {
-	t.Setenv("TESSERA_TEST_MISSING_KEY_FILE", "/path/that/does/not/exist")
-	_, err := integrationPrivateKey("TESSERA_TEST_MISSING_KEY_FILE")
-	require.ErrorContains(t, err, "TESSERA_TEST_MISSING_KEY_FILE")
+	t.Setenv("NOMEN_TEST_MISSING_KEY_FILE", "/path/that/does/not/exist")
+	_, err := integrationPrivateKey("NOMEN_TEST_MISSING_KEY_FILE")
+	require.ErrorContains(t, err, "NOMEN_TEST_MISSING_KEY_FILE")
 	require.True(t, errors.Is(err, os.ErrNotExist))
 }

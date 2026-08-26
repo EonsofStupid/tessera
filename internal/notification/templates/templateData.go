@@ -3,8 +3,8 @@ package templates
 import (
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/i18n"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/i18n"
 )
 
 const (

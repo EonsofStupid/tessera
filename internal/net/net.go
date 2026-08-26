@@ -3,7 +3,7 @@ package net
 import (
 	builtin_net "net"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type IPLookupFunc func(string) ([]builtin_net.IP, error)

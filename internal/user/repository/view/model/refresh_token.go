@@ -3,13 +3,13 @@ package model
 import (
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	user_repo "github.com/EonsofStupid/tessera/internal/repository/user"
-	usr_model "github.com/EonsofStupid/tessera/internal/user/model"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	user_repo "github.com/shippinAI/nomen/internal/repository/user"
+	usr_model "github.com/shippinAI/nomen/internal/user/model"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

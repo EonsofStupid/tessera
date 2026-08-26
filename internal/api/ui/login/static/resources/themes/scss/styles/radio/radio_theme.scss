@@ -8,11 +8,11 @@
 @mixin lgn-radio-color() {
     label {
         &::before {
-            border-color: var(--zitadel-color-input-border);
+            border-color: var(--nomen-color-input-border);
         }
 
         &::after {
-            background: var(--zitadel-color-primary);
+            background: var(--nomen-color-primary);
         }
     }
 
@@ -20,7 +20,7 @@
         opacity: 0;
 
         &:checked + label::before {
-            border-color: var(--zitadel-color-primary);
+            border-color: var(--nomen-color-primary);
         }
 
         &:focus + label {
@@ -30,16 +30,16 @@
 
         &:disabled {
             + label::before {
-                border-color: var(--zitadel-color-button-disabled-background);
+                border-color: var(--nomen-color-button-disabled-background);
             }
 
             &:checked {
                 + label::before {
-                    color: var(--zitadel-color-button-selected-background);
+                    color: var(--nomen-color-button-selected-background);
                 }
 
                 + label::after {
-                    background:  var(--zitadel-color-button-disabled-selected-background);
+                    background:  var(--nomen-color-button-disabled-selected-background);
                 }
             }
 

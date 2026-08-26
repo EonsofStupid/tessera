@@ -1,3 +1,3 @@
-export { TesseraApp } from './shell/TesseraApp'
-export type { TesseraAppProps } from './shell/TesseraApp'
-export type { CapabilityDiscovery, OperatorActionCatalog, Overview } from './lib/contracts'
+export { NomenApp } from './shell/NomenApp'
+export type { NomenAppProps } from './shell/NomenApp'
+export type { CapabilityDiscovery, DeploymentPreflight, OperatorActionCatalog, Overview, OwnerEnrollment } from './lib/contracts'

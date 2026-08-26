@@ -8,12 +8,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	domainmock "github.com/EonsofStupid/tessera/backend/v3/domain/mock"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dbmock"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/eventstore"
-	legacy_es "github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	domainmock "github.com/shippinAI/nomen/backend/v3/domain/mock"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dbmock"
+	"github.com/shippinAI/nomen/backend/v3/storage/eventstore"
+	legacy_es "github.com/shippinAI/nomen/internal/eventstore"
 )
 
 type testLegacyEventstore struct {

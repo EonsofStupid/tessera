@@ -9,7 +9,7 @@ import (
 	"github.com/riverqueue/river"
 	"github.com/riverqueue/river/rivertype"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
 )
 
 type logMiddleware struct {

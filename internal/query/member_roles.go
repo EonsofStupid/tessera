@@ -4,13 +4,13 @@ import (
 	"context"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 func (q *Queries) GetIAMMemberRoles() []string {
 	roles := make([]string, 0)
-	for _, roleMap := range q.zitadelRoles {
+	for _, roleMap := range q.nomenRoles {
 		if strings.HasPrefix(roleMap.Role, "IAM") {
 			roles = append(roles, roleMap.Role)
 		}
@@ -20,7 +20,7 @@ func (q *Queries) GetIAMMemberRoles() []string {
 
 func (q *Queries) GetOrgMemberRoles(isGlobal bool) []string {
 	roles := make([]string, 0)
-	for _, roleMap := range q.zitadelRoles {
+	for _, roleMap := range q.nomenRoles {
 		if strings.HasPrefix(roleMap.Role, "ORG") {
 			roles = append(roles, roleMap.Role)
 		}
@@ -38,7 +38,7 @@ func (q *Queries) GetProjectMemberRoles(ctx context.Context) ([]string, error) {
 	}
 	roles := make([]string, 0)
 	defaultOrg := authz.GetCtxData(ctx).OrgID == instance.DefaultOrgID
-	for _, roleMap := range q.zitadelRoles {
+	for _, roleMap := range q.nomenRoles {
 		if strings.HasPrefix(roleMap.Role, "PROJECT") && !strings.HasPrefix(roleMap.Role, "PROJECT_GRANT") {
 			if defaultOrg && !strings.HasSuffix(roleMap.Role, "GLOBAL") {
 				continue
@@ -51,7 +51,7 @@ func (q *Queries) GetProjectMemberRoles(ctx context.Context) ([]string, error) {
 
 func (q *Queries) GetProjectGrantMemberRoles() []string {
 	roles := make([]string, 0)
-	for _, roleMap := range q.zitadelRoles {
+	for _, roleMap := range q.nomenRoles {
 		if strings.HasPrefix(roleMap.Role, "PROJECT_GRANT") {
 			roles = append(roles, roleMap.Role)
 		}

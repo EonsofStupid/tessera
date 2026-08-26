@@ -13,30 +13,30 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	idp_pb "github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	object_pb "github.com/EonsofStupid/tessera/pkg/grpc/object"
+	"github.com/shippinAI/nomen/internal/integration"
+	idp_pb "github.com/shippinAI/nomen/pkg/grpc/idp"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
+	object_pb "github.com/shippinAI/nomen/pkg/grpc/object"
 )
 
-func Test_AddZitadelProvider(t *testing.T) {
+func Test_AddNomenProvider(t *testing.T) {
 	type args struct {
 		ctx context.Context
-		req *mgmt_pb.AddZitadelProviderRequest
+		req *mgmt_pb.AddNomenProviderRequest
 	}
 	tests := []struct {
 		name         string
 		args         args
 		wantErr      error
-		wantResponse *mgmt_pb.AddZitadelProviderResponse
+		wantResponse *mgmt_pb.AddNomenProviderResponse
 	}{
 		{
 			name: "no permissions, error",
 			args: args{
 				ctx: Instance.WithAuthorizationToken(CTX, integration.UserTypeNoPermission),
-				req: &mgmt_pb.AddZitadelProviderRequest{
-					Name:         "Zitadel Support IdP",
-					Issuer:       "zitadel.example.com",
+				req: &mgmt_pb.AddNomenProviderRequest{
+					Name:         "Nomen Support IdP",
+					Issuer:       "nomen.example.com",
 					ClientId:     "test-client",
 					ClientSecret: "test-secret",
 					Scopes:       []string{"email", "profile"},
@@ -51,9 +51,9 @@ func Test_AddZitadelProvider(t *testing.T) {
 			name: "insufficient permissions, error",
 			args: args{
 				ctx: Instance.WithAuthorizationToken(CTX, integration.UserTypeLogin),
-				req: &mgmt_pb.AddZitadelProviderRequest{
-					Name:         "Zitadel Support IdP",
-					Issuer:       "zitadel.example.com",
+				req: &mgmt_pb.AddNomenProviderRequest{
+					Name:         "Nomen Support IdP",
+					Issuer:       "nomen.example.com",
 					ClientId:     "test-client",
 					ClientSecret: "test-secret",
 					Scopes:       []string{"email", "profile"},
@@ -68,53 +68,53 @@ func Test_AddZitadelProvider(t *testing.T) {
 			name: "missing required field: name",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.AddZitadelProviderRequest{},
+				req: &mgmt_pb.AddNomenProviderRequest{},
 			},
-			wantErr: status.Error(codes.InvalidArgument, "invalid AddZitadelProviderRequest.Name: value length must be between 1 and 200 runes, inclusive"),
+			wantErr: status.Error(codes.InvalidArgument, "invalid AddNomenProviderRequest.Name: value length must be between 1 and 200 runes, inclusive"),
 		},
 		{
 			name: "missing required field: issuer",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.AddZitadelProviderRequest{
-					Name: "Zitadel Support IdP",
+				req: &mgmt_pb.AddNomenProviderRequest{
+					Name: "Nomen Support IdP",
 				},
 			},
-			wantErr: status.Error(codes.InvalidArgument, "invalid AddZitadelProviderRequest.Issuer: value length must be between 1 and 200 runes, inclusive"),
+			wantErr: status.Error(codes.InvalidArgument, "invalid AddNomenProviderRequest.Issuer: value length must be between 1 and 200 runes, inclusive"),
 		},
 		{
 			name: "missing required field: client_id",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.AddZitadelProviderRequest{
-					Name:   "Zitadel Support IdP",
-					Issuer: "zitadel.example.com",
+				req: &mgmt_pb.AddNomenProviderRequest{
+					Name:   "Nomen Support IdP",
+					Issuer: "nomen.example.com",
 				},
 			},
-			wantErr: status.Error(codes.InvalidArgument, "invalid AddZitadelProviderRequest.ClientId: value length must be between 1 and 200 runes, inclusive"),
+			wantErr: status.Error(codes.InvalidArgument, "invalid AddNomenProviderRequest.ClientId: value length must be between 1 and 200 runes, inclusive"),
 		},
 		{
 			name: "missing required field: client_secret",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.AddZitadelProviderRequest{
-					Name:     "Zitadel Support IdP",
-					Issuer:   "zitadel.example.com",
+				req: &mgmt_pb.AddNomenProviderRequest{
+					Name:     "Nomen Support IdP",
+					Issuer:   "nomen.example.com",
 					ClientId: "test-client",
 				},
 			},
 			wantErr: status.Error(
 				codes.InvalidArgument,
-				"invalid AddZitadelProviderRequest.ClientSecret: value length must be between 1 and 1000 runes, inclusive",
+				"invalid AddNomenProviderRequest.ClientSecret: value length must be between 1 and 1000 runes, inclusive",
 			),
 		},
 		{
 			name: "valid request",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.AddZitadelProviderRequest{
-					Name:         "Zitadel Support IdP",
-					Issuer:       "zitadel.example.com",
+				req: &mgmt_pb.AddNomenProviderRequest{
+					Name:         "Nomen Support IdP",
+					Issuer:       "nomen.example.com",
 					ClientId:     "test-client",
 					ClientSecret: "test-secret",
 					Scopes:       []string{"email", "profile"},
@@ -123,7 +123,7 @@ func Test_AddZitadelProvider(t *testing.T) {
 					},
 				},
 			},
-			wantResponse: &mgmt_pb.AddZitadelProviderResponse{
+			wantResponse: &mgmt_pb.AddNomenProviderResponse{
 				Details: &object_pb.ObjectDetails{
 					ResourceOwner: Instance.DefaultOrg.Id,
 				},
@@ -133,7 +133,7 @@ func Test_AddZitadelProvider(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			before := time.Now()
-			got, err := Client.AddZitadelProvider(tt.args.ctx, tt.args.req)
+			got, err := Client.AddNomenProvider(tt.args.ctx, tt.args.req)
 			after := time.Now()
 			if tt.wantErr != nil {
 				require.Error(t, err)
@@ -156,24 +156,24 @@ func Test_AddZitadelProvider(t *testing.T) {
 	}
 }
 
-func Test_UpdateZitadelProvider(t *testing.T) {
+func Test_UpdateNomenProvider(t *testing.T) {
 	type args struct {
 		ctx context.Context
-		req *mgmt_pb.UpdateZitadelProviderRequest
+		req *mgmt_pb.UpdateNomenProviderRequest
 	}
 	tests := []struct {
 		name                string
 		args                args
 		wantErr             error
-		wantResponse        *mgmt_pb.UpdateZitadelProviderResponse
+		wantResponse        *mgmt_pb.UpdateNomenProviderResponse
 		wantUpdatedProvider *idp_pb.Provider
 	}{
 		{
 			name: "no permissions, error",
 			args: args{
 				ctx: Instance.WithAuthorizationToken(CTX, integration.UserTypeNoPermission),
-				req: &mgmt_pb.UpdateZitadelProviderRequest{
-					Issuer:       "zitadel.example.com",
+				req: &mgmt_pb.UpdateNomenProviderRequest{
+					Issuer:       "nomen.example.com",
 					ClientId:     "test-client",
 					ClientSecret: "test-secret",
 					Scopes:       []string{"email", "profile"},
@@ -188,7 +188,7 @@ func Test_UpdateZitadelProvider(t *testing.T) {
 			name: "insufficient permissions, error",
 			args: args{
 				ctx: Instance.WithAuthorizationToken(CTX, integration.UserTypeLogin),
-				req: &mgmt_pb.UpdateZitadelProviderRequest{
+				req: &mgmt_pb.UpdateNomenProviderRequest{
 					Issuer: "acme.example.com",
 					Scopes: []string{"email", "profile"},
 					ProviderOptions: &idp_pb.Options{
@@ -203,56 +203,56 @@ func Test_UpdateZitadelProvider(t *testing.T) {
 			name: "missing required field: name",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.UpdateZitadelProviderRequest{},
+				req: &mgmt_pb.UpdateNomenProviderRequest{},
 			},
-			wantErr: status.Error(codes.InvalidArgument, "invalid UpdateZitadelProviderRequest.Name: value length must be between 1 and 200 runes, inclusive"),
+			wantErr: status.Error(codes.InvalidArgument, "invalid UpdateNomenProviderRequest.Name: value length must be between 1 and 200 runes, inclusive"),
 		},
 		{
 			name: "missing required field: issuer",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.UpdateZitadelProviderRequest{
-					Name: "Zitadel Support IdP updated",
+				req: &mgmt_pb.UpdateNomenProviderRequest{
+					Name: "Nomen Support IdP updated",
 				},
 			},
-			wantErr: status.Error(codes.InvalidArgument, "invalid UpdateZitadelProviderRequest.Issuer: value length must be between 1 and 200 runes, inclusive"),
+			wantErr: status.Error(codes.InvalidArgument, "invalid UpdateNomenProviderRequest.Issuer: value length must be between 1 and 200 runes, inclusive"),
 		},
 		{
 			name: "missing required field: client_id",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.UpdateZitadelProviderRequest{
-					Name:   "Zitadel Support IdP updated",
+				req: &mgmt_pb.UpdateNomenProviderRequest{
+					Name:   "Nomen Support IdP updated",
 					Issuer: "acme.example.com",
 				},
 			},
-			wantErr: status.Error(codes.InvalidArgument, "invalid UpdateZitadelProviderRequest.ClientId: value length must be between 1 and 200 runes, inclusive"),
+			wantErr: status.Error(codes.InvalidArgument, "invalid UpdateNomenProviderRequest.ClientId: value length must be between 1 and 200 runes, inclusive"),
 		},
 		{
 			name: "update, ok",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.UpdateZitadelProviderRequest{
-					Name:     "Zitadel Support IdP updated",
+				req: &mgmt_pb.UpdateNomenProviderRequest{
+					Name:     "Nomen Support IdP updated",
 					Issuer:   "acme.example.com",
 					ClientId: "test-client",
 					Scopes:   []string{"email", "profile", "openid", "offline_access"},
 				},
 			},
-			wantResponse: &mgmt_pb.UpdateZitadelProviderResponse{
+			wantResponse: &mgmt_pb.UpdateNomenProviderResponse{
 				Details: &object_pb.ObjectDetails{
 					ResourceOwner: Instance.DefaultOrg.Id,
 				},
 			},
 			wantUpdatedProvider: &idp_pb.Provider{
 				State: idp_pb.IDPState_IDP_STATE_ACTIVE,
-				Name:  "Zitadel Support IdP updated",
+				Name:  "Nomen Support IdP updated",
 				Owner: idp_pb.IDPOwnerType_IDP_OWNER_TYPE_ORG,
-				Type:  idp_pb.ProviderType_PROVIDER_TYPE_ZITADEL,
+				Type:  idp_pb.ProviderType_PROVIDER_TYPE_NOMEN,
 				Config: &idp_pb.ProviderConfig{
 					Options: &idp_pb.Options{},
-					Config: &idp_pb.ProviderConfig_Zitadel{
-						Zitadel: &idp_pb.ZitadelConfig{
+					Config: &idp_pb.ProviderConfig_Nomen{
+						Nomen: &idp_pb.NomenConfig{
 							Issuer:   "acme.example.com",
 							ClientId: "test-client",
 							Scopes:   []string{"email", "profile", "openid", "offline_access"},
@@ -265,8 +265,8 @@ func Test_UpdateZitadelProvider(t *testing.T) {
 			name: "update with scopes unset, ok",
 			args: args{
 				ctx: OrgCTX,
-				req: &mgmt_pb.UpdateZitadelProviderRequest{
-					Name:     "Zitadel Support IdP updated 1",
+				req: &mgmt_pb.UpdateNomenProviderRequest{
+					Name:     "Nomen Support IdP updated 1",
 					Issuer:   "acme.example.com",
 					ClientId: "test-client",
 					Scopes:   []string{}, // scopes unset -> will be updated by the API
@@ -275,22 +275,22 @@ func Test_UpdateZitadelProvider(t *testing.T) {
 					},
 				},
 			},
-			wantResponse: &mgmt_pb.UpdateZitadelProviderResponse{
+			wantResponse: &mgmt_pb.UpdateNomenProviderResponse{
 				Details: &object_pb.ObjectDetails{
 					ResourceOwner: Instance.DefaultOrg.Id,
 				},
 			},
 			wantUpdatedProvider: &idp_pb.Provider{
 				State: idp_pb.IDPState_IDP_STATE_ACTIVE,
-				Name:  "Zitadel Support IdP updated 1",
+				Name:  "Nomen Support IdP updated 1",
 				Owner: idp_pb.IDPOwnerType_IDP_OWNER_TYPE_ORG,
-				Type:  idp_pb.ProviderType_PROVIDER_TYPE_ZITADEL,
+				Type:  idp_pb.ProviderType_PROVIDER_TYPE_NOMEN,
 				Config: &idp_pb.ProviderConfig{
 					Options: &idp_pb.Options{
 						IsAutoCreation: true,
 					},
-					Config: &idp_pb.ProviderConfig_Zitadel{
-						Zitadel: &idp_pb.ZitadelConfig{
+					Config: &idp_pb.ProviderConfig_Nomen{
+						Nomen: &idp_pb.NomenConfig{
 							Issuer:   "acme.example.com",
 							ClientId: "test-client",
 							Scopes:   nil, // unset scopes
@@ -303,15 +303,15 @@ func Test_UpdateZitadelProvider(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// create a new provider per subtest and set the ID in the request
-			zitadelProvider := Instance.AddOrgZitadelProvider(OrgCTX, integration.IDPName())
-			tt.args.req.Id = zitadelProvider.Id
+			nomenProvider := Instance.AddOrgNomenProvider(OrgCTX, integration.IDPName())
+			tt.args.req.Id = nomenProvider.Id
 			t.Cleanup(func() {
-				_, err := Client.DeleteProvider(OrgCTX, &mgmt_pb.DeleteProviderRequest{Id: zitadelProvider.GetId()})
+				_, err := Client.DeleteProvider(OrgCTX, &mgmt_pb.DeleteProviderRequest{Id: nomenProvider.GetId()})
 				require.NoError(t, err)
 			})
 
 			before := time.Now()
-			updateResp, err := Client.UpdateZitadelProvider(tt.args.ctx, tt.args.req)
+			updateResp, err := Client.UpdateNomenProvider(tt.args.ctx, tt.args.req)
 			after := time.Now()
 			if tt.wantErr != nil {
 				require.Error(t, err)
@@ -327,34 +327,34 @@ func Test_UpdateZitadelProvider(t *testing.T) {
 			assert.Equal(t, tt.wantResponse.GetDetails().GetResourceOwner(), updateResp.GetDetails().GetResourceOwner())
 
 			// get provider by ID and assert that the updated provider matches the expected values
-			getResp, err := Client.GetProviderByID(OrgCTX, &mgmt_pb.GetProviderByIDRequest{Id: zitadelProvider.Id})
+			getResp, err := Client.GetProviderByID(OrgCTX, &mgmt_pb.GetProviderByIDRequest{Id: nomenProvider.Id})
 			require.NoError(t, err)
 			assert.Equal(t, updateResp.GetDetails().GetChangeDate().AsTime(), getResp.GetIdp().GetDetails().GetChangeDate().AsTime())
-			tt.wantUpdatedProvider.Id = zitadelProvider.Id
+			tt.wantUpdatedProvider.Id = nomenProvider.Id
 			assertProvider(t, tt.wantUpdatedProvider, getResp.GetIdp())
 		})
 	}
 }
 
-func Test_UpdateZitadelProvider_MissingID(t *testing.T) {
-	existingProvider := Instance.AddOrgZitadelProvider(OrgCTX, integration.IDPName())
+func Test_UpdateNomenProvider_MissingID(t *testing.T) {
+	existingProvider := Instance.AddOrgNomenProvider(OrgCTX, integration.IDPName())
 	t.Cleanup(func() {
 		_, err := Client.DeleteProvider(OrgCTX, &mgmt_pb.DeleteProviderRequest{Id: existingProvider.GetId()})
 		require.NoError(t, err)
 	})
 	// Attempt to update the provider without specifying the ID
-	updateResp, err := Client.UpdateZitadelProvider(OrgCTX, &mgmt_pb.UpdateZitadelProviderRequest{})
+	updateResp, err := Client.UpdateNomenProvider(OrgCTX, &mgmt_pb.UpdateNomenProviderRequest{})
 	require.Error(t, err)
 	grpcStatus, ok := status.FromError(err)
 	require.True(t, ok)
 	assert.Equal(t, codes.InvalidArgument, grpcStatus.Code())
-	assert.Equal(t, "invalid UpdateZitadelProviderRequest.Id: value length must be between 1 and 200 runes, inclusive", grpcStatus.Message())
+	assert.Equal(t, "invalid UpdateNomenProviderRequest.Id: value length must be between 1 and 200 runes, inclusive", grpcStatus.Message())
 	require.Nil(t, updateResp)
 }
 
 func Test_GetProviderByID(t *testing.T) {
 	name := integration.IDPName()
-	existingProvider := Instance.AddOrgZitadelProvider(OrgCTX, name)
+	existingProvider := Instance.AddOrgNomenProvider(OrgCTX, name)
 
 	tests := []struct {
 		name     string
@@ -404,14 +404,14 @@ func Test_GetProviderByID(t *testing.T) {
 					State: idp_pb.IDPState_IDP_STATE_ACTIVE,
 					Name:  name,
 					Owner: idp_pb.IDPOwnerType_IDP_OWNER_TYPE_ORG,
-					Type:  idp_pb.ProviderType_PROVIDER_TYPE_ZITADEL,
+					Type:  idp_pb.ProviderType_PROVIDER_TYPE_NOMEN,
 					Config: &idp_pb.ProviderConfig{
 						Options: &idp_pb.Options{
 							IsCreationAllowed: true,
 						},
-						Config: &idp_pb.ProviderConfig_Zitadel{
-							Zitadel: &idp_pb.ZitadelConfig{
-								Issuer:   "zitadel.example.com",
+						Config: &idp_pb.ProviderConfig_Nomen{
+							Nomen: &idp_pb.NomenConfig{
+								Issuer:   "nomen.example.com",
 								ClientId: "test-client",
 								Scopes:   []string{"email", "profile"},
 							},
@@ -447,9 +447,9 @@ func Test_ListProviders(t *testing.T) {
 	orgCtx := integration.SetOrgID(IAMOwnerCTX, org.GetOrganizationId())
 
 	provider1Name := integration.IDPName()
-	provider1 := Instance.AddOrgZitadelProvider(orgCtx, provider1Name)
+	provider1 := Instance.AddOrgNomenProvider(orgCtx, provider1Name)
 	provider2Name := integration.IDPName()
-	provider2 := Instance.AddOrgZitadelProvider(orgCtx, provider2Name)
+	provider2 := Instance.AddOrgNomenProvider(orgCtx, provider2Name)
 	t.Cleanup(func() {
 		_, err := Client.DeleteProvider(orgCtx, &mgmt_pb.DeleteProviderRequest{Id: provider1.GetId()})
 		require.NoError(t, err)
@@ -507,14 +507,14 @@ func Test_ListProviders(t *testing.T) {
 						State: idp_pb.IDPState_IDP_STATE_ACTIVE,
 						Name:  provider2Name,
 						Owner: idp_pb.IDPOwnerType_IDP_OWNER_TYPE_ORG,
-						Type:  idp_pb.ProviderType_PROVIDER_TYPE_ZITADEL,
+						Type:  idp_pb.ProviderType_PROVIDER_TYPE_NOMEN,
 						Config: &idp_pb.ProviderConfig{
 							Options: &idp_pb.Options{
 								IsCreationAllowed: true,
 							},
-							Config: &idp_pb.ProviderConfig_Zitadel{
-								Zitadel: &idp_pb.ZitadelConfig{
-									Issuer:   "zitadel.example.com",
+							Config: &idp_pb.ProviderConfig_Nomen{
+								Nomen: &idp_pb.NomenConfig{
+									Issuer:   "nomen.example.com",
 									ClientId: "test-client",
 									Scopes:   []string{"email", "profile"},
 								},
@@ -556,14 +556,14 @@ func Test_ListProviders(t *testing.T) {
 						State: idp_pb.IDPState_IDP_STATE_ACTIVE,
 						Name:  provider1Name,
 						Owner: idp_pb.IDPOwnerType_IDP_OWNER_TYPE_ORG,
-						Type:  idp_pb.ProviderType_PROVIDER_TYPE_ZITADEL,
+						Type:  idp_pb.ProviderType_PROVIDER_TYPE_NOMEN,
 						Config: &idp_pb.ProviderConfig{
 							Options: &idp_pb.Options{
 								IsCreationAllowed: true,
 							},
-							Config: &idp_pb.ProviderConfig_Zitadel{
-								Zitadel: &idp_pb.ZitadelConfig{
-									Issuer:   "zitadel.example.com",
+							Config: &idp_pb.ProviderConfig_Nomen{
+								Nomen: &idp_pb.NomenConfig{
+									Issuer:   "nomen.example.com",
 									ClientId: "test-client",
 									Scopes:   []string{"email", "profile"},
 								},
@@ -596,14 +596,14 @@ func Test_ListProviders(t *testing.T) {
 						State: idp_pb.IDPState_IDP_STATE_ACTIVE,
 						Name:  provider1Name,
 						Owner: idp_pb.IDPOwnerType_IDP_OWNER_TYPE_ORG,
-						Type:  idp_pb.ProviderType_PROVIDER_TYPE_ZITADEL,
+						Type:  idp_pb.ProviderType_PROVIDER_TYPE_NOMEN,
 						Config: &idp_pb.ProviderConfig{
 							Options: &idp_pb.Options{
 								IsCreationAllowed: true,
 							},
-							Config: &idp_pb.ProviderConfig_Zitadel{
-								Zitadel: &idp_pb.ZitadelConfig{
-									Issuer:   "zitadel.example.com",
+							Config: &idp_pb.ProviderConfig_Nomen{
+								Nomen: &idp_pb.NomenConfig{
+									Issuer:   "nomen.example.com",
 									ClientId: "test-client",
 									Scopes:   []string{"email", "profile"},
 								},
@@ -620,14 +620,14 @@ func Test_ListProviders(t *testing.T) {
 						State: idp_pb.IDPState_IDP_STATE_ACTIVE,
 						Name:  provider2Name,
 						Owner: idp_pb.IDPOwnerType_IDP_OWNER_TYPE_ORG,
-						Type:  idp_pb.ProviderType_PROVIDER_TYPE_ZITADEL,
+						Type:  idp_pb.ProviderType_PROVIDER_TYPE_NOMEN,
 						Config: &idp_pb.ProviderConfig{
 							Options: &idp_pb.Options{
 								IsCreationAllowed: true,
 							},
-							Config: &idp_pb.ProviderConfig_Zitadel{
-								Zitadel: &idp_pb.ZitadelConfig{
-									Issuer:   "zitadel.example.com",
+							Config: &idp_pb.ProviderConfig_Nomen{
+								Nomen: &idp_pb.NomenConfig{
+									Issuer:   "nomen.example.com",
 									ClientId: "test-client",
 									Scopes:   []string{"email", "profile"},
 								},
@@ -667,8 +667,8 @@ func Test_ListProviders(t *testing.T) {
 	}
 }
 
-func Test_DeleteZitadelProvider(t *testing.T) {
-	existingProvider := Instance.AddOrgZitadelProvider(OrgCTX, integration.IDPName())
+func Test_DeleteNomenProvider(t *testing.T) {
+	existingProvider := Instance.AddOrgNomenProvider(OrgCTX, integration.IDPName())
 	t.Cleanup(func() {
 		_, err := Client.DeleteProvider(OrgCTX, &mgmt_pb.DeleteProviderRequest{Id: existingProvider.GetId()})
 		if err != nil && status.Code(err) != codes.NotFound {

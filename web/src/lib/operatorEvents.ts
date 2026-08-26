@@ -1,7 +1,7 @@
 import { accessToken } from './auth'
 
-const sessionKey = 'tessera.ui.operator_session'
-const sequenceKey = 'tessera.ui.operator_sequence'
+const sessionKey = 'nomen.ui.operator_session'
+const sequenceKey = 'nomen.ui.operator_sequence'
 
 function sessionID(): string {
   let id = sessionStorage.getItem(sessionKey)
@@ -45,7 +45,7 @@ export function emitOperatorEvent(event: SemanticEvent): void {
       outcome: event.outcome ?? 'observed',
     }],
   }
-  void fetch('/tessera/v1/operator/events', {
+  void fetch('/nomen/v1/operator/events', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

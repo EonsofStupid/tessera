@@ -6,10 +6,10 @@ import (
 	"io"
 	"strings"
 
-	"github.com/zitadel/exifremove/pkg/exifremove"
+	"github.com/shippinAI/nomen/exifremove/pkg/exifremove"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/static"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/static"
 )
 
 type AssetUpload struct {

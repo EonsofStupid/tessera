@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
 )
 
 func Test_composeOrigin(t *testing.T) {
@@ -200,7 +200,7 @@ func Test_composeOrigin(t *testing.T) {
 				},
 				tt.args.enforceHttps,
 				[]string{http_util.Forwarded, http_util.ForwardedFor, http_util.ForwardedHost, http_util.ForwardedProto},
-				[]string{"x-zitadel-public-host"},
+				[]string{"x-nomen-public-host"},
 			), "headers: %+v, enforceHttps: %t", tt.args.h, tt.args.enforceHttps)
 		})
 	}

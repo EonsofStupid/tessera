@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 var _ domain.OrganizationDomainRepository = (*orgDomain)(nil)
@@ -17,7 +17,7 @@ func OrganizationDomainRepository() domain.OrganizationDomainRepository {
 }
 
 func (orgDomain) qualifiedTableName() string {
-	return "zitadel.org_domains"
+	return "nomen.org_domains"
 }
 
 func (orgDomain) unqualifiedTableName() string {
@@ -29,7 +29,7 @@ func (orgDomain) unqualifiedTableName() string {
 // -------------------------------------------------------------
 
 const queryOrganizationDomainStmt = `SELECT instance_id, org_id, domain, is_verified, is_primary, validation_type, created_at, updated_at ` +
-	`FROM zitadel.org_domains`
+	`FROM nomen.org_domains`
 
 // Get implements [domain.OrganizationDomainRepository].
 // Subtle: this method shadows the method ([domain.OrganizationRepository]).Get of orgDomain.org.
@@ -82,7 +82,7 @@ func (o orgDomain) Add(ctx context.Context, client database.QueryExecutor, domai
 		updatedAt = domain.UpdatedAt
 	}
 
-	builder.WriteString(`INSERT INTO zitadel.org_domains (instance_id, org_id, domain, is_verified, is_primary, validation_type, created_at, updated_at) VALUES (`)
+	builder.WriteString(`INSERT INTO nomen.org_domains (instance_id, org_id, domain, is_verified, is_primary, validation_type, created_at, updated_at) VALUES (`)
 	builder.WriteArgs(domain.InstanceID, domain.OrgID, domain.Domain, domain.IsVerified, domain.IsPrimary, domain.ValidationType, createdAt, updatedAt)
 	builder.WriteString(`) RETURNING created_at, updated_at`)
 
@@ -106,7 +106,7 @@ func (o orgDomain) Update(ctx context.Context, client database.QueryExecutor, co
 	}
 
 	var builder database.StatementBuilder
-	builder.WriteString(`UPDATE zitadel.org_domains SET `)
+	builder.WriteString(`UPDATE nomen.org_domains SET `)
 	err := database.Changes(changes).Write(&builder)
 	if err != nil {
 		return 0, err
@@ -126,7 +126,7 @@ func (o orgDomain) Remove(ctx context.Context, client database.QueryExecutor, co
 	}
 
 	var builder database.StatementBuilder
-	builder.WriteString(`DELETE FROM zitadel.org_domains `)
+	builder.WriteString(`DELETE FROM nomen.org_domains `)
 	writeCondition(&builder, condition)
 
 	return client.Exec(ctx, builder.String(), builder.Args()...)

@@ -6,13 +6,13 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/api/saml"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
-	saml_pb "github.com/EonsofStupid/tessera/pkg/grpc/saml/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/saml/v2/samlconnect"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/api/saml"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
+	saml_pb "github.com/shippinAI/nomen/pkg/grpc/saml/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/saml/v2/samlconnect"
 )
 
 var _ samlconnect.SAMLServiceHandler = (*Server)(nil)
@@ -47,7 +47,7 @@ func (s *Server) RegisterConnectServer(interceptors ...connect.Interceptor) (str
 }
 
 func (s *Server) FileDescriptor() protoreflect.FileDescriptor {
-	return saml_pb.File_zitadel_saml_v2_saml_service_proto
+	return saml_pb.File_nomen_saml_v2_saml_service_proto
 }
 
 func (s *Server) AppName() string {

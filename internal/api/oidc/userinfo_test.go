@@ -14,16 +14,16 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/actions"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/logstore/record"
-	"github.com/EonsofStupid/tessera/internal/query"
-	exec_repo "github.com/EonsofStupid/tessera/internal/repository/execution"
+	"github.com/shippinAI/nomen/internal/actions"
+	"github.com/shippinAI/nomen/internal/domain"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/logstore/record"
+	"github.com/shippinAI/nomen/internal/query"
+	exec_repo "github.com/shippinAI/nomen/internal/repository/execution"
 )
 
 func Test_prepareRoles(t *testing.T) {

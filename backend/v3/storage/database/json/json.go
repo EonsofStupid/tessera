@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"reflect"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 var _ database.Change = (*jsonChanges)(nil)
@@ -99,10 +99,10 @@ func (c *ArrayChange) addToArray(builder *database.StatementBuilder, changes jso
 		return err
 	}
 
-	builder.WriteString("zitadel.jsonb_array_append(")
+	builder.WriteString("nomen.jsonb_array_append(")
 
 	// to mitigate the possibility of having duplicate values in the array
-	builder.WriteString("zitadel.jsonb_array_remove(")
+	builder.WriteString("nomen.jsonb_array_remove(")
 	if i < 0 {
 		changes.column.WriteQualified(builder)
 	} else {
@@ -112,14 +112,14 @@ func (c *ArrayChange) addToArray(builder *database.StatementBuilder, changes jso
 		}
 	}
 
-	// zitadel.jsonb_array_remove
+	// nomen.jsonb_array_remove
 	builder.WriteString(", ")
 	builder.WriteArg(path)
 	builder.WriteString(", ")
 	builder.WriteArg(value)
 	builder.WriteString("::TEXT)")
 
-	// zitadel.jsonb_array_append
+	// nomen.jsonb_array_append
 	builder.WriteString(", ")
 	builder.WriteArg(path)
 	builder.WriteString(", ")
@@ -141,7 +141,7 @@ func (c *ArrayChange) removeFromArray(builder *database.StatementBuilder, change
 		return err
 	}
 
-	builder.WriteString("zitadel.jsonb_array_remove(")
+	builder.WriteString("nomen.jsonb_array_remove(")
 	if i < 0 {
 		changes.column.WriteQualified(builder)
 	} else {

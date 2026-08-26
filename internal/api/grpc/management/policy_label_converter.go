@@ -1,9 +1,9 @@
 package management
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	policy_pb "github.com/EonsofStupid/tessera/pkg/grpc/policy"
+	"github.com/shippinAI/nomen/internal/domain"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
+	policy_pb "github.com/shippinAI/nomen/pkg/grpc/policy"
 )
 
 func AddLabelPolicyToDomain(p *mgmt_pb.AddCustomLabelPolicyRequest) *domain.LabelPolicy {

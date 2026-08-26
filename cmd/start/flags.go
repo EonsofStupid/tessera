@@ -5,9 +5,9 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/cmd/key"
-	"github.com/EonsofStupid/tessera/cmd/tls"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/cmd/key"
+	"github.com/shippinAI/nomen/cmd/tls"
 )
 
 var (
@@ -15,9 +15,9 @@ var (
 )
 
 func init() {
-	startFlagSet.Uint16("port", 0, "port to run Tessera on")
-	startFlagSet.String("externalDomain", "", "domain Tessera will be exposed on")
-	startFlagSet.String("externalPort", "", "port Tessera will be exposed on")
+	startFlagSet.Uint16("port", 0, "port to run Nomen on")
+	startFlagSet.String("externalDomain", "", "domain Nomen will be exposed on")
+	startFlagSet.String("externalPort", "", "port Nomen will be exposed on")
 }
 
 func startFlags(cmd *cobra.Command) {

@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 func TestEventstore_Push_OneAggregate(t *testing.T) {
@@ -507,7 +507,7 @@ func TestEventstore_Push_ResourceOwner(t *testing.T) {
 			args: args{
 				commands: []eventstore.Command{
 					generateCommand(eventstore.AggregateType(t.Name()), "503", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "caos" }),
-					generateCommand(eventstore.AggregateType(t.Name()), "504", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "zitadel" }),
+					generateCommand(eventstore.AggregateType(t.Name()), "504", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "nomen" }),
 				},
 			},
 			fields: fields{
@@ -515,7 +515,7 @@ func TestEventstore_Push_ResourceOwner(t *testing.T) {
 				aggregateType: t.Name(),
 			},
 			res: res{
-				resourceOwners: []string{"caos", "zitadel"},
+				resourceOwners: []string{"caos", "nomen"},
 			},
 		},
 		{
@@ -524,8 +524,8 @@ func TestEventstore_Push_ResourceOwner(t *testing.T) {
 				commands: []eventstore.Command{
 					generateCommand(eventstore.AggregateType(t.Name()), "505", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "caos" }),
 					generateCommand(eventstore.AggregateType(t.Name()), "505", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "caos" }),
-					generateCommand(eventstore.AggregateType(t.Name()), "506", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "zitadel" }),
-					generateCommand(eventstore.AggregateType(t.Name()), "506", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "zitadel" }),
+					generateCommand(eventstore.AggregateType(t.Name()), "506", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "nomen" }),
+					generateCommand(eventstore.AggregateType(t.Name()), "506", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "nomen" }),
 				},
 			},
 			fields: fields{
@@ -533,7 +533,7 @@ func TestEventstore_Push_ResourceOwner(t *testing.T) {
 				aggregateType: t.Name(),
 			},
 			res: res{
-				resourceOwners: []string{"caos", "caos", "zitadel", "zitadel"},
+				resourceOwners: []string{"caos", "caos", "nomen", "nomen"},
 			},
 		},
 		{
@@ -542,7 +542,7 @@ func TestEventstore_Push_ResourceOwner(t *testing.T) {
 				commands: []eventstore.Command{
 					generateCommand(eventstore.AggregateType(t.Name()), "507", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "caos" }),
 					generateCommand(eventstore.AggregateType(t.Name()), "507", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "ignored" }),
-					generateCommand(eventstore.AggregateType(t.Name()), "508", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "zitadel" }),
+					generateCommand(eventstore.AggregateType(t.Name()), "508", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "nomen" }),
 					generateCommand(eventstore.AggregateType(t.Name()), "508", func(e *testEvent) { e.BaseEvent.Agg.ResourceOwner = "ignored" }),
 				},
 			},
@@ -551,7 +551,7 @@ func TestEventstore_Push_ResourceOwner(t *testing.T) {
 				aggregateType: t.Name(),
 			},
 			res: res{
-				resourceOwners: []string{"caos", "caos", "zitadel", "zitadel"},
+				resourceOwners: []string{"caos", "caos", "nomen", "nomen"},
 			},
 		},
 		{

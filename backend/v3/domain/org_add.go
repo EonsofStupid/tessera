@@ -3,8 +3,8 @@ package domain
 import (
 	"context"
 
-	legacy_es "github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
+	legacy_es "github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/org"
 )
 
 // AddOrgCommand adds a new organization.

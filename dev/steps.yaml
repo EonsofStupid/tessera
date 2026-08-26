@@ -1,4 +1,4 @@
-# Tessera's first instance — a service account with an admin PAT, so the dev
+# Nomen's first instance — a service account with an admin PAT, so the dev
 # loop can drive the management API without anybody clicking a console.
 #
 # Phase 3 (blueprints) needs exactly this: identity config applied from files by
@@ -8,12 +8,13 @@
 # never enters this repository (`AGENTS.md`, `../../CLYFFY.md`). Delete
 # `.pgdata` and it is reissued.
 FirstInstance:
+  InstanceName: Nomen
   PatPath: .artifacts/admin.pat
   Org:
-    Name: shippin
+    Name: Nomen
     Machine:
       Machine:
-        Username: tessera-admin
-        Name: Tessera dev admin
+        Username: nomen-admin
+        Name: Nomen first machine
       Pat:
         ExpirationDate: 2100-01-01T00:00:00Z

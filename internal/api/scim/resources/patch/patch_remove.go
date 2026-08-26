@@ -3,11 +3,11 @@ package patch
 import (
 	"reflect"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources/filter"
-	"github.com/EonsofStupid/tessera/internal/api/scim/serrors"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/scim/resources/filter"
+	"github.com/shippinAI/nomen/internal/api/scim/serrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func applyRemovePatch(patcher ResourcePatcher, op *Operation, value interface{}) error {

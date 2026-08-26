@@ -11,10 +11,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	v2beta_project "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/integration"
+	v2beta_project "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
 )
 
 func TestServer_ProjectRoleReduces(t *testing.T) {

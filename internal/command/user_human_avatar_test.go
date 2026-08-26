@@ -9,12 +9,12 @@ import (
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/static"
-	"github.com/EonsofStupid/tessera/internal/static/mock"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/static"
+	"github.com/shippinAI/nomen/internal/static/mock"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommandSide_AddHumanAvatar(t *testing.T) {

@@ -1,6 +1,6 @@
 package query
 
-import "github.com/EonsofStupid/tessera/internal/query/projection"
+import "github.com/shippinAI/nomen/internal/query/projection"
 
 var (
 	loginNameTable = table{

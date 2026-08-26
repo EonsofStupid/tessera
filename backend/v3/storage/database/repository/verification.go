@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type verification struct{}
@@ -13,7 +13,7 @@ func (v verification) unqualifiedTableName() string {
 }
 
 func (v verification) qualifiedTableName() string {
-	return "zitadel." + v.unqualifiedTableName()
+	return "nomen." + v.unqualifiedTableName()
 }
 
 // init creates a new verification
@@ -33,7 +33,7 @@ func (v verification) init(init *domain.VerificationTypeInit, existingTableName 
 		if init.ID != nil {
 			id = *init.ID
 		}
-		builder.WriteString("INSERT INTO zitadel.verifications(instance_id, user_id, id, code, created_at, updated_at, expiry) SELECT instance_id, id, ")
+		builder.WriteString("INSERT INTO nomen.verifications(instance_id, user_id, id, code, created_at, updated_at, expiry) SELECT instance_id, id, ")
 		builder.WriteArgs(id, init.Code, createdAt, createdAt, expiry)
 		builder.WriteString(" FROM ")
 		builder.WriteString(existingTableName)

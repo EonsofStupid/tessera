@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	iam_model "github.com/EonsofStupid/tessera/internal/iam/model"
+	"github.com/shippinAI/nomen/internal/domain"
+	iam_model "github.com/shippinAI/nomen/internal/iam/model"
 )
 
 type OrgRepository interface {

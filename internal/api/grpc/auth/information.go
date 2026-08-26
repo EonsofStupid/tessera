@@ -3,7 +3,7 @@ package auth
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/pkg/grpc/auth"
+	"github.com/shippinAI/nomen/pkg/grpc/auth"
 )
 
 func (s *Server) Healthz(context.Context, *auth.HealthzRequest) (*auth.HealthzResponse, error) {

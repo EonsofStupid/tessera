@@ -13,12 +13,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	zitadel_http "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/feature"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	nomen_http "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/feature"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func Test_instanceInterceptor_Handler(t *testing.T) {
@@ -59,13 +59,13 @@ func Test_instanceInterceptor_Handler(t *testing.T) {
 			args{
 				request: func() *http.Request {
 					r := httptest.NewRequest("", "/url", nil)
-					r = r.WithContext(zitadel_http.WithDomainContext(r.Context(), &zitadel_http.DomainCtx{InstanceHost: "host"}))
+					r = r.WithContext(nomen_http.WithDomainContext(r.Context(), &nomen_http.DomainCtx{InstanceHost: "host"}))
 					return r
 				}(),
 			},
 			res{
 				statusCode: 200,
-				context:    authz.WithInstance(zitadel_http.WithDomainContext(context.Background(), &zitadel_http.DomainCtx{InstanceHost: "host"}), &mockInstance{}),
+				context:    authz.WithInstance(nomen_http.WithDomainContext(context.Background(), &nomen_http.DomainCtx{InstanceHost: "host"}), &mockInstance{}),
 			},
 		},
 	}
@@ -73,7 +73,7 @@ func Test_instanceInterceptor_Handler(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &instanceInterceptor{
 				verifier:   tt.fields.verifier,
-				translator: i18n.NewZitadelTranslator(language.English),
+				translator: i18n.NewNomenTranslator(language.English),
 			}
 			next := &testHandler{}
 			got := a.HandlerFunc(next)
@@ -123,13 +123,13 @@ func Test_instanceInterceptor_HandlerFunc(t *testing.T) {
 			args{
 				request: func() *http.Request {
 					r := httptest.NewRequest("", "/url", nil)
-					r = r.WithContext(zitadel_http.WithDomainContext(r.Context(), &zitadel_http.DomainCtx{InstanceHost: "host"}))
+					r = r.WithContext(nomen_http.WithDomainContext(r.Context(), &nomen_http.DomainCtx{InstanceHost: "host"}))
 					return r
 				}(),
 			},
 			res{
 				statusCode: 200,
-				context:    authz.WithInstance(zitadel_http.WithDomainContext(context.Background(), &zitadel_http.DomainCtx{InstanceHost: "host"}), &mockInstance{}),
+				context:    authz.WithInstance(nomen_http.WithDomainContext(context.Background(), &nomen_http.DomainCtx{InstanceHost: "host"}), &mockInstance{}),
 			},
 		},
 	}
@@ -137,7 +137,7 @@ func Test_instanceInterceptor_HandlerFunc(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &instanceInterceptor{
 				verifier:   tt.fields.verifier,
-				translator: i18n.NewZitadelTranslator(language.English),
+				translator: i18n.NewNomenTranslator(language.English),
 			}
 			next := &testHandler{}
 			got := a.HandlerFunc(next)
@@ -187,12 +187,12 @@ func Test_instanceInterceptor_HandlerFuncWithError(t *testing.T) {
 			args{
 				request: func() *http.Request {
 					r := httptest.NewRequest("", "/url", nil)
-					r = r.WithContext(zitadel_http.WithDomainContext(r.Context(), &zitadel_http.DomainCtx{InstanceHost: "host"}))
+					r = r.WithContext(nomen_http.WithDomainContext(r.Context(), &nomen_http.DomainCtx{InstanceHost: "host"}))
 					return r
 				}(),
 			},
 			res{
-				context: authz.WithInstance(zitadel_http.WithDomainContext(context.Background(), &zitadel_http.DomainCtx{InstanceHost: "host"}), &mockInstance{}),
+				context: authz.WithInstance(nomen_http.WithDomainContext(context.Background(), &nomen_http.DomainCtx{InstanceHost: "host"}), &mockInstance{}),
 			},
 		},
 	}
@@ -200,7 +200,7 @@ func Test_instanceInterceptor_HandlerFuncWithError(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &instanceInterceptor{
 				verifier:   tt.fields.verifier,
-				translator: i18n.NewZitadelTranslator(language.English),
+				translator: i18n.NewNomenTranslator(language.English),
 			}
 			var ctx context.Context
 			got := a.HandlerFuncWithError(func(w http.ResponseWriter, r *http.Request) error {
@@ -246,18 +246,18 @@ func Test_setInstance(t *testing.T) {
 		{
 			"instanceHost found, ok",
 			args{
-				ctx:      zitadel_http.WithDomainContext(context.Background(), &zitadel_http.DomainCtx{InstanceHost: "host", Protocol: "https"}),
+				ctx:      nomen_http.WithDomainContext(context.Background(), &nomen_http.DomainCtx{InstanceHost: "host", Protocol: "https"}),
 				verifier: &mockInstanceVerifier{instanceHost: "host"},
 			},
 			res{
-				want: authz.WithInstance(zitadel_http.WithDomainContext(context.Background(), &zitadel_http.DomainCtx{InstanceHost: "host", Protocol: "https"}), &mockInstance{}),
+				want: authz.WithInstance(nomen_http.WithDomainContext(context.Background(), &nomen_http.DomainCtx{InstanceHost: "host", Protocol: "https"}), &mockInstance{}),
 				err:  false,
 			},
 		},
 		{
 			"instanceHost not found, error",
 			args{
-				ctx:      zitadel_http.WithDomainContext(context.Background(), &zitadel_http.DomainCtx{InstanceHost: "fromorigin:9999", Protocol: "https"}),
+				ctx:      nomen_http.WithDomainContext(context.Background(), &nomen_http.DomainCtx{InstanceHost: "fromorigin:9999", Protocol: "https"}),
 				verifier: &mockInstanceVerifier{instanceHost: "unknowndomain"},
 			},
 			res{
@@ -306,10 +306,10 @@ func Test_instanceInterceptor_HandlerFunc_statusCodes(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			a := &instanceInterceptor{
 				verifier:   &mockInstanceVerifier{err: tc.err},
-				translator: i18n.NewZitadelTranslator(language.English),
+				translator: i18n.NewNomenTranslator(language.English),
 			}
 			r := httptest.NewRequest("", "/url", nil)
-			r = r.WithContext(zitadel_http.WithDomainContext(r.Context(), &zitadel_http.DomainCtx{InstanceHost: "host"}))
+			r = r.WithContext(nomen_http.WithDomainContext(r.Context(), &nomen_http.DomainCtx{InstanceHost: "host"}))
 			rr := httptest.NewRecorder()
 			a.HandlerFunc(&testHandler{}).ServeHTTP(rr, r)
 			assert.Equal(t, tc.wantStatusCode, rr.Code)

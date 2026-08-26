@@ -5,7 +5,7 @@ import (
 
 	"github.com/mitchellh/mapstructure"
 
-	"github.com/EonsofStupid/tessera/internal/denylist"
+	"github.com/shippinAI/nomen/internal/denylist"
 )
 
 type HTTPConfig struct {

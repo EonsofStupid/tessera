@@ -4,7 +4,7 @@ import (
 	"net"
 	net_http "net/http"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
 )
 
 type BrowserInfo struct {

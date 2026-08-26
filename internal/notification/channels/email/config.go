@@ -1,8 +1,8 @@
 package email
 
 import (
-	"github.com/EonsofStupid/tessera/internal/notification/channels/smtp"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/webhook"
+	"github.com/shippinAI/nomen/internal/notification/channels/smtp"
+	"github.com/shippinAI/nomen/internal/notification/channels/webhook"
 )
 
 type Config struct {

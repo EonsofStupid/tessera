@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
 )
 
 func RobotsTagHandler(next http.Handler) http.Handler {

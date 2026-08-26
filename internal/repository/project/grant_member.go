@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/member"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/member"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (

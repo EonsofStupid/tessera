@@ -5,10 +5,10 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	domain_schema "github.com/EonsofStupid/tessera/internal/domain/schema"
-	"github.com/EonsofStupid/tessera/internal/repository/user/schema"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	domain_schema "github.com/shippinAI/nomen/internal/domain/schema"
+	"github.com/shippinAI/nomen/internal/repository/user/schema"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type CreateUserSchema struct {
@@ -168,7 +168,7 @@ func (c *Commands) DeleteUserSchema(ctx context.Context, id, resourceOwner strin
 	if !writeModel.Exists() {
 		return nil, zerrors.ThrowPreconditionFailed(nil, "COMMA-Grg41", "Errors.UserSchema.NotExists")
 	}
-	// TODO: check for users based on that schema; this is only possible with / after https://github.com/EonsofStupid/tessera/issues/7308
+	// TODO: check for users based on that schema; this is only possible with / after https://github.com/shippinAI/nomen/issues/7308
 	if err := c.pushAppendAndReduce(ctx, writeModel,
 		schema.NewDeletedEvent(ctx, UserSchemaAggregateFromWriteModel(&writeModel.WriteModel), writeModel.SchemaType),
 	); err != nil {

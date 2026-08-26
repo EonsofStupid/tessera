@@ -3,18 +3,18 @@ package convert
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/api/object"
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	grpc_object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	v2_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2"
-	v2beta_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
+	"github.com/shippinAI/nomen/backend/v3/api/object"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	grpc_object "github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	v2_org "github.com/shippinAI/nomen/pkg/grpc/org/v2"
+	v2beta_org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
 )
 
 /*
  * GRPC Beta v2 to GRPC v2
  */
 
-// TODO(IAM-Marco): Remove in V5 (see https://github.com/EonsofStupid/tessera/issues/10877)
+// TODO(IAM-Marco): Remove in V5 (see https://github.com/shippinAI/nomen/issues/10877)
 func OrganizationBetaRequestToV2Request(in *v2beta_org.ListOrganizationsRequest) *v2_org.ListOrganizationsRequest {
 	return &v2_org.ListOrganizationsRequest{
 		Query: &grpc_object.ListQuery{
@@ -131,7 +131,7 @@ func domainOrganizationModelToGRPCResponse(org *domain.Organization) *v2_org.Org
  * Domain Model to GRPC v2 beta
  */
 
-// TODO(IAM-Marco): Remove in V5 (see https://github.com/EonsofStupid/tessera/issues/10877)
+// TODO(IAM-Marco): Remove in V5 (see https://github.com/shippinAI/nomen/issues/10877)
 func DomainOrganizationListModelToGRPCBetaResponse(orgs []*domain.Organization) []*v2beta_org.Organization {
 	toReturn := make([]*v2beta_org.Organization, len(orgs))
 
@@ -142,7 +142,7 @@ func DomainOrganizationListModelToGRPCBetaResponse(orgs []*domain.Organization) 
 	return toReturn
 }
 
-// TODO(IAM-Marco): Remove in V5 (see https://github.com/EonsofStupid/tessera/issues/10877)
+// TODO(IAM-Marco): Remove in V5 (see https://github.com/shippinAI/nomen/issues/10877)
 func domainOrganizationModelToGRPCBetaResponse(org *domain.Organization) *v2beta_org.Organization {
 	return &v2beta_org.Organization{
 		Id:            org.ID,

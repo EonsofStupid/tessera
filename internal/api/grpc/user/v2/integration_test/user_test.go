@@ -12,19 +12,19 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/auth"
-	"github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	metadata "github.com/EonsofStupid/tessera/pkg/grpc/metadata/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	user_v1 "github.com/EonsofStupid/tessera/pkg/grpc/user"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/auth"
+	"github.com/shippinAI/nomen/pkg/grpc/idp"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
+	metadata "github.com/shippinAI/nomen/pkg/grpc/metadata/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	user_v1 "github.com/shippinAI/nomen/pkg/grpc/user"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func TestServer_Deprecated_AddHumanUser(t *testing.T) {
@@ -384,7 +384,7 @@ func TestServer_Deprecated_AddHumanUser(t *testing.T) {
 						Gender:            user.Gender_GENDER_DIVERSE.Enum(),
 					},
 					Email: &user.SetHumanEmail{
-						Email: "livio@zitadel.com",
+						Email: "livio@nomen.com",
 						Verification: &user.SetHumanEmail_IsVerified{
 							IsVerified: true,
 						},
@@ -431,7 +431,7 @@ func TestServer_Deprecated_AddHumanUser(t *testing.T) {
 						Gender:            user.Gender_GENDER_DIVERSE.Enum(),
 					},
 					Email: &user.SetHumanEmail{
-						Email: "livio@zitadel.com",
+						Email: "livio@nomen.com",
 						Verification: &user.SetHumanEmail_IsVerified{
 							IsVerified: true,
 						},
@@ -483,7 +483,7 @@ func TestServer_Deprecated_AddHumanUser(t *testing.T) {
 						Gender:            user.Gender_GENDER_DIVERSE.Enum(),
 					},
 					Email: &user.SetHumanEmail{
-						Email: "livio@zitadel.com",
+						Email: "livio@nomen.com",
 						Verification: &user.SetHumanEmail_IsVerified{
 							IsVerified: true,
 						},

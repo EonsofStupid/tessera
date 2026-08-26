@@ -1,8 +1,8 @@
 package sms
 
 import (
-	"github.com/EonsofStupid/tessera/internal/notification/channels/twilio"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/webhook"
+	"github.com/shippinAI/nomen/internal/notification/channels/twilio"
+	"github.com/shippinAI/nomen/internal/notification/channels/webhook"
 )
 
 type Config struct {

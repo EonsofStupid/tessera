@@ -13,12 +13,12 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/integration/sink"
-	"github.com/EonsofStupid/tessera/internal/repository/quota"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	quota_pb "github.com/EonsofStupid/tessera/pkg/grpc/quota"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration/sink"
+	"github.com/shippinAI/nomen/internal/repository/quota"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	quota_pb "github.com/shippinAI/nomen/pkg/grpc/quota"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 var callURL = sink.CallURL(sink.ChannelQuota)

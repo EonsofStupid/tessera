@@ -11,16 +11,16 @@ import (
 	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	grpc_api "github.com/EonsofStupid/tessera/internal/api/grpc"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server/middleware"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/logstore/record"
-	"github.com/EonsofStupid/tessera/internal/query"
-	system_pb "github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	grpc_api "github.com/shippinAI/nomen/internal/api/grpc"
+	"github.com/shippinAI/nomen/internal/api/grpc/server/middleware"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/logstore/record"
+	"github.com/shippinAI/nomen/internal/query"
+	system_pb "github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 const (

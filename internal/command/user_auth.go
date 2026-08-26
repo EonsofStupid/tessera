@@ -3,8 +3,8 @@ package command
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) userStateForAuthentication(ctx context.Context, userID, resourceOwner, userErrorID, orgErrorID string) (_ *UserV2WriteModel, err error) {

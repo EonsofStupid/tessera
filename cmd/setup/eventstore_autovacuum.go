@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 // eventstoreAutovacuum is a repeatable migration step that tunes PostgreSQL's

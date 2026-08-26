@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Tessera's trunk, from nothing to serving OIDC.
+# Nomen's trunk, from nothing to serving OIDC.
 #
 #   bash dev/up.sh            build if needed, start Postgres, init, setup, run
 #   bash dev/up.sh --rebuild  regenerate and rebuild first
@@ -7,7 +7,9 @@
 #
 # Its own Postgres on 5433, never the system cluster on 5432 — whose purpose on
 # this box is not ours to assume. The data directory is `.pgdata` and is
-# disposable: delete it and this script rebuilds the world.
+# disposable: delete it and this script rebuilds the world. A leftover cluster
+# can still contain an older baked human; wipe `.pgdata` if you need a clean
+# first account.
 #
 # The generator chain and the four traps in it are docs/04-building-the-trunk.md.
 set -euo pipefail
@@ -17,8 +19,8 @@ TRUNK="$ROOT"
 PGDATA="$ROOT/.pgdata"
 CONFIG="$ROOT/dev/dev.yaml"
 STEPS="$ROOT/dev/steps.yaml"
-BIN="$ROOT/.artifacts/tessera"
-PORT="${TESSERA_PORT:-8088}"
+BIN="$ROOT/.artifacts/nomen"
+PORT="${NOMEN_PORT:-8088}"
 # 32 characters exactly, and a dev value on purpose: a real one never lives in
 # a repository (../CLYFFY.md, and AGENTS.md here).
 MASTERKEY="MasterkeyNeedsToHave32Characters"
@@ -45,7 +47,7 @@ fi
 # ---- 1 · the database ------------------------------------------------------
 step "1 · postgres on 5433"
 if [[ ! -d "$PGDATA" ]]; then
-  initdb -D "$PGDATA" -U tessera --auth-local=trust --auth-host=trust >/dev/null
+  initdb -D "$PGDATA" -U nomen --auth-local=trust --auth-host=trust >/dev/null
   cat >> "$PGDATA/postgresql.conf" <<EOF
 
 # Our own TCP-loopback cluster. Unix sockets are disabled because nested
@@ -61,11 +63,16 @@ fi
 sed -i "/^unix_socket_directories = /c\\unix_socket_directories = ''" "$PGDATA/postgresql.conf"
 pg_ctl -D "$PGDATA" -l "$PGDATA/server.log" start >/dev/null 2>&1 || true
 database_ready=false
+PGUSER=""
 for _ in $(seq 30); do
-  if psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c 'select 1' >/dev/null 2>&1; then
-    database_ready=true
-    break
-  fi
+  for candidate in nomen postgres tessera; do
+    if psql -h 127.0.0.1 -p 5433 -U "$candidate" -d postgres -c 'select 1' >/dev/null 2>&1; then
+      database_ready=true
+      PGUSER="$candidate"
+      break
+    fi
+  done
+  [[ "$database_ready" == true ]] && break
   sleep 0.3
 done
 if [[ "$database_ready" != true ]]; then
@@ -73,12 +80,12 @@ if [[ "$database_ready" != true ]]; then
   tail -20 "$PGDATA/server.log" >&2
   exit 1
 fi
-psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -tAc \
-  "select 1 from pg_roles where rolname='zitadel'" | grep -q 1 ||
-  psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c "CREATE ROLE zitadel LOGIN SUPERUSER" >/dev/null
-psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -tAc \
-  "select 1 from pg_database where datname='zitadel'" | grep -q 1 ||
-  psql -h 127.0.0.1 -p 5433 -U tessera -d postgres -c "CREATE DATABASE zitadel" >/dev/null
+psql -h 127.0.0.1 -p 5433 -U "${PGUSER:-nomen}" -d postgres -tAc \
+  "select 1 from pg_roles where rolname='nomen'" | grep -q 1 ||
+  psql -h 127.0.0.1 -p 5433 -U "${PGUSER:-nomen}" -d postgres -c "CREATE ROLE nomen LOGIN SUPERUSER" >/dev/null
+psql -h 127.0.0.1 -p 5433 -U "${PGUSER:-nomen}" -d postgres -tAc \
+  "select 1 from pg_database where datname='nomen'" | grep -q 1 ||
+  psql -h 127.0.0.1 -p 5433 -U "${PGUSER:-nomen}" -d postgres -c "CREATE DATABASE nomen OWNER nomen" >/dev/null
 ok "listening, role and database present"
 
 # ---- 2 · the binary --------------------------------------------------------
@@ -99,12 +106,14 @@ fi
 # ---- 3 · schema and instance ----------------------------------------------
 step "3 · init and setup"
 cd "$TRUNK"
-if ! psql -h 127.0.0.1 -p 5433 -U tessera -d zitadel -tAc \
+mkdir -p "$ROOT/.artifacts"
+if ! psql -h 127.0.0.1 -p 5433 -U nomen -d nomen -tAc \
      "select 1 from information_schema.tables where table_name='events2'" | grep -q 1; then
   "$BIN" init --config "$CONFIG" >/dev/null
   "$BIN" setup --config "$CONFIG" --steps "$STEPS" --masterkey "$MASTERKEY" --init-projections >/dev/null
   ok "eventstore, projections and the first instance"
-  ok "admin PAT at .artifacts/admin.pat (gitignored, reissued whenever .pgdata is)"
+  ok "first machine PAT at .artifacts/admin.pat (gitignored, reissued whenever .pgdata is)"
+  ok "first human owner is created at setup only if you pass NOMEN_FIRSTINSTANCE_ORG_HUMAN_* — never from git"
 else
   ok "already initialised"
 fi

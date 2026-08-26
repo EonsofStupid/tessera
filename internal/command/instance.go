@@ -5,31 +5,31 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/smtp"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/limits"
-	"github.com/EonsofStupid/tessera/internal/repository/milestone"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/repository/quota"
-	"github.com/EonsofStupid/tessera/internal/repository/restrictions"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/notification/channels/smtp"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/limits"
+	"github.com/shippinAI/nomen/internal/repository/milestone"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/repository/quota"
+	"github.com/shippinAI/nomen/internal/repository/restrictions"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
-	zitadelProjectName       = "ZITADEL"
+	nomenProjectName         = "NOMEN"
 	mgmtAppName              = "Management-API"
 	adminAppName             = "Admin-API"
 	authAppName              = "Auth-API"
@@ -37,7 +37,7 @@ const (
 )
 
 type InstanceSetup struct {
-	zitadel          ZitadelConfig
+	nomen            NomenConfig
 	InstanceName     string
 	CustomDomain     string
 	TrustedDomains   []string
@@ -179,7 +179,7 @@ func (s *SecretGenerators) ToMap() map[domain.SecretGeneratorType]*crypto.Genera
 	}
 }
 
-type ZitadelConfig struct {
+type NomenConfig struct {
 	instanceID             string
 	orgID                  string
 	projectID              string
@@ -192,53 +192,58 @@ type ZitadelConfig struct {
 }
 
 func (s *InstanceSetup) generateIDs(idGenerator id.Generator) (err error) {
-	s.zitadel.instanceID, err = idGenerator.Next()
+	s.nomen.instanceID, err = idGenerator.Next()
 	if err != nil {
 		return err
 	}
 
-	s.zitadel.orgID, err = idGenerator.Next()
+	s.nomen.orgID, err = idGenerator.Next()
 	if err != nil {
 		return err
 	}
 
-	s.zitadel.projectID, err = idGenerator.Next()
+	s.nomen.projectID, err = idGenerator.Next()
 	if err != nil {
 		return err
 	}
 
-	s.zitadel.mgmtAppID, err = idGenerator.Next()
+	s.nomen.mgmtAppID, err = idGenerator.Next()
 	if err != nil {
 		return err
 	}
 
-	s.zitadel.adminAppID, err = idGenerator.Next()
+	s.nomen.adminAppID, err = idGenerator.Next()
 	if err != nil {
 		return err
 	}
 
-	s.zitadel.authAppID, err = idGenerator.Next()
+	s.nomen.authAppID, err = idGenerator.Next()
 	if err != nil {
 		return err
 	}
 
-	s.zitadel.managementConsoleAppID, err = idGenerator.Next()
+	s.nomen.managementConsoleAppID, err = idGenerator.Next()
 	if err != nil {
 		return err
 	}
-	s.zitadel.limitsID, err = idGenerator.Next()
+	s.nomen.limitsID, err = idGenerator.Next()
 	if err != nil {
 		return err
 	}
-	s.zitadel.restrictionsID, err = idGenerator.Next()
+	s.nomen.restrictionsID, err = idGenerator.Next()
 	return err
 }
 
 func (c *Commands) SetUpInstance(ctx context.Context, setup *InstanceSetup) (string, string, *MachineKey, string, *domain.ObjectDetails, error) {
+	if c.productCapGuard != nil {
+		if err := c.productCapGuard.DenyNewInstance(ctx); err != nil {
+			return "", "", nil, "", nil, err
+		}
+	}
 	if err := setup.generateIDs(c.idGenerator); err != nil {
 		return "", "", nil, "", nil, err
 	}
-	ctx = contextWithInstanceSetupInfo(ctx, setup.zitadel.instanceID, setup.zitadel.projectID, setup.zitadel.managementConsoleAppID, c.externalDomain, setup.DefaultLanguage)
+	ctx = contextWithInstanceSetupInfo(ctx, setup.nomen.instanceID, setup.nomen.projectID, setup.nomen.managementConsoleAppID, c.externalDomain, setup.DefaultLanguage)
 
 	validations, pat, machineKey, loginClientPat, err := setUpInstance(ctx, c, setup)
 	if err != nil {
@@ -257,12 +262,12 @@ func (c *Commands) SetUpInstance(ctx context.Context, setup *InstanceSetup) (str
 	}
 
 	// RolePermissions need to be pushed in separate transaction.
-	// https://github.com/EonsofStupid/tessera/issues/9293
-	details, err := c.SynchronizeRolePermission(ctx, setup.zitadel.instanceID, setup.RolePermissionMappings)
+	// https://github.com/shippinAI/nomen/issues/9293
+	details, err := c.SynchronizeRolePermission(ctx, setup.nomen.instanceID, setup.RolePermissionMappings)
 	if err != nil {
 		return "", "", nil, "", nil, err
 	}
-	details.ResourceOwner = setup.zitadel.orgID
+	details.ResourceOwner = setup.nomen.orgID
 
 	var token string
 	if pat != nil {
@@ -273,7 +278,7 @@ func (c *Commands) SetUpInstance(ctx context.Context, setup *InstanceSetup) (str
 		loginClientToken = loginClientPat.Token
 	}
 
-	return setup.zitadel.instanceID, token, machineKey, loginClientToken, details, nil
+	return setup.nomen.instanceID, token, machineKey, loginClientToken, details, nil
 }
 
 func contextWithInstanceSetupInfo(ctx context.Context, instanceID, projectID, managementConsoleAppID, externalDomain string, defaultLanguage language.Tag) context.Context {
@@ -296,12 +301,12 @@ func contextWithInstanceSetupInfo(ctx context.Context, instanceID, projectID, ma
 }
 
 func setUpInstance(ctx context.Context, c *Commands, setup *InstanceSetup) (validations []preparation.Validation, pat *PersonalAccessToken, machineKey *MachineKey, loginClientPat *PersonalAccessToken, err error) {
-	instanceAgg := instance.NewAggregate(setup.zitadel.instanceID)
+	instanceAgg := instance.NewAggregate(setup.nomen.instanceID)
 
 	validations = setupInstanceElements(instanceAgg, setup)
 
 	// default organization on setup'd instance
-	pat, machineKey, loginClientPat, err = setupDefaultOrg(ctx, c, &validations, instanceAgg, setup.Org.Name, setup.Org.Machine, setup.Org.Human, setup.Org.LoginClient, setup.zitadel)
+	pat, machineKey, loginClientPat, err = setupDefaultOrg(ctx, c, &validations, instanceAgg, setup.Org.Name, setup.Org.Machine, setup.Org.Human, setup.Org.LoginClient, setup.nomen)
 	if err != nil {
 		return nil, nil, nil, nil, err
 	}
@@ -315,18 +320,18 @@ func setUpInstance(ctx context.Context, c *Commands, setup *InstanceSetup) (vali
 
 	// optional setting if set
 	setupMessageTexts(&validations, setup.MessageTexts, instanceAgg)
-	if err := setupQuotas(c, &validations, setup.Quotas, setup.zitadel.instanceID); err != nil {
+	if err := setupQuotas(c, &validations, setup.Quotas, setup.nomen.instanceID); err != nil {
 		return nil, nil, nil, nil, err
 	}
 	setupSMTPSettings(c, &validations, setup.SMTPConfiguration, instanceAgg)
-	if err := setupWebKeys(c, &validations, setup.zitadel.instanceID, setup); err != nil {
+	if err := setupWebKeys(c, &validations, setup.nomen.instanceID, setup); err != nil {
 		return nil, nil, nil, nil, err
 	}
 	setupOIDCSettings(c, &validations, setup.OIDCSettings, instanceAgg)
-	setupFeatures(&validations, setup.Features, setup.zitadel.instanceID)
-	setupLimits(c, &validations, limits.NewAggregate(setup.zitadel.limitsID, setup.zitadel.instanceID), setup.Limits)
-	setupRestrictions(c, &validations, restrictions.NewAggregate(setup.zitadel.restrictionsID, setup.zitadel.instanceID, setup.zitadel.instanceID), setup.Restrictions)
-	setupInstanceCreatedMilestone(&validations, setup.zitadel.instanceID)
+	setupFeatures(&validations, setup.Features, setup.nomen.instanceID)
+	setupLimits(c, &validations, limits.NewAggregate(setup.nomen.limitsID, setup.nomen.instanceID), setup.Limits)
+	setupRestrictions(c, &validations, restrictions.NewAggregate(setup.nomen.restrictionsID, setup.nomen.instanceID, setup.nomen.instanceID), setup.Restrictions)
+	setupInstanceCreatedMilestone(&validations, setup.nomen.instanceID)
 	return validations, pat, machineKey, loginClientPat, nil
 }
 
@@ -538,7 +543,7 @@ func setupTrustedDomains(commands *Commands, validations *[]preparation.Validati
 	}
 }
 
-func setupMinimalInterfaces(commands *Commands, validations *[]preparation.Validation, instanceAgg *instance.Aggregate, orgAgg *org.Aggregate, projectOwner string, ids ZitadelConfig) {
+func setupMinimalInterfaces(commands *Commands, validations *[]preparation.Validation, instanceAgg *instance.Aggregate, orgAgg *org.Aggregate, projectOwner string, ids NomenConfig) {
 	projectAgg := project.NewAggregate(ids.projectID, orgAgg.ID)
 
 	cnsl := &addOIDCApp{
@@ -563,7 +568,7 @@ func setupMinimalInterfaces(commands *Commands, validations *[]preparation.Valid
 	}
 
 	*validations = append(*validations,
-		AddProjectCommand(projectAgg, zitadelProjectName, projectOwner, false, false, false, domain.PrivateLabelingSettingUnspecified),
+		AddProjectCommand(projectAgg, nomenProjectName, projectOwner, false, false, false, domain.PrivateLabelingSettingUnspecified),
 		SetIAMProject(instanceAgg, projectAgg.ID),
 
 		commands.AddAPIAppCommand(
@@ -612,7 +617,7 @@ func setupDefaultOrg(ctx context.Context,
 	machine *AddMachine,
 	human *AddHuman,
 	loginClient *AddLoginClient,
-	ids ZitadelConfig,
+	ids NomenConfig,
 ) (pat *PersonalAccessToken, machineKey *MachineKey, loginClientPat *PersonalAccessToken, err error) {
 	orgAgg := org.NewAggregate(ids.orgID)
 

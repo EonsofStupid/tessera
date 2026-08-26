@@ -1,6 +1,6 @@
 package pseudo
 
-import "github.com/EonsofStupid/tessera/internal/eventstore"
+import "github.com/shippinAI/nomen/internal/eventstore"
 
 const (
 	AggregateType    = "pseudo"

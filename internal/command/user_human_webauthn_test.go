@@ -9,12 +9,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommands_humanVerifyPasswordlessInitCode(t *testing.T) {
@@ -136,7 +136,7 @@ func TestCommands_humanVerifyPasswordlessInitCode(t *testing.T) {
 			wantErr: zerrors.ThrowInvalidArgument(err, "COMMAND-Dhz8i", "Errors.User.Code.Invalid"),
 		},
 		{
-			// https://github.com/EonsofStupid/tessera/security/advisories/GHSA-2x66-r53r-9r86
+			// https://github.com/shippinAI/nomen/security/advisories/GHSA-2x66-r53r-9r86
 			name: "expired, fail, check again",
 			fields: fields{
 				eventstore: expectEventstore(

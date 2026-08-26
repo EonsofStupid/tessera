@@ -6,11 +6,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/internal/command"
-	zi_domain "github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/internal/command"
+	zi_domain "github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // The stage runners. This file is the one place in backend/v1 that imports
@@ -80,7 +80,7 @@ func (r *identifyRunner) Kind() domain.StageKind { return domain.StageIdentify }
 
 func (r *identifyRunner) Challenge(_ context.Context, exec *domain.Execution, _ domain.FlowStage) (*domain.Challenge, error) {
 	return &domain.Challenge{
-		Component: "tessera-stage-identify",
+		Component: "nomen-stage-identify",
 		Flow:      exec.Plan.FlowSlug,
 		Title:     "Sign in",
 		Fields:    []domain.ChallengeField{{Name: "identifier", Type: "text", Label: "Login name", Required: true}},
@@ -145,7 +145,7 @@ func (r *factorRunner) Kind() domain.StageKind { return r.kind }
 
 func (r *factorRunner) Challenge(_ context.Context, exec *domain.Execution, _ domain.FlowStage) (*domain.Challenge, error) {
 	return &domain.Challenge{
-		Component: "tessera-stage-" + string(r.kind),
+		Component: "nomen-stage-" + string(r.kind),
 		Flow:      exec.Plan.FlowSlug,
 		Title:     r.label,
 		Fields:    []domain.ChallengeField{{Name: r.field, Type: r.fieldType, Label: r.label, Required: true}},

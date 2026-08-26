@@ -6,8 +6,8 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/cache"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/cache"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type Instance struct {

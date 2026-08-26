@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 type Key string
@@ -13,7 +13,7 @@ type ScopedKey string
 const (
 	externalIdProvisioningDomainPlaceholder = "{provisioningDomain}"
 
-	KeyPrefix                     = "urn:zitadel:scim:"
+	KeyPrefix                     = "urn:nomen:scim:"
 	KeyProvisioningDomain     Key = KeyPrefix + "provisioningDomain"
 	KeyIgnorePasswordOnCreate Key = KeyPrefix + "ignorePasswordOnCreate"
 

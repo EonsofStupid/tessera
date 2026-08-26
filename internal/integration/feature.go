@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/pkg/grpc/feature/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/feature/v2"
 )
 
 func EnsureInstanceFeature(t *testing.T, ctx context.Context, instance *Instance, features *feature.SetInstanceFeaturesRequest, assertFeatures func(t *assert.CollectT, got *feature.GetInstanceFeaturesResponse)) {

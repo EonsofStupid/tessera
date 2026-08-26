@@ -3,11 +3,11 @@ package convert
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	instance_v2 "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	instance_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	instance_v2 "github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	instance_v2beta "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
 )
 
 /*

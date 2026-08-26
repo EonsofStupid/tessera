@@ -4,13 +4,13 @@ import (
 	"context"
 	"slices"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) AddInstanceMemberCommand(a *instance.Aggregate, userID string, roles ...string) preparation.Validation {
@@ -18,7 +18,7 @@ func (c *Commands) AddInstanceMemberCommand(a *instance.Aggregate, userID string
 		if userID == "" {
 			return nil, zerrors.ThrowInvalidArgument(nil, "INSTA-SDSfs", "Errors.Invalid.Argument")
 		}
-		if len(domain.CheckForInvalidRoles(roles, domain.IAMRolePrefix, c.zitadelRoles)) > 0 {
+		if len(domain.CheckForInvalidRoles(roles, domain.IAMRolePrefix, c.nomenRoles)) > 0 {
 			return nil, zerrors.ThrowInvalidArgument(nil, "INSTANCE-4m0fS", "Errors.Instance.MemberInvalid")
 		}
 		return func(ctx context.Context, filter preparation.FilterToQueryReducer) ([]eventstore.Command, error) {
@@ -84,19 +84,19 @@ func (c *Commands) AddInstanceMember(ctx context.Context, member *AddInstanceMem
 }
 
 // EnsureInstanceMemberRolesFromLogin makes sure the user holds the given instance member roles
-// during the login v1 ZITADEL-IdP flow.
+// during the login v1 NOMEN-IdP flow.
 // It adds the membership if the user is not a member yet and otherwise adds the missing roles
 // to the existing membership. Roles the user already holds are never removed.
 //
 // It intentionally bypasses the standard instance-member permission check.
-// Authorization is established by the validated `urn:zitadel:iam:org:project:roles` token claim
-// and the configured InstanceRolesInfo for the Zitadel provider.
+// Authorization is established by the validated `urn:nomen:iam:org:project:roles` token claim
+// and the configured InstanceRolesInfo for the Nomen provider.
 // Do not use it for any user-initiated API path.
 func (c *Commands) EnsureInstanceMemberRolesFromLogin(ctx context.Context, member *AddInstanceMember) (*domain.ObjectDetails, error) {
 	if member.InstanceID == "" || member.UserID == "" {
 		return nil, zerrors.ThrowInvalidArgument(nil, "INSTA-Ee7ai", "Errors.Instance.MemberInvalid")
 	}
-	granted := configuredRolesOnly(member.Roles, c.zitadelRoles)
+	granted := configuredRolesOnly(member.Roles, c.nomenRoles)
 	if len(granted) == 0 {
 		return nil, zerrors.ThrowInvalidArgument(nil, "INSTA-oo0Ai", "Errors.Instance.MemberInvalid")
 	}
@@ -133,10 +133,10 @@ func (c *Commands) EnsureInstanceMemberRolesFromLogin(ctx context.Context, membe
 }
 
 // configuredRolesOnly returns the subset of roles that are configured as instance roles.
-// The roles of a ZITADEL provider's claim originate from an external
+// The roles of a NOMEN provider's claim originate from an external
 // instance, whose role set may differ, so unknown roles are dropped.
-func configuredRolesOnly(roles []string, zitadelRoles []authz.RoleMapping) []string {
-	invalid := domain.CheckForInvalidRoles(roles, domain.IAMRolePrefix, zitadelRoles)
+func configuredRolesOnly(roles []string, nomenRoles []authz.RoleMapping) []string {
+	invalid := domain.CheckForInvalidRoles(roles, domain.IAMRolePrefix, nomenRoles)
 	return slices.DeleteFunc(slices.Clone(roles), func(role string) bool {
 		return slices.Contains(invalid, role)
 	})
@@ -180,11 +180,11 @@ type ChangeInstanceMember struct {
 	Roles      []string
 }
 
-func (i *ChangeInstanceMember) IsValid(zitadelRoles []authz.RoleMapping) error {
+func (i *ChangeInstanceMember) IsValid(nomenRoles []authz.RoleMapping) error {
 	if i.InstanceID == "" || i.UserID == "" || len(i.Roles) == 0 {
 		return zerrors.ThrowInvalidArgument(nil, "INSTANCE-LiaZi", "Errors.Instance.MemberInvalid")
 	}
-	if len(domain.CheckForInvalidRoles(i.Roles, domain.IAMRolePrefix, zitadelRoles)) > 0 {
+	if len(domain.CheckForInvalidRoles(i.Roles, domain.IAMRolePrefix, nomenRoles)) > 0 {
 		return zerrors.ThrowInvalidArgument(nil, "INSTANCE-3m9fs", "Errors.Instance.MemberInvalid")
 	}
 	return nil
@@ -192,7 +192,7 @@ func (i *ChangeInstanceMember) IsValid(zitadelRoles []authz.RoleMapping) error {
 
 // ChangeInstanceMember updates an existing member
 func (c *Commands) ChangeInstanceMember(ctx context.Context, member *ChangeInstanceMember) (*domain.ObjectDetails, error) {
-	if err := member.IsValid(c.zitadelRoles); err != nil {
+	if err := member.IsValid(c.nomenRoles); err != nil {
 		return nil, err
 	}
 

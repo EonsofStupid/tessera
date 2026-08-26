@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/internal/api/call"
+	"github.com/shippinAI/nomen/internal/api/call"
 )
 
 func CallDurationHandler(next http.Handler) http.Handler {

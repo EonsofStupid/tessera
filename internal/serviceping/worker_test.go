@@ -16,12 +16,12 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/queue"
-	"github.com/EonsofStupid/tessera/internal/serviceping/mock"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	analytics "github.com/EonsofStupid/tessera/pkg/grpc/analytics/v2beta"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/queue"
+	"github.com/shippinAI/nomen/internal/serviceping/mock"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	analytics "github.com/shippinAI/nomen/pkg/grpc/analytics/v2beta"
 )
 
 var (

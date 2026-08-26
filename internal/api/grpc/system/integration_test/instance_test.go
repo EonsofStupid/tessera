@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/instance"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object"
-	system_pb "github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/instance"
+	"github.com/shippinAI/nomen/pkg/grpc/object"
+	system_pb "github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func TestServer_ListInstances(t *testing.T) {

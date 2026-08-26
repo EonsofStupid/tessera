@@ -8,14 +8,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zitadel/logging"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/oauth2"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/idp"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/idp"
 )
 
 var _ idp.Session = (*Session)(nil)
@@ -73,7 +73,7 @@ func (s *Session) ExpiresAt() time.Time {
 
 func (s *Session) validateToken(ctx context.Context, token string) (*oidc.IDTokenClaims, error) {
 	logging.Debug("begin token validation")
-	// TODO: be able to specify them in the template: https://github.com/EonsofStupid/tessera/issues/5322
+	// TODO: be able to specify them in the template: https://github.com/shippinAI/nomen/issues/5322
 	offset := 3 * time.Second
 	maxAge := time.Hour
 	claims := new(oidc.IDTokenClaims)

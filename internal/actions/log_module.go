@@ -8,9 +8,9 @@ import (
 	"github.com/dop251/goja_nodejs/console"
 	"github.com/sirupsen/logrus"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/logstore/record"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/logstore/record"
 )
 
 var (
@@ -73,7 +73,7 @@ func withLogger(ctx context.Context) Option {
 	return func(c *runConfig) {
 		c.logger = newLogger(ctx, instanceID)
 		c.instanceID = instanceID
-		c.modules["zitadel/log"] = func(runtime *goja.Runtime, module *goja.Object) {
+		c.modules["nomen/log"] = func(runtime *goja.Runtime, module *goja.Object) {
 			console.RequireWithPrinter(c.logger)(runtime, module)
 		}
 	}

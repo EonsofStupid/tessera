@@ -1,10 +1,10 @@
 package admin
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	org_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/org"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	org_grpc "github.com/shippinAI/nomen/internal/api/grpc/org"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func listOrgRequestToModel(req *admin.ListOrgsRequest) (*query.OrgSearchQueries, error) {

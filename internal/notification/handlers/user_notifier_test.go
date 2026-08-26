@@ -13,23 +13,23 @@ import (
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/repository"
-	es_repo_mock "github.com/EonsofStupid/tessera/internal/eventstore/repository/mock"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/email"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/set"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/sms"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/webhook"
-	"github.com/EonsofStupid/tessera/internal/notification/handlers/mock"
-	"github.com/EonsofStupid/tessera/internal/notification/messages"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/notification/types"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/repository/notification"
-	"github.com/EonsofStupid/tessera/internal/repository/session"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/repository"
+	es_repo_mock "github.com/shippinAI/nomen/internal/eventstore/repository/mock"
+	"github.com/shippinAI/nomen/internal/notification/channels/email"
+	"github.com/shippinAI/nomen/internal/notification/channels/set"
+	"github.com/shippinAI/nomen/internal/notification/channels/sms"
+	"github.com/shippinAI/nomen/internal/notification/channels/webhook"
+	"github.com/shippinAI/nomen/internal/notification/handlers/mock"
+	"github.com/shippinAI/nomen/internal/notification/messages"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/notification/types"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/repository/notification"
+	"github.com/shippinAI/nomen/internal/repository/session"
+	"github.com/shippinAI/nomen/internal/repository/user"
 )
 
 const (
@@ -1614,7 +1614,7 @@ func Test_userNotifier_reduceInviteCodeAdded(t *testing.T) {
 						MessageType:                   domain.InviteUserMessageType,
 						UnverifiedNotificationChannel: true,
 						Args: &domain.NotificationArguments{
-							ApplicationName: "ZITADEL",
+							ApplicationName: "NOMEN",
 							AuthRequestID:   authRequestID,
 						},
 						Aggregate: &eventstore.Aggregate{
@@ -1677,7 +1677,7 @@ func Test_userNotifier_reduceInviteCodeAdded(t *testing.T) {
 						MessageType:                   domain.InviteUserMessageType,
 						UnverifiedNotificationChannel: true,
 						Args: &domain.NotificationArguments{
-							ApplicationName: "ZITADEL",
+							ApplicationName: "NOMEN",
 							AuthRequestID:   authRequestID,
 						},
 						Aggregate: &eventstore.Aggregate{
@@ -1763,7 +1763,7 @@ func Test_userNotifier_reduceInviteCodeAdded(t *testing.T) {
 						MessageType:                   domain.InviteUserMessageType,
 						UnverifiedNotificationChannel: true,
 						Args: &domain.NotificationArguments{
-							ApplicationName: "ZITADEL",
+							ApplicationName: "NOMEN",
 							AuthRequestID:   authRequestID,
 						},
 						Aggregate: &eventstore.Aggregate{

@@ -11,13 +11,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"google.golang.org/grpc/metadata"
 
-	zhttp "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/scim/middleware"
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
+	zhttp "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/scim/middleware"
+	"github.com/shippinAI/nomen/internal/api/scim/resources"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
 )
 
 type Client struct {
@@ -37,10 +37,10 @@ type ScimError struct {
 	ScimType      string              `json:"scimType"`
 	Detail        string              `json:"detail"`
 	Status        string              `json:"status"`
-	ZitadelDetail *ZitadelErrorDetail `json:"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail,omitempty"`
+	NomenDetail *NomenErrorDetail `json:"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail,omitempty"`
 }
 
-type ZitadelErrorDetail struct {
+type NomenErrorDetail struct {
 	ID      string `json:"id"`
 	Message string `json:"message"`
 }

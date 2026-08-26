@@ -9,30 +9,30 @@ import (
 	"time"
 
 	"github.com/dop251/goja"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/saml/pkg/provider"
-	"github.com/zitadel/saml/pkg/provider/key"
-	"github.com/zitadel/saml/pkg/provider/models"
-	"github.com/zitadel/saml/pkg/provider/serviceprovider"
-	"github.com/zitadel/saml/pkg/provider/xml/samlp"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/saml/pkg/provider"
+	"github.com/shippinAI/nomen/saml/pkg/provider/key"
+	"github.com/shippinAI/nomen/saml/pkg/provider/models"
+	"github.com/shippinAI/nomen/saml/pkg/provider/serviceprovider"
+	"github.com/shippinAI/nomen/saml/pkg/provider/xml/samlp"
 
-	"github.com/EonsofStupid/tessera/internal/actions"
-	"github.com/EonsofStupid/tessera/internal/actions/object"
-	"github.com/EonsofStupid/tessera/internal/activity"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/auth/repository"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/crdb"
-	"github.com/EonsofStupid/tessera/internal/execution"
-	"github.com/EonsofStupid/tessera/internal/query"
-	exec_repo "github.com/EonsofStupid/tessera/internal/repository/execution"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/actions"
+	"github.com/shippinAI/nomen/internal/actions/object"
+	"github.com/shippinAI/nomen/internal/activity"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/auth/repository"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/crdb"
+	"github.com/shippinAI/nomen/internal/execution"
+	"github.com/shippinAI/nomen/internal/query"
+	exec_repo "github.com/shippinAI/nomen/internal/repository/execution"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var _ provider.EntityStorage = &Storage{}
@@ -41,8 +41,8 @@ var _ provider.AuthStorage = &Storage{}
 var _ provider.UserStorage = &Storage{}
 
 const (
-	LoginClientHeader        = "x-zitadel-login-client"
-	AttributeActionLogFormat = "urn:zitadel:iam:action:%s:log"
+	LoginClientHeader        = "x-nomen-login-client"
+	AttributeActionLogFormat = "urn:nomen:iam:action:%s:log"
 )
 
 type Storage struct {

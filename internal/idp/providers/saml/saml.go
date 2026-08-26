@@ -16,9 +16,9 @@ import (
 	"github.com/crewjam/saml/samlsp"
 	"golang.org/x/text/encoding/ianaindex"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var _ idp.Provider = (*Provider)(nil)

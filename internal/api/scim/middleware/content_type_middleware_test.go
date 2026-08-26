@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	zhttp "github.com/EonsofStupid/tessera/internal/api/http"
+	zhttp "github.com/shippinAI/nomen/internal/api/http"
 )
 
 func TestContentTypeMiddleware(t *testing.T) {

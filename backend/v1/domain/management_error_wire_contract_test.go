@@ -11,7 +11,7 @@ import (
 func TestManagementErrorWireContractMatchesDomain(t *testing.T) {
 	t.Parallel()
 
-	contents, err := os.ReadFile("../../../proto/tessera/management/v1/error.proto")
+	contents, err := os.ReadFile("../../../proto/nomen/management/v1/error.proto")
 	require.NoError(t, err)
 	wire := string(contents)
 

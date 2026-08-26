@@ -6,11 +6,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/test"
-	idp_pb "github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/test"
+	idp_pb "github.com/shippinAI/nomen/pkg/grpc/idp"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func Test_addOIDCIDPRequestToDomain(t *testing.T) {
@@ -25,11 +25,11 @@ func Test_addOIDCIDPRequestToDomain(t *testing.T) {
 			name: "all fields filled",
 			args: args{
 				req: &mgmt_pb.AddOrgOIDCIDPRequest{
-					Name:               "ZITADEL",
+					Name:               "NOMEN",
 					StylingType:        idp_pb.IDPStylingType_STYLING_TYPE_GOOGLE,
 					ClientId:           "test1234",
 					ClientSecret:       "test4321",
-					Issuer:             "zitadel.ch",
+					Issuer:             "nomen.ch",
 					Scopes:             []string{"email", "profile"},
 					DisplayNameMapping: idp_pb.OIDCMappingField_OIDC_MAPPING_FIELD_EMAIL,
 					UsernameMapping:    idp_pb.OIDCMappingField_OIDC_MAPPING_FIELD_PREFERRED_USERNAME,
@@ -71,7 +71,7 @@ func Test_addOIDCIDPRequestToDomainOIDCIDPConfig(t *testing.T) {
 				req: &mgmt_pb.AddOrgOIDCIDPRequest{
 					ClientId:           "test1234",
 					ClientSecret:       "test4321",
-					Issuer:             "zitadel.ch",
+					Issuer:             "nomen.ch",
 					Scopes:             []string{"email", "profile"},
 					DisplayNameMapping: idp_pb.OIDCMappingField_OIDC_MAPPING_FIELD_EMAIL,
 					UsernameMapping:    idp_pb.OIDCMappingField_OIDC_MAPPING_FIELD_PREFERRED_USERNAME,
@@ -140,7 +140,7 @@ func Test_updateOIDCConfigToDomain(t *testing.T) {
 			args: args{
 				req: &mgmt_pb.UpdateOrgIDPOIDCConfigRequest{
 					IdpId:              "4208",
-					Issuer:             "zitadel.ch",
+					Issuer:             "nomen.ch",
 					ClientId:           "ZITEADEL",
 					ClientSecret:       "i'm so secret",
 					Scopes:             []string{"profile"},
@@ -200,20 +200,20 @@ func Test_signatureAlgorithmToCommand(t *testing.T) {
 	}
 }
 
-func Test_addZitadelProviderToCommand(t *testing.T) {
+func Test_addNomenProviderToCommand(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name string
-		req  *mgmt_pb.AddZitadelProviderRequest
-		want command.ZitadelProvider
+		req  *mgmt_pb.AddNomenProviderRequest
+		want command.NomenProvider
 	}{
 		{
 			name: "all fields filled",
-			req: &mgmt_pb.AddZitadelProviderRequest{
-				Name:         "Zitadel Support IdP",
+			req: &mgmt_pb.AddNomenProviderRequest{
+				Name:         "Nomen Support IdP",
 				ClientId:     "test-client",
 				ClientSecret: "test-secret",
-				Scopes:       []string{"email", "profile", "urn:zitadel:iam:org:project:roles"},
+				Scopes:       []string{"email", "profile", "urn:nomen:iam:org:project:roles"},
 				ProviderOptions: &idp_pb.Options{
 					IsLinkingAllowed:  false,
 					IsCreationAllowed: true,
@@ -222,11 +222,11 @@ func Test_addZitadelProviderToCommand(t *testing.T) {
 					AutoLinking:       0,
 				},
 			},
-			want: command.ZitadelProvider{
-				Name:         "Zitadel Support IdP",
+			want: command.NomenProvider{
+				Name:         "Nomen Support IdP",
 				ClientID:     "test-client",
 				ClientSecret: "test-secret",
-				Scopes:       []string{"email", "profile", "urn:zitadel:iam:org:project:roles"},
+				Scopes:       []string{"email", "profile", "urn:nomen:iam:org:project:roles"},
 				IDPOptions: idp.Options{
 					IsCreationAllowed: true,
 					IsAutoCreation:    false,
@@ -239,26 +239,26 @@ func Test_addZitadelProviderToCommand(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			got := addZitadelProviderToCommand(tt.req)
+			got := addNomenProviderToCommand(tt.req)
 			assert.Equal(t, tt.want, got)
 		})
 	}
 }
 
-func Test_updateZitadelProviderToCommand(t *testing.T) {
+func Test_updateNomenProviderToCommand(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name string
-		req  *mgmt_pb.UpdateZitadelProviderRequest
-		want command.ZitadelProvider
+		req  *mgmt_pb.UpdateNomenProviderRequest
+		want command.NomenProvider
 	}{
 		{
 			name: "all fields filled",
-			req: &mgmt_pb.UpdateZitadelProviderRequest{
-				Name:         "Zitadel Support IdP",
+			req: &mgmt_pb.UpdateNomenProviderRequest{
+				Name:         "Nomen Support IdP",
 				ClientId:     "test-client",
 				ClientSecret: "test-secret",
-				Scopes:       []string{"email", "profile", "urn:zitadel:iam:org:project:roles"},
+				Scopes:       []string{"email", "profile", "urn:nomen:iam:org:project:roles"},
 				ProviderOptions: &idp_pb.Options{
 					IsLinkingAllowed:  false,
 					IsCreationAllowed: true,
@@ -267,11 +267,11 @@ func Test_updateZitadelProviderToCommand(t *testing.T) {
 					AutoLinking:       0,
 				},
 			},
-			want: command.ZitadelProvider{
-				Name:         "Zitadel Support IdP",
+			want: command.NomenProvider{
+				Name:         "Nomen Support IdP",
 				ClientID:     "test-client",
 				ClientSecret: "test-secret",
-				Scopes:       []string{"email", "profile", "urn:zitadel:iam:org:project:roles"},
+				Scopes:       []string{"email", "profile", "urn:nomen:iam:org:project:roles"},
 				IDPOptions: idp.Options{
 					IsCreationAllowed: true,
 					IsAutoCreation:    false,
@@ -284,7 +284,7 @@ func Test_updateZitadelProviderToCommand(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			got := updateZitadelProviderToCommand(tt.req)
+			got := updateNomenProviderToCommand(tt.req)
 			assert.Equal(t, tt.want, got)
 		})
 	}

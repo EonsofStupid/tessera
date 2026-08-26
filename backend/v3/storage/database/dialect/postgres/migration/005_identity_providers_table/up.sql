@@ -1,13 +1,13 @@
-CREATE TYPE zitadel.idp_state AS ENUM (
+CREATE TYPE nomen.idp_state AS ENUM (
     'active',
     'inactive'
 );
 
-CREATE TABLE zitadel.identity_providers (
+CREATE TABLE nomen.identity_providers (
     instance_id TEXT NOT NULL
     , org_id TEXT
     , id TEXT NOT NULL CHECK (id <> '')
-    , state zitadel.idp_state NOT NULL DEFAULT 'active'
+    , state nomen.idp_state NOT NULL DEFAULT 'active'
     , name TEXT NOT NULL CHECK (name <> '')
     , type SMALLINT DEFAULT NULL
     , allow_creation BOOLEAN NOT NULL DEFAULT TRUE
@@ -23,20 +23,20 @@ CREATE TABLE zitadel.identity_providers (
     , PRIMARY KEY (instance_id, id)
     , CONSTRAINT identity_providers_id_unique UNIQUE NULLS NOT DISTINCT (instance_id, org_id, id)
     , CONSTRAINT identity_providers_name_unique UNIQUE NULLS NOT DISTINCT (instance_id, org_id, name)
-    , FOREIGN KEY (instance_id) REFERENCES zitadel.instances(id) ON DELETE CASCADE
-    , FOREIGN KEY (instance_id, org_id) REFERENCES zitadel.organizations(instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id) REFERENCES nomen.instances(id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, org_id) REFERENCES nomen.organizations(instance_id, id) ON DELETE CASCADE
 );
 
 -- CREATE INDEX idx_identity_providers_org_id ON identity_providers(instance_id, org_id) WHERE org_id IS NOT NULL;
-CREATE INDEX idx_identity_providers_state ON zitadel.identity_providers(instance_id, state);
-CREATE INDEX idx_identity_providers_type ON zitadel.identity_providers(instance_id, type);
+CREATE INDEX idx_identity_providers_state ON nomen.identity_providers(instance_id, state);
+CREATE INDEX idx_identity_providers_type ON nomen.identity_providers(instance_id, type);
 -- CREATE INDEX idx_identity_providers_created_at ON identity_providers(created_at);
 -- CREATE INDEX idx_identity_providers_deleted_at ON identity_providers(deleted_at) WHERE deleted_at IS NOT NULL;
 
 
 CREATE TRIGGER trigger_set_updated_at
-BEFORE UPDATE ON zitadel.identity_providers
+BEFORE UPDATE ON nomen.identity_providers
 FOR EACH ROW
 WHEN (NEW.updated_at IS NULL)
-EXECUTE FUNCTION zitadel.set_updated_at();
+EXECUTE FUNCTION nomen.set_updated_at();
 

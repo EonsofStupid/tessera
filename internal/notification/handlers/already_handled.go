@@ -3,7 +3,7 @@ package handlers
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 type alreadyHandled struct {

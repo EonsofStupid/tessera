@@ -1,8 +1,8 @@
 package projection
 
 import (
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/v2/org"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/org"
 )
 
 type OrgPrimaryDomain struct {

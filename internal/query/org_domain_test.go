@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 var (
@@ -70,7 +70,7 @@ func Test_OrgDomainPrepares(t *testing.T) {
 							testNow,
 							testNow,
 							uint64(20211109),
-							"zitadel.ch",
+							"nomen.ch",
 							"ro",
 							true,
 							true,
@@ -88,7 +88,7 @@ func Test_OrgDomainPrepares(t *testing.T) {
 						CreationDate:   testNow,
 						ChangeDate:     testNow,
 						Sequence:       20211109,
-						Domain:         "zitadel.ch",
+						Domain:         "nomen.ch",
 						OrgID:          "ro",
 						IsVerified:     true,
 						IsPrimary:      true,
@@ -109,7 +109,7 @@ func Test_OrgDomainPrepares(t *testing.T) {
 							testNow,
 							testNow,
 							uint64(20211109),
-							"zitadel.ch",
+							"nomen.ch",
 							"ro",
 							true,
 							true,
@@ -119,7 +119,7 @@ func Test_OrgDomainPrepares(t *testing.T) {
 							testNow,
 							testNow,
 							uint64(20211109),
-							"zitadel.ch",
+							"nomen.ch",
 							"ro",
 							false,
 							false,
@@ -137,7 +137,7 @@ func Test_OrgDomainPrepares(t *testing.T) {
 						CreationDate:   testNow,
 						ChangeDate:     testNow,
 						Sequence:       20211109,
-						Domain:         "zitadel.ch",
+						Domain:         "nomen.ch",
 						OrgID:          "ro",
 						IsVerified:     true,
 						IsPrimary:      true,
@@ -147,7 +147,7 @@ func Test_OrgDomainPrepares(t *testing.T) {
 						CreationDate:   testNow,
 						ChangeDate:     testNow,
 						Sequence:       20211109,
-						Domain:         "zitadel.ch",
+						Domain:         "nomen.ch",
 						OrgID:          "ro",
 						IsVerified:     false,
 						IsPrimary:      false,

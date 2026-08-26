@@ -6,7 +6,7 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
 )
 
 type attributeResolverTestType struct {

@@ -6,13 +6,13 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	group_v2 "github.com/EonsofStupid/tessera/pkg/grpc/group/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/group/v2/groupconnect"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	group_v2 "github.com/shippinAI/nomen/pkg/grpc/group/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/group/v2/groupconnect"
 )
 
 var _ groupconnect.GroupServiceHandler = (*Server)(nil)
@@ -44,7 +44,7 @@ func (s *Server) RegisterConnectServer(interceptors ...connect.Interceptor) (str
 }
 
 func (s *Server) FileDescriptor() protoreflect.FileDescriptor {
-	return group_v2.File_zitadel_group_v2_group_service_proto
+	return group_v2.File_nomen_group_v2_group_service_proto
 }
 
 func (s *Server) AppName() string {

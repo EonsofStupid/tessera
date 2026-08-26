@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // ---- fakes: a transaction that records, an applier that is scripted --------
@@ -94,13 +94,13 @@ func engineWith(appliers ...BlueprintApplier) (*BlueprintEngine, *fakeBeginner) 
 // ---- the semantics ---------------------------------------------------------
 
 func TestApply_CommitsOnceAndLocksFirst(t *testing.T) {
-	seats := &fakeApplier{model: "tessera/seat"}
+	seats := &fakeApplier{model: "nomen/seat"}
 	eng, db := engineWith(seats)
 
 	report, err := eng.Apply(context.Background(), db, "inst-1", &Blueprint{
 		Schema: BlueprintSchema,
 		Entries: []Entry{
-			{Model: "tessera/seat", Identifiers: map[string]string{"member": "m1"}},
+			{Model: "nomen/seat", Identifiers: map[string]string{"member": "m1"}},
 		},
 	})
 	if err != nil {
@@ -124,7 +124,7 @@ func TestApply_CommitsOnceAndLocksFirst(t *testing.T) {
 }
 
 func TestApply_FailureRollsBackAndNamesTheEntry(t *testing.T) {
-	seats := &fakeApplier{model: "tessera/seat", script: []step{
+	seats := &fakeApplier{model: "nomen/seat", script: []step{
 		{outcome: OutcomeCreated, id: "s1"},
 		{err: errors.New("column does not exist")},
 	}}
@@ -133,8 +133,8 @@ func TestApply_FailureRollsBackAndNamesTheEntry(t *testing.T) {
 	_, err := eng.Apply(context.Background(), db, "inst-1", &Blueprint{
 		Schema: BlueprintSchema,
 		Entries: []Entry{
-			{Model: "tessera/seat", ID: "a", Identifiers: map[string]string{"member": "m1"}},
-			{Model: "tessera/seat", ID: "b", Identifiers: map[string]string{"member": "m2"}},
+			{Model: "nomen/seat", ID: "a", Identifiers: map[string]string{"member": "m1"}},
+			{Model: "nomen/seat", ID: "b", Identifiers: map[string]string{"member": "m2"}},
 		},
 	})
 	if err == nil {
@@ -153,15 +153,15 @@ func TestApply_FailureRollsBackAndNamesTheEntry(t *testing.T) {
 }
 
 func TestApply_SubstitutesRefsFromEarlierResults(t *testing.T) {
-	seats := &fakeApplier{model: "tessera/seat", script: []step{{outcome: OutcomeCreated, id: "seat-777"}}}
-	grants := &fakeApplier{model: "tessera/grant"}
+	seats := &fakeApplier{model: "nomen/seat", script: []step{{outcome: OutcomeCreated, id: "seat-777"}}}
+	grants := &fakeApplier{model: "nomen/grant"}
 	eng, db := engineWith(seats, grants)
 
 	_, err := eng.Apply(context.Background(), db, "inst-1", &Blueprint{
 		Schema: BlueprintSchema,
 		Entries: []Entry{
-			{Model: "tessera/seat", ID: "probe", Identifiers: map[string]string{"member": "m1"}},
-			{Model: "tessera/grant",
+			{Model: "nomen/seat", ID: "probe", Identifiers: map[string]string{"member": "m1"}},
+			{Model: "nomen/grant",
 				Identifiers: map[string]string{"seat": "${keyof:probe}"},
 				Attrs:       map[string]any{"nested": []any{map[string]any{"ref": "prefix-${keyof:probe}"}}}},
 		},
@@ -180,15 +180,15 @@ func TestApply_SubstitutesRefsFromEarlierResults(t *testing.T) {
 }
 
 func TestApply_RefToEntryThatProducedNothingIsAnError(t *testing.T) {
-	seats := &fakeApplier{model: "tessera/seat", script: []step{{outcome: OutcomeCreated, id: ""}}}
-	grants := &fakeApplier{model: "tessera/grant"}
+	seats := &fakeApplier{model: "nomen/seat", script: []step{{outcome: OutcomeCreated, id: ""}}}
+	grants := &fakeApplier{model: "nomen/grant"}
 	eng, db := engineWith(seats, grants)
 
 	_, err := eng.Apply(context.Background(), db, "inst-1", &Blueprint{
 		Schema: BlueprintSchema,
 		Entries: []Entry{
-			{Model: "tessera/seat", ID: "probe", Identifiers: map[string]string{"member": "m1"}},
-			{Model: "tessera/grant", Identifiers: map[string]string{"seat": "${keyof:probe}"}},
+			{Model: "nomen/seat", ID: "probe", Identifiers: map[string]string{"member": "m1"}},
+			{Model: "nomen/grant", Identifiers: map[string]string{"seat": "${keyof:probe}"}},
 		},
 	})
 	if err == nil || !strings.Contains(err.Error(), "produced no id") {
@@ -200,15 +200,15 @@ func TestApply_RefToEntryThatProducedNothingIsAnError(t *testing.T) {
 }
 
 func TestApply_RefToARemovedEntryIsAContradiction(t *testing.T) {
-	seats := &fakeApplier{model: "tessera/seat", script: []step{{outcome: OutcomeRemoved}}}
-	grants := &fakeApplier{model: "tessera/grant"}
+	seats := &fakeApplier{model: "nomen/seat", script: []step{{outcome: OutcomeRemoved}}}
+	grants := &fakeApplier{model: "nomen/grant"}
 	eng, db := engineWith(seats, grants)
 
 	_, err := eng.Apply(context.Background(), db, "inst-1", &Blueprint{
 		Schema: BlueprintSchema,
 		Entries: []Entry{
-			{Model: "tessera/seat", ID: "probe", State: StateAbsent, Identifiers: map[string]string{"member": "m1"}},
-			{Model: "tessera/grant", Identifiers: map[string]string{"seat": "${keyof:probe}"}},
+			{Model: "nomen/seat", ID: "probe", State: StateAbsent, Identifiers: map[string]string{"member": "m1"}},
+			{Model: "nomen/grant", Identifiers: map[string]string{"seat": "${keyof:probe}"}},
 		},
 	})
 	if err == nil || !strings.Contains(err.Error(), "declared absent") {
@@ -220,13 +220,13 @@ func TestApply_RefToARemovedEntryIsAContradiction(t *testing.T) {
 }
 
 func TestApply_AbsentGoesThroughRemove(t *testing.T) {
-	seats := &fakeApplier{model: "tessera/seat", script: []step{{outcome: OutcomeUnchanged}}}
+	seats := &fakeApplier{model: "nomen/seat", script: []step{{outcome: OutcomeUnchanged}}}
 	eng, db := engineWith(seats)
 
 	report, err := eng.Apply(context.Background(), db, "inst-1", &Blueprint{
 		Schema: BlueprintSchema,
 		Entries: []Entry{
-			{Model: "tessera/seat", State: StateAbsent, Identifiers: map[string]string{"member": "gone"}},
+			{Model: "nomen/seat", State: StateAbsent, Identifiers: map[string]string{"member": "gone"}},
 		},
 	})
 	if err != nil {
@@ -248,7 +248,7 @@ func TestApply_AbsentGoesThroughRemove(t *testing.T) {
 // what the second run of the same blueprint looks like, and the probe asserts
 // Changed() == false against the real database in 3.4a.
 func TestApply_SecondRunReportsAllUnchanged(t *testing.T) {
-	seats := &fakeApplier{model: "tessera/seat", script: []step{
+	seats := &fakeApplier{model: "nomen/seat", script: []step{
 		{outcome: OutcomeUnchanged, id: "s1"},
 		{outcome: OutcomeUnchanged, id: "s2"},
 	}}
@@ -257,8 +257,8 @@ func TestApply_SecondRunReportsAllUnchanged(t *testing.T) {
 	report, err := eng.Apply(context.Background(), db, "inst-1", &Blueprint{
 		Schema: BlueprintSchema,
 		Entries: []Entry{
-			{Model: "tessera/seat", Identifiers: map[string]string{"member": "m1"}},
-			{Model: "tessera/seat", Identifiers: map[string]string{"member": "m2"}},
+			{Model: "nomen/seat", Identifiers: map[string]string{"member": "m1"}},
+			{Model: "nomen/seat", Identifiers: map[string]string{"member": "m2"}},
 		},
 	})
 	if err != nil {
@@ -274,16 +274,16 @@ func TestApply_SecondRunReportsAllUnchanged(t *testing.T) {
 }
 
 func TestApply_RefusesBeforeBegin(t *testing.T) {
-	eng, db := engineWith(&fakeApplier{model: "tessera/seat"})
+	eng, db := engineWith(&fakeApplier{model: "nomen/seat"})
 
 	// Unknown model: Check fails, no transaction is opened, no lock is taken.
 	_, err := eng.Apply(context.Background(), db, "inst-1", &Blueprint{
 		Schema: BlueprintSchema,
 		Entries: []Entry{
-			{Model: "tessera/ghost", Identifiers: map[string]string{"x": "y"}},
+			{Model: "nomen/ghost", Identifiers: map[string]string{"x": "y"}},
 		},
 	})
-	if err == nil || !strings.Contains(err.Error(), `no applier is registered for model "tessera/ghost"`) {
+	if err == nil || !strings.Contains(err.Error(), `no applier is registered for model "nomen/ghost"`) {
 		t.Fatalf("err = %v", err)
 	}
 	if db.begins != 0 {
@@ -305,5 +305,5 @@ func TestNewBlueprintEngine_DuplicateModelPanicsAtConstruction(t *testing.T) {
 			t.Fatal("two appliers for one model must panic where the stack names the registration")
 		}
 	}()
-	NewBlueprintEngine(&fakeApplier{model: "tessera/seat"}, &fakeApplier{model: "tessera/seat"})
+	NewBlueprintEngine(&fakeApplier{model: "nomen/seat"}, &fakeApplier{model: "nomen/seat"})
 }

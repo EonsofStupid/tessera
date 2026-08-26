@@ -14,12 +14,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2beta"
-	session "github.com/EonsofStupid/tessera/pkg/grpc/session/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2beta"
+	session "github.com/shippinAI/nomen/pkg/grpc/session/v2beta"
 )
 
 func TestServer_GetAuthRequest(t *testing.T) {

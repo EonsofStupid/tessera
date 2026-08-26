@@ -1,11 +1,11 @@
 package admin
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	policy_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/policy"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	policy_grpc "github.com/shippinAI/nomen/internal/api/grpc/policy"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func updateLoginPolicyToCommand(p *admin_pb.UpdateLoginPolicyRequest) *command.ChangeLoginPolicy {

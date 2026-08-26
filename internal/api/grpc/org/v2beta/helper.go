@@ -7,18 +7,18 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	// TODO fix below
-	filter "github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2beta"
-	metadata "github.com/EonsofStupid/tessera/internal/api/grpc/metadata/v2beta"
-	v2beta_object "github.com/EonsofStupid/tessera/internal/api/grpc/object/v2beta"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	v2beta "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
-	v2beta_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
+	filter "github.com/shippinAI/nomen/internal/api/grpc/filter/v2beta"
+	metadata "github.com/shippinAI/nomen/internal/api/grpc/metadata/v2beta"
+	v2beta_object "github.com/shippinAI/nomen/internal/api/grpc/object/v2beta"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	v2beta "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
+	v2beta_org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
 )
 
 // NOTE: most of this code is copied from `internal/api/grpc/admin/*`, as we will eventually axe the previous versons of the API,

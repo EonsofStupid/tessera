@@ -1,58 +1,58 @@
 InitCode:
-  Title: "Zitadel - Инициализиране на потребител"
+  Title: "Nomen - Инициализиране на потребител"
   PreHeader: "Инициализиране на потребителя"
   Subject: "Инициализиране на потребителя"
   Greeting: "Здравейте {{.DisplayName}},"
-  Text: "Този потребител е създаден в Zitadel.  {{.PreferredLoginName}} за да влезете.  {{.Code}}) Ако не сте поискали този имейл, моля, игнорирайте го."
+  Text: "Този потребител е създаден в Nomen.  {{.PreferredLoginName}} за да влезете.  {{.Code}}) Ако не сте поискали този имейл, моля, игнорирайте го."
   ButtonText: "Завършете инициализацията"
 PasswordReset:
-  Title: "Zitadel - Нулиране на парола"
+  Title: "Nomen - Нулиране на парола"
   PreHeader: "Нулирайте паролата"
   Subject: "Нулирайте паролата"
   Greeting: "Здравейте {{.DisplayName}},"
   Text: "Получихме заявка за повторно задаване на парола.  {{.Code}}) Ако не сте поискали този имейл, моля, игнорирайте го."
   ButtonText: "Нулирайте паролата"
 VerifyEmail:
-  Title: "Zitadel - Потвърдете имейл"
+  Title: "Nomen - Потвърдете имейл"
   PreHeader: "Потвърди Имейл"
   Subject: "Потвърди Имейл"
   Greeting: "Здравейте {{.DisplayName}},"
   Text: "Добавен е нов имейл.  {{.Code}}) Ако не сте добавили нов имейл, моля, игнорирайте този имейл."
   ButtonText: "Потвърди Имейл"
 VerifyPhone:
-  Title: "Zitadel - Потвърдете телефона"
+  Title: "Nomen - Потвърдете телефона"
   PreHeader: "Потвърдете телефона"
   Subject: "Потвърдете телефона"
   Greeting: "Здравейте {{.DisplayName}},"
   Text: "Добавен е нов телефонен номер.  {{.Code}}"
   ButtonText: "Потвърдете телефона"
 VerifyEmailOTP:
-  Title: "Zitadel - Потвърди OTP"
+  Title: "Nomen - Потвърди OTP"
   PreHeader: "Потвърди OTP"
   Subject: "Потвърди OTP"
   Greeting: "Здравей, {{.DisplayName}},"
-  Text: "Моля, използвай бутона 'Удостовери' или копирай OTP {{.OTP}} и я постави на екрана за удостоверяване, за да се удостовериш в Zitadel в рамките на следващите пет минути."
+  Text: "Моля, използвай бутона 'Удостовери' или копирай OTP {{.OTP}} и я постави на екрана за удостоверяване, за да се удостовериш в Nomen в рамките на следващите пет минути."
   ButtonText: "Удостовери"
 VerifySMSOTP:
   Text: |-
     {{.OTP}} е вашата OTP за {{ .Domain }}. Използвайте го в рамките на следващия {{.Expiry}}.
     @{{.Domain}} #{{.OTP}}
 DomainClaimed:
-  Title: "Zitadel - Домейнът е заявен"
+  Title: "Nomen - Домейнът е заявен"
   PreHeader: "Промяна на имейл/потребителско име"
   Subject: "Домейнът е заявен"
   Greeting: "Здравейте {{.DisplayName}},"
   Text: "Домейнът {{.Domain}} е заявено от организация.  {{.Username}} не е част от тази организация. {{.TempUsername}}) за това влизане."
   ButtonText: "Влизам"
 PasswordlessRegistration:
-  Title: "Zitadel - Добавете вход без парола"
+  Title: "Nomen - Добавете вход без парола"
   PreHeader: "Добавете вход без парола"
   Subject: "Добавете вход без парола"
   Greeting: "Здравейте {{.DisplayName}},"
   Text: "Получихме заявка за добавяне на токен за влизане без парола. "
   ButtonText: "Добавете вход без парола"
 PasswordChange:
-  Title: "Zitadel - Паролата на потребителя е променена"
+  Title: "Nomen - Паролата на потребителя е променена"
   PreHeader: "Промяна на паролата"
   Subject: "Паролата на потребителя е променена"
   Greeting: "Здравейте {{.DisplayName}},"

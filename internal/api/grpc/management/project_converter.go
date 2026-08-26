@@ -5,16 +5,16 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	member_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/member"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	proj_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/project"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	proj_pb "github.com/EonsofStupid/tessera/pkg/grpc/project"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	member_grpc "github.com/shippinAI/nomen/internal/api/grpc/member"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	proj_grpc "github.com/shippinAI/nomen/internal/api/grpc/project"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
+	proj_pb "github.com/shippinAI/nomen/pkg/grpc/project"
 )
 
 func ProjectCreateToCommand(req *mgmt_pb.AddProjectRequest, projectID string, resourceOwner string) *command.AddProject {

@@ -1,10 +1,10 @@
 package text
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	text_pb "github.com/EonsofStupid/tessera/pkg/grpc/text"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	text_pb "github.com/shippinAI/nomen/pkg/grpc/text"
 )
 
 func ModelCustomMessageTextToPb(msg *query.MessageText) *text_pb.MessageCustomText {

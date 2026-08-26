@@ -5,10 +5,10 @@ import (
 
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	settings "github.com/EonsofStupid/tessera/pkg/grpc/settings/v2beta"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	settings "github.com/shippinAI/nomen/pkg/grpc/settings/v2beta"
 )
 
 func loginSettingsToPb(current *query.LoginPolicy) *settings.LoginSettings {
@@ -220,8 +220,8 @@ func idpTypeToPb(idpType domain.IDPType) settings.IdentityProviderType {
 		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_SAML
 	case domain.IDPTypeApple:
 		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_APPLE
-	case domain.IDPTypeZitadel:
-		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_ZITADEL
+	case domain.IDPTypeNomen:
+		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_NOMEN
 	default:
 		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_UNSPECIFIED
 	}

@@ -6,22 +6,22 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/gerrors"
-	zitadel_http "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	object_v3 "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/gerrors"
+	nomen_http "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	object_v3 "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
 )
 
 const (
-	HTTP1Host = "x-zitadel-http1-host"
+	HTTP1Host = "x-nomen-http1-host"
 )
 
 func InstanceInterceptor(verifier authz.InstanceVerifier, externalDomain string, translator *i18n.Translator, explicitInstanceIdServices ...string) grpc.UnaryServerInterceptor {
@@ -66,11 +66,11 @@ func setInstance(ctx context.Context, req interface{}, info *grpc.UnaryServerInf
 func addInstanceByID(ctx context.Context, req interface{}, handler grpc.UnaryHandler, verifier authz.InstanceVerifier, translator *i18n.Translator, id string) (interface{}, error) {
 	instance, err := verifier.InstanceByID(ctx, id)
 	if err != nil {
-		notFoundErr := new(zerrors.ZitadelError)
+		notFoundErr := new(zerrors.NomenError)
 		if errors.As(err, &notFoundErr) {
 			notFoundErr.Message = translator.LocalizeFromCtx(ctx, notFoundErr.GetMessage(), nil)
 		}
-		code, _, _ := gerrors.ExtractZITADELError(err)
+		code, _, _ := gerrors.ExtractNOMENError(err)
 		return nil, status.Error(code, fmt.Errorf("unable to set instance using id %s: %w", id, err).Error())
 	}
 	return handler(authz.WithInstance(ctx, instance), req)
@@ -79,28 +79,28 @@ func addInstanceByID(ctx context.Context, req interface{}, handler grpc.UnaryHan
 func addInstanceByDomain(ctx context.Context, req interface{}, handler grpc.UnaryHandler, verifier authz.InstanceVerifier, translator *i18n.Translator, domain string) (interface{}, error) {
 	instance, err := verifier.InstanceByHost(ctx, domain, "")
 	if err != nil {
-		notFoundErr := new(zerrors.ZitadelError)
+		notFoundErr := new(zerrors.NomenError)
 		if errors.As(err, &notFoundErr) && notFoundErr.Kind == zerrors.KindNotFound {
 			notFoundErr.Message = translator.LocalizeFromCtx(ctx, notFoundErr.GetMessage(), nil)
 		}
-		code, _, _ := gerrors.ExtractZITADELError(err)
+		code, _, _ := gerrors.ExtractNOMENError(err)
 		return nil, status.Error(code, fmt.Errorf("unable to set instance using domain %s: %w", domain, err).Error())
 	}
 	return handler(authz.WithInstance(ctx, instance), req)
 }
 
 func addInstanceByRequestedHost(ctx context.Context, req interface{}, handler grpc.UnaryHandler, verifier authz.InstanceVerifier, translator *i18n.Translator, externalDomain string) (interface{}, error) {
-	requestContext := zitadel_http.DomainContext(ctx)
+	requestContext := nomen_http.DomainContext(ctx)
 	if requestContext.InstanceDomain() == "" {
 		logging.WithFields("origin", requestContext.Origin(), "externalDomain", externalDomain).Error("unable to set instance")
 		return nil, status.Error(codes.NotFound, "no instanceHost specified")
 	}
 	instance, err := verifier.InstanceByHost(ctx, requestContext.InstanceDomain(), requestContext.RequestedDomain())
 	if err != nil {
-		origin := zitadel_http.DomainContext(ctx)
+		origin := nomen_http.DomainContext(ctx)
 		logging.WithFields("origin", requestContext.Origin(), "externalDomain", externalDomain).WithError(err).Error("unable to set instance")
-		code, _, _ := gerrors.ExtractZITADELError(err)
-		zErr := new(zerrors.ZitadelError)
+		code, _, _ := gerrors.ExtractNOMENError(err)
+		zErr := new(zerrors.NomenError)
 		if errors.As(err, &zErr) {
 			zErr.SetMessage(translator.LocalizeFromCtx(ctx, zErr.GetMessage(), nil))
 			return nil, status.Error(code, fmt.Sprintf("unable to set instance using origin %s (ExternalDomain is %s): %s", origin, externalDomain, zErr.Error()))

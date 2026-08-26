@@ -5,11 +5,11 @@
 # @ACCOUNT_ID@ from the live instance and applies the result, which is the
 # same pipeline the panel will run with real ids: render, validate, apply,
 # and a second apply reports nothing to change.
-schema: tessera.blueprint.v1
+schema: nomen.blueprint.v1
 name: dev — the probe seat
 
 entries:
-  - model: tessera/seat
+  - model: nomen/seat
     id: probe
     identifiers:
       member: "@MEMBER_ID@"
@@ -18,5 +18,5 @@ entries:
       occupant: agent
       basis: subscription
       workspaces: [ws-0001, ws-0002]
-      scopes: [hosting:active, terminal:advanced, chat:unified, tessera:manage, tessera:overview:read]
+      scopes: [hosting:active, terminal:advanced, chat:unified, nomen:manage, nomen:overview:read]
       policy_version: pol_2026_08_17

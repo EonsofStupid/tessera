@@ -9,12 +9,12 @@ import (
 	"slices"
 
 	"github.com/gorilla/mux"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources/patch"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/api/scim/serrors"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/scim/resources/patch"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/api/scim/serrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // RawResourceHandlerAdapter adapts the ResourceHandler[T] without any generics
@@ -128,7 +128,7 @@ func readSchema(data io.ReadCloser, entity SchemasHolder, schema schemas.ScimSch
 			return serrors.ThrowPayloadTooLarge(zerrors.ThrowInvalidArgumentf(err, "SCIM-hmaxb1", "Request payload too large, max %d bytes allowed.", maxBytesErr.Limit))
 		}
 
-		if serrors.IsScimOrZitadelError(err) {
+		if serrors.IsScimOrNomenError(err) {
 			return err
 		}
 

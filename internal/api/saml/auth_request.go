@@ -5,13 +5,13 @@ import (
 	"encoding/base64"
 	"net/url"
 
-	"github.com/zitadel/saml/pkg/provider"
-	"github.com/zitadel/saml/pkg/provider/models"
-	"github.com/zitadel/saml/pkg/provider/xml"
+	"github.com/shippinAI/nomen/saml/pkg/provider"
+	"github.com/shippinAI/nomen/saml/pkg/provider/models"
+	"github.com/shippinAI/nomen/saml/pkg/provider/xml"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 func (p *Provider) CreateErrorResponse(authReq models.AuthRequestInt, reason domain.SAMLErrorReason, description string) (string, string, error) {

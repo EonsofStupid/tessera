@@ -5,11 +5,11 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	domain_schema "github.com/EonsofStupid/tessera/internal/domain/schema"
-	"github.com/EonsofStupid/tessera/internal/repository/user/schemauser"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	domain_schema "github.com/shippinAI/nomen/internal/domain/schema"
+	"github.com/shippinAI/nomen/internal/repository/user/schemauser"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type CreateSchemaUser struct {

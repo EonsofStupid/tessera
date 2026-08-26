@@ -7,16 +7,16 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // SeatModel is what a blueprint entry names to reach this applier.
-const SeatModel = "tessera/seat"
+const SeatModel = "nomen/seat"
 
-// Applier converges `tessera/seat` entries. It runs inside the engine's
+// Applier converges `nomen/seat` entries. It runs inside the engine's
 // transaction — the tx-scoped helpers in postgres.go are the same code the
-// repository's own methods use, so a blueprint and `tessera seat set` cannot
+// repository's own methods use, so a blueprint and `nomen seat set` cannot
 // disagree about what writing a seat means.
 type Applier struct{}
 

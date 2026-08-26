@@ -6,17 +6,17 @@ import (
 	"os"
 
 	embeddedpostgres "github.com/fergusstrange/embedded-postgres"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres"
 )
 
 // StartEmbedded starts an embedded postgres v16 instance and returns a database connector and a stop function
 // the database is started on a random port and data are stored in a temporary directory
 // its used for testing purposes only
 func StartEmbedded() (connector database.Connector, stop func(), err error) {
-	path, err := os.MkdirTemp("", "zitadel-embedded-postgres-*")
+	path, err := os.MkdirTemp("", "nomen-embedded-postgres-*")
 	logging.OnError(err).Fatal("unable to create temp dir")
 
 	port, close := getPort()

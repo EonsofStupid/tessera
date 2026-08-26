@@ -3,9 +3,9 @@ package domain
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type InvokeOpt func(*InvokeOpts)
@@ -149,12 +149,12 @@ func (o *InvokeOpts) DB() database.QueryExecutor {
 func (o *InvokeOpts) StartTransactionFromDB(ctx context.Context, db database.QueryExecutor, opts *database.TransactionOptions) (database.Transaction, error) {
 	beginner, ok := db.(database.Beginner)
 	if !ok {
-		return nil, zerrors.CreateZitadelError(zerrors.KindInternal, nil, "DOM-LqxZbk", "database doesn't implement database.Beginner", 1)
+		return nil, zerrors.CreateNomenError(zerrors.KindInternal, nil, "DOM-LqxZbk", "database doesn't implement database.Beginner", 1)
 	}
 
 	tx, txErr := beginner.Begin(ctx, opts)
 	if txErr != nil {
-		return nil, zerrors.CreateZitadelError(zerrors.KindInternal, txErr, "DOM-sAAd3V", "failed starting transaction", 1)
+		return nil, zerrors.CreateNomenError(zerrors.KindInternal, txErr, "DOM-sAAd3V", "failed starting transaction", 1)
 	}
 
 	return tx, nil

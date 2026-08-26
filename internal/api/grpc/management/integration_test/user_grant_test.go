@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/integration"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 // PoC for GHSA-v859-c572-qh5p

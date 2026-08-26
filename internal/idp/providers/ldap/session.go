@@ -13,11 +13,11 @@ import (
 	"unicode/utf8"
 
 	"github.com/go-ldap/ldap/v3"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/idp"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/idp"
 )
 
 var ErrNoSingleUser = errors.New("user does not exist or too many entries returned")

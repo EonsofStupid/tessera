@@ -13,14 +13,14 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	filter "github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2beta"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	app "github.com/EonsofStupid/tessera/pkg/grpc/app/v2beta"
-	filter_pb_v2 "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	filter_pb_v2_beta "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
+	filter "github.com/shippinAI/nomen/internal/api/grpc/filter/v2beta"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	app "github.com/shippinAI/nomen/pkg/grpc/app/v2beta"
+	filter_pb_v2 "github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	filter_pb_v2_beta "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
 )
 
 func TestAppToPb(t *testing.T) {

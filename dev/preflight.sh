@@ -54,16 +54,16 @@ fi
 
 step "ports"
 port_owner() { ss -tlnp 2>/dev/null | awk -v p=":$1" '$4 ~ p"$" {print $NF}' | head -1; }
-for spec in "5433:the dev cluster (postgres)" "8088:tessera (OIDC)"; do
+for spec in "5433:the dev cluster (postgres)" "8088:nomen (OIDC)"; do
   PORT="${spec%%:*}"; WHAT="${spec#*:}"
   OWNER="$(port_owner "$PORT")"
   if [[ -z "$OWNER" ]]; then
     ok "port $PORT free — $WHAT can bind it"
-  elif [[ "$OWNER" == *postgres* && "$PORT" == 5433 ]] || [[ "$OWNER" == *tessera* && "$PORT" == 8088 ]]; then
+  elif [[ "$OWNER" == *postgres* && "$PORT" == 5433 ]] || [[ "$OWNER" == *nomen* && "$PORT" == 8088 ]]; then
     ok "port $PORT held by ours ($WHAT already up)"
   else
     bad "port $PORT held by something else: $OWNER" \
-        "sudo lsof -i :$PORT   # identify it, then stop it or export TESSERA_PORT for 8088"
+        "sudo lsof -i :$PORT   # identify it, then stop it or export NOMEN_PORT for 8088"
   fi
 done
 

@@ -3,9 +3,9 @@ package user
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/user/model"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/user/model"
+	"github.com/shippinAI/nomen/pkg/grpc/user"
 )
 
 func RefreshTokensToPb(refreshTokens []*model.RefreshTokenView) []*user.RefreshToken {

@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type EmailAddress string

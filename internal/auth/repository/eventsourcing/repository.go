@@ -3,18 +3,18 @@ package eventsourcing
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/eventstore"
-	auth_handler "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/handler"
-	auth_view "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/view"
-	"github.com/EonsofStupid/tessera/internal/auth_request/repository/cache"
-	"github.com/EonsofStupid/tessera/internal/command"
-	sd "github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	eventstore2 "github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/auth/repository/eventsourcing/eventstore"
+	auth_handler "github.com/shippinAI/nomen/internal/auth/repository/eventsourcing/handler"
+	auth_view "github.com/shippinAI/nomen/internal/auth/repository/eventsourcing/view"
+	"github.com/shippinAI/nomen/internal/auth_request/repository/cache"
+	"github.com/shippinAI/nomen/internal/command"
+	sd "github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	eventstore2 "github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 type Config struct {

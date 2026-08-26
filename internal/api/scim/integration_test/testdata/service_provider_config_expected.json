@@ -6,7 +6,7 @@
     "resourceType": "ServiceProviderConfig",
     "location": "http://{domain}:8082/scim/v2/{orgId}/ServiceProviderConfig"
   },
-  "documentationUri": "https://zitadel.com/docs/guides/manage/user/scim2",
+  "documentationUri": "https://nomen.com/docs/guides/manage/user/scim2",
   "patch": {
     "supported": true
   },
@@ -30,10 +30,10 @@
   },
   "authenticationSchemes": [
     {
-      "name": "Zitadel authentication token",
+      "name": "Nomen authentication token",
       "description": "Authentication scheme using the OAuth Bearer Token Standard",
       "specUri": "https://www.rfc-editor.org/info/rfc6750",
-      "documentationUri": "https://zitadel.com/docs/guides/integrate/service-accounts/authenticate-service-accounts",
+      "documentationUri": "https://nomen.com/docs/guides/integrate/service-accounts/authenticate-service-accounts",
       "type": "oauthbearertoken",
       "primary": false
     }

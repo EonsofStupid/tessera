@@ -10,8 +10,8 @@ import (
 
 	"github.com/Masterminds/squirrel"
 
-	"github.com/EonsofStupid/tessera/internal/static"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/static"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var _ static.Storage = (*storage)(nil)

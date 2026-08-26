@@ -13,13 +13,13 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/execution/target"
-	"github.com/EonsofStupid/tessera/internal/feature"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	object_v3 "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/feature"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	object_v3 "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
 )
 
 func Test_setInstance(t *testing.T) {
@@ -327,7 +327,7 @@ func (m *mockInstance) ExecutionRouter() target.Router {
 
 func Test_setInstance_errorCodes(t *testing.T) {
 	i18n.SupportLanguages(language.English)
-	translator := i18n.NewZitadelTranslator(language.English)
+	translator := i18n.NewNomenTranslator(language.English)
 
 	cases := []struct {
 		name     string

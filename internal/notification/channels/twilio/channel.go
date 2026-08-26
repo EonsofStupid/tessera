@@ -7,11 +7,11 @@ import (
 	twilioClient "github.com/twilio/twilio-go/client"
 	openapi "github.com/twilio/twilio-go/rest/api/v2010"
 	verify "github.com/twilio/twilio-go/rest/verify/v2"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
-	"github.com/EonsofStupid/tessera/internal/notification/messages"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/messages"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

@@ -4,16 +4,16 @@ import (
 	"context"
 	"strings"
 
-	"github.com/zitadel/saml/pkg/provider/xml"
+	"github.com/shippinAI/nomen/saml/pkg/provider/xml"
 
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/apple"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/saml"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/idp/providers/apple"
+	"github.com/shippinAI/nomen/internal/idp/providers/saml"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) AddOrgGenericOAuthProvider(ctx context.Context, resourceOwner string, provider GenericOAuthProvider) (string, *domain.ObjectDetails, error) {
@@ -1913,20 +1913,20 @@ func (c *Commands) prepareDeleteOrgProvider(a *org.Aggregate, resourceOwner, id 
 	}
 }
 
-func (c *Commands) AddOrgZitadelProvider(ctx context.Context, resourceOwner string, provider ZitadelProvider) (string, *domain.ObjectDetails, error) {
+func (c *Commands) AddOrgNomenProvider(ctx context.Context, resourceOwner string, provider NomenProvider) (string, *domain.ObjectDetails, error) {
 	id, err := c.idGenerator.Next()
 	if err != nil {
 		return "", nil, err
 	}
 
-	err = c.validateOrgZitadelProvider(&provider, true)
+	err = c.validateOrgNomenProvider(&provider, true)
 	if err != nil {
 		return "", nil, err
 	}
 
 	orgAgg := org.NewAggregate(resourceOwner)
-	writeModel := NewZitadelOrgIDPWriteModel(resourceOwner, id)
-	cmds, err := preparation.PrepareCommands(ctx, c.eventstore.Filter, c.prepareAddOrgZitadelProvider(orgAgg, writeModel, provider)) //nolint:staticcheck
+	writeModel := NewNomenOrgIDPWriteModel(resourceOwner, id)
+	cmds, err := preparation.PrepareCommands(ctx, c.eventstore.Filter, c.prepareAddOrgNomenProvider(orgAgg, writeModel, provider)) //nolint:staticcheck
 	if err != nil {
 		return "", nil, err
 	}
@@ -1937,7 +1937,7 @@ func (c *Commands) AddOrgZitadelProvider(ctx context.Context, resourceOwner stri
 	return id, pushedEventsToObjectDetails(pushedEvents), nil
 }
 
-func (c *Commands) prepareAddOrgZitadelProvider(a *org.Aggregate, writeModel *OrgZitadelIDPWriteModel, provider ZitadelProvider) preparation.Validation {
+func (c *Commands) prepareAddOrgNomenProvider(a *org.Aggregate, writeModel *OrgNomenIDPWriteModel, provider NomenProvider) preparation.Validation {
 	return func() (preparation.CreateCommands, error) {
 		return func(ctx context.Context, filter preparation.FilterToQueryReducer) ([]eventstore.Command, error) {
 			events, err := filter(ctx, writeModel.Query())
@@ -1953,7 +1953,7 @@ func (c *Commands) prepareAddOrgZitadelProvider(a *org.Aggregate, writeModel *Or
 				return nil, err
 			}
 			return []eventstore.Command{
-				org.NewZitadelIDPAddedEvent(
+				org.NewNomenIDPAddedEvent(
 					ctx,
 					&a.Aggregate,
 					writeModel.ID,
@@ -1970,14 +1970,14 @@ func (c *Commands) prepareAddOrgZitadelProvider(a *org.Aggregate, writeModel *Or
 	}
 }
 
-func (c *Commands) UpdateOrgZitadelProvider(ctx context.Context, id string, resourceOwner string, provider ZitadelProvider) (*domain.ObjectDetails, error) {
-	err := c.validateOrgZitadelProvider(&provider, false)
+func (c *Commands) UpdateOrgNomenProvider(ctx context.Context, id string, resourceOwner string, provider NomenProvider) (*domain.ObjectDetails, error) {
+	err := c.validateOrgNomenProvider(&provider, false)
 	if err != nil {
 		return nil, err
 	}
-	writeModel := NewZitadelOrgIDPWriteModel(resourceOwner, id)
+	writeModel := NewNomenOrgIDPWriteModel(resourceOwner, id)
 	orgAgg := org.NewAggregate(resourceOwner)
-	cmds, err := preparation.PrepareCommands(ctx, c.eventstore.Filter, c.prepareUpdateOrgZitadelProvider(orgAgg, writeModel, provider)) //nolint:staticcheck
+	cmds, err := preparation.PrepareCommands(ctx, c.eventstore.Filter, c.prepareUpdateOrgNomenProvider(orgAgg, writeModel, provider)) //nolint:staticcheck
 	if err != nil {
 		return nil, err
 	}
@@ -1996,7 +1996,7 @@ func (c *Commands) UpdateOrgZitadelProvider(ctx context.Context, id string, reso
 	return pushedEventsToObjectDetails(pushedEvents), nil
 }
 
-func (c *Commands) prepareUpdateOrgZitadelProvider(a *org.Aggregate, writeModel *OrgZitadelIDPWriteModel, provider ZitadelProvider) preparation.Validation {
+func (c *Commands) prepareUpdateOrgNomenProvider(a *org.Aggregate, writeModel *OrgNomenIDPWriteModel, provider NomenProvider) preparation.Validation {
 	return func() (preparation.CreateCommands, error) {
 		if writeModel.ID = strings.TrimSpace(writeModel.ID); writeModel.ID == "" {
 			return nil, zerrors.ThrowInvalidArgument(nil, "ORG-3pxLbA", "Errors.Invalid.Argument")
@@ -2034,7 +2034,7 @@ func (c *Commands) prepareUpdateOrgZitadelProvider(a *org.Aggregate, writeModel 
 	}
 }
 
-func (c *Commands) validateOrgZitadelProvider(provider *ZitadelProvider, create bool) error {
+func (c *Commands) validateOrgNomenProvider(provider *NomenProvider, create bool) error {
 	if provider.Name = strings.TrimSpace(provider.Name); provider.Name == "" {
 		return zerrors.ThrowInvalidArgument(nil, "ORG-c3EC3W", "Errors.Invalid.Argument")
 	}
@@ -2049,7 +2049,7 @@ func (c *Commands) validateOrgZitadelProvider(provider *ZitadelProvider, create 
 	if create && provider.ClientSecret == "" {
 		return zerrors.ThrowInvalidArgument(nil, "ORG-DxaSb9", "Errors.Invalid.Argument")
 	}
-	// instance_roles_info must never be set on an organization-scoped Zitadel provider:
+	// instance_roles_info must never be set on an organization-scoped Nomen provider:
 	// it drives instance-wide role grants on login, and honoring it here would let an
 	// org owner escalate themselves to instance-level roles. Only the instance-scoped
 	// Admin API may configure it.

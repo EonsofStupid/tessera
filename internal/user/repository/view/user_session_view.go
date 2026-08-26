@@ -6,9 +6,9 @@ import (
 	_ "embed"
 	"errors"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/user/repository/view/model"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/user/repository/view/model"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 //go:embed user_session_by_id.sql

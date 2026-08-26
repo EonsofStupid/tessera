@@ -5,14 +5,14 @@ import (
 )
 
 func ThrowPermissionDenied(parent error, id, message string) error {
-	return CreateZitadelError(KindPermissionDenied, parent, id, message, 1)
+	return CreateNomenError(KindPermissionDenied, parent, id, message, 1)
 }
 
 func ThrowPermissionDeniedf(parent error, id, format string, a ...any) error {
-	return CreateZitadelError(KindPermissionDenied, parent, id, fmt.Sprintf(format, a...), 1)
+	return CreateNomenError(KindPermissionDenied, parent, id, fmt.Sprintf(format, a...), 1)
 }
 
 func IsPermissionDenied(err error) bool {
-	zitadelErr, ok := AsZitadelError(err)
-	return ok && zitadelErr.Kind == KindPermissionDenied
+	nomenErr, ok := AsNomenError(err)
+	return ok && nomenErr.Kind == KindPermissionDenied
 }

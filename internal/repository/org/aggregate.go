@@ -3,7 +3,7 @@ package org
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 const (

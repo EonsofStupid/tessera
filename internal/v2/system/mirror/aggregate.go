@@ -1,6 +1,6 @@
 package mirror
 
-import "github.com/EonsofStupid/tessera/internal/v2/system"
+import "github.com/shippinAI/nomen/internal/v2/system"
 
 const (
 	Creator         = "MIRROR"

@@ -7,15 +7,15 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) getHuman(ctx context.Context, userID, resourceowner string) (*domain.Human, error) {
@@ -145,6 +145,11 @@ func (m *AddMetadataEntry) Valid() error {
 func (c *Commands) AddHuman(ctx context.Context, resourceOwner string, human *AddHuman, allowInitMail bool) (err error) {
 	if resourceOwner == "" {
 		return zerrors.ThrowInvalidArgument(nil, "COMMA-5Ky74", "Errors.Internal")
+	}
+	if c.productCapGuard != nil {
+		if err := c.productCapGuard.DenyNewUser(ctx); err != nil {
+			return err
+		}
 	}
 	cmds, err := preparation.PrepareCommands(ctx, c.eventstore.Filter,
 		c.AddHumanCommand(

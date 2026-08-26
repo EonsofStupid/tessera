@@ -4,16 +4,16 @@ import (
 	"context"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // InstanceOrgSetup is used for the first organisation in the instance setup.
@@ -361,6 +361,11 @@ func (c *Commands) checkOrgExists(ctx context.Context, orgID string) error {
 func (c *Commands) AddOrgWithID(ctx context.Context, name, userID, resourceOwner, orgID string, setOrgInactive bool, claimedUserIDs []string) (_ *domain.Org, err error) {
 	ctx, span := tracing.NewSpan(ctx)
 	defer func() { span.EndWithError(err) }()
+	if c.productCapGuard != nil {
+		if err := c.productCapGuard.DenyNewOrganization(ctx); err != nil {
+			return nil, err
+		}
+	}
 
 	// because users can choose their own ID, we must check that an org with the same ID does not already exist
 	existingOrg, err := c.getOrgWriteModelByID(ctx, orgID)
@@ -377,6 +382,11 @@ func (c *Commands) AddOrgWithID(ctx context.Context, name, userID, resourceOwner
 func (c *Commands) AddOrg(ctx context.Context, name, userID, resourceOwner string, claimedUserIDs []string) (*domain.Org, error) {
 	if name = strings.TrimSpace(name); name == "" {
 		return nil, zerrors.ThrowInvalidArgument(nil, "EVENT-Mf9sd", "Errors.Org.Invalid")
+	}
+	if c.productCapGuard != nil {
+		if err := c.productCapGuard.DenyNewOrganization(ctx); err != nil {
+			return nil, err
+		}
 	}
 
 	orgID, err := c.idGenerator.Next()
@@ -400,7 +410,7 @@ func (c *Commands) addOrgWithIDAndMember(ctx context.Context, name, userID, reso
 		return nil, err
 	}
 	addMember := &AddOrgMember{OrgID: orgAgg.ID, UserID: userID, Roles: []string{domain.RoleOrgOwner}}
-	if err := addMember.IsValid(c.zitadelRoles); err != nil {
+	if err := addMember.IsValid(c.nomenRoles); err != nil {
 		return nil, err
 	}
 	events = append(events, org.NewMemberAddedEvent(ctx, orgAgg, addMember.UserID, addMember.Roles...))
@@ -559,9 +569,9 @@ func (c *Commands) prepareRemoveOrg(a *org.Aggregate, permissionCheck Organizati
 			}
 
 			_, err := c.checkProjectExists(ctx, instance.ProjectID(), a.ID)
-			// if there is no error, the ZITADEL project was found on the org to be deleted
+			// if there is no error, the NOMEN project was found on the org to be deleted
 			if err == nil {
-				return nil, zerrors.ThrowPreconditionFailed(err, "COMMA-AF3JW", "Errors.Org.ZitadelOrgNotDeletable")
+				return nil, zerrors.ThrowPreconditionFailed(err, "COMMA-AF3JW", "Errors.Org.NomenOrgNotDeletable")
 			}
 			// "precondition failed" error means the project does not exist, return other errors
 			if !zerrors.IsPreconditionFailed(err) {

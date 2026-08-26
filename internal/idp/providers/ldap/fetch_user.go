@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-ldap/ldap/v3"
 
-	"github.com/EonsofStupid/tessera/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp"
 )
 
 // FetchUser implements the [idp.Session] interface.

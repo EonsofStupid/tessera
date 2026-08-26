@@ -1,6 +1,6 @@
 package organization_settings
 
-import "github.com/EonsofStupid/tessera/internal/eventstore"
+import "github.com/shippinAI/nomen/internal/eventstore"
 
 const (
 	AggregateType    = "organization_settings"

@@ -1,8 +1,8 @@
 package feature_v2
 
 import (
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/feature"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/feature"
 )
 
 func init() {

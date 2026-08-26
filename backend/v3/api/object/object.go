@@ -1,13 +1,13 @@
 package object
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	v2_object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	v2beta_object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	v2_object "github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	v2beta_object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
 )
 
-// TODO(IAM-Marco): Remove in V5 (see https://github.com/EonsofStupid/tessera/issues/10877)
+// TODO(IAM-Marco): Remove in V5 (see https://github.com/shippinAI/nomen/issues/10877)
 func TextQueryMethodBetaToV2(txtMethod v2beta_object.TextQueryMethod) v2_object.TextQueryMethod {
 	switch txtMethod {
 	case v2beta_object.TextQueryMethod_TEXT_QUERY_METHOD_CONTAINS:

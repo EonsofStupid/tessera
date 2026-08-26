@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 var _ domain.OrganizationMetadataRepository = (*orgMetadata)(nil)
@@ -17,7 +17,7 @@ func OrganizationMetadataRepository() domain.OrganizationMetadataRepository {
 }
 
 func (o orgMetadata) qualifiedTableName() string {
-	return "zitadel.organization_metadata"
+	return "nomen.organization_metadata"
 }
 
 func (o orgMetadata) unqualifiedTableName() string {
@@ -29,7 +29,7 @@ func (o orgMetadata) unqualifiedTableName() string {
 // -------------------------------------------------------------
 
 const queryOrganizationMetadataStmt = `SELECT instance_id, organization_id, key, value, created_at, updated_at ` +
-	`FROM zitadel.organization_metadata`
+	`FROM nomen.organization_metadata`
 
 // Get implements [domain.OrganizationMetadataRepository].
 func (o orgMetadata) Get(ctx context.Context, client database.QueryExecutor, opts ...database.QueryOption) (*domain.OrganizationMetadata, error) {
@@ -72,7 +72,7 @@ func (o orgMetadata) Set(ctx context.Context, client database.QueryExecutor, met
 	}
 
 	var builder database.StatementBuilder
-	builder.WriteString(`INSERT INTO zitadel.organization_metadata (instance_id, organization_id, key, value, created_at, updated_at) VALUES `)
+	builder.WriteString(`INSERT INTO nomen.organization_metadata (instance_id, organization_id, key, value, created_at, updated_at) VALUES `)
 	for i, m := range metadata {
 		var createdAt, updatedAt any = database.DefaultInstruction, database.NullInstruction
 		if !m.CreatedAt.IsZero() {
@@ -119,7 +119,7 @@ func (o orgMetadata) Remove(ctx context.Context, client database.QueryExecutor, 
 	}
 
 	var builder database.StatementBuilder
-	builder.WriteString(`DELETE FROM zitadel.organization_metadata `)
+	builder.WriteString(`DELETE FROM nomen.organization_metadata `)
 	writeCondition(&builder, condition)
 
 	return client.Exec(ctx, builder.String(), builder.Args()...)

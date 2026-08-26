@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 // Provider is the minimal implementation for a 3rd party authentication provider

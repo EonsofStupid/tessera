@@ -15,14 +15,14 @@ import (
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
 
-	new_sql "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/sql"
-	"github.com/EonsofStupid/tessera/internal/database"
-	db_mock "github.com/EonsofStupid/tessera/internal/database/mock"
-	"github.com/EonsofStupid/tessera/internal/database/postgres"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/repository"
-	new_es "github.com/EonsofStupid/tessera/internal/eventstore/v3"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	new_sql "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/sql"
+	"github.com/shippinAI/nomen/internal/database"
+	db_mock "github.com/shippinAI/nomen/internal/database/mock"
+	"github.com/shippinAI/nomen/internal/database/postgres"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/repository"
+	new_es "github.com/shippinAI/nomen/internal/eventstore/v3"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func Test_getCondition(t *testing.T) {

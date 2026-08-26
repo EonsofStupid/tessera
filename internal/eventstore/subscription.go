@@ -4,7 +4,7 @@ import (
 	"slices"
 	"sync"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 var (

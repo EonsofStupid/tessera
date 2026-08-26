@@ -1,7 +1,7 @@
 package gomap
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/storage/cache"
+	"github.com/shippinAI/nomen/backend/v3/storage/cache"
 )
 
 type Config struct {

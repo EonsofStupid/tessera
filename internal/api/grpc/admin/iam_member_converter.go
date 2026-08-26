@@ -1,12 +1,12 @@
 package admin
 
 import (
-	member_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/member"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	member_pb "github.com/EonsofStupid/tessera/pkg/grpc/member"
+	member_grpc "github.com/shippinAI/nomen/internal/api/grpc/member"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
+	member_pb "github.com/shippinAI/nomen/pkg/grpc/member"
 )
 
 func AddIAMMemberToCommand(req *admin_pb.AddIAMMemberRequest, instanceID string) *command.AddInstanceMember {

@@ -13,12 +13,12 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/user"
 )
 
-// TestImport_and_Get reproduces https://github.com/EonsofStupid/tessera/issues/5808
+// TestImport_and_Get reproduces https://github.com/shippinAI/nomen/issues/5808
 // which led to consistency issues due the call timestamp not being
 // updated after a bulk Trigger.
 // This test Imports a user and directly tries to Get it, 100 times in a loop.

@@ -10,10 +10,10 @@ import (
 	"github.com/spf13/viper"
 	"sigs.k8s.io/yaml"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	cryptoDB "github.com/EonsofStupid/tessera/internal/crypto/database"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	cryptoDB "github.com/shippinAI/nomen/internal/crypto/database"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
@@ -48,7 +48,7 @@ new -f keys.yaml key2=anotherkey`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
 				if err != nil {
-					slog.Error("tessera keys new command failed", "err", err)
+					slog.Error("nomen keys new command failed", "err", err)
 				}
 			}()
 

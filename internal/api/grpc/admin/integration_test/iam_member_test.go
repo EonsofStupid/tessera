@@ -11,10 +11,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/member"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object"
+	"github.com/shippinAI/nomen/internal/integration"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/member"
+	"github.com/shippinAI/nomen/pkg/grpc/object"
 )
 
 var iamRoles = []string{

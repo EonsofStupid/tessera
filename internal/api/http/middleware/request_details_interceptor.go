@@ -3,8 +3,8 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
 )
 
 // RequestDetailsHandler is a HTTP middleware that sets a request ID in the context

@@ -6,11 +6,11 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	object "github.com/EonsofStupid/tessera/internal/api/grpc/object/v2beta"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	object_pb "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2beta"
+	object "github.com/shippinAI/nomen/internal/api/grpc/object/v2beta"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	object_pb "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	user "github.com/shippinAI/nomen/pkg/grpc/user/v2beta"
 )
 
 func (s *Server) RegisterPasskey(ctx context.Context, req *connect.Request[user.RegisterPasskeyRequest]) (resp *connect.Response[user.RegisterPasskeyResponse], err error) {

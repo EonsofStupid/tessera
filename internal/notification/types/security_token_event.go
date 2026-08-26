@@ -3,9 +3,9 @@ package types
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/set"
-	"github.com/EonsofStupid/tessera/internal/notification/messages"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/notification/channels/set"
+	"github.com/shippinAI/nomen/internal/notification/messages"
 )
 
 func handleSecurityTokenEvent(

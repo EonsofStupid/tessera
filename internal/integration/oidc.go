@@ -12,20 +12,20 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/client/rs"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rs"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	oidc_internal "github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	"github.com/EonsofStupid/tessera/pkg/grpc/authn"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user"
-	user_v2 "github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	oidc_internal "github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	"github.com/shippinAI/nomen/pkg/grpc/authn"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/user"
+	user_v2 "github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func (i *Instance) CreateOIDCClientLoginVersion(ctx context.Context, redirectURI, logoutRedirectURI, projectID string, appType app.OIDCAppType, authMethod app.OIDCAuthMethodType, devMode bool, loginVersion *app.LoginVersion, grantTypes ...app.OIDCGrantType) (*management.AddOIDCAppResponse, error) {

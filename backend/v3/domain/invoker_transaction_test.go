@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	domainmock "github.com/EonsofStupid/tessera/backend/v3/domain/mock"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dbmock"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	domainmock "github.com/shippinAI/nomen/backend/v3/domain/mock"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dbmock"
 )
 
 type testTransactionalExecutor struct {

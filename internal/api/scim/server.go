@@ -6,20 +6,20 @@ import (
 	"path"
 
 	"github.com/gorilla/mux"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	zhttp "github.com/EonsofStupid/tessera/internal/api/http"
-	zhttp_middlware "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	sconfig "github.com/EonsofStupid/tessera/internal/api/scim/config"
-	smiddleware "github.com/EonsofStupid/tessera/internal/api/scim/middleware"
-	sresources "github.com/EonsofStupid/tessera/internal/api/scim/resources"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/api/scim/serrors"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	zhttp "github.com/shippinAI/nomen/internal/api/http"
+	zhttp_middlware "github.com/shippinAI/nomen/internal/api/http/middleware"
+	sconfig "github.com/shippinAI/nomen/internal/api/scim/config"
+	smiddleware "github.com/shippinAI/nomen/internal/api/scim/middleware"
+	sresources "github.com/shippinAI/nomen/internal/api/scim/resources"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/api/scim/serrors"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 func NewServer(

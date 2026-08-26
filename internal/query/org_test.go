@@ -12,10 +12,10 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	db_mock "github.com/EonsofStupid/tessera/internal/database/mock"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	db_mock "github.com/shippinAI/nomen/internal/database/mock"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -113,7 +113,7 @@ func Test_OrgPrepares(t *testing.T) {
 							domain.OrgStateActive,
 							uint64(20211109),
 							"org-name",
-							"zitadel.ch",
+							"nomen.ch",
 						},
 					},
 				),
@@ -131,7 +131,7 @@ func Test_OrgPrepares(t *testing.T) {
 						State:         domain.OrgStateActive,
 						Sequence:      20211109,
 						Name:          "org-name",
-						Domain:        "zitadel.ch",
+						Domain:        "nomen.ch",
 					},
 				},
 			},
@@ -152,7 +152,7 @@ func Test_OrgPrepares(t *testing.T) {
 							domain.OrgStateActive,
 							uint64(20211108),
 							"org-name-1",
-							"zitadel.ch",
+							"nomen.ch",
 						},
 						{
 							"id-2",
@@ -180,7 +180,7 @@ func Test_OrgPrepares(t *testing.T) {
 						State:         domain.OrgStateActive,
 						Sequence:      20211108,
 						Name:          "org-name-1",
-						Domain:        "zitadel.ch",
+						Domain:        "nomen.ch",
 					},
 					{
 						ID:            "id-2",
@@ -223,7 +223,7 @@ func Test_OrgPrepares(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsNotFound(err) {
-						return fmt.Errorf("err should be zitadel.NotFoundError got: %w", err), false
+						return fmt.Errorf("err should be nomen.NotFoundError got: %w", err), false
 					}
 					return nil, true
 				},
@@ -246,7 +246,7 @@ func Test_OrgPrepares(t *testing.T) {
 						uint64(20211108),
 						"instance-id",
 						"org-name",
-						"zitadel.ch",
+						"nomen.ch",
 					},
 				),
 			},
@@ -259,7 +259,7 @@ func Test_OrgPrepares(t *testing.T) {
 				Sequence:      20211108,
 				instanceID:    "instance-id",
 				Name:          "org-name",
-				Domain:        "zitadel.ch",
+				Domain:        "nomen.ch",
 			},
 		},
 		{
@@ -290,7 +290,7 @@ func Test_OrgPrepares(t *testing.T) {
 				),
 				err: func(err error) (error, bool) {
 					if !zerrors.IsInternal(err) {
-						return fmt.Errorf("err should be zitadel.Internal got: %w", err), false
+						return fmt.Errorf("err should be nomen.Internal got: %w", err), false
 					}
 					return nil, true
 				},

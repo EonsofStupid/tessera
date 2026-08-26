@@ -4,13 +4,13 @@ import (
 	"context"
 	"errors"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 var _ database.Transaction = (*sqlSavepoint)(nil)
 
 const (
-	savepointName       = "zitadel_savepoint"
+	savepointName       = "nomen_savepoint"
 	createSavepoint     = "SAVEPOINT " + savepointName
 	rollbackToSavepoint = "ROLLBACK TO SAVEPOINT " + savepointName
 	commitSavepoint     = "RELEASE SAVEPOINT " + savepointName

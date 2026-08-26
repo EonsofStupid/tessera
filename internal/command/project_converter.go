@@ -3,7 +3,7 @@ package command
 import (
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 func projectWriteModelToProject(writeModel *ProjectWriteModel) *domain.Project {

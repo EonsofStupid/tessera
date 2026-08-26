@@ -12,10 +12,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/resources/object/v3alpha"
-	schema "github.com/EonsofStupid/tessera/pkg/grpc/resources/userschema/v3alpha"
+	"github.com/shippinAI/nomen/internal/api/grpc"
+	"github.com/shippinAI/nomen/internal/integration"
+	object "github.com/shippinAI/nomen/pkg/grpc/resources/object/v3alpha"
+	schema "github.com/shippinAI/nomen/pkg/grpc/resources/userschema/v3alpha"
 )
 
 func TestServer_ListUserSchemas(t *testing.T) {
@@ -25,7 +25,7 @@ func TestServer_ListUserSchemas(t *testing.T) {
 
 	userSchema := new(structpb.Struct)
 	err := userSchema.UnmarshalJSON([]byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 		"type": "object",
 		"properties": {}
 	}`))
@@ -218,7 +218,7 @@ func TestServer_GetUserSchema(t *testing.T) {
 
 	userSchema := new(structpb.Struct)
 	err := userSchema.UnmarshalJSON([]byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 		"type": "object",
 		"properties": {}
 	}`))

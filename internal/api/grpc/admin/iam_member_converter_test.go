@@ -3,8 +3,8 @@ package admin
 import (
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/test"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/test"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func TestAddIAMMemberToDomain(t *testing.T) {

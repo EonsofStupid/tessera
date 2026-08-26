@@ -3,9 +3,9 @@ package command
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (c *Commands) changeUsername(ctx context.Context, cmds []eventstore.Command, wm *UserV2WriteModel, userName string) ([]eventstore.Command, error) {

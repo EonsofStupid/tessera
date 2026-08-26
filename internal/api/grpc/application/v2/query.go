@@ -7,10 +7,10 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/application/v2/convert"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/pkg/grpc/application/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/application/v2/convert"
+	"github.com/shippinAI/nomen/internal/api/grpc/filter/v2"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/pkg/grpc/application/v2"
 )
 
 func (s *Server) GetApplication(ctx context.Context, req *connect.Request[application.GetApplicationRequest]) (*connect.Response[application.GetApplicationResponse], error) {

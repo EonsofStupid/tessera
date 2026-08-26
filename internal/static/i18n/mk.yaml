@@ -61,7 +61,7 @@ Errors:
     CouldNotDialTLS: "не можев да контактираме со SMTP-серверот користејќи TLS, проверете ја портата, проблеми со заштитен ѕид..."
     CouldNotCreateClient: "не можев да креирам smtp клиент"
     CouldNotStartTLS: "не можеше да започне tls"
-    CouldNotAuth: "не можев да додадам smtp auth, проверете дали и корисникот и лозинката се точни, дали се точни, можеби вашиот провајдер бара метод за автетика што не е поддржан од Zitadel"
+    CouldNotAuth: "не можев да додадам smtp auth, проверете дали и корисникот и лозинката се точни, дали се точни, можеби вашиот провајдер бара метод за автетика што не е поддржан од Nomen"
     CouldNotSetSender: "не може да се постави испраќач"
     CouldNotSetRecipient: "не може да се постави примач"
   SMTPConfig:
@@ -152,7 +152,7 @@ Errors:
       Invalid: "Невалидна лозинка"
       NotSet: "Корисникот нема поставено лозинка"
       NotChanged: "Новата лозинка не може да биде иста со вашата тековна лозинка"
-      NotSupported: "Не е поддржано хаш-кодирањето на лозинката. Проверете го https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Не е поддржано хаш-кодирањето на лозинката. Проверете го https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Политиката за комплексност на лозинката не е пронајдена"
       MinLength: "Лозинката е прекратка"
@@ -206,7 +206,7 @@ Errors:
     NotActive: "Организацијата не е активна"
     NotChanged: "Организацијата не е променета"
     DefaultOrgNotDeletable: "Стандардната организација не смее да биде избришана"
-    ZitadelOrgNotDeletable: "Организацијата со Zitadel проект не смее да биде избришана"
+    NomenOrgNotDeletable: "Организацијата со Nomen проект не смее да биде избришана"
     InvalidDomain: "Невалиден домен"
     DomainMissing: "Недостасува домен"
     DomainNotOnOrg: "Доменот не постои во организацијата"
@@ -215,8 +215,8 @@ Errors:
     DomainVerificationTypeInvalid: "Типот на верификација на доменот е невалиден"
     DomainVerificationMissing: "Верификацијата на доменот сè уште не е започната"
     DomainVerificationFailed: "Верификацијата на доменот не успеа"
-    DomainVerificationTXTNotFound: "Записот _zitadel-challenge TXT не беше пронајден за вашиот домен. Проверете дали сте го додале на вашиот DNS сервер или почекајте додека не се пропагира новиот запис"
-    DomainVerificationTXTNoMatch: "Записот _zitadel-challenge TXT е пронајден за вашиот домен, но не го содржи вистинскиот токен текст. Проверете дали сте го додале вистинскиот токен на вашиот DNS сервер или почекајте додека не се пропагира новиот запис"
+    DomainVerificationTXTNotFound: "Записот _nomen-challenge TXT не беше пронајден за вашиот домен. Проверете дали сте го додале на вашиот DNS сервер или почекајте додека не се пропагира новиот запис"
+    DomainVerificationTXTNoMatch: "Записот _nomen-challenge TXT е пронајден за вашиот домен, но не го содржи вистинскиот токен текст. Проверете дали сте го додале вистинскиот токен на вашиот DNS сервер или почекајте додека не се пропагира новиот запис"
     DomainVerificationHTTPNotFound: "Датотеката што го содржи предизвикот не беше пронајдена во очекуваната URL-адреса. Проверете дали сте ја подигнале датотеката на вистинското место со дозволи за читање"
     DomainVerificationHTTPNoMatch: "Датотеката што го содржи предизвикот е пронајдена во очекуваната URL-адреса, но не го содржи вистинскиот токен текст. Проверете ја неговата содржина"
     DomainVerificationTimeout: "Имаше истек на барање на DNS-серверот"
@@ -341,7 +341,7 @@ Errors:
   Instance:
     AlreadyExists: "Инстанцата веќе постои"
     NotChanged: "Инстанцата не е променета"
-    NotFound: "Инстанцата не е пронајдена. Проверете дали имате точен домен. Погледнете на https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Инстанцата не е пронајдена. Проверете дали имате точен домен. Погледнете на https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Улогите не се променети"
     MemberInvalid: "Членот е невалиден"
@@ -1109,20 +1109,20 @@ EventTypes:
         changed: "Променета политика за заклучување на лозинка"
   iam:
     setup:
-      started: "Започнато Zitadel поставување"
-      done: "Завршено Zitadel поставување"
+      started: "Започнато Nomen поставување"
+      done: "Завршено Nomen поставување"
     global:
       org:
         set: "Поставена глобална организација"
     project:
       iam:
-        set: "Поставен Zitadel проект"
+        set: "Поставен Nomen проект"
     member:
-      added: "Додаден Zitadel член"
-      changed: "Променет Zitadel член"
-      removed: "Отстранет Zitadel член"
+      added: "Додаден Nomen член"
+      changed: "Променет Nomen член"
+      removed: "Отстранет Nomen член"
       cascade:
-        removed: "Отстранети Zitadel членови"
+        removed: "Отстранети Nomen членови"
     idp:
       config:
         added: "Додадена IDP конфигурација"
@@ -1235,9 +1235,9 @@ EventTypes:
       removed: "Отстранет домен"
     iam:
       console:
-        set: "Комплет на апликација за управувачка конзола Zitadel"
+        set: "Комплет на апликација за управувачка конзола Nomen"
       project:
-        set: "Поставен проект на Zitadel"
+        set: "Поставен проект на Nomen"
     mail:
       template:
         added: "Додаден е-пошта шаблон"

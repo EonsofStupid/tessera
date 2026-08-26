@@ -1,7 +1,7 @@
 package dbmock
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // QueryOptions converts database.QueryOption to *database.QueryOpts which

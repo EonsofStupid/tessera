@@ -10,9 +10,9 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	project "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	project "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
 )
 
 func TestServer_AddProjectRole(t *testing.T) {

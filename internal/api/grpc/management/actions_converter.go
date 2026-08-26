@@ -1,13 +1,13 @@
 package management
 
 import (
-	action_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/action"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	action_grpc "github.com/shippinAI/nomen/internal/api/grpc/action"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func CreateActionRequestToDomain(req *mgmt_pb.CreateActionRequest) *domain.Action {

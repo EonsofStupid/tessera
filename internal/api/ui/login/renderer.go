@@ -11,19 +11,19 @@ import (
 	"time"
 
 	"github.com/gorilla/csrf"
-	old_logging "github.com/zitadel/logging" //nolint:staticcheck
+	old_logging "github.com/shippinAI/nomen/logging" //nolint:staticcheck
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/notification/templates"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/renderer"
-	"github.com/EonsofStupid/tessera/internal/static"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_mw "github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/notification/templates"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/renderer"
+	"github.com/shippinAI/nomen/internal/static"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
@@ -486,7 +486,7 @@ func (l *Login) getErrorMessage(r *http.Request, err error) (errID, errMsg strin
 	if errors.Is(err, idpErr) {
 		popup = true
 	}
-	caosErr := new(zerrors.ZitadelError)
+	caosErr := new(zerrors.NomenError)
 	if errors.As(err, &caosErr) {
 		localized := l.renderer.LocalizeFromRequest(l.getTranslator(r.Context(), nil), r, caosErr.Message, map[string]interface{}{"Details": caosErr.Parent})
 		return caosErr.ID, localized, popup
@@ -495,7 +495,7 @@ func (l *Login) getErrorMessage(r *http.Request, err error) (errID, errMsg strin
 }
 
 func (l *Login) getTheme(r *http.Request) string {
-	return "zitadel"
+	return "nomen"
 }
 
 // getThemeClass returns the css class for the login html.

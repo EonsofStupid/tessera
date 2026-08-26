@@ -7,18 +7,18 @@ import (
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommandSide_AddInstanceMember(t *testing.T) {
 	type fields struct {
 		eventstore      func(t *testing.T) *eventstore.Eventstore
-		zitadelRoles    []authz.RoleMapping
+		nomenRoles    []authz.RoleMapping
 		checkPermission domain.PermissionCheck
 	}
 	type args struct {
@@ -71,7 +71,7 @@ func TestCommandSide_AddInstanceMember(t *testing.T) {
 					expectFilter(),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -118,7 +118,7 @@ func TestCommandSide_AddInstanceMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -165,7 +165,7 @@ func TestCommandSide_AddInstanceMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -213,7 +213,7 @@ func TestCommandSide_AddInstanceMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -237,7 +237,7 @@ func TestCommandSide_AddInstanceMember(t *testing.T) {
 			fields: fields{
 				eventstore:      expectEventstore(),
 				checkPermission: newMockPermissionCheckNotAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -259,7 +259,7 @@ func TestCommandSide_AddInstanceMember(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			r := &Commands{
 				eventstore:      tt.fields.eventstore(t),
-				zitadelRoles:    tt.fields.zitadelRoles,
+				nomenRoles:    tt.fields.nomenRoles,
 				checkPermission: tt.fields.checkPermission,
 			}
 			got, err := r.AddInstanceMember(context.Background(), tt.args.member)
@@ -279,7 +279,7 @@ func TestCommandSide_AddInstanceMember(t *testing.T) {
 func TestCommandSide_EnsureInstanceMemberRolesFromLogin(t *testing.T) {
 	type fields struct {
 		eventstore      func(t *testing.T) *eventstore.Eventstore
-		zitadelRoles    []authz.RoleMapping
+		nomenRoles    []authz.RoleMapping
 		checkPermission domain.PermissionCheck
 	}
 	type args struct {
@@ -343,7 +343,7 @@ func TestCommandSide_EnsureInstanceMemberRolesFromLogin(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckNotAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER_VIEWER",
 					},
@@ -384,7 +384,7 @@ func TestCommandSide_EnsureInstanceMemberRolesFromLogin(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckNotAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_LOGIN_CLIENT",
 					},
@@ -421,7 +421,7 @@ func TestCommandSide_EnsureInstanceMemberRolesFromLogin(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckNotAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -448,7 +448,7 @@ func TestCommandSide_EnsureInstanceMemberRolesFromLogin(t *testing.T) {
 			fields: fields{
 				eventstore:      expectEventstore(),
 				checkPermission: newMockPermissionCheckNotAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -487,7 +487,7 @@ func TestCommandSide_EnsureInstanceMemberRolesFromLogin(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckNotAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_LOGIN_CLIENT",
 					},
@@ -514,7 +514,7 @@ func TestCommandSide_EnsureInstanceMemberRolesFromLogin(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			r := &Commands{
 				eventstore:      tt.fields.eventstore(t),
-				zitadelRoles:    tt.fields.zitadelRoles,
+				nomenRoles:    tt.fields.nomenRoles,
 				checkPermission: tt.fields.checkPermission,
 			}
 			got, err := r.EnsureInstanceMemberRolesFromLogin(context.Background(), tt.args.member)
@@ -534,7 +534,7 @@ func TestCommandSide_EnsureInstanceMemberRolesFromLogin(t *testing.T) {
 func TestCommandSide_ChangeInstanceMember(t *testing.T) {
 	type fields struct {
 		eventstore      func(t *testing.T) *eventstore.Eventstore
-		zitadelRoles    []authz.RoleMapping
+		nomenRoles    []authz.RoleMapping
 		checkPermission domain.PermissionCheck
 	}
 	type args struct {
@@ -587,7 +587,7 @@ func TestCommandSide_ChangeInstanceMember(t *testing.T) {
 					expectFilter(),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -619,7 +619,7 @@ func TestCommandSide_ChangeInstanceMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: domain.RoleIAMOwner,
 					},
@@ -660,7 +660,7 @@ func TestCommandSide_ChangeInstanceMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -697,7 +697,7 @@ func TestCommandSide_ChangeInstanceMember(t *testing.T) {
 					),
 				),
 				checkPermission: newMockPermissionCheckNotAllowed(),
-				zitadelRoles: []authz.RoleMapping{
+				nomenRoles: []authz.RoleMapping{
 					{
 						Role: "IAM_OWNER",
 					},
@@ -722,7 +722,7 @@ func TestCommandSide_ChangeInstanceMember(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			r := &Commands{
 				eventstore:      tt.fields.eventstore(t),
-				zitadelRoles:    tt.fields.zitadelRoles,
+				nomenRoles:    tt.fields.nomenRoles,
 				checkPermission: tt.fields.checkPermission,
 			}
 			got, err := r.ChangeInstanceMember(context.Background(), tt.args.member)

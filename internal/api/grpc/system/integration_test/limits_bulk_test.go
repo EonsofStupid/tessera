@@ -8,8 +8,8 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func TestServer_Limits_Bulk(t *testing.T) {

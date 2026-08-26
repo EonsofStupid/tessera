@@ -3,7 +3,7 @@ package oidc
 import (
 	"slices"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 	UserPresence = "user"
 )
 
-// AuthMethodTypesToAMR maps zitadel auth method types to Authentication Method Reference Values
+// AuthMethodTypesToAMR maps nomen auth method types to Authentication Method Reference Values
 // as defined in [RFC 8176, section 2].
 //
 // [RFC 8176, section 2]: https://datatracker.ietf.org/doc/html/rfc8176#section-2

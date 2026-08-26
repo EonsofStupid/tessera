@@ -5,7 +5,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/EonsofStupid/tessera/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/api/http/middleware"
 )
 
 const (

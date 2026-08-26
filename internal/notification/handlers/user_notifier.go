@@ -5,20 +5,20 @@ import (
 	"net/url"
 	"time"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/ui/console"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/notification/types"
-	"github.com/EonsofStupid/tessera/internal/queue"
-	"github.com/EonsofStupid/tessera/internal/repository/notification"
-	"github.com/EonsofStupid/tessera/internal/repository/session"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/ui/console"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/notification/types"
+	"github.com/shippinAI/nomen/internal/queue"
+	"github.com/shippinAI/nomen/internal/repository/notification"
+	"github.com/shippinAI/nomen/internal/repository/session"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func init() {
@@ -791,7 +791,7 @@ func (u *userNotifier) reduceInviteCodeAdded(event eventstore.Event) (*handler.S
 
 		applicationName := e.ApplicationName
 		if applicationName == "" {
-			applicationName = "ZITADEL"
+			applicationName = "NOMEN"
 		}
 		return u.queue.Insert(ctx,
 			&notification.Request{

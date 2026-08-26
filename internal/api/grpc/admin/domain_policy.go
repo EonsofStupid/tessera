@@ -3,9 +3,9 @@ package admin
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	policy_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/policy"
-	admin_pb "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	policy_grpc "github.com/shippinAI/nomen/internal/api/grpc/policy"
+	admin_pb "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) GetDomainPolicy(ctx context.Context, _ *admin_pb.GetDomainPolicyRequest) (*admin_pb.GetDomainPolicyResponse, error) {

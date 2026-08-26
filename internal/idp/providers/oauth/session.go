@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	httphelper "github.com/zitadel/oidc/v3/pkg/http"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	httphelper "github.com/shippinAI/nomen/oidc/v3/pkg/http"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp"
 )
 
 var ErrCodeMissing = errors.New("no auth code provided")

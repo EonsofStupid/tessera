@@ -15,15 +15,15 @@ import (
 
 	"github.com/crewjam/saml"
 	"github.com/crewjam/saml/samlsp"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/saml/pkg/provider"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/saml/pkg/provider"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	oidc_internal "github.com/EonsofStupid/tessera/internal/api/oidc"
-	app_pb "github.com/EonsofStupid/tessera/pkg/grpc/app"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	saml_pb "github.com/EonsofStupid/tessera/pkg/grpc/saml/v2"
-	session_pb "github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	oidc_internal "github.com/shippinAI/nomen/internal/api/oidc"
+	app_pb "github.com/shippinAI/nomen/pkg/grpc/app"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	saml_pb "github.com/shippinAI/nomen/pkg/grpc/saml/v2"
+	session_pb "github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 const spCertificate = `-----BEGIN CERTIFICATE-----

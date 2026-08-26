@@ -5,12 +5,12 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	internal_domain "github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	internal_domain "github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type DeleteOrgCommand struct {
@@ -142,7 +142,7 @@ func (cmd *DeleteOrgCommand) Validate(ctx context.Context, opts *InvokeOpts) (er
 		return zerrors.ThrowPreconditionFailed(nil, "DOM-LCkE69", "Errors.Org.DefaultOrgNotDeletable")
 	}
 
-	// Check if the ZITADEL project exists on the input organization
+	// Check if the NOMEN project exists on the input organization
 	projectRepo := opts.projectRepo
 	_, getErr := projectRepo.Get(ctx, opts.DB(),
 		database.WithCondition(database.And(
@@ -152,7 +152,7 @@ func (cmd *DeleteOrgCommand) Validate(ctx context.Context, opts *InvokeOpts) (er
 		)),
 	)
 	if getErr == nil {
-		return zerrors.ThrowPreconditionFailed(nil, "DOM-X7YXxC", "Errors.Org.ZitadelOrgNotDeletable")
+		return zerrors.ThrowPreconditionFailed(nil, "DOM-X7YXxC", "Errors.Org.NomenOrgNotDeletable")
 	}
 	// [database.NoRowFoundError] error means the project does not exist, return other errors in case it's not that
 	if !errors.Is(getErr, &database.NoRowFoundError{}) {

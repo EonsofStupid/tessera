@@ -11,11 +11,11 @@ import (
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/shopspring/decimal"
 
-	new_db "github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/service"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	new_db "github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/service"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // testEvent implements the Event interface
@@ -34,7 +34,7 @@ func newTestEvent(id, description string, data func() interface{}, checkPrevious
 		shouldCheckPrevious: checkPrevious,
 		BaseEvent: *NewBaseEventForPush(
 			service.WithService(authz.NewMockContext("instanceID", "resourceOwner", "editorUser"), "editorService"),
-			NewAggregate(authz.NewMockContext("zitadel", "caos", "adlerhurst"), id, "test.aggregate", "v1"),
+			NewAggregate(authz.NewMockContext("nomen", "caos", "adlerhurst"), id, "test.aggregate", "v1"),
 			"test.event",
 		),
 	}
@@ -491,7 +491,7 @@ func TestEventstore_Push(t *testing.T) {
 								ID:            "1",
 								Type:          "test.aggregate",
 								ResourceOwner: "caos",
-								InstanceID:    "zitadel",
+								InstanceID:    "nomen",
 								Version:       "v1",
 							},
 							Data:      []byte(nil),
@@ -536,7 +536,7 @@ func TestEventstore_Push(t *testing.T) {
 								ID:            "1",
 								Type:          "test.aggregate",
 								ResourceOwner: "caos",
-								InstanceID:    "zitadel",
+								InstanceID:    "nomen",
 								Version:       "v1",
 							},
 							Data:      []byte(nil),
@@ -588,7 +588,7 @@ func TestEventstore_Push(t *testing.T) {
 								ID:            "1",
 								Type:          "test.aggregate",
 								ResourceOwner: "caos",
-								InstanceID:    "zitadel",
+								InstanceID:    "nomen",
 								Version:       "v1",
 							},
 							Data:      []byte(nil),
@@ -600,7 +600,7 @@ func TestEventstore_Push(t *testing.T) {
 								ID:            "1",
 								Type:          "test.aggregate",
 								ResourceOwner: "caos",
-								InstanceID:    "zitadel",
+								InstanceID:    "nomen",
 								Version:       "v1",
 							},
 							Data:      []byte(nil),
@@ -663,7 +663,7 @@ func TestEventstore_Push(t *testing.T) {
 									ID:            "1",
 									Type:          "test.aggregate",
 									ResourceOwner: "caos",
-									InstanceID:    "zitadel",
+									InstanceID:    "nomen",
 									Version:       "v1",
 								},
 								Data:      []byte(nil),
@@ -675,7 +675,7 @@ func TestEventstore_Push(t *testing.T) {
 									ID:            "1",
 									Type:          "test.aggregate",
 									ResourceOwner: "caos",
-									InstanceID:    "zitadel",
+									InstanceID:    "nomen",
 									Version:       "v1",
 								},
 								Data:      []byte(nil),
@@ -689,7 +689,7 @@ func TestEventstore_Push(t *testing.T) {
 									ID:            "2",
 									Type:          "test.aggregate",
 									ResourceOwner: "caos",
-									InstanceID:    "zitadel",
+									InstanceID:    "nomen",
 									Version:       "v1",
 								},
 								Data:      []byte(nil),
@@ -786,7 +786,7 @@ func TestEventstore_Push(t *testing.T) {
 								ID:            "1",
 								Type:          "test.aggregate",
 								ResourceOwner: "caos",
-								InstanceID:    "zitadel",
+								InstanceID:    "nomen",
 								Version:       "v1",
 							},
 							Data:      []byte(nil),
@@ -837,7 +837,7 @@ func TestEventstore_Push(t *testing.T) {
 								ID:            "1",
 								Type:          "test.aggregate",
 								ResourceOwner: "caos",
-								InstanceID:    "zitadel",
+								InstanceID:    "nomen",
 								Version:       "v1",
 							},
 							Data:      []byte(nil),
@@ -893,7 +893,7 @@ func TestEventstore_Push(t *testing.T) {
 								ID:            "1",
 								Type:          "test.aggregate",
 								ResourceOwner: "caos",
-								InstanceID:    "zitadel",
+								InstanceID:    "nomen",
 								Version:       "v1",
 							},
 							Data:      []byte(nil),

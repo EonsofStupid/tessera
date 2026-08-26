@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s\\n' 'Nomen process: read docs/02 and docs/26. Public edition is the deployable default. Enterprise withholds Redis, Vault, and Mesh. Never write credentials into git. First human is deploy-time env or passkey enrollment. Project hooks need /hooks-trust.'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 dev/agent-hooks/pretooluse.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash dev/agent-hooks/stop-verify.sh",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

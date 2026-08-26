@@ -3,11 +3,11 @@ package eventsourcing
 import (
 	"context"
 
-	admin_handler "github.com/EonsofStupid/tessera/internal/admin/repository/eventsourcing/handler"
-	admin_view "github.com/EonsofStupid/tessera/internal/admin/repository/eventsourcing/view"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/static"
+	admin_handler "github.com/shippinAI/nomen/internal/admin/repository/eventsourcing/handler"
+	admin_view "github.com/shippinAI/nomen/internal/admin/repository/eventsourcing/view"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/static"
 )
 
 type Config struct {

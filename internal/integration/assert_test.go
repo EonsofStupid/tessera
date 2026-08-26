@@ -5,7 +5,7 @@ import (
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
 )
 
 type myMsg struct {

@@ -1,9 +1,9 @@
-CREATE TYPE zitadel.project_state AS ENUM (
+CREATE TYPE nomen.project_state AS ENUM (
     'active',
     'inactive'
 );
 
-CREATE TABLE zitadel.projects(
+CREATE TABLE nomen.projects(
     instance_id TEXT NOT NULL
     , organization_id TEXT NOT NULL
     , id TEXT NOT NULL CHECK (id <> '')
@@ -12,7 +12,7 @@ CREATE TABLE zitadel.projects(
     , updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 
     , name TEXT NOT NULL CHECK (name <> '')
-    , state zitadel.project_state NOT NULL
+    , state nomen.project_state NOT NULL
     -- API: project_role_assertion
     , should_assert_role BOOLEAN NOT NULL DEFAULT FALSE
     -- API: authorization_required
@@ -24,10 +24,10 @@ CREATE TABLE zitadel.projects(
 
     , PRIMARY KEY (instance_id, id)
     , UNIQUE (instance_id, organization_id, id)
-    , FOREIGN KEY (instance_id, organization_id) REFERENCES zitadel.organizations(instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, organization_id) REFERENCES nomen.organizations(instance_id, id) ON DELETE CASCADE
 );
 
-CREATE TABLE zitadel.project_roles(
+CREATE TABLE nomen.project_roles(
     instance_id TEXT NOT NULL
     , organization_id TEXT NOT NULL
     , project_id TEXT NOT NULL
@@ -45,17 +45,17 @@ CREATE TABLE zitadel.project_roles(
 
     , PRIMARY KEY (instance_id, project_id, key)
     , UNIQUE (instance_id, organization_id, project_id, key)
-    , FOREIGN KEY (instance_id, organization_id, project_id) REFERENCES zitadel.projects(instance_id, organization_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, organization_id, project_id) REFERENCES nomen.projects(instance_id, organization_id, id) ON DELETE CASCADE
 );
 
 CREATE TRIGGER trigger_set_updated_at
-BEFORE UPDATE ON zitadel.projects
+BEFORE UPDATE ON nomen.projects
 FOR EACH ROW
 WHEN (NEW.updated_at IS NULL)
-EXECUTE FUNCTION zitadel.set_updated_at();
+EXECUTE FUNCTION nomen.set_updated_at();
 
 CREATE TRIGGER trigger_set_updated_at
-BEFORE UPDATE ON zitadel.project_roles
+BEFORE UPDATE ON nomen.project_roles
 FOR EACH ROW
 WHEN (NEW.updated_at IS NULL)
-EXECUTE FUNCTION zitadel.set_updated_at();
+EXECUTE FUNCTION nomen.set_updated_at();

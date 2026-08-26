@@ -1,6 +1,6 @@
-// Package migration owns Tessera's schema.
+// Package migration owns Nomen's product overlay schema.
 //
-// Its own schema (`tessera`), its own version table (`tessera.migrations`) and
+// Its own schema (`nomen_product`), its own version table (`nomen_product.migrations`) and
 // its own sequence starting at one — deliberately separate from the compatibility
 // schema next door, which belongs to `backend/v3` and is numbered 001–018 by
 // upstream. Sharing their series would mean our 019 colliding with their next
@@ -22,10 +22,10 @@ import (
 
 var migrations []*migrate.Migration
 
-// Migrate brings the `tessera` schema up to date, acquiring one connection
+// Migrate brings the `nomen_product` schema up to date, acquiring one connection
 // from the pool for the duration.
 //
-// tern records the applied version in `tessera.migrations`, so calling this on
+// tern records the applied version in `nomen_product.migrations`, so calling this on
 // every start is a cheap no-op once the schema is current — and is what keeps
 // adding a migration an ordinary act rather than an operational event.
 func Migrate(ctx context.Context, pool *pgxpool.Pool) error {
@@ -41,10 +41,10 @@ func Migrate(ctx context.Context, pool *pgxpool.Pool) error {
 func MigrateConn(ctx context.Context, conn *pgx.Conn) error {
 	// The schema has to exist before the migrator can create its version table
 	// inside it — the same ordering constraint v3 has, for the same reason.
-	if _, err := conn.Exec(ctx, "CREATE SCHEMA IF NOT EXISTS tessera"); err != nil {
+	if _, err := conn.Exec(ctx, "CREATE SCHEMA IF NOT EXISTS nomen_product"); err != nil {
 		return err
 	}
-	migrator, err := migrate.NewMigrator(ctx, conn, "tessera.migrations")
+	migrator, err := migrate.NewMigrator(ctx, conn, "nomen_product.migrations")
 	if err != nil {
 		return err
 	}

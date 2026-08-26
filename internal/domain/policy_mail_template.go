@@ -1,6 +1,6 @@
 package domain
 
-import "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
+import "github.com/shippinAI/nomen/internal/eventstore/v1/models"
 
 type MailTemplate struct {
 	models.ObjectRoot

@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // -------------------------------------------------------------
@@ -15,7 +15,7 @@ import (
 type projectRole struct{}
 
 func (projectRole) qualifiedTableName() string {
-	return "zitadel.project_roles"
+	return "nomen.project_roles"
 }
 
 func (p projectRole) Get(ctx context.Context, client database.QueryExecutor, opts ...database.QueryOption) (*domain.ProjectRole, error) {
@@ -74,7 +74,7 @@ func (p projectRole) Update(ctx context.Context, client database.QueryExecutor, 
 	if !database.Changes(changes).IsOnColumn(p.UpdatedAtColumn()) {
 		changes = append(changes, database.NewChange(p.UpdatedAtColumn(), database.NullInstruction))
 	}
-	builder := database.NewStatementBuilder(`UPDATE zitadel.project_roles SET `)
+	builder := database.NewStatementBuilder(`UPDATE nomen.project_roles SET `)
 	err := database.Changes(changes).Write(builder)
 	if err != nil {
 		return 0, err
@@ -88,7 +88,7 @@ func (p projectRole) Delete(ctx context.Context, client database.QueryExecutor, 
 	if err := checkPKCondition(p, condition); err != nil {
 		return 0, err
 	}
-	builder := database.NewStatementBuilder(`DELETE FROM zitadel.project_roles`)
+	builder := database.NewStatementBuilder(`DELETE FROM nomen.project_roles`)
 	writeCondition(builder, condition)
 
 	return client.Exec(ctx, builder.String(), builder.Args()...)
@@ -204,7 +204,7 @@ const queryProjectRoleStmt = `SELECT
 	project_roles.key,
 	project_roles.display_name,
 	project_roles.role_group
-	FROM zitadel.project_roles`
+	FROM nomen.project_roles`
 
 func (p projectRole) prepareQuery(opts []database.QueryOption) (*database.StatementBuilder, error) {
 	options := new(database.QueryOpts)

@@ -22,7 +22,7 @@ type managementRemedyFixture struct {
 func TestManagementRemedyFixturesCoverCatalog(t *testing.T) {
 	t.Parallel()
 
-	contents, err := os.ReadFile("../../../testdata/tessera/management-error-remedies.json")
+	contents, err := os.ReadFile("../../../testdata/nomen/management-error-remedies.json")
 	require.NoError(t, err)
 
 	var fixtures []managementRemedyFixture

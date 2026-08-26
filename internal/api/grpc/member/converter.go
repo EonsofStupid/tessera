@@ -1,12 +1,12 @@
 package member
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/user"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	member_pb "github.com/EonsofStupid/tessera/pkg/grpc/member"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/api/grpc/user"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	member_pb "github.com/shippinAI/nomen/pkg/grpc/member"
 )
 
 func MembersToPb(assetAPIPrefix string, members []*query.Member) []*member_pb.Member {

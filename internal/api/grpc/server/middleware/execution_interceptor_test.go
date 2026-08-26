@@ -19,10 +19,10 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/denylist"
-	"github.com/EonsofStupid/tessera/internal/execution"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/denylist"
+	"github.com/shippinAI/nomen/internal/execution"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
 )
 
 var (
@@ -123,7 +123,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
@@ -144,7 +144,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID: "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID: "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:    "target",
 						TargetType:  target_domain.TargetTypeCall,
 						Timeout:     time.Minute,
@@ -172,7 +172,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
@@ -202,7 +202,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Second,
@@ -231,7 +231,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Second,
@@ -257,7 +257,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
@@ -286,7 +286,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
@@ -316,7 +316,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID: "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID: "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:    "target",
 						TargetType:  target_domain.TargetTypeAsync,
 						Timeout:     time.Second,
@@ -344,7 +344,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID: "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID: "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:    "target",
 						TargetType:  target_domain.TargetTypeAsync,
 						Timeout:     time.Minute,
@@ -372,7 +372,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeWebhook,
 						Timeout:          time.Minute,
@@ -400,7 +400,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeWebhook,
 						Timeout:          time.Second,
@@ -429,7 +429,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeWebhook,
 						Timeout:          time.Minute,
@@ -458,21 +458,21 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target1",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
 						InterruptOnError: true,
 					},
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target2",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
 						InterruptOnError: true,
 					},
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target3",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
@@ -516,21 +516,21 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target1",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
 						InterruptOnError: true,
 					},
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target2",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Second,
 						InterruptOnError: true,
 					},
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target3",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Second,
@@ -573,7 +573,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeWebhook,
 						Timeout:          time.Minute,
@@ -604,7 +604,7 @@ func Test_executeTargetsForGRPCFullMethod_request(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeWebhook,
 						Timeout:          time.Minute,
@@ -820,7 +820,7 @@ func Test_executeTargetsForGRPCFullMethod_response(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "request./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "request./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
@@ -849,7 +849,7 @@ func Test_executeTargetsForGRPCFullMethod_response(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "response./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "response./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,
@@ -878,7 +878,7 @@ func Test_executeTargetsForGRPCFullMethod_response(t *testing.T) {
 				fullMethod: "/service/method",
 				executionTargets: []target_domain.Target{
 					{
-						ExecutionID:      "response./zitadel.session.v2.SessionService/SetSession",
+						ExecutionID:      "response./nomen.session.v2.SessionService/SetSession",
 						TargetID:         "target",
 						TargetType:       target_domain.TargetTypeCall,
 						Timeout:          time.Minute,

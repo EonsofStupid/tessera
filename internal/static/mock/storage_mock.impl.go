@@ -8,8 +8,8 @@ import (
 
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/internal/static"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/static"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func NewStorage(t *testing.T) *MockStorage {

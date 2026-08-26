@@ -14,30 +14,30 @@ import (
 	"github.com/crewjam/saml"
 	"github.com/gorilla/mux"
 	"github.com/muhlemmer/gu"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/cache"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain/federatedlogout"
-	"github.com/EonsofStupid/tessera/internal/form"
-	"github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/apple"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/azuread"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/github"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/gitlab"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/google"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/jwt"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/ldap"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oauth"
-	openid "github.com/EonsofStupid/tessera/internal/idp/providers/oidc"
-	saml2 "github.com/EonsofStupid/tessera/internal/idp/providers/saml"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/zitadel"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/cache"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain/federatedlogout"
+	"github.com/shippinAI/nomen/internal/form"
+	"github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp/providers/apple"
+	"github.com/shippinAI/nomen/internal/idp/providers/azuread"
+	"github.com/shippinAI/nomen/internal/idp/providers/github"
+	"github.com/shippinAI/nomen/internal/idp/providers/gitlab"
+	"github.com/shippinAI/nomen/internal/idp/providers/google"
+	"github.com/shippinAI/nomen/internal/idp/providers/jwt"
+	"github.com/shippinAI/nomen/internal/idp/providers/ldap"
+	"github.com/shippinAI/nomen/internal/idp/providers/oauth"
+	openid "github.com/shippinAI/nomen/internal/idp/providers/oidc"
+	saml2 "github.com/shippinAI/nomen/internal/idp/providers/saml"
+	"github.com/shippinAI/nomen/internal/idp/providers/nomen"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
@@ -524,7 +524,7 @@ func redirectToSuccessURL(w http.ResponseWriter, r *http.Request, intent *comman
 func redirectToFailureURLErr(w http.ResponseWriter, r *http.Request, i *command.IDPIntentWriteModel, err error) {
 	msg := err.Error()
 	var description string
-	zErr := new(zerrors.ZitadelError)
+	zErr := new(zerrors.NomenError)
 	if errors.As(err, &zErr) {
 		msg = zErr.GetID()
 		description = zErr.GetMessage() // TODO: i18n?
@@ -556,7 +556,7 @@ func (h *Handler) fetchIDPUserFromCode(ctx context.Context, identityProvider idp
 		session = openid.NewSession(provider.Provider, code, idpArguments)
 	case *google.Provider:
 		session = openid.NewSession(provider.Provider, code, idpArguments)
-	case *zitadel.Provider:
+	case *nomen.Provider:
 		session = openid.NewSession(provider.Provider, code, idpArguments)
 	case *apple.Provider:
 		session = apple.NewSession(provider, code, appleUser)

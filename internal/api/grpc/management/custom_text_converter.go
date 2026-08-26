@@ -3,9 +3,9 @@ package management
 import (
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/text"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/grpc/text"
+	"github.com/shippinAI/nomen/internal/domain"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func SetInitCustomTextToDomain(msg *mgmt_pb.SetCustomInitMessageTextRequest) *domain.CustomMessageText {

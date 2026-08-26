@@ -9,7 +9,7 @@ import (
 
 	"github.com/shopspring/decimal"
 
-	"github.com/EonsofStupid/tessera/internal/v2/database"
+	"github.com/shippinAI/nomen/internal/v2/database"
 )
 
 type Querier interface {

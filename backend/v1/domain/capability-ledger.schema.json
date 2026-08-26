@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:angryvibes:nomen:contract:capability-ledger:v1",
+  "title": "Nomen capability ledger v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "program_revision", "families"],
+  "properties": {
+    "$schema": {"type": "string"},
+    "schema": {"const": "nomen.capability-ledger.v1"},
+    "program_revision": {"type": "string", "minLength": 1},
+    "families": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/family"}
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "gate": {"enum": ["G0", "G1", "G2", "G3", "G4", "G5", "G6"]},
+    "status": {"enum": ["unsupported", "preview", "operational", "degraded"]},
+    "component": {"enum": ["nomen", "nomen_operator", "clickhouse", "vaultix", "zuul", "shippin_adapter"]},
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "target_gate": {"$ref": "#/$defs/gate"},
+        "current_status": {"$ref": "#/$defs/status"},
+        "evidence_owner": {"$ref": "#/$defs/id"},
+        "required_components": {"type": "array", "items": {"$ref": "#/$defs/component"}, "minItems": 1, "uniqueItems": true},
+        "certification_tracks": {"type": "array", "items": {"$ref": "#/$defs/id"}, "minItems": 1, "uniqueItems": true},
+        "depends_on": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true}
+      }
+    },
+    "family": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "parity_scope", "target_gate", "evidence_owner", "current_status", "required_components", "certification_tracks", "capabilities"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "parity_scope": {"enum": ["union", "supporting"]},
+        "target_gate": {"$ref": "#/$defs/gate"},
+        "evidence_owner": {"$ref": "#/$defs/id"},
+        "current_status": {"$ref": "#/$defs/status"},
+        "required_components": {"type": "array", "items": {"$ref": "#/$defs/component"}, "minItems": 1, "uniqueItems": true},
+        "certification_tracks": {"type": "array", "items": {"$ref": "#/$defs/id"}, "minItems": 1, "uniqueItems": true},
+        "capabilities": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/capability"}}
+      }
+    }
+  }
+}

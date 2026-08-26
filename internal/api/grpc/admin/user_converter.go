@@ -1,13 +1,13 @@
 package admin
 
 import (
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"golang.org/x/text/language"
 
-	user_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/user"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	admin_grpc "github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	user_grpc "github.com/shippinAI/nomen/internal/api/grpc/user"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	admin_grpc "github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func setUpOrgHumanToCommand(human *admin_grpc.SetUpOrgRequest_Human) *command.AddHuman {

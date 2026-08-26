@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS zitadel.administrator_role_permissions;
+DROP TABLE IF EXISTS nomen.administrator_role_permissions;

@@ -1,9 +1,9 @@
 package saml
 
 import (
-	"github.com/zitadel/saml/pkg/provider/models"
+	"github.com/shippinAI/nomen/saml/pkg/provider/models"
 
-	"github.com/EonsofStupid/tessera/internal/command"
+	"github.com/shippinAI/nomen/internal/command"
 )
 
 var _ models.AuthRequestInt = &AuthRequestV2{}

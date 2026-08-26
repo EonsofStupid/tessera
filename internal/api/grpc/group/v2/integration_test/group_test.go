@@ -14,8 +14,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	group_v2 "github.com/EonsofStupid/tessera/pkg/grpc/group/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	group_v2 "github.com/shippinAI/nomen/pkg/grpc/group/v2"
 )
 
 func TestServer_CreateGroup(t *testing.T) {

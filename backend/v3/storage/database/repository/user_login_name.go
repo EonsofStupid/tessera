@@ -1,11 +1,11 @@
 package repository
 
-import "github.com/EonsofStupid/tessera/backend/v3/storage/database"
+import "github.com/shippinAI/nomen/backend/v3/storage/database"
 
 type userLoginName struct{}
 
 func (u userLoginName) qualifiedTableName() string {
-	return "zitadel.login_names"
+	return "nomen.login_names"
 }
 
 func (u userLoginName) unqualifiedTableName() string {

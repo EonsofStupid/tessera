@@ -1,3 +1,3 @@
 package mock
 
-//go:generate mockgen -package mock -destination ./repository.mock.go github.com/EonsofStupid/tessera/internal/eventstore Querier,Pusher
+//go:generate mockgen -package mock -destination ./repository.mock.go github.com/shippinAI/nomen/internal/eventstore Querier,Pusher

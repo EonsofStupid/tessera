@@ -17,15 +17,15 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	zdomain "github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/integration/sink"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/crypto"
+	zdomain "github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration/sink"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func TestServer_SessionReduces(t *testing.T) {
@@ -81,7 +81,7 @@ func TestServer_SessionReduces(t *testing.T) {
 		Description:   gu.Ptr("description"),
 		IP:            net.IPv4(127, 0, 0, 1),
 		Header: http.Header{
-			"User-Agent": []string{"ZITADEL-Integration-Test"},
+			"User-Agent": []string{"NOMEN-Integration-Test"},
 		},
 	}
 	createdSession, err := SessionClient.CreateSession(CTX, &session.CreateSessionRequest{
@@ -93,7 +93,7 @@ func TestServer_SessionReduces(t *testing.T) {
 			Ip:            gu.Ptr(userAgent.IP.String()),
 			Description:   userAgent.Description,
 			Header: map[string]*session.UserAgent_HeaderValues{
-				"User-Agent": {Values: []string{"ZITADEL-Integration-Test"}},
+				"User-Agent": {Values: []string{"NOMEN-Integration-Test"}},
 			},
 		},
 		Lifetime: durationpb.New(lifetime),

@@ -6,43 +6,43 @@ import (
 	"time"
 
 	"github.com/mitchellh/mapstructure"
+	old_logging "github.com/shippinAI/nomen/logging" //nolint:staticcheck
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	old_logging "github.com/zitadel/logging" //nolint:staticcheck
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	tessera_blueprint "github.com/EonsofStupid/tessera/cmd/blueprint"
-	"github.com/EonsofStupid/tessera/cmd/encryption"
-	"github.com/EonsofStupid/tessera/cmd/hooks"
-	"github.com/EonsofStupid/tessera/internal/actions"
-	admin_es "github.com/EonsofStupid/tessera/internal/admin/repository/eventsourcing"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/api/saml"
-	scim_config "github.com/EonsofStupid/tessera/internal/api/scim/config"
-	"github.com/EonsofStupid/tessera/internal/api/ui/console"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/api/well_known"
-	auth_es "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing"
-	"github.com/EonsofStupid/tessera/internal/cache/connector"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/config/hook"
-	"github.com/EonsofStupid/tessera/internal/config/network"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/denylist"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/execution"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/notification/handlers"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	"github.com/EonsofStupid/tessera/internal/serviceping"
-	static_config "github.com/EonsofStupid/tessera/internal/static/config"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	nomen_blueprint "github.com/shippinAI/nomen/cmd/blueprint"
+	"github.com/shippinAI/nomen/cmd/encryption"
+	"github.com/shippinAI/nomen/cmd/hooks"
+	"github.com/shippinAI/nomen/internal/actions"
+	admin_es "github.com/shippinAI/nomen/internal/admin/repository/eventsourcing"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/api/saml"
+	scim_config "github.com/shippinAI/nomen/internal/api/scim/config"
+	"github.com/shippinAI/nomen/internal/api/ui/console"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/api/well_known"
+	auth_es "github.com/shippinAI/nomen/internal/auth/repository/eventsourcing"
+	"github.com/shippinAI/nomen/internal/cache/connector"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/config/hook"
+	"github.com/shippinAI/nomen/internal/config/network"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/denylist"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/execution"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/notification/handlers"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	"github.com/shippinAI/nomen/internal/serviceping"
+	static_config "github.com/shippinAI/nomen/internal/static/config"
 )
 
 type Config struct {
@@ -58,10 +58,12 @@ type Config struct {
 	HTTP2HostHeader     string
 	HTTP1HostHeader     string
 	WebAuthNName        string
+	Edition             string
+	DemoCaps            bool
 	Database            database.Config
 	// Blueprints.Dir, when set, is applied to every instance on every start —
 	// declared identity state, from reviewed files, with no human in the loop.
-	Blueprints        tessera_blueprint.StartupConfig
+	Blueprints        nomen_blueprint.StartupConfig
 	Caches            *connector.CachesConfig
 	Tracing           *instrumentation.LegacyTraceConfig
 	Metrics           *instrumentation.LegacyMetricConfig

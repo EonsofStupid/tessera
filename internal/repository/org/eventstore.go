@@ -1,7 +1,7 @@
 package org
 
 import (
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 func init() {
@@ -103,8 +103,8 @@ func init() {
 	eventstore.RegisterFilterEventMapper(AggregateType, AppleIDPChangedEventType, AppleIDPChangedEventMapper)
 	eventstore.RegisterFilterEventMapper(AggregateType, SAMLIDPAddedEventType, SAMLIDPAddedEventMapper)
 	eventstore.RegisterFilterEventMapper(AggregateType, SAMLIDPChangedEventType, SAMLIDPChangedEventMapper)
-	eventstore.RegisterFilterEventMapper(AggregateType, ZitadelIDPAddedEventType, eventstore.GenericEventMapper[ZitadelIDPAddedEvent])
-	eventstore.RegisterFilterEventMapper(AggregateType, ZitadelIDPChangedEventType, eventstore.GenericEventMapper[ZitadelIDPChangedEvent])
+	eventstore.RegisterFilterEventMapper(AggregateType, NomenIDPAddedEventType, eventstore.GenericEventMapper[NomenIDPAddedEvent])
+	eventstore.RegisterFilterEventMapper(AggregateType, NomenIDPChangedEventType, eventstore.GenericEventMapper[NomenIDPChangedEvent])
 	eventstore.RegisterFilterEventMapper(AggregateType, IDPRemovedEventType, IDPRemovedEventMapper)
 	eventstore.RegisterFilterEventMapper(AggregateType, TriggerActionsSetEventType, TriggerActionsSetEventMapper)
 	eventstore.RegisterFilterEventMapper(AggregateType, TriggerActionsCascadeRemovedEventType, TriggerActionsCascadeRemovedEventMapper)

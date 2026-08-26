@@ -6,11 +6,11 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/api/session/v2/convert"
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	session "github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/backend/v3/api/session/v2/convert"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	session "github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 func ListSessions(ctx context.Context, request *connect.Request[session.ListSessionsRequest]) (*connect.Response[session.ListSessionsResponse], error) {

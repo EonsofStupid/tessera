@@ -13,9 +13,9 @@ import (
 
 	"github.com/benbjohnson/clock"
 
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	emittermock "github.com/EonsofStupid/tessera/internal/logstore/mock"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/logstore"
+	emittermock "github.com/shippinAI/nomen/internal/logstore/mock"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 const (

@@ -6,7 +6,7 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	group_v2 "github.com/EonsofStupid/tessera/pkg/grpc/group/v2"
+	group_v2 "github.com/shippinAI/nomen/pkg/grpc/group/v2"
 )
 
 func (s *Server) AddUsersToGroup(ctx context.Context, c *connect.Request[group_v2.AddUsersToGroupRequest]) (*connect.Response[group_v2.AddUsersToGroupResponse], error) {

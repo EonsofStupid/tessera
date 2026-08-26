@@ -11,12 +11,12 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/metadata"
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources/filter"
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources/patch"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/test"
+	"github.com/shippinAI/nomen/internal/api/scim/metadata"
+	"github.com/shippinAI/nomen/internal/api/scim/resources/filter"
+	"github.com/shippinAI/nomen/internal/api/scim/resources/patch"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/test"
 )
 
 func TestOperationCollection_Apply(t *testing.T) {

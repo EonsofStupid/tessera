@@ -11,9 +11,9 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-API="http://localhost:${TESSERA_PORT:-8088}"
+API="http://localhost:${NOMEN_PORT:-8088}"
 PAT="$(cat "$ROOT/.artifacts/admin.pat")"
-PSQL="psql -h 127.0.0.1 -p 5433 -U tessera -d zitadel -tAc"
+PSQL="psql -h 127.0.0.1 -p 5433 -U nomen -d nomen -tAc"
 HUMAN="flow-probe-human"
 PASSWORD="Fl0w-probe-Passw0rd!"
 
@@ -38,7 +38,7 @@ fi
 
 step "2 · the flows exist because a blueprint declared them"
 for slug in login-password login-mfa recovery; do
-  N="$($PSQL "select count(*) from tessera.flow_stages fs join tessera.flows f
+  N="$($PSQL "select count(*) from nomen.flow_stages fs join nomen.flows f
       on f.instance_id = fs.instance_id and f.slug = fs.flow_slug
       where f.slug = '$slug'")"
   [[ "$N" -ge 2 ]] || die "$slug missing or empty — run dev/seat-probe.sh first (it applies the blueprints)"
@@ -50,7 +50,7 @@ START="$(curl -s -X POST "$API/flows/v1/login-password/start")"
 EXEC="$(printf '%s' "$START" | jqp '["execution_id"]')"
 TOKEN="$(printf '%s' "$START" | jqp '["token"]')"
 COMPONENT="$(printf '%s' "$START" | jqp '["challenge"]["component"]')"
-[[ "$COMPONENT" == "tessera-stage-identify" ]] || die "first challenge = $COMPONENT"
+[[ "$COMPONENT" == "nomen-stage-identify" ]] || die "first challenge = $COMPONENT"
 ok "challenge: $COMPONENT"
 
 answer() { # answer <json-answer> → response body
@@ -67,12 +67,12 @@ ok "wrong token → 404, indistinguishable from an unknown execution"
 
 step "5 · identify"
 R="$(answer "{\"identifier\":\"$HUMAN\"}")"
-[[ "$(printf '%s' "$R" | jqp '["component"]')" == "tessera-stage-password" ]] || die "after identify: $R"
-ok "identified; challenge: tessera-stage-password"
+[[ "$(printf '%s' "$R" | jqp '["component"]')" == "nomen-stage-password" ]] || die "after identify: $R"
+ok "identified; challenge: nomen-stage-password"
 
 step "6 · the wrong password fails closed and stays"
 R="$(answer '{"password":"not-the-password"}')"
-[[ "$(printf '%s' "$R" | jqp '["component"]')" == "tessera-stage-password" ]] || die "wrong password moved the flow: $R"
+[[ "$(printf '%s' "$R" | jqp '["component"]')" == "nomen-stage-password" ]] || die "wrong password moved the flow: $R"
 printf '%s' "$R" | jqp '["errors"]["password"][0]' >/dev/null || die "no field error on wrong password: $R"
 ok "re-asked with a field error, position unchanged"
 
@@ -107,7 +107,7 @@ ok "and the wrong attempt is on the user aggregate ($FAILED × password.check.fa
 step "10 · the other two flows start on the same engine"
 for slug in login-mfa recovery; do
   C="$(curl -s -X POST "$API/flows/v1/$slug/start" | jqp '["challenge"]["component"]')"
-  [[ "$C" == "tessera-stage-identify" ]] || die "$slug: $C"
+  [[ "$C" == "nomen-stage-identify" ]] || die "$slug: $C"
   ok "$slug → $C"
 done
 

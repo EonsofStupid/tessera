@@ -1,11 +1,11 @@
-// Package cache provides abstraction of cache implementations that can be used by zitadel.
+// Package cache provides abstraction of cache implementations that can be used by nomen.
 package cache
 
 import (
 	"context"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 // Purpose describes which object types are stored by a cache.
@@ -97,8 +97,8 @@ const (
 type Config struct {
 	Connector Connector
 
-	// Cache keys are prefixed with the Zitadel version.
-	ZitadelVersion string
+	// Cache keys are prefixed with the Nomen version.
+	NomenVersion string
 
 	// Age since an object was added to the cache,
 	// after which the object is considered invalid.

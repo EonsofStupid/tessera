@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/auth"
-	"github.com/EonsofStupid/tessera/pkg/grpc/org/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/auth"
+	"github.com/shippinAI/nomen/pkg/grpc/org/v2"
 )
 
 func TestServer_DeactivateOrganization_RejectsCallerToken(t *testing.T) {

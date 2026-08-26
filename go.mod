@@ -1,4 +1,4 @@
-module github.com/EonsofStupid/tessera
+module github.com/shippinAI/nomen
 
 go 1.25.0
 
@@ -19,8 +19,10 @@ require (
 	github.com/ajstarks/svgo v0.0.0-20211024235047-1546f124cd8b
 	github.com/alecthomas/participle/v2 v2.1.4
 	github.com/alicebob/miniredis/v2 v2.37.0
+	github.com/amdonov/xmlsig v0.1.0
 	github.com/beevik/etree v1.6.0
 	github.com/benbjohnson/clock v1.3.5
+	github.com/bmatcuk/doublestar/v4 v4.10.0
 	github.com/boombuler/barcode v1.1.0
 	github.com/brianvoe/gofakeit/v6 v6.28.0
 	github.com/cockroachdb/cockroach-go/v2 v2.4.3
@@ -30,6 +32,9 @@ require (
 	github.com/dop251/goja v0.0.0-20260311135729-065cd970411c
 	github.com/dop251/goja_nodejs v0.0.0-20260212111938-1f56ff5bcf14
 	github.com/drone/envsubst v1.0.3
+	github.com/dsoprea/go-exif v0.0.0-20230826092837-6579e82b732d
+	github.com/dsoprea/go-jpeg-image-structure v0.0.0-20221012074422-4f3f7e934102
+	github.com/dsoprea/go-png-image-structure v0.0.0-20210512210324-29b889a6093d
 	github.com/envoyproxy/protoc-gen-validate v1.3.3
 	github.com/fatih/color v1.19.0
 	github.com/fergusstrange/embedded-postgres v1.34.0
@@ -41,10 +46,12 @@ require (
 	github.com/go-resty/resty/v2 v2.17.2
 	github.com/go-webauthn/webauthn v0.10.2
 	github.com/goccy/go-json v0.10.6
+	github.com/golang/mock v1.7.0-rc.1
 	github.com/golang/protobuf v1.5.4
 	github.com/google/go-cmp v0.7.0
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/csrf v1.7.2
+	github.com/gorilla/handlers v1.5.2
 	github.com/gorilla/mux v1.8.1
 	github.com/gorilla/schema v1.4.1
 	github.com/gorilla/securecookie v1.1.2
@@ -52,6 +59,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.29.0
+	github.com/h2non/filetype v1.1.3
 	github.com/h2non/gock v1.2.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/improbable-eng/grpc-web v0.15.0
@@ -59,6 +67,7 @@ require (
 	github.com/jackc/pgx/v5 v5.9.2
 	github.com/jackc/tern/v2 v2.3.6
 	github.com/jarcoal/jpath v0.0.0-20140328210829-f76b8b2dbf52
+	github.com/jeremija/gosubmit v0.2.8
 	github.com/jinzhu/gorm v1.9.16
 	github.com/jonboulle/clockwork v0.5.0
 	github.com/k3a/html2text v1.4.0
@@ -98,13 +107,6 @@ require (
 	github.com/twilio/twilio-go v1.30.5
 	github.com/veqryn/slog-context v0.9.0
 	github.com/veqryn/slog-context/otel v0.9.0
-	github.com/zitadel/exifremove v0.1.0
-	github.com/zitadel/logging v0.7.0
-	github.com/zitadel/oidc/v3 v3.47.5
-	github.com/zitadel/passwap v0.12.1
-	github.com/zitadel/saml v0.4.1
-	github.com/zitadel/schema v1.3.2
-	github.com/zitadel/sloggcp v0.6.0
 	go.opentelemetry.io/contrib/bridges/otelslog v0.18.0
 	go.opentelemetry.io/contrib/exporters/autoexport v0.68.0
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.68.0
@@ -139,6 +141,7 @@ require (
 	google.golang.org/grpc v1.82.1
 	google.golang.org/protobuf v1.36.11
 	gopkg.in/headzoo/surf.v1 v1.0.1
+	gopkg.in/yaml.v2 v2.4.0
 	sigs.k8s.io/yaml v1.6.0
 )
 
@@ -159,10 +162,8 @@ require (
 	github.com/Masterminds/semver/v3 v3.4.0 // indirect
 	github.com/Masterminds/sprig/v3 v3.3.0 // indirect
 	github.com/PuerkitoBio/goquery v1.12.0 // indirect
-	github.com/amdonov/xmlsig v0.1.0 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/bmatcuk/doublestar/v4 v4.10.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -171,13 +172,10 @@ require (
 	github.com/desertbit/timer v1.0.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/dlclark/regexp2 v1.12.0 // indirect
-	github.com/dsoprea/go-exif v0.0.0-20230826092837-6579e82b732d // indirect
 	github.com/dsoprea/go-exif/v2 v2.0.0-20230826092837-6579e82b732d // indirect
 	github.com/dsoprea/go-iptc v0.0.0-20200610044640-bc9ca208b413 // indirect
-	github.com/dsoprea/go-jpeg-image-structure v0.0.0-20221012074422-4f3f7e934102 // indirect
 	github.com/dsoprea/go-logging v0.0.0-20200710184922-b02d349568dd // indirect
 	github.com/dsoprea/go-photoshop-info-format v0.0.0-20200610045659-121dd752914d // indirect
-	github.com/dsoprea/go-png-image-structure v0.0.0-20210512210324-29b889a6093d // indirect
 	github.com/dsoprea/go-utility v0.0.0-20221003172846-a3e1774ef349 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/envoyproxy/go-control-plane/envoy v1.37.0 // indirect
@@ -197,14 +195,11 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/golang/geo v0.0.0-20260415063119-550b242b3150 // indirect
-	github.com/golang/mock v1.7.0-rc.1 // indirect
 	github.com/google/go-tpm v0.9.8 // indirect
 	github.com/google/pprof v0.0.0-20260402051712-545e8a4df936 // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.15 // indirect
 	github.com/googleapis/gax-go/v2 v2.22.0 // indirect
-	github.com/gorilla/handlers v1.5.2 // indirect
-	github.com/h2non/filetype v1.1.3 // indirect
 	github.com/h2non/parth v0.0.0-20190131123155-b4df798d6542 // indirect
 	github.com/headzoo/surf v1.0.1 // indirect
 	github.com/headzoo/ut v0.0.0-20181013193318-a13b5a7a02ca // indirect
@@ -269,7 +264,6 @@ require (
 	golang.org/x/time v0.15.0 // indirect
 	google.golang.org/genproto v0.0.0-20260420184626-e10c466a9529 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260720211330-0afa2a65878a // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	nhooyr.io/websocket v1.8.17 // indirect
 )

@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
 )
 
 var (

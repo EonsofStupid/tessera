@@ -1,11 +1,11 @@
 package org
 
 import (
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	instance_pb "github.com/EonsofStupid/tessera/pkg/grpc/instance"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	instance_pb "github.com/shippinAI/nomen/pkg/grpc/instance"
 )
 
 func InstancesToPb(instances []*query.Instance) []*instance_pb.Instance {

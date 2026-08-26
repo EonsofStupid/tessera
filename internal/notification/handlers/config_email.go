@@ -4,13 +4,13 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/email"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/smtp"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/webhook"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/notification/channels/email"
+	"github.com/shippinAI/nomen/internal/notification/channels/smtp"
+	"github.com/shippinAI/nomen/internal/notification/channels/webhook"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // GetActiveEmailConfig reads the iam SMTP provider config

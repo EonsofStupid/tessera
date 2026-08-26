@@ -3,16 +3,16 @@ package notification
 import (
 	"context"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/email"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/set"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/sms"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/webhook"
-	"github.com/EonsofStupid/tessera/internal/notification/handlers"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/notification/types"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
+	"github.com/shippinAI/nomen/internal/notification/channels/email"
+	"github.com/shippinAI/nomen/internal/notification/channels/set"
+	"github.com/shippinAI/nomen/internal/notification/channels/sms"
+	"github.com/shippinAI/nomen/internal/notification/channels/webhook"
+	"github.com/shippinAI/nomen/internal/notification/handlers"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/notification/types"
 )
 
 var _ types.ChannelChains = (*channels)(nil)

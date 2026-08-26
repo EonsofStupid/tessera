@@ -1,12 +1,12 @@
 package repository
 
-import "github.com/EonsofStupid/tessera/backend/v3/storage/database"
+import "github.com/shippinAI/nomen/backend/v3/storage/database"
 
 type sessionMetadata struct {
 }
 
 func (s sessionMetadata) qualifiedTableName() string {
-	return "zitadel.session_metadata"
+	return "nomen.session_metadata"
 }
 
 func (s sessionMetadata) unqualifiedTableName() string {

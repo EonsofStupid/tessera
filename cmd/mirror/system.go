@@ -11,20 +11,20 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 func systemCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "system",
-		Short: "mirrors the Tessera system tables from one database to another",
-		Long: `mirrors the Tessera system tables from one database to another
-Tessera needs to be initialized
+		Short: "mirrors the Nomen system tables from one database to another",
+		Long: `mirrors the Nomen system tables from one database to another
+Nomen needs to be initialized
 Only keys and assets are mirrored`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera mirror system command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen mirror system command failed")
 			}()
 			config, shutdown, err := newMigrationConfig(cmd, viper.GetViper())
 			if err != nil {

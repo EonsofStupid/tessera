@@ -179,7 +179,7 @@ func Test_newLoggerProvider_autoexport(t *testing.T) {
 				"OTEL_LOGS_EXPORTER": "console",
 			},
 		},
-		// Backward compatibility: explicit ZITADEL types take priority over OTEL env vars
+		// Backward compatibility: explicit NOMEN types take priority over OTEL env vars
 		{
 			name: "stdout type ignores OTEL_LOGS_EXPORTER",
 			cfg: ExporterConfig{

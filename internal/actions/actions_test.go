@@ -9,8 +9,8 @@ import (
 
 	"github.com/dop251/goja"
 
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/logstore/record"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/logstore/record"
 )
 
 func TestRun(t *testing.T) {
@@ -80,11 +80,11 @@ function testFunc() {}`,
 			args: args{
 				api: nil,
 				script: `
-require('zitadel/http');
+require('nomen/http');
 function testFunc() {}`,
 				name: "testFunc",
 				opts: []Option{
-					// We need to pass the option to allow loading the module via require('zitadel/http') in the script.
+					// We need to pass the option to allow loading the module via require('nomen/http') in the script.
 					// Otherwise, the loader will assume it's a file and fail.
 					// No client is needed here, because the module is not used.
 					WithHTTP(context.Background(), nil),

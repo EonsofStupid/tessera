@@ -1,76 +1,76 @@
-CREATE TYPE zitadel.domain_validation_type AS ENUM (
+CREATE TYPE nomen.domain_validation_type AS ENUM (
     'dns'
     , 'http'
 );
 
-CREATE TYPE zitadel.domain_type AS ENUM (
+CREATE TYPE nomen.domain_type AS ENUM (
     'custom'
     , 'trusted'
 );
 
-CREATE TABLE zitadel.instance_domains(
+CREATE TABLE nomen.instance_domains(
   instance_id TEXT NOT NULL
   , domain TEXT NOT NULL CHECK (LENGTH(domain) BETWEEN 1 AND 255)
   , is_primary BOOLEAN
   , is_generated BOOLEAN
-  , type zitadel.domain_type NOT NULL
+  , type nomen.domain_type NOT NULL
 
   , created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
   , updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 
   , PRIMARY KEY (domain)
 
-  , FOREIGN KEY (instance_id) REFERENCES zitadel.instances(id) ON DELETE CASCADE
+  , FOREIGN KEY (instance_id) REFERENCES nomen.instances(id) ON DELETE CASCADE
 
   , CONSTRAINT primary_cannot_be_trusted CHECK (is_primary IS NULL OR type != 'trusted')
   , CONSTRAINT generated_cannot_be_trusted CHECK (is_generated IS NULL OR type != 'trusted')
   , CONSTRAINT custom_values_set CHECK ((is_primary IS NOT NULL AND is_generated IS NOT NULL) OR type != 'custom')
 );
 
-CREATE INDEX idx_instance_domain_instance ON zitadel.instance_domains(instance_id);
+CREATE INDEX idx_instance_domain_instance ON nomen.instance_domains(instance_id);
 
-CREATE TABLE zitadel.org_domains(
+CREATE TABLE nomen.org_domains(
   instance_id TEXT NOT NULL
   , org_id TEXT NOT NULL
   , domain TEXT NOT NULL CHECK (LENGTH(domain) BETWEEN 1 AND 255)
   , is_verified BOOLEAN NOT NULL DEFAULT FALSE
   , is_primary BOOLEAN NOT NULL DEFAULT FALSE
-  , validation_type zitadel.domain_validation_type
+  , validation_type nomen.domain_validation_type
 
   , created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
   , updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 
   , PRIMARY KEY (instance_id, org_id, domain)
 
-  , FOREIGN KEY (instance_id, org_id) REFERENCES zitadel.organizations(instance_id, id) ON DELETE CASCADE
+  , FOREIGN KEY (instance_id, org_id) REFERENCES nomen.organizations(instance_id, id) ON DELETE CASCADE
 
   , UNIQUE (instance_id, org_id, domain)
 );
 
-CREATE INDEX idx_org_domain ON zitadel.org_domains(instance_id, domain);
+CREATE INDEX idx_org_domain ON nomen.org_domains(instance_id, domain);
 
 -- Trigger to update the updated_at timestamp on instance_domains
 CREATE TRIGGER trg_set_updated_at_instance_domains
-  BEFORE UPDATE ON zitadel.instance_domains
+  BEFORE UPDATE ON nomen.instance_domains
   FOR EACH ROW
   WHEN (OLD.updated_at IS NOT DISTINCT FROM NEW.updated_at)
-  EXECUTE FUNCTION zitadel.set_updated_at();
+  EXECUTE FUNCTION nomen.set_updated_at();
 
 -- Trigger to update the updated_at timestamp on org_domains
 CREATE TRIGGER trg_set_updated_at_org_domains
-  BEFORE UPDATE ON zitadel.org_domains
+  BEFORE UPDATE ON nomen.org_domains
   FOR EACH ROW
   WHEN (OLD.updated_at IS NOT DISTINCT FROM NEW.updated_at)
-  EXECUTE FUNCTION zitadel.set_updated_at();
+  EXECUTE FUNCTION nomen.set_updated_at();
 
 -- Function to check for already verified Organization Domains 
-CREATE OR REPLACE FUNCTION zitadel.check_verified_org_domain()
+CREATE OR REPLACE FUNCTION nomen.check_verified_org_domain()
 RETURNS TRIGGER AS $$
 BEGIN
   -- Check if there's already a verified domain within this instance (excluding the current record being updated)
   IF EXISTS (
     SELECT 1
-    FROM zitadel.org_domains
+    FROM nomen.org_domains
     WHERE instance_id = NEW.instance_id
         AND domain = NEW.domain
         AND is_verified = TRUE
@@ -85,17 +85,17 @@ $$ LANGUAGE plpgsql;
 
 -- Trigger to enforce verified domain constraint on org_domains
 CREATE TRIGGER trg_check_verified_org_domain
-  BEFORE INSERT OR UPDATE ON zitadel.org_domains
+  BEFORE INSERT OR UPDATE ON nomen.org_domains
   FOR EACH ROW
   WHEN (NEW.is_verified IS TRUE)
-  EXECUTE FUNCTION zitadel.check_verified_org_domain();
+  EXECUTE FUNCTION nomen.check_verified_org_domain();
 
 -- Function to ensure only one primary domain per instance in instance_domains
-CREATE OR REPLACE FUNCTION zitadel.ensure_single_primary_instance_domain()
+CREATE OR REPLACE FUNCTION nomen.ensure_single_primary_instance_domain()
 RETURNS TRIGGER AS $$
 BEGIN
   -- If setting this domain as primary, update all other domains in the same instance to non-primary
-  UPDATE zitadel.instance_domains 
+  UPDATE nomen.instance_domains 
   SET is_primary = FALSE, updated_at = NOW()
   WHERE instance_id = NEW.instance_id 
     AND domain != NEW.domain 
@@ -108,17 +108,17 @@ $$ LANGUAGE plpgsql;
 
 -- Trigger to enforce single primary domain constraint on instance_domains
 CREATE TRIGGER trg_ensure_single_primary_instance_domain
-  BEFORE INSERT OR UPDATE ON zitadel.instance_domains
+  BEFORE INSERT OR UPDATE ON nomen.instance_domains
   FOR EACH ROW
   WHEN (NEW.is_primary IS TRUE)
-  EXECUTE FUNCTION zitadel.ensure_single_primary_instance_domain();
+  EXECUTE FUNCTION nomen.ensure_single_primary_instance_domain();
 
 -- Function to ensure only one Organization Domain per organization in org_domains
-CREATE OR REPLACE FUNCTION zitadel.ensure_single_primary_org_domain()
+CREATE OR REPLACE FUNCTION nomen.ensure_single_primary_org_domain()
 RETURNS TRIGGER AS $$
 BEGIN
   -- If setting this domain as primary, update all other domains in the same organization to non-primary
-  UPDATE zitadel.org_domains 
+  UPDATE nomen.org_domains 
   SET is_primary = FALSE, updated_at = NOW()
   WHERE instance_id = NEW.instance_id 
     AND org_id = NEW.org_id
@@ -131,7 +131,7 @@ $$ LANGUAGE plpgsql;
 
 -- Trigger to enforce single Organization Domain constraint on org_domains
 CREATE TRIGGER trg_ensure_single_primary_org_domain
-  BEFORE INSERT OR UPDATE ON zitadel.org_domains
+  BEFORE INSERT OR UPDATE ON nomen.org_domains
   FOR EACH ROW
   WHEN (NEW.is_primary IS TRUE)
-  EXECUTE FUNCTION zitadel.ensure_single_primary_org_domain();
+  EXECUTE FUNCTION nomen.ensure_single_primary_org_domain();

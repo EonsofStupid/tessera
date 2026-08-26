@@ -8,9 +8,9 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/EonsofStupid/tessera/internal/activity"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/gerrors"
-	ainfo "github.com/EonsofStupid/tessera/internal/api/info"
+	"github.com/shippinAI/nomen/internal/activity"
+	"github.com/shippinAI/nomen/internal/api/grpc/gerrors"
+	ainfo "github.com/shippinAI/nomen/internal/api/info"
 )
 
 func ActivityInterceptor() connect.UnaryInterceptorFunc {
@@ -19,7 +19,7 @@ func ActivityInterceptor() connect.UnaryInterceptorFunc {
 			ctx = activityInfoFromGateway(ctx, req.Header()).SetMethod(req.Spec().Procedure).IntoContext(ctx)
 			resp, err := handler(ctx, req)
 			if isResourceAPI(req.Spec().Procedure) {
-				code, _, _ := gerrors.ExtractZITADELError(err)
+				code, _, _ := gerrors.ExtractNOMENError(err)
 				ctx = ainfo.ActivityInfoFromContext(ctx).SetGRPCStatus(code).IntoContext(ctx)
 				activity.TriggerGRPCWithContext(ctx, activity.ResourceAPI)
 			}
@@ -29,13 +29,13 @@ func ActivityInterceptor() connect.UnaryInterceptorFunc {
 }
 
 var resourcePrefixes = []string{
-	"/zitadel.management.v1.ManagementService/",
-	"/zitadel.admin.v1.AdminService/",
-	"/zitadel.user.v2.UserService/",
-	"/zitadel.settings.v2.SettingsService/",
-	"/zitadel.user.v2beta.UserService/",
-	"/zitadel.settings.v2beta.SettingsService/",
-	"/zitadel.auth.v1.AuthService/",
+	"/nomen.management.v1.ManagementService/",
+	"/nomen.admin.v1.AdminService/",
+	"/nomen.user.v2.UserService/",
+	"/nomen.settings.v2.SettingsService/",
+	"/nomen.user.v2beta.UserService/",
+	"/nomen.settings.v2beta.SettingsService/",
+	"/nomen.auth.v1.AuthService/",
 }
 
 func isResourceAPI(method string) bool {

@@ -3,7 +3,7 @@ package authz
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 const (

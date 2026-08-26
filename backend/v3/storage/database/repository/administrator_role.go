@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 var _ domain.AdministratorRoleRepository = (*administratorRole)(nil)
@@ -20,7 +20,7 @@ func (administratorRole) unqualifiedTableName() string {
 }
 
 func (a administratorRole) qualifiedTableName() string {
-	return "zitadel." + a.unqualifiedTableName()
+	return "nomen." + a.unqualifiedTableName()
 }
 
 // AddPermission implements [domain.AdministratorRoleRepository].
@@ -29,7 +29,7 @@ func (a administratorRole) AddPermissions(ctx context.Context, client database.Q
 		return 0, database.ErrNoChanges
 	}
 	builder := database.NewStatementBuilder(
-		"INSERT INTO zitadel.administrator_role_permissions (instance_id, role_name, permission)"+
+		"INSERT INTO nomen.administrator_role_permissions (instance_id, role_name, permission)"+
 			" SELECT $1::text, $2::text, unnest($3::text[])"+
 			" ON CONFLICT (instance_id, permission, role_name) DO NOTHING", instanceID, role, permissions,
 	)
@@ -42,7 +42,7 @@ func (a administratorRole) RemovePermissions(ctx context.Context, client databas
 		return 0, database.ErrNoChanges
 	}
 	builder := database.NewStatementBuilder(
-		"DELETE FROM zitadel.administrator_role_permissions"+
+		"DELETE FROM nomen.administrator_role_permissions"+
 			" WHERE instance_id = $1 AND role_name = $2 AND permission = ANY($3::text[])", instanceID, role, permissionsToRemove,
 	)
 	return client.Exec(ctx, builder.String(), builder.Args()...)

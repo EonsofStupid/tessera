@@ -3,11 +3,11 @@ package user
 import (
 	"context"
 
-	resource_object "github.com/EonsofStupid/tessera/internal/api/grpc/resources/object/v3alpha"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/resources/user/v3alpha"
+	resource_object "github.com/shippinAI/nomen/internal/api/grpc/resources/object/v3alpha"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
+	user "github.com/shippinAI/nomen/pkg/grpc/resources/user/v3alpha"
 )
 
 func (s *Server) SetContactPhone(ctx context.Context, req *user.SetContactPhoneRequest) (_ *user.SetContactPhoneResponse, err error) {

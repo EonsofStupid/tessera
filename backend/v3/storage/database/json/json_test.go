@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 func TestFieldChange(t *testing.T) {
@@ -64,7 +64,7 @@ func TestArrayChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_append(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT)`,
+			output: `column = nomen.jsonb_array_append(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT)`,
 		},
 		{
 			name: "two json array add",
@@ -76,7 +76,7 @@ func TestArrayChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_append(zitadel.jsonb_array_remove(zitadel.jsonb_array_append(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT), $7, $8::TEXT)`,
+			output: `column = nomen.jsonb_array_append(nomen.jsonb_array_remove(nomen.jsonb_array_append(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT), $7, $8::TEXT)`,
 		},
 		{
 			name: "one json array remove",
@@ -87,7 +87,7 @@ func TestArrayChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_remove(table.column, $1, $2::TEXT)`,
+			output: `column = nomen.jsonb_array_remove(table.column, $1, $2::TEXT)`,
 		},
 		{
 			name: "two json array remove",
@@ -99,7 +99,7 @@ func TestArrayChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_remove(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT)`,
+			output: `column = nomen.jsonb_array_remove(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT)`,
 		},
 	} {
 		t.Run(test.name, func(t *testing.T) {
@@ -128,7 +128,7 @@ func TestArrayMixedChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_remove(zitadel.jsonb_array_append(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT)`,
+			output: `column = nomen.jsonb_array_remove(nomen.jsonb_array_append(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT)`,
 		},
 		{
 			name: "one json array remove, one json array add",
@@ -140,7 +140,7 @@ func TestArrayMixedChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_append(zitadel.jsonb_array_remove(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT)`,
+			output: `column = nomen.jsonb_array_append(nomen.jsonb_array_remove(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT)`,
 		},
 		{
 			name: "one json array add, one json array remove, one array add",
@@ -153,7 +153,7 @@ func TestArrayMixedChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_append(zitadel.jsonb_array_remove(zitadel.jsonb_array_remove(zitadel.jsonb_array_append(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT), $7, $8::TEXT), $9, $10::TEXT)`,
+			output: `column = nomen.jsonb_array_append(nomen.jsonb_array_remove(nomen.jsonb_array_remove(nomen.jsonb_array_append(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT), $7, $8::TEXT), $9, $10::TEXT)`,
 		},
 		{
 			name: "one json array remove, one json array add, one array remove",
@@ -166,7 +166,7 @@ func TestArrayMixedChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_remove(zitadel.jsonb_array_append(zitadel.jsonb_array_remove(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT), $7, $8::TEXT)`,
+			output: `column = nomen.jsonb_array_remove(nomen.jsonb_array_append(nomen.jsonb_array_remove(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT), $7, $8::TEXT)`,
 		},
 	} {
 		t.Run(test.name, func(t *testing.T) {
@@ -197,7 +197,7 @@ func TestFieldArrayMixedChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_remove(zitadel.jsonb_array_append(zitadel.jsonb_array_remove(jsonb_set_lax(table.column, $1, $2, true, 'delete_key'), $3, $4::TEXT), $5, $6::TEXT), $7, $8::TEXT)`,
+			output: `column = nomen.jsonb_array_remove(nomen.jsonb_array_append(nomen.jsonb_array_remove(jsonb_set_lax(table.column, $1, $2, true, 'delete_key'), $3, $4::TEXT), $5, $6::TEXT), $7, $8::TEXT)`,
 		},
 		{
 			name: "one json array add, one field change, one json remove",
@@ -210,7 +210,7 @@ func TestFieldArrayMixedChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_remove(jsonb_set_lax(zitadel.jsonb_array_append(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6, true, 'delete_key'), $7, $8::TEXT)`,
+			output: `column = nomen.jsonb_array_remove(jsonb_set_lax(nomen.jsonb_array_append(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6, true, 'delete_key'), $7, $8::TEXT)`,
 		},
 		{
 			name: "one json remove, one json array, add one field change",
@@ -223,7 +223,7 @@ func TestFieldArrayMixedChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = jsonb_set_lax(zitadel.jsonb_array_append(zitadel.jsonb_array_remove(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT), $7, $8, true, 'delete_key')`,
+			output: `column = jsonb_set_lax(nomen.jsonb_array_append(nomen.jsonb_array_remove(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4::TEXT), $5, $6::TEXT), $7, $8, true, 'delete_key')`,
 		},
 		{
 			name: "one json remove, one field change, one json array add",
@@ -236,7 +236,7 @@ func TestFieldArrayMixedChange(t *testing.T) {
 
 				return changes
 			}(),
-			output: `column = zitadel.jsonb_array_append(zitadel.jsonb_array_remove(jsonb_set_lax(zitadel.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4, true, 'delete_key'), $5, $6::TEXT), $7, $8::TEXT)`,
+			output: `column = nomen.jsonb_array_append(nomen.jsonb_array_remove(jsonb_set_lax(nomen.jsonb_array_remove(table.column, $1, $2::TEXT), $3, $4, true, 'delete_key'), $5, $6::TEXT), $7, $8::TEXT)`,
 		},
 	} {
 		t.Run(test.name, func(t *testing.T) {

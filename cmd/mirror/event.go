@@ -5,10 +5,10 @@ import (
 
 	"github.com/shopspring/decimal"
 
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/v2/readmodel"
-	"github.com/EonsofStupid/tessera/internal/v2/system"
-	mirror_event "github.com/EonsofStupid/tessera/internal/v2/system/mirror"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/readmodel"
+	"github.com/shippinAI/nomen/internal/v2/system"
+	mirror_event "github.com/shippinAI/nomen/internal/v2/system/mirror"
 )
 
 func queryLastSuccessfulMigration(ctx context.Context, destinationES *eventstore.EventStore, source string) (*readmodel.LastSuccessfulMirror, error) {

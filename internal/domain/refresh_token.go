@@ -3,8 +3,8 @@ package domain
 import (
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func NewRefreshToken(userID, tokenID string, algorithm crypto.AuthAlgorithm) (string, error) {

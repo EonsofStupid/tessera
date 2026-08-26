@@ -7,9 +7,9 @@ import (
 
 	"github.com/benbjohnson/clock"
 
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/repository/quota"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/repository/quota"
 )
 
 var _ logstore.UsageStorer[*Record] = (*InmemLogStorage)(nil)

@@ -20,7 +20,7 @@ const check = async (name, fn) => {
   catch (e) { failures++; console.log(`  ✗ ${name}\n      ${e.message}`); }
 };
 
-console.log("\nAutomaton (engine/serve/identity.mjs) verifying Tessera-minted tokens\n");
+console.log("\nAutomaton (engine/serve/identity.mjs) verifying Nomen-minted tokens\n");
 
 await check("accepts a token minted for this workspace", async () => {
   const c = await id.verify(tok("tok-ws0001"));

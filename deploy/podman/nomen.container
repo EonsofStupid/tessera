@@ -1,0 +1,39 @@
+[Unit]
+Description=Nomen identity and authorization
+Documentation=https://github.com/EonsofStupid/tessera/blob/main/docs/10-container-runtime.md
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+Image=localhost/nomen/nomen:dev
+ContainerName=nomen
+Exec=start-from-init --masterkeyFromEnv --tlsMode external --init-projections
+
+EnvironmentFile=./nomen.env
+Secret=nomen-masterkey,type=env,target=NOMEN_MASTERKEY
+Secret=nomen-database-dsn,type=env,target=NOMEN_DATABASE_POSTGRES_DSN
+Secret=nomen-bootstrap-password,type=env,target=NOMEN_FIRSTINSTANCE_ORG_HUMAN_PASSWORD
+
+Network=nomen.network
+PublishPort=127.0.0.1:8080:8080
+Volume=./blueprints:/etc/nomen/blueprints:ro,Z
+
+ReadOnly=true
+ReadOnlyTmpfs=true
+NoNewPrivileges=true
+DropCapability=all
+
+HealthCmd=/usr/local/bin/nomen ready
+HealthInterval=10s
+HealthTimeout=3s
+HealthRetries=12
+HealthStartPeriod=60s
+
+[Service]
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=15min
+TimeoutStopSec=60s
+
+[Install]
+WantedBy=default.target

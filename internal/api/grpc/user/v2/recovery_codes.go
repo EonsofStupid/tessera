@@ -5,8 +5,8 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object/v2"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/object/v2"
+	user "github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func (s *Server) GenerateRecoveryCodes(ctx context.Context, req *connect.Request[user.GenerateRecoveryCodesRequest]) (*connect.Response[user.GenerateRecoveryCodesResponse], error) {

@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/user/repository/view/model"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/user/repository/view/model"
 )
 
 type UserRepository interface {

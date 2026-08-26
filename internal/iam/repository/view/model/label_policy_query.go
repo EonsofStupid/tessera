@@ -1,9 +1,9 @@
 package model
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
-	iam_model "github.com/EonsofStupid/tessera/internal/iam/model"
-	"github.com/EonsofStupid/tessera/internal/view/repository"
+	"github.com/shippinAI/nomen/internal/domain"
+	iam_model "github.com/shippinAI/nomen/internal/iam/model"
+	"github.com/shippinAI/nomen/internal/view/repository"
 )
 
 type LabelPolicySearchQuery iam_model.LabelPolicySearchQuery

@@ -10,13 +10,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	objpb "github.com/EonsofStupid/tessera/pkg/grpc/object"
-	objv2 "github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	session_grpc "github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	objpb "github.com/shippinAI/nomen/pkg/grpc/object"
+	objv2 "github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	session_grpc "github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 func TestSearchQueryGRPCToDomain(t *testing.T) {

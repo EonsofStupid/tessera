@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Challenge is what a stage asks the client, tagged the way Authentik tags
+// Challenge is what a stage asks the client, tagged the way Nomen tags
 // them: a component name any renderer can dispatch on. The panel's custom UI
 // renders components, not endpoints — which is what lets login look like the
 // product while the engine stays invisible.

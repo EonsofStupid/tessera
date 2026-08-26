@@ -14,8 +14,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/idp/providers/saml/requesttracker"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/idp/providers/saml/requesttracker"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestSession_FetchUser(t *testing.T) {

@@ -3,8 +3,8 @@ package instrumenting
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 func traceMessages(ctx context.Context, channel channels.NotificationChannel, spanName string) channels.NotificationChannel {

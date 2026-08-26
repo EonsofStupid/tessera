@@ -4,11 +4,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/repository/org"
 )
 
 type OrgOAuthIDPWriteModel struct {
@@ -1010,8 +1010,8 @@ func (wm *OrgIDPRemoveWriteModel) AppendEvents(events ...eventstore.Event) {
 			wm.IDPRemoveWriteModel.AppendEvents(&e.IDPConfigAddedEvent)
 		case *org.IDPConfigRemovedEvent:
 			wm.IDPRemoveWriteModel.AppendEvents(&e.IDPConfigRemovedEvent)
-		case *org.ZitadelIDPAddedEvent:
-			wm.IDPRemoveWriteModel.AppendEvents(&e.ZitadelIDPAddedEvent)
+		case *org.NomenIDPAddedEvent:
+			wm.IDPRemoveWriteModel.AppendEvents(&e.NomenIDPAddedEvent)
 		default:
 			wm.IDPRemoveWriteModel.AppendEvents(e)
 		}
@@ -1037,7 +1037,7 @@ func (wm *OrgIDPRemoveWriteModel) Query() *eventstore.SearchQueryBuilder {
 			org.LDAPIDPAddedEventType,
 			org.AppleIDPAddedEventType,
 			org.SAMLIDPAddedEventType,
-			org.ZitadelIDPAddedEventType,
+			org.NomenIDPAddedEventType,
 			org.IDPRemovedEventType,
 		).
 		EventData(map[string]interface{}{"id": wm.ID}).
@@ -1052,13 +1052,13 @@ func (wm *OrgIDPRemoveWriteModel) Query() *eventstore.SearchQueryBuilder {
 		Builder()
 }
 
-type OrgZitadelIDPWriteModel struct {
-	ZitadelIDPWriteModel
+type OrgNomenIDPWriteModel struct {
+	NomenIDPWriteModel
 }
 
-func NewZitadelOrgIDPWriteModel(orgID, id string) *OrgZitadelIDPWriteModel {
-	return &OrgZitadelIDPWriteModel{
-		ZitadelIDPWriteModel{
+func NewNomenOrgIDPWriteModel(orgID, id string) *OrgNomenIDPWriteModel {
+	return &OrgNomenIDPWriteModel{
+		NomenIDPWriteModel{
 			WriteModel: eventstore.WriteModel{
 				AggregateID:   orgID,
 				ResourceOwner: orgID,
@@ -1068,33 +1068,33 @@ func NewZitadelOrgIDPWriteModel(orgID, id string) *OrgZitadelIDPWriteModel {
 	}
 }
 
-func (wm *OrgZitadelIDPWriteModel) AppendEvents(events ...eventstore.Event) {
+func (wm *OrgNomenIDPWriteModel) AppendEvents(events ...eventstore.Event) {
 	for _, event := range events {
 		switch e := event.(type) {
-		case *org.ZitadelIDPAddedEvent:
-			wm.ZitadelIDPWriteModel.AppendEvents(&e.ZitadelIDPAddedEvent)
-		case *org.ZitadelIDPChangedEvent:
-			wm.ZitadelIDPWriteModel.AppendEvents(&e.ZitadelIDPChangedEvent)
+		case *org.NomenIDPAddedEvent:
+			wm.NomenIDPWriteModel.AppendEvents(&e.NomenIDPAddedEvent)
+		case *org.NomenIDPChangedEvent:
+			wm.NomenIDPWriteModel.AppendEvents(&e.NomenIDPChangedEvent)
 		default:
-			wm.ZitadelIDPWriteModel.AppendEvents(e)
+			wm.NomenIDPWriteModel.AppendEvents(e)
 		}
 	}
 }
 
-func (wm *OrgZitadelIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
+func (wm *OrgNomenIDPWriteModel) Query() *eventstore.SearchQueryBuilder {
 	return eventstore.NewSearchQueryBuilder(eventstore.ColumnsEvent).
 		ResourceOwner(wm.ResourceOwner).
 		AddQuery().
 		AggregateTypes(org.AggregateType).
 		AggregateIDs(wm.AggregateID).
 		EventTypes(
-			org.ZitadelIDPAddedEventType,
+			org.NomenIDPAddedEventType,
 		).
 		EventData(map[string]interface{}{"id": wm.ID}).
 		Builder()
 }
 
-func (wm *OrgZitadelIDPWriteModel) NewChangedEvent(
+func (wm *OrgNomenIDPWriteModel) NewChangedEvent(
 	ctx context.Context,
 	aggregate *eventstore.Aggregate,
 	id, name, issuer, clientID, clientSecretString string,
@@ -1102,7 +1102,7 @@ func (wm *OrgZitadelIDPWriteModel) NewChangedEvent(
 	scopes []string,
 	options idp.Options,
 	info []idp.RolesInfo,
-) (*org.ZitadelIDPChangedEvent, error) {
+) (*org.NomenIDPChangedEvent, error) {
 
 	changes, err := wm.NewChanges(
 		name,
@@ -1117,5 +1117,5 @@ func (wm *OrgZitadelIDPWriteModel) NewChangedEvent(
 	if err != nil || len(changes) == 0 {
 		return nil, err
 	}
-	return org.NewZitadelIDPChangedEvent(ctx, aggregate, id, changes), nil
+	return org.NewNomenIDPChangedEvent(ctx, aggregate, id, changes), nil
 }

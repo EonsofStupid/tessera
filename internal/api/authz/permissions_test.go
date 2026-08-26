@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func equalStringArray(a, b []string) bool {

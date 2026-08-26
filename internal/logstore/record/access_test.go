@@ -43,14 +43,14 @@ func TestRecord_Normalize(t *testing.T) {
 	}, {
 		name: "an already prune record should stay unchanged",
 		record: AccessLog{
-			RequestURL: "https://my.zitadel.cloud/",
+			RequestURL: "https://my.nomen.cloud/",
 			RequestHeaders: map[string][]string{
 				"authorization": {"[REDACTED]"},
 			},
 			ResponseHeaders: map[string][]string{},
 		},
 		want: &AccessLog{
-			RequestURL: "https://my.zitadel.cloud/",
+			RequestURL: "https://my.nomen.cloud/",
 			RequestHeaders: map[string][]string{
 				"authorization": {"[REDACTED]"},
 			},

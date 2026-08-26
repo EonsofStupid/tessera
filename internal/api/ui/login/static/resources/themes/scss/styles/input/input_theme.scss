@@ -9,36 +9,36 @@
   .lgn-input:not([disabled]),
   select:not([disabled]),
   .lgn-select:not([disabled]) {
-    border-color: var(--zitadel-color-input-border);
+    border-color: var(--nomen-color-input-border);
   }
 
   .lgn-input,
   select,
   .lgn-select {
-    color: var(--zitadel-color-text);
-    background-color: var(--zitadel-color-input-background);
+    color: var(--nomen-color-text);
+    background-color: var(--nomen-color-input-background);
 
     &:hover {
-      border-color: var(--zitadel-color-input-border-hover);
+      border-color: var(--nomen-color-input-border-hover);
     }
 
     &:active {
-      border-color: var(--zitadel-color-input-border-active);
+      border-color: var(--nomen-color-input-border-active);
     }
 
     &:focus {
-      border-color: var(--zitadel-color-input-border-active);
+      border-color: var(--nomen-color-input-border-active);
     }
 
     // overwrite if state is warn
     &.lgn-touched[color="warn"] {
-      border-color: var(--zitadel-color-warn);
+      border-color: var(--nomen-color-warn);
     }
   }
 
   .lgn-input::placeholder,
   select::placeholder,
   .lgn-select::placeholder {
-    color: var(--zitadel-color-input-placeholder);
+    color: var(--nomen-color-input-placeholder);
   }
 }

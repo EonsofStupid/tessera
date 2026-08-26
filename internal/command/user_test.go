@@ -8,15 +8,15 @@ import (
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/group"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/group"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommandSide_UsernameChange(t *testing.T) {
@@ -1873,7 +1873,7 @@ func TestExistsUser(t *testing.T) {
 							"displayName",
 							language.German,
 							domain.GenderFemale,
-							"support@zitadel.com",
+							"support@nomen.com",
 							true,
 							"userAgentID",
 						),
@@ -1900,7 +1900,7 @@ func TestExistsUser(t *testing.T) {
 							"displayName",
 							language.German,
 							domain.GenderFemale,
-							"support@zitadel.com",
+							"support@nomen.com",
 							true,
 						),
 					}, nil

@@ -3,9 +3,9 @@ package admin
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	object_pb "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	object_pb "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
 )
 
 func (s *Server) ListMilestones(ctx context.Context, req *admin.ListMilestonesRequest) (*admin.ListMilestonesResponse, error) {

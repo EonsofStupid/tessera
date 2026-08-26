@@ -4,10 +4,10 @@ import (
 	"context"
 	_ "embed"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 type TransactionalTables struct {
@@ -17,7 +17,7 @@ type TransactionalTables struct {
 }
 
 func (mig *TransactionalTables) Execute(ctx context.Context, _ eventstore.Event) error {
-	// TODO(adlerhurst): revert changes made in https://github.com/EonsofStupid/tessera/pull/11833 before v5 release.
+	// TODO(adlerhurst): revert changes made in https://github.com/shippinAI/nomen/pull/11833 before v5 release.
 	if mig.ShouldRecreateSchema {
 		logging.Info(ctx, "dropping schema of relational tables")
 		if err := mig.dropSchema(ctx); err != nil {
@@ -55,10 +55,10 @@ func (mig *TransactionalTables) dropSchema(ctx context.Context) (err error) {
 		err = tx.Commit()
 	}()
 
-	_, err = tx.ExecContext(ctx, "DROP SCHEMA IF EXISTS zitadel CASCADE")
+	_, err = tx.ExecContext(ctx, "DROP SCHEMA IF EXISTS nomen CASCADE")
 	if err != nil {
 		return err
 	}
-	_, err = tx.ExecContext(ctx, "DELETE FROM projections.current_states WHERE projection_name LIKE $1 || '%' OR projection_name = $2", "zitadel.", "relational_tables")
+	_, err = tx.ExecContext(ctx, "DELETE FROM projections.current_states WHERE projection_name LIKE $1 || '%' OR projection_name = $2", "nomen.", "relational_tables")
 	return err
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	session_grpc "github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	session_grpc "github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 func TestCheckPasskeyGRPCToDomain(t *testing.T) {

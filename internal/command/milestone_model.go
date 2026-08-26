@@ -1,8 +1,8 @@
 package command
 
 import (
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/milestone"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/milestone"
 )
 
 type MilestonesReachedWriteModel struct {

@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	settings "github.com/EonsofStupid/tessera/pkg/grpc/settings/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	settings "github.com/shippinAI/nomen/pkg/grpc/settings/v2beta"
 )
 
 func TestServer_ListOrganizationSettings(t *testing.T) {

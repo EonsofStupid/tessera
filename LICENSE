@@ -1,0 +1,20 @@
+Copyright (c) AngryVibes LLC
+Copyright (c) shippin.ai
+
+All rights reserved.
+
+Nomen is a commercial product of AngryVibes LLC. shippin.ai is an authorized
+licensor of this software together with AngryVibes LLC.
+
+Nomen absorbs no third-party product license. The product is licensed only by
+AngryVibes LLC and shippin.ai. Reference trees that may exist under upstream/
+are not Nomen, are not shipped in the product image, and keep their authors'
+own terms.
+
+Unauthorized copying, modification, distribution, public display, or use of
+Nomen is prohibited except as expressly granted in writing by AngryVibes LLC
+or shippin.ai.
+
+Go modules, npm packages, and other third-party dependencies remain under
+their own licenses at the dependency boundary. Those licenses are not Nomen's
+product license and are inventoried by the release SBOM, not absorbed here.

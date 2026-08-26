@@ -8,27 +8,27 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/cmd/initialise"
-	"github.com/EonsofStupid/tessera/cmd/key"
-	"github.com/EonsofStupid/tessera/cmd/setup"
-	"github.com/EonsofStupid/tessera/cmd/tls"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/cmd/initialise"
+	"github.com/shippinAI/nomen/cmd/key"
+	"github.com/shippinAI/nomen/cmd/setup"
+	"github.com/shippinAI/nomen/cmd/tls"
 )
 
 func NewStartFromInit(server chan<- *Server) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "start-from-init",
-		Short: "cold starts Tessera",
-		Long: `cold starts Tessera.
-First the minimum requirements to start Tessera are set up.
+		Short: "cold starts Nomen",
+		Long: `cold starts Nomen.
+First the minimum requirements to start Nomen are set up.
 Second the initial events are created.
-Last Tessera starts.
+Last Nomen starts.
 
 Requirements:
 - postgreSQL`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera start-from-init command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen start-from-init command failed")
 			}()
 
 			err = tls.ModeFromFlag(cmd)
@@ -81,7 +81,7 @@ Requirements:
 				return err
 			}
 
-			return startZitadel(cmd.Context(), startConfig, masterKey, server)
+			return startNomen(cmd.Context(), startConfig, masterKey, server)
 		},
 	}
 

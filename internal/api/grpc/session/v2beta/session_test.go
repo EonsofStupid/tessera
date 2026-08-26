@@ -13,13 +13,13 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	objpb "github.com/EonsofStupid/tessera/pkg/grpc/object"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	session "github.com/EonsofStupid/tessera/pkg/grpc/session/v2beta"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	objpb "github.com/shippinAI/nomen/pkg/grpc/object"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	session "github.com/shippinAI/nomen/pkg/grpc/session/v2beta"
 )
 
 var (

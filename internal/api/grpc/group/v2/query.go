@@ -6,12 +6,12 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/filter/v2"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	authorization_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2beta"
-	group_v2 "github.com/EonsofStupid/tessera/pkg/grpc/group/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/filter/v2"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	authorization_v2beta "github.com/shippinAI/nomen/pkg/grpc/authorization/v2beta"
+	group_v2 "github.com/shippinAI/nomen/pkg/grpc/group/v2"
 )
 
 // GetGroup returns a group that matches the group ID in the request

@@ -3,11 +3,11 @@ package config
 import (
 	"database/sql"
 
-	"github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/static"
-	"github.com/EonsofStupid/tessera/internal/static/database"
-	"github.com/EonsofStupid/tessera/internal/static/s3"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/static"
+	"github.com/shippinAI/nomen/internal/static/database"
+	"github.com/shippinAI/nomen/internal/static/s3"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type AssetStorageConfig struct {

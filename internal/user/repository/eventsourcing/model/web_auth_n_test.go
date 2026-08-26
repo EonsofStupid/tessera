@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/pkg/grpc/user"
 )
 
 func TestAppendMFAU2FAddedEvent(t *testing.T) {

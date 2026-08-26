@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type userIdentityProviderLink struct{}
@@ -13,7 +13,7 @@ func (u userIdentityProviderLink) unqualifiedTableName() string {
 }
 
 func (u userIdentityProviderLink) qualifiedTableName() string {
-	return "zitadel.user_identity_provider_links"
+	return "nomen.user_identity_provider_links"
 }
 
 // -------------------------------------------------------------
@@ -57,7 +57,7 @@ func (u userIdentityProviderLink) AddIdentityProviderLink(link *domain.IdentityP
 func (u userIdentityProviderLink) UpdateIdentityProviderLink(condition database.Condition, changes ...database.Change) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("UPDATE zitadel.user_identity_provider_links SET ")
+			builder.WriteString("UPDATE nomen.user_identity_provider_links SET ")
 			err := database.Changes(changes).Write(builder)
 			logging.New(logging.StreamRuntime).Debug("write changes in cte failed", "error", err)
 			builder.WriteString(" FROM ")

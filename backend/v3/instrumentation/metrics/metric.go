@@ -8,14 +8,14 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/metric"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/cmd/build"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/cmd/build"
 )
 
 const (
-	ActiveSessionCounter            = "zitadel.active_session_counter"
+	ActiveSessionCounter            = "nomen.active_session_counter"
 	ActiveSessionCounterDescription = "Active session counter"
-	SpoolerDivCounter               = "zitadel.spooler_div_milliseconds"
+	SpoolerDivCounter               = "nomen.spooler_div_milliseconds"
 	SpoolerDivCounterDescription    = "Spooler div from last successful run to now in milliseconds"
 	Database                        = "database"
 	ViewName                        = "view_name"

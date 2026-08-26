@@ -3,10 +3,10 @@ package login
 import (
 	"net/http"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	iam_model "github.com/EonsofStupid/tessera/internal/iam/model"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	iam_model "github.com/shippinAI/nomen/internal/iam/model"
 )
 
 const (

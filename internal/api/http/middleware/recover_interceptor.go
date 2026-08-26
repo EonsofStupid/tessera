@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/zitadel/sloggcp"
+	"github.com/shippinAI/nomen/sloggcp"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // RecoverHandler recovers from panics in the HTTP handler chain

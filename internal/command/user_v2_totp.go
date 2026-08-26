@@ -3,7 +3,7 @@ package command
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 func (c *Commands) AddUserTOTP(ctx context.Context, userID, resourceOwner string) (*domain.TOTP, error) {

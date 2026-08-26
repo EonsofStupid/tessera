@@ -7,9 +7,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/cache"
+	"github.com/shippinAI/nomen/backend/v3/storage/cache"
 )
 
 type testIndex int

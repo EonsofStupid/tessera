@@ -6,11 +6,11 @@ import (
 	"encoding/json"
 	"slices"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/v2/database"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/v2/database"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
 )
 
 func (s *Storage) Query(ctx context.Context, query *eventstore.Query) (eventCount int, err error) {

@@ -3,7 +3,7 @@ package models
 import (
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 type ObjectRoot struct {

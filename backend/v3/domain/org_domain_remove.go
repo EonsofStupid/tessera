@@ -3,8 +3,8 @@ package domain
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/org"
 )
 
 type RemoveOrgDomainCommand struct {
@@ -15,7 +15,7 @@ type RemoveOrgDomainCommand struct {
 
 // Events implements Commander.
 func (r *RemoveOrgDomainCommand) Events(ctx context.Context, opts *InvokeOpts) ([]eventstore.Command, error) {
-	// TODO(IAM-Marco) Finish implementation in https://github.com/EonsofStupid/tessera/issues/10447
+	// TODO(IAM-Marco) Finish implementation in https://github.com/shippinAI/nomen/issues/10447
 	oldDomainName := ""
 	isVerified := false
 	if r.Name != nil {

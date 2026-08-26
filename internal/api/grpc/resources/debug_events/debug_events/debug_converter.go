@@ -3,11 +3,11 @@ package debug_events
 import (
 	"fmt"
 
-	resource_object "github.com/EonsofStupid/tessera/internal/api/grpc/resources/object/v3alpha"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
-	debug_events "github.com/EonsofStupid/tessera/pkg/grpc/resources/debug_events/v3alpha"
+	resource_object "github.com/shippinAI/nomen/internal/api/grpc/resources/object/v3alpha"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
+	debug_events "github.com/shippinAI/nomen/pkg/grpc/resources/debug_events/v3alpha"
 )
 
 func debugEventsFromRequest(req *debug_events.CreateDebugEventsRequest) *command.DebugEvents {

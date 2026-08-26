@@ -6,14 +6,14 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 // ExamplePermissionClause_org shows how to use the PermissionClause function to filter
 // permitted records based on the Organization ID and the user's instance or organization membership.
 func ExamplePermissionClause_org() {
-	// These variables are typically set in the middleware of Zitadel.
+	// These variables are typically set in the middleware of Nomen.
 	// They do not influence the generation of the clause, just what
 	// the function does in Postgres.
 	ctx := authz.WithInstanceID(context.Background(), "instanceID")
@@ -26,7 +26,7 @@ func ExamplePermissionClause_org() {
 		UserResourceOwnerCol, // match the Organization ID column
 		domain.PermissionUserRead,
 		SingleOrgPermissionOption([]SearchQuery{
-			mustSearchQuery(NewUserDisplayNameSearchQuery("zitadel", TextContains)),
+			mustSearchQuery(NewUserDisplayNameSearchQuery("nomen", TextContains)),
 			mustSearchQuery(NewUserResourceOwnerSearchQuery("orgID", TextEquals)),
 		}), // If the request had an orgID filter, it can be used to optimize the SQL function.
 		OwnedRowsPermissionOption(UserIDCol), // allow user to find themselves.
@@ -47,7 +47,7 @@ func ExamplePermissionClause_org() {
 // permitted records based on the Organization ID and the user's instance or organization membership.
 // Additionally, it allows returning records based on the project ID and project membership.
 func ExamplePermissionClause_project() {
-	// These variables are typically set in the middleware of Zitadel.
+	// These variables are typically set in the middleware of Nomen.
 	// They do not influence the generation of the clause, just what
 	// the function does in Postgres.
 	ctx := authz.WithInstanceID(context.Background(), "instanceID")
@@ -61,7 +61,7 @@ func ExamplePermissionClause_project() {
 		"project.read",
 		WithProjectsPermissionOption(ProjectColumnID),
 		SingleOrgPermissionOption([]SearchQuery{
-			mustSearchQuery(NewUserDisplayNameSearchQuery("zitadel", TextContains)),
+			mustSearchQuery(NewUserDisplayNameSearchQuery("nomen", TextContains)),
 			mustSearchQuery(NewUserResourceOwnerSearchQuery("orgID", TextEquals)),
 		}), // If the request had an orgID filter, it can be used to optimize the SQL function.
 	)

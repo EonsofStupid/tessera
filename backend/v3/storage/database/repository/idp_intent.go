@@ -7,14 +7,14 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type idpIntentRepository struct{}
 
 func (i idpIntentRepository) qualifiedTableName() string {
-	return "zitadel.identity_provider_intents"
+	return "nomen.identity_provider_intents"
 }
 
 func (i idpIntentRepository) unqualifiedTableName() string {
@@ -54,7 +54,7 @@ SELECT
 	, identity_provider_intents.fail_reason
 	, identity_provider_intents.expires_at
 FROM
-	zitadel.identity_provider_intents
+	nomen.identity_provider_intents
 `
 
 // Create implements [domain.IDPIntentRepository].
@@ -153,7 +153,7 @@ func (i idpIntentRepository) Update(ctx context.Context, client database.QueryEx
 	}
 
 	builder := database.StatementBuilder{}
-	builder.WriteString(`UPDATE zitadel.identity_provider_intents SET `)
+	builder.WriteString(`UPDATE nomen.identity_provider_intents SET `)
 
 	err := database.Changes(changes).Write(&builder)
 	if err != nil {

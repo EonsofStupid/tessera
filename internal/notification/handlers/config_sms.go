@@ -4,12 +4,12 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/sms"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/twilio"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/webhook"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/notification/channels/sms"
+	"github.com/shippinAI/nomen/internal/notification/channels/twilio"
+	"github.com/shippinAI/nomen/internal/notification/channels/webhook"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // GetActiveSMSConfig reads the active iam sms provider config

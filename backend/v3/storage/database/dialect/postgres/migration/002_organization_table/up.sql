@@ -1,13 +1,13 @@
-CREATE TYPE zitadel.organization_state AS ENUM (
+CREATE TYPE nomen.organization_state AS ENUM (
 	'active',
 	'inactive'
 );
 
-CREATE TABLE zitadel.organizations(
+CREATE TABLE nomen.organizations(
   id TEXT NOT NULL CHECK (id <> ''),
   name TEXT NOT NULL CHECK (name <> ''),
-  instance_id TEXT NOT NULL REFERENCES zitadel.instances (id) ON DELETE CASCADE,
-  state zitadel.organization_state NOT NULL,
+  instance_id TEXT NOT NULL REFERENCES nomen.instances (id) ON DELETE CASCADE,
+  state nomen.organization_state NOT NULL,
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
   updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
 
@@ -15,10 +15,10 @@ CREATE TABLE zitadel.organizations(
 );
 
 CREATE UNIQUE INDEX org_unique_instance_id_name_idx
-  ON zitadel.organizations (instance_id, name);
+  ON nomen.organizations (instance_id, name);
 
 CREATE TRIGGER trigger_set_updated_at
-BEFORE UPDATE ON zitadel.organizations
+BEFORE UPDATE ON nomen.organizations
 FOR EACH ROW
 WHEN (OLD.updated_at IS NOT DISTINCT FROM NEW.updated_at)
-EXECUTE FUNCTION zitadel.set_updated_at();
+EXECUTE FUNCTION nomen.set_updated_at();

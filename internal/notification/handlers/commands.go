@@ -3,9 +3,9 @@ package handlers
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/repository/milestone"
-	"github.com/EonsofStupid/tessera/internal/repository/quota"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/repository/milestone"
+	"github.com/shippinAI/nomen/internal/repository/quota"
 )
 
 //go:generate mockgen -typed -package mock -destination ./mock/commands.mock.go . Commands

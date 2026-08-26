@@ -1,6 +1,6 @@
 package action
 
-import "github.com/EonsofStupid/tessera/internal/eventstore"
+import "github.com/shippinAI/nomen/internal/eventstore"
 
 func init() {
 	eventstore.RegisterFilterEventMapper(AggregateType, AddedEventType, AddedEventMapper)

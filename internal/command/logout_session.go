@@ -3,8 +3,8 @@ package command
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/repository/sessionlogout"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/repository/sessionlogout"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 func (c *Commands) BackChannelLogoutSent(ctx context.Context, id, oidcSessionID, instanceID string) (err error) {

@@ -1,10 +1,10 @@
 package policy
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	policy_pb "github.com/EonsofStupid/tessera/pkg/grpc/policy"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	policy_pb "github.com/shippinAI/nomen/pkg/grpc/policy"
 )
 
 func ModelLabelPolicyToPb(policy *query.LabelPolicy, assetPrefix string) *policy_pb.LabelPolicy {

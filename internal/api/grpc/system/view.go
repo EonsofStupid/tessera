@@ -3,8 +3,8 @@ package system
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/query"
-	system_pb "github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/internal/query"
+	system_pb "github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func (s *Server) ListViews(ctx context.Context, _ *system_pb.ListViewsRequest) (*system_pb.ListViewsResponse, error) {

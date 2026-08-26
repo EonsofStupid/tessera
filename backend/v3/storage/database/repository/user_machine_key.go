@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type machineKey struct{}
@@ -11,7 +11,7 @@ type machineKey struct{}
 func (u machineKey) AddKey(key *domain.MachineKey) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("INSERT INTO zitadel.machine_keys (" +
+			builder.WriteString("INSERT INTO nomen.machine_keys (" +
 				"instance_id, user_id, id, created_at, expires_at, type, public_key" +
 				") SELECT instance_id, id, ",
 			)
@@ -34,7 +34,7 @@ func (u machineKey) AddKey(key *domain.MachineKey) database.Change {
 func (u machineKey) RemoveKey(id string) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("DELETE FROM zitadel.machine_keys WHERE " +
+			builder.WriteString("DELETE FROM nomen.machine_keys WHERE " +
 				"(instance_id, user_id, id) = (SELECT instance_id, id, ")
 			builder.WriteArg(id)
 			builder.WriteString(" FROM existing_user)")
@@ -44,7 +44,7 @@ func (u machineKey) RemoveKey(id string) database.Change {
 }
 
 func (u machineKey) qualifiedTableName() string {
-	return "zitadel.machine_keys"
+	return "nomen.machine_keys"
 }
 
 func (u machineKey) unqualifiedTableName() string {

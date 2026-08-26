@@ -1,9 +1,9 @@
 package settings
 
 import (
-	obj_pb "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/query"
-	settings_pb "github.com/EonsofStupid/tessera/pkg/grpc/settings"
+	obj_pb "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/query"
+	settings_pb "github.com/shippinAI/nomen/pkg/grpc/settings"
 )
 
 func NotificationProviderToPb(provider *query.DebugNotificationProvider) *settings_pb.DebugNotificationProvider {

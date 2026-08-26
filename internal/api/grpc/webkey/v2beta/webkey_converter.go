@@ -3,10 +3,10 @@ package webkey
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	webkey "github.com/EonsofStupid/tessera/pkg/grpc/webkey/v2beta"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	webkey "github.com/shippinAI/nomen/pkg/grpc/webkey/v2beta"
 )
 
 func createWebKeyRequestToConfig(req *webkey.CreateWebKeyRequest) crypto.WebKeyConfig {

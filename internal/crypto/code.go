@@ -5,7 +5,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (

@@ -5,7 +5,7 @@ import (
 
 	"github.com/riverqueue/river"
 
-	"github.com/EonsofStupid/tessera/internal/queue"
+	"github.com/shippinAI/nomen/internal/queue"
 )
 
 //go:generate mockgen -typed -package mock -destination ./mock/queue.mock.go . Queue

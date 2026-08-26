@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type userPersonalAccessToken struct{}
@@ -11,7 +11,7 @@ type userPersonalAccessToken struct{}
 func (userPersonalAccessToken) AddPersonalAccessToken(pat *domain.PersonalAccessToken) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("INSERT INTO zitadel.user_personal_access_tokens (" +
+			builder.WriteString("INSERT INTO nomen.user_personal_access_tokens (" +
 				"instance_id, user_id, id, created_at, expires_at, scopes" +
 				") SELECT instance_id, id, ",
 			)
@@ -34,7 +34,7 @@ func (userPersonalAccessToken) AddPersonalAccessToken(pat *domain.PersonalAccess
 func (userPersonalAccessToken) RemovePersonalAccessToken(id string) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("DELETE FROM zitadel.user_personal_access_tokens WHERE " +
+			builder.WriteString("DELETE FROM nomen.user_personal_access_tokens WHERE " +
 				"(instance_id, user_id, id) = (SELECT instance_id, id, ")
 			builder.WriteArg(id)
 			builder.WriteString(" FROM existing_user)")
@@ -44,7 +44,7 @@ func (userPersonalAccessToken) RemovePersonalAccessToken(id string) database.Cha
 }
 
 func (userPersonalAccessToken) qualifiedTableName() string {
-	return "zitadel.user_personal_access_tokens"
+	return "nomen.user_personal_access_tokens"
 }
 
 func (userPersonalAccessToken) unqualifiedTableName() string {

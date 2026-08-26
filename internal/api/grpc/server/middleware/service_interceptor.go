@@ -5,8 +5,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/EonsofStupid/tessera/internal/api/service"
-	_ "github.com/EonsofStupid/tessera/internal/statik"
+	"github.com/shippinAI/nomen/internal/api/service"
+	_ "github.com/shippinAI/nomen/internal/statik"
 )
 
 func ServiceHandler() grpc.UnaryServerInterceptor {

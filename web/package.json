@@ -1,9 +1,9 @@
 {
-  "name": "@tessera/ui",
-  "version": "0.1.0",
+  "name": "@nomen/ui",
+  "version": "1.0.0-alpha",
   "private": false,
   "type": "module",
-  "description": "Canonical standalone management experience for Tessera IAM.",
+  "description": "Canonical standalone management experience for Nomen IAM.",
   "exports": {
     ".": "./src/index.ts",
     "./styles.css": "./src/styles.css"
@@ -16,6 +16,7 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --exclude 'e2e/**'",
+    "check:process": "vitest run src/shell/interactionCoverage.test.ts",
     "test:e2e": "playwright test"
   },
   "dependencies": {

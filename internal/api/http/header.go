@@ -27,7 +27,7 @@ const (
 	ForwardedProto         = "x-forwarded-proto"
 	Forwarded              = "forwarded"
 	Host                   = "host"
-	ZitadelForwarded       = "x-zitadel-forwarded"
+	NomenForwarded       = "x-nomen-forwarded"
 	XUserAgent             = "x-user-agent"
 	XGrpcWeb               = "x-grpc-web"
 	XRequestedWith         = "x-requested-with"
@@ -52,7 +52,7 @@ const (
 	PermissionsPolicy       = "permissions-policy"
 	XRequestID              = "x-request-id"
 
-	ZitadelOrgID = "x-zitadel-orgid"
+	NomenOrgID = "x-nomen-orgid"
 
 	OrgIdInPathVariableName = "orgId"
 	OrgIdInPathVariable     = "{" + OrgIdInPathVariableName + "}"
@@ -124,7 +124,7 @@ func GetOrgID(r *http.Request) string {
 		return orgID
 	}
 
-	return r.Header.Get(ZitadelOrgID)
+	return r.Header.Get(NomenOrgID)
 }
 
 func GetForwardedFor(headers http.Header) (string, bool) {

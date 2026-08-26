@@ -10,14 +10,14 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	scim_config "github.com/EonsofStupid/tessera/internal/api/scim/config"
-	"github.com/EonsofStupid/tessera/internal/api/scim/metadata"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/api/scim/serrors"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	scim_config "github.com/shippinAI/nomen/internal/api/scim/config"
+	"github.com/shippinAI/nomen/internal/api/scim/metadata"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/api/scim/serrors"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type BulkHandler struct {

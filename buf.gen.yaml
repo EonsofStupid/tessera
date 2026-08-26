@@ -17,7 +17,7 @@ plugins:
     opt: lang=go
   - plugin: authoption
     out: .artifacts/grpc
-  - plugin: zitadel
+  - plugin: nomen
     out: .artifacts/grpc
   - plugin: connect-go
     out: .artifacts/grpc

@@ -8,7 +8,7 @@ durable audit and authorization suites pass.
 
 ## Purpose
 
-Tessera has one operator model for humans, automation and dedicated AI
+Nomen has one operator model for humans, automation and dedicated AI
 specialists. A browser click is not privileged because it came from a human,
 and an AI does not gain a hidden administrative surface. Both discover the
 same typed actions, plan the same effects, satisfy the same authorization and
@@ -29,6 +29,8 @@ label or screen coordinates.
 Examples:
 
 ```text
+route.landing
+control.landing_launch
 route.federation
 control.provider.create
 guide.application.oidc
@@ -41,7 +43,7 @@ compatibility change.
 
 ## Semantic runtime events
 
-`POST /tessera/v1/operator/events` accepts a bounded batch. Each event carries:
+`POST /nomen/v1/operator/events` accepts a bounded batch. Each event carries:
 
 - `schema_version`, currently `1`;
 - a client-generated UUID `event_id` for deduplication;
@@ -67,7 +69,7 @@ of analytics never blocks authentication or an authorized management action.
 
 ## AI action surface
 
-`GET /tessera/v1/operator/actions` publishes the actions available to the
+`GET /nomen/v1/operator/actions` publishes the actions available to the
 authenticated principal. Every entry defines:
 
 - stable action id and JSON Schema for intent;
@@ -91,7 +93,7 @@ a preview capability into an operational one.
 ## JSON-guided presentation
 
 Guides and teaching cards are server resources with a versioned JSON schema.
-They may select only registered Tessera components and design tokens. The
+They may select only registered Nomen components and design tokens. The
 schema supports:
 
 - terminology, consequence-first explanation and progressive detail;
@@ -120,7 +122,7 @@ central ingestion is accepted.
 
 ## Done when
 
-- every interactive control in `@tessera/ui` has a stable id and emits a schema-
+- every interactive control in `@nomen/ui` has a stable id and emits a schema-
   valid semantic event;
 - event ingest is authenticated, tenant-derived, idempotent, durable and backed
   by an outbox;

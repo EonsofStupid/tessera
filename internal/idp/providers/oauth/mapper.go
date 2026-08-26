@@ -7,14 +7,14 @@ import (
 
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/idp"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/idp"
 )
 
 var _ idp.User = (*UserMapper)(nil)
 
 // UserMapper is an implementation of [idp.User].
-// It can be used in ZITADEL actions to map the `RawInfo`
+// It can be used in NOMEN actions to map the `RawInfo`
 type UserMapper struct {
 	idAttribute string
 	RawInfo     map[string]interface{}

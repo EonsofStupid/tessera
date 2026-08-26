@@ -61,7 +61,7 @@ Errors:
     CouldNotDialTLS: "kunde inte kontakta SMTP-servern med TLS, kontrollera porten, brandväggsproblem..."
     CouldNotCreateClient: "kunde inte skapa smtp-klient"
     CouldNotStartTLS: "kunde inte starta tls"
-    CouldNotAuth: "kunde inte lägga till smtp auth, kontrollera om både din användare och lösenord är korrekta, om de är korrekta kanske din leverantör kräver en auth-metod som inte stöds av Zitadel"
+    CouldNotAuth: "kunde inte lägga till smtp auth, kontrollera om både din användare och lösenord är korrekta, om de är korrekta kanske din leverantör kräver en auth-metod som inte stöds av Nomen"
     CouldNotSetSender: "kunde inte ställa in avsändare"
     CouldNotSetRecipient: "kunde inte ange mottagare"
   SMTPConfig:
@@ -153,7 +153,7 @@ Errors:
       Invalid: "Lösenord är ogiltigt"
       NotSet: "Användare har inte ställt in ett lösenord"
       NotChanged: "Nytt lösenord kan inte vara samma som ditt nuvarande lösenord"
-      NotSupported: "Lösenordshash-kodning stöds inte. Kolla https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Lösenordshash-kodning stöds inte. Kolla https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Lösenordspolicy hittades inte"
       MinLength: "Lösenordet är för kort"
@@ -207,7 +207,7 @@ Errors:
     NotActive: "Organisationen är inte aktiv"
     NotChanged: "Organisationen ändrades inte"
     DefaultOrgNotDeletable: "Standardorganisationen får inte raderas"
-    ZitadelOrgNotDeletable: "Organisationen med Zitadel-projekt får inte raderas"
+    NomenOrgNotDeletable: "Organisationen med Nomen-projekt får inte raderas"
     InvalidDomain: "Ogiltig domän"
     DomainMissing: "Domän saknas"
     DomainNotOnOrg: "Domänen finns inte på organisationen"
@@ -216,8 +216,8 @@ Errors:
     DomainVerificationTypeInvalid: "Domänverifieringstypen är ogiltig"
     DomainVerificationMissing: "Domänverifiering har inte påbörjats"
     DomainVerificationFailed: "Domänverifiering misslyckades"
-    DomainVerificationTXTNotFound: "TXT-posten _zitadel-challenge hittades inte för din domän. Kontrollera att du har lagt till den på din DNS-server eller vänta tills den nya posten har spridits"
-    DomainVerificationTXTNoMatch: "TXT-posten _zitadel-challenge har hittats för din domän men den innehåller inte rätt token-text. Kontrollera att du har lagt till rätt token på din DNS-server eller vänta tills den nya posten har spridits"
+    DomainVerificationTXTNotFound: "TXT-posten _nomen-challenge hittades inte för din domän. Kontrollera att du har lagt till den på din DNS-server eller vänta tills den nya posten har spridits"
+    DomainVerificationTXTNoMatch: "TXT-posten _nomen-challenge har hittats för din domän men den innehåller inte rätt token-text. Kontrollera att du har lagt till rätt token på din DNS-server eller vänta tills den nya posten har spridits"
     DomainVerificationHTTPNotFound: "Filen som innehåller utmaningen hittades inte på den förväntade URL:en. Kontrollera att du har laddat upp filen på rätt plats med läsbehörigheter"
     DomainVerificationHTTPNoMatch: "Filen som innehåller utmaningen har hittats på den förväntade URL:en men den innehåller inte rätt token-text. Kontrollera dess innehåll"
     DomainVerificationTimeout: "Det uppstod en timeout vid förfrågan till DNS-servern"
@@ -342,7 +342,7 @@ Errors:
   Instance:
     AlreadyExists: "Instans finns redan"
     NotChanged: "Instans ändrades inte"
-    NotFound: "Instansen hittades inte. Se till att du har rätt domän. Kolla https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Instansen hittades inte. Se till att du har rätt domän. Kolla https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Roller har inte ändrats"
     MemberInvalid: "Medlemmen är ogiltig"
@@ -1109,20 +1109,20 @@ EventTypes:
         changed: "Lösenordslåsningpolicy ändrad"
   iam:
     setup:
-      started: "Zitadel-setup startad"
-      done: "Zitadel-setup klar"
+      started: "Nomen-setup startad"
+      done: "Nomen-setup klar"
     global:
       org:
         set: "Global org satt"
     project:
       iam:
-        set: "Zitadel-projekt satt"
+        set: "Nomen-projekt satt"
     member:
-      added: "Zitadel-medlem tillagd"
-      changed: "Zitadel-medlem ändrad"
-      removed: "Zitadel-medlem borttagen"
+      added: "Nomen-medlem tillagd"
+      changed: "Nomen-medlem ändrad"
+      removed: "Nomen-medlem borttagen"
       cascade:
-        removed: "Zitadel-medlem kaskad borttagen"
+        removed: "Nomen-medlem kaskad borttagen"
     idp:
       config:
         added: "IDP-konfiguration tillagd"
@@ -1235,9 +1235,9 @@ EventTypes:
       removed: "Domän borttagen"
     iam:
       console:
-        set: "Zitadel-hanteringskonsol inställd"
+        set: "Nomen-hanteringskonsol inställd"
       project:
-        set: "Zitadel-projekt inställt"
+        set: "Nomen-projekt inställt"
     mail:
       template:
         added: "E-postmall tillagd"

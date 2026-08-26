@@ -3,10 +3,10 @@ package projection
 import (
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/restrictions"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/restrictions"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestRestrictionsProjection_reduces(t *testing.T) {

@@ -1,8 +1,8 @@
 package command
 
 import (
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/sessionlogout"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/sessionlogout"
 )
 
 type SessionLogoutWriteModel struct {

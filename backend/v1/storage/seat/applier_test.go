@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v1/domain"
 )
 
 // The SQL paths are proven against a real Postgres in the atomicity test;

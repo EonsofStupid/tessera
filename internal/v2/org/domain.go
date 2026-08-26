@@ -1,9 +1,9 @@
 package org
 
 import (
-	"github.com/EonsofStupid/tessera/internal/v2/domain"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/v2/domain"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const DomainAddedType = "org." + domain.AddedTypeSuffix

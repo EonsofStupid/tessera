@@ -8,10 +8,10 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/app/v2beta/convert"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	app "github.com/EonsofStupid/tessera/pkg/grpc/app/v2beta"
+	"github.com/shippinAI/nomen/internal/api/grpc/app/v2beta/convert"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	app "github.com/shippinAI/nomen/pkg/grpc/app/v2beta"
 )
 
 func (s *Server) CreateApplication(ctx context.Context, req *connect.Request[app.CreateApplicationRequest]) (*connect.Response[app.CreateApplicationResponse], error) {

@@ -10,12 +10,12 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/mitchellh/mapstructure"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	_ "github.com/EonsofStupid/tessera/internal/database/cockroach"
-	"github.com/EonsofStupid/tessera/internal/database/dialect"
-	_ "github.com/EonsofStupid/tessera/internal/database/postgres"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	_ "github.com/shippinAI/nomen/internal/database/cockroach"
+	"github.com/shippinAI/nomen/internal/database/dialect"
+	_ "github.com/shippinAI/nomen/internal/database/postgres"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type ContextQuerier interface {
@@ -176,8 +176,8 @@ func DecodeHook(allowCockroach bool) func(from, to reflect.Value) (_ interface{}
 		}
 
 		if !allowCockroach && configuredDialect.Matcher.Type() == dialect.DatabaseTypeCockroach {
-			logging.Info("Cockroach support was removed with Zitadel v3, please refer to https://zitadel.com/docs/self-hosting/manage/cli/mirror to migrate your data to postgres")
-			return nil, zerrors.ThrowPreconditionFailed(nil, "DATAB-0pIWD", "Cockroach support was removed with Zitadel v3")
+			logging.Info("Cockroach support was removed with Nomen v3, please refer to https://nomen.com/docs/self-hosting/manage/cli/mirror to migrate your data to postgres")
+			return nil, zerrors.ThrowPreconditionFailed(nil, "DATAB-0pIWD", "Cockroach support was removed with Nomen v3")
 		}
 
 		config.connector, err = configuredDialect.Matcher.Decode(configs)

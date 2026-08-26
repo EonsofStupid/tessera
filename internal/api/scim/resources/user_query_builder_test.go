@@ -9,11 +9,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/metadata"
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources/filter"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/test"
+	"github.com/shippinAI/nomen/internal/api/scim/metadata"
+	"github.com/shippinAI/nomen/internal/api/scim/resources/filter"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/test"
 )
 
 func Test_buildMetadataQuery(t *testing.T) {

@@ -3,9 +3,9 @@ package auth
 import (
 	"context"
 
-	idp_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/idp"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	auth_pb "github.com/EonsofStupid/tessera/pkg/grpc/auth"
+	idp_grpc "github.com/shippinAI/nomen/internal/api/grpc/idp"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	auth_pb "github.com/shippinAI/nomen/pkg/grpc/auth"
 )
 
 func (s *Server) ListMyLinkedIDPs(ctx context.Context, req *auth_pb.ListMyLinkedIDPsRequest) (*auth_pb.ListMyLinkedIDPsResponse, error) {

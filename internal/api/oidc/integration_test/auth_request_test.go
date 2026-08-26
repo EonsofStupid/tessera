@@ -11,16 +11,16 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	oidc_api "github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	oidc_api "github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 var (

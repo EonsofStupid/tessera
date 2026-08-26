@@ -1,20 +1,20 @@
-# Tessera
+# Nomen
 
-**Product ID:** `tessera` · **Deployment:** standalone or managed · **Status:**
-pre-release, contract-first
+**Product ID:** `nomen_product` · **Version:** `1.0.0-alpha` (frozen) ·
+**Deployment:** standalone or managed
 
-Tessera is a standalone identity and access management platform: users,
+Nomen is a standalone identity and access management platform: users,
 organizations, applications, authentication, federation, authorization,
 sessions, recovery and the audit trail connecting them. It is built to run for
 one independent customer, as a managed customer deployment, or behind an
 optional product adapter.
 
-A Roman **tessera hospitalis** was a small token broken in two — each party kept
+A Roman **nomen hospitalis** was a small token broken in two — each party kept
 a half, and fitting them back together proved who you were and what bond you
-held. A *tessera* was also the tablet a sentry checked for the watchword. The
+held. A *nomen* was also the tablet a sentry checked for the watchword. The
 name is not a metaphor for a seat token; it is the same object, older.
 
-Tessera is the identity authority, not a panel component. Its own web
+Nomen is the identity authority, not a panel component. Its own web
 application and APIs are complete product surfaces. A host product may embed
 those surfaces later, but it cannot become a runtime dependency.
 
@@ -32,20 +32,20 @@ those surfaces later, but it cannot become a runtime dependency.
 
 - Billing, plans and pricing decisions.
 - General infrastructure inventory and mesh networking.
-- Secret custody; Tessera accepts references to a secret manager and does not
+- Secret custody; Nomen accepts references to a secret manager and does not
   turn its database into one.
 - Conversation or application orchestration.
 
 ## Contract first, implementation second
 
 The order is deliberate: **standalone product contract, standalone deployment,
-managed operation, then integrations.** Tessera must be installable,
+managed operation, then integrations.** Nomen must be installable,
 configurable, observable, upgradeable, recoverable and usable without a
 Shippin service, route, account or token.
 
 The standalone contract is `docs/02-standalone-product-contract.md`. The seat
 token remains a tested optional integration profile for Automaton and Shippin;
-it does not define Tessera's product limits.
+it does not define Nomen's product limits.
 
 ## Reading order
 
@@ -60,5 +60,8 @@ it does not define Tessera's product limits.
 | `docs/05-minting-a-seat-token.md` | how that optional profile is exercised |
 | `docs/10-container-runtime.md` | the standalone container and Podman boundary |
 
-House rules: `../AGENTS.md` first, then `AGENTS.md` here. Tessera product law
+House rules: `../AGENTS.md` first, then `AGENTS.md` here. Nomen product law
 lives in this repository. Host-product documents govern only their adapters.
+
+Nomen is licensed only by **AngryVibes LLC** and **shippin.ai**. It absorbs no
+third-party product license. See `LICENSE` and `NOTICE`.

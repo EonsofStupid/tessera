@@ -1,7 +1,7 @@
 /*
 This query creates a change set of permissions that need to be added or removed.
 It compares the current state in the fields table (thru the role_permissions view)
-against a passed role permission mapping as JSON, created from Zitadel's config:
+against a passed role permission mapping as JSON, created from Nomen's config:
 
 {
 	"IAM_ADMIN_IMPERSONATOR": ["admin.impersonation", "impersonation"],

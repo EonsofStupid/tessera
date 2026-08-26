@@ -4,12 +4,12 @@ import (
 	"context"
 	"slices"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/project"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/project"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type AddProjectMember struct {
@@ -19,11 +19,11 @@ type AddProjectMember struct {
 	Roles         []string
 }
 
-func (i *AddProjectMember) IsValid(zitadelRoles []authz.RoleMapping) error {
+func (i *AddProjectMember) IsValid(nomenRoles []authz.RoleMapping) error {
 	if i.ProjectID == "" || i.UserID == "" || len(i.Roles) == 0 {
 		return zerrors.ThrowInvalidArgument(nil, "PROJECT-W8m4l", "Errors.Project.Member.Invalid")
 	}
-	if len(domain.CheckForInvalidRoles(i.Roles, domain.ProjectRolePrefix, zitadelRoles)) > 0 {
+	if len(domain.CheckForInvalidRoles(i.Roles, domain.ProjectRolePrefix, nomenRoles)) > 0 {
 		return zerrors.ThrowInvalidArgument(nil, "PROJECT-3m9ds", "Errors.Project.Member.Invalid")
 	}
 	return nil
@@ -33,7 +33,7 @@ func (c *Commands) AddProjectMember(ctx context.Context, member *AddProjectMembe
 	ctx, span := tracing.NewSpan(ctx)
 	defer func() { span.EndWithError(err) }()
 
-	if err := member.IsValid(c.zitadelRoles); err != nil {
+	if err := member.IsValid(c.nomenRoles); err != nil {
 		return nil, err
 	}
 	_, err = c.checkUserExists(ctx, member.UserID, "")
@@ -88,11 +88,11 @@ type ChangeProjectMember struct {
 	Roles         []string
 }
 
-func (i *ChangeProjectMember) IsValid(zitadelRoles []authz.RoleMapping) error {
+func (i *ChangeProjectMember) IsValid(nomenRoles []authz.RoleMapping) error {
 	if i.ProjectID == "" || i.UserID == "" || len(i.Roles) == 0 {
 		return zerrors.ThrowInvalidArgument(nil, "PROJECT-LiaZi", "Errors.Project.Member.Invalid")
 	}
-	if len(domain.CheckForInvalidRoles(i.Roles, domain.ProjectRolePrefix, zitadelRoles)) > 0 {
+	if len(domain.CheckForInvalidRoles(i.Roles, domain.ProjectRolePrefix, nomenRoles)) > 0 {
 		return zerrors.ThrowInvalidArgument(nil, "PROJECT-3m9d", "Errors.Project.Member.Invalid")
 	}
 	return nil
@@ -100,7 +100,7 @@ func (i *ChangeProjectMember) IsValid(zitadelRoles []authz.RoleMapping) error {
 
 // ChangeProjectMember updates an existing member
 func (c *Commands) ChangeProjectMember(ctx context.Context, member *ChangeProjectMember) (*domain.ObjectDetails, error) {
-	if err := member.IsValid(c.zitadelRoles); err != nil {
+	if err := member.IsValid(c.nomenRoles); err != nil {
 		return nil, err
 	}
 

@@ -62,7 +62,7 @@ Errors:
     CouldNotDialTLS: "تعذر الاتصال بخادم SMTP باستخدام TLS، تحقق من المنفذ، مشاكل جدار الحماية..."
     CouldNotCreateClient: "تعذر إنشاء عميل smtp"
     CouldNotStartTLS: "تعذر بدء tls"
-    CouldNotAuth: "تعذر إضافة مصادقة smtp، تحقق مما إذا كان المستخدم وكلمة المرور صحيحين، إذا كانا صحيحين فربما يتطلب مزودك طريقة مصادقة غير مدعومة من ZITADEL"
+    CouldNotAuth: "تعذر إضافة مصادقة smtp، تحقق مما إذا كان المستخدم وكلمة المرور صحيحين، إذا كانا صحيحين فربما يتطلب مزودك طريقة مصادقة غير مدعومة من NOMEN"
     CouldNotSetSender: "تعذر تعيين المرسل"
     CouldNotSetRecipient: "تعذر تعيين المستلم"
   SMTPConfig:
@@ -154,7 +154,7 @@ Errors:
       Invalid: "كلمة المرور غير صالحة"
       NotSet: "لم يقم المستخدم بتعيين كلمة مرور"
       NotChanged: "لا يمكن أن تكون كلمة المرور الجديدة هي نفس كلمة المرور الحالية"
-      NotSupported: "تشفير تجزئة كلمة المرور غير مدعوم. تحقق من https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "تشفير تجزئة كلمة المرور غير مدعوم. تحقق من https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "سياسة كلمة المرور غير موجودة"
       MinLength: "كلمة المرور قصيرة جداً"
@@ -208,7 +208,7 @@ Errors:
     NotActive: "المنظمة غير نشطة"
     NotChanged: "المنظمة لم تتغير"
     DefaultOrgNotDeletable: "لا يجب حذف المنظمة الافتراضية"
-    ZitadelOrgNotDeletable: "المنظمة التي تحتوي على مشروع ZITADEL لا يجب حذفها"
+    NomenOrgNotDeletable: "المنظمة التي تحتوي على مشروع NOMEN لا يجب حذفها"
     InvalidDomain: "نطاق غير صالح"
     DomainMissing: "النطاق مفقود"
     DomainNotOnOrg: "النطاق غير موجود في المنظمة"
@@ -217,8 +217,8 @@ Errors:
     DomainVerificationTypeInvalid: "نوع التحقق من النطاق غير صالح"
     DomainVerificationMissing: "التحقق من النطاق لم يبدأ بعد"
     DomainVerificationFailed: "فشل التحقق من النطاق"
-    DomainVerificationTXTNotFound: "لم يتم العثور على سجل TXT _zitadel-challenge لنطاقك. تحقق من أنك أضفته إلى خادم DNS الخاص بك أو انتظر حتى ينتشر السجل الجديد"
-    DomainVerificationTXTNoMatch: "تم العثور على سجل TXT _zitadel-challenge لنطاقك ولكنه لا يحتوي على نص الرمز المميز الصحيح. تحقق من أنك أضفت الرمز الصحيح إلى خادم DNS الخاص بك أو انتظر حتى ينتشر السجل الجديد"
+    DomainVerificationTXTNotFound: "لم يتم العثور على سجل TXT _nomen-challenge لنطاقك. تحقق من أنك أضفته إلى خادم DNS الخاص بك أو انتظر حتى ينتشر السجل الجديد"
+    DomainVerificationTXTNoMatch: "تم العثور على سجل TXT _nomen-challenge لنطاقك ولكنه لا يحتوي على نص الرمز المميز الصحيح. تحقق من أنك أضفت الرمز الصحيح إلى خادم DNS الخاص بك أو انتظر حتى ينتشر السجل الجديد"
     DomainVerificationHTTPNotFound: "لم يتم العثور على الملف الذي يحتوي على التحدي في الرابط المتوقع. تحقق من أنك قمت بتحميل الملف في المكان الصحيح مع أذونات القراءة"
     DomainVerificationHTTPNoMatch: "تم العثور على الملف الذي يحتوي على التحدي في الرابط المتوقع ولكنه لا يحتوي على نص الرمز المميز الصحيح. تحقق من محتواه"
     DomainVerificationTimeout: "انتهت مهلة الاستعلام من خادم DNS"
@@ -343,7 +343,7 @@ Errors:
   Instance:
     AlreadyExists: "المثيل موجود بالفعل"
     NotChanged: "المثيل لم يتغير"
-    NotFound: "المثيل غير موجود. تأكد من أن النطاق صحيح. تحقق من https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "المثيل غير موجود. تأكد من أن النطاق صحيح. تحقق من https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "الأدوار لم تتغير"
     MemberInvalid: "العضو غير صالح"
@@ -1105,20 +1105,20 @@ EventTypes:
         changed: "تم تغيير سياسة قفل كلمة المرور"
   iam:
     setup:
-      started: "بدأ إعداد ZITADEL"
-      done: "تم إعداد ZITADEL"
+      started: "بدأ إعداد NOMEN"
+      done: "تم إعداد NOMEN"
     global:
       org:
         set: "تم تعيين المنظمة العالمية"
     project:
       iam:
-        set: "تم تعيين مشروع ZITADEL"
+        set: "تم تعيين مشروع NOMEN"
     member:
-      added: "تمت إضافة عضو ZITADEL"
-      changed: "تم تغيير عضو ZITADEL"
-      removed: "تمت إزالة عضو ZITADEL"
+      added: "تمت إضافة عضو NOMEN"
+      changed: "تم تغيير عضو NOMEN"
+      removed: "تمت إزالة عضو NOMEN"
       cascade:
-        removed: "تمت إزالة تتابع عضو ZITADEL"
+        removed: "تمت إزالة تتابع عضو NOMEN"
     idp:
       config:
         added: "تمت إضافة تكوين IDP"
@@ -1231,9 +1231,9 @@ EventTypes:
       removed: "تمت إزالة النطاق"
     iam:
       console:
-        set: "تم تعيين تطبيق ZITADEL Console"
+        set: "تم تعيين تطبيق NOMEN Console"
       project:
-        set: "تم تعيين مشروع ZITADEL"
+        set: "تم تعيين مشروع NOMEN"
     mail:
       template:
         added: "تمت إضافة قالب البريد الإلكتروني"

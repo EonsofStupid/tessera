@@ -11,14 +11,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	oidc_pkg "github.com/zitadel/oidc/v3/pkg/oidc"
+	oidc_pkg "github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	providers "github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oauth"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/zitadel"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	providers "github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp/providers/oauth"
+	"github.com/shippinAI/nomen/internal/idp/providers/nomen"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommands_AllIDPWriteModel(t *testing.T) {
@@ -169,15 +169,15 @@ func TestCommands_AllIDPWriteModel(t *testing.T) {
 			},
 		},
 		{
-			name: "writemodel instance zitadel",
+			name: "writemodel instance nomen",
 			args: args{
 				resourceOwner: "owner",
 				instanceBool:  true,
 				id:            "id",
-				idpType:       domain.IDPTypeZitadel,
+				idpType:       domain.IDPTypeNomen,
 			},
 			res: res{
-				writeModelType: &InstanceZitadelIDPWriteModel{},
+				writeModelType: &InstanceNomenIDPWriteModel{},
 				err:            nil,
 			},
 		},
@@ -337,15 +337,15 @@ func TestCommands_AllIDPWriteModel(t *testing.T) {
 			},
 		},
 		{
-			name: "writemodel org zitadel",
+			name: "writemodel org nomen",
 			args: args{
 				resourceOwner: "owner",
 				instanceBool:  false,
 				id:            "id",
-				idpType:       domain.IDPTypeZitadel,
+				idpType:       domain.IDPTypeNomen,
 			},
 			res: res{
-				writeModelType: &OrgZitadelIDPWriteModel{},
+				writeModelType: &OrgNomenIDPWriteModel{},
 				err:            nil,
 			},
 		},
@@ -404,7 +404,7 @@ func TestOAuthIDPWriteModel_ToProvider_WithPKCE(t *testing.T) {
 		UsePKCE:               true,
 	}
 
-	provider, err := wm.ToProvider("https://zitadel.example.com/idps/callback", plainTextEncryption{}, http.DefaultClient)
+	provider, err := wm.ToProvider("https://nomen.example.com/idps/callback", plainTextEncryption{}, http.DefaultClient)
 	require.NoError(t, err)
 
 	assertProviderUsesPKCE(t, provider)
@@ -444,14 +444,14 @@ func TestOIDCIDPWriteModel_ToProvider_WithPKCE(t *testing.T) {
 		UsePKCE:      true,
 	}
 
-	provider, err := wm.ToProvider("https://zitadel.example.com/idps/callback", plainTextEncryption{}, http.DefaultClient)
+	provider, err := wm.ToProvider("https://nomen.example.com/idps/callback", plainTextEncryption{}, http.DefaultClient)
 	require.NoError(t, err)
 	require.True(t, discoveryRequested.Load(), "expected OIDC discovery to be requested")
 
 	assertProviderUsesPKCE(t, provider)
 }
 
-func TestZitadelIDPWriteModel_ToProvider(t *testing.T) {
+func TestNomenIDPWriteModel_ToProvider(t *testing.T) {
 	var (
 		issuer             string
 		discoveryRequested atomic.Bool
@@ -476,20 +476,20 @@ func TestZitadelIDPWriteModel_ToProvider(t *testing.T) {
 	t.Cleanup(server.Close)
 	issuer = server.URL
 
-	wm := &ZitadelIDPWriteModel{
-		Name:         "ZITADEL",
+	wm := &NomenIDPWriteModel{
+		Name:         "NOMEN",
 		Issuer:       issuer,
 		ClientID:     "clientID",
 		ClientSecret: &crypto.CryptoValue{Algorithm: "plain", Crypted: []byte("clientSecret"), KeyID: "keyID"},
 		Scopes:       []string{"openid"},
 	}
 
-	provider, err := wm.ToProvider("https://zitadel.example.com/idps/callback", plainTextEncryption{}, http.DefaultClient)
+	provider, err := wm.ToProvider("https://nomen.example.com/idps/callback", plainTextEncryption{}, http.DefaultClient)
 	require.NoError(t, err)
-	require.IsType(t, &zitadel.Provider{}, provider)
+	require.IsType(t, &nomen.Provider{}, provider)
 	require.True(t, discoveryRequested.Load(), "expected OIDC discovery to be requested")
 
-	// the ZITADEL provider always enforces PKCE
+	// the NOMEN provider always enforces PKCE
 	assertProviderUsesPKCE(t, provider)
 }
 

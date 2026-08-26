@@ -18,47 +18,47 @@
 
   .lgn-stroked-button:hover,
   .lgn-stroked-button:focus {
-    background: var(--zitadel-color-stroked-button-hover-background);
+    background: var(--nomen-color-stroked-button-hover-background);
   }
 
   .lgn-stroked-button:active {
-    background: var(--zitadel-color-stroked-button-active-background);
+    background: var(--nomen-color-stroked-button-active-background);
   }
 
   .lgn-button:focus,
   .lgn-raised-button:focus {
     @include lgn-button-elevation(5);
-    background: var(--zitadel-color-background);
+    background: var(--nomen-color-background);
   }
 
   .lgn-stroked-button:not([disabled]) {
-    border-color: var(--zitadel-color-divider);
+    border-color: var(--nomen-color-divider);
   }
 
   .lgn-button {
     @include _lgn-button-theme-color(false);
     &:hover {
-      background-color: rgba(var(--zitadel-color-primary-rgb), 0.1);
+      background-color: rgba(var(--nomen-color-primary-rgb), 0.1);
     }
 
     &:focus {
-      background-color: rgba(var(--zitadel-color-primary-rgb), 0.2);
+      background-color: rgba(var(--nomen-color-primary-rgb), 0.2);
     }
 
     &:active {
-      background-color: rgba(var(--zitadel-color-primary-rgb), 0.25);
+      background-color: rgba(var(--nomen-color-primary-rgb), 0.25);
     }
   }
 
   .lgn-raised-button {
-    color: var(--zitadel-color-text);
-    background-color: var(--zitadel-color-raised-button-background);
+    color: var(--nomen-color-text);
+    background-color: var(--nomen-color-raised-button-background);
 
     @include _lgn-button-theme-color(true);
     @include _lgn-button-theme-background-color();
 
     &:active {
-      background-color: var(--zitadel-color-raised-button-active-background);
+      background-color: var(--nomen-color-raised-button-active-background);
     }
   }
 
@@ -86,13 +86,13 @@
 
 @mixin _lgn-button-theme-color() {
   &.lgn-primary {
-    color: var(--zitadel-color-primary);
+    color: var(--nomen-color-primary);
   }
   &.lgn-accent {
-    color: var(--zitadel-color-primary);
+    color: var(--nomen-color-primary);
   }
   &.lgn-warn {
-    color: var(--zitadel-color-warn);
+    color: var(--nomen-color-warn);
   }
 
   &.lgn-primary,
@@ -100,20 +100,20 @@
   &.lgn-warn,
   &[disabled] {
     &[disabled] {
-      color: var(--zitadel-color-button-disabled);
+      color: var(--nomen-color-button-disabled);
     }
   }
 }
 
 @mixin _lgn-button-theme-background-color() {
   &.lgn-primary {
-    background-color: var(--zitadel-color-primary);
+    background-color: var(--nomen-color-primary);
   }
   &.lgn-accent {
-    background-color: var(--zitadel-color-primary);
+    background-color: var(--nomen-color-primary);
   }
   &.lgn-warn {
-    background-color: var(--zitadel-color-warn);
+    background-color: var(--nomen-color-warn);
   }
 
   &.lgn-primary,
@@ -121,7 +121,7 @@
   &.lgn-warn,
   &[disabled] {
     &[disabled] {
-      background-color: var(--zitadel-color-button-disabled-background);
+      background-color: var(--nomen-color-button-disabled-background);
     }
   }
 }
@@ -129,8 +129,8 @@
 @mixin _lgn-button-theme-color($contrast) {
   $color: if(
     $contrast,
-    var(--zitadel-color-primary-contrast),
-    var(--zitadel-color-primary)
+    var(--nomen-color-primary-contrast),
+    var(--nomen-color-primary)
   );
 
   &.lgn-primary {
@@ -148,20 +148,20 @@
   &.lgn-warn,
   &[disabled] {
     &[disabled] {
-      color: var(--zitadel-color-button-disabled);
+      color: var(--nomen-color-button-disabled);
     }
   }
 }
 
 @mixin _lgn-button-theme-background-color() {
   &.lgn-primary {
-    background-color: var(--zitadel-color-primary);
+    background-color: var(--nomen-color-primary);
   }
   &.lgn-accent {
-    background-color: var(--zitadel-color-primary);
+    background-color: var(--nomen-color-primary);
   }
   &.lgn-warn {
-    background-color: var(--zitadel-color-primary);
+    background-color: var(--nomen-color-primary);
   }
 
   &.lgn-primary,
@@ -169,22 +169,22 @@
   &.lgn-warn,
   &[disabled] {
     &[disabled] {
-      background-color: var(--zitadel-color-button-disabled-background);
+      background-color: var(--nomen-color-button-disabled-background);
     }
   }
 }
 
 @mixin _lgn-button-focus-overlay-color() {
   &.lgn-primary:focus {
-    background-color: var(--zitadel-color-primary);
+    background-color: var(--nomen-color-primary);
   }
 
   &.lgn-accent:focus {
-    background-color: var(--zitadel-color-primary);
+    background-color: var(--nomen-color-primary);
   }
 
   &.lgn-warn:focus {
-    background-color: var(--zitadel-color-warn);
+    background-color: var(--nomen-color-warn);
   }
 }
 

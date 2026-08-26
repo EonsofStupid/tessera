@@ -1,6 +1,6 @@
 package handler
 
-import "github.com/EonsofStupid/tessera/internal/eventstore"
+import "github.com/shippinAI/nomen/internal/eventstore"
 
 // EventReducer represents the required data
 // to work with events

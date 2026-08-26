@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
+	"github.com/shippinAI/nomen/internal/crypto"
 )
 
 func testViper(t *testing.T) *viper.Viper {
@@ -30,8 +30,8 @@ func loadBaseDefaultConfig(t *testing.T, v *viper.Viper) {
 	require.NoError(t, v.ReadConfig(bytes.NewBuffer(defaultConfig)))
 }
 
-func TestConfigureEnvironmentUsesTesseraPrefix(t *testing.T) {
-	t.Setenv("TESSERA_PORT", "2345")
+func TestConfigureEnvironmentUsesNomenPrefix(t *testing.T) {
+	t.Setenv("NOMEN_PORT", "2345")
 
 	v := testViper(t)
 	v.SetDefault("Port", 8080)

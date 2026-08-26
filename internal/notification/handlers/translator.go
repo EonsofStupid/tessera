@@ -3,10 +3,10 @@ package handlers
 import (
 	"context"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/i18n"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/i18n"
 )
 
 func (n *NotificationQueries) GetTranslatorWithOrgTexts(ctx context.Context, orgID, textType string) (*i18n.Translator, error) {

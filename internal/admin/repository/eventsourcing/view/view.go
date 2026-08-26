@@ -3,7 +3,7 @@ package view
 import (
 	"github.com/jinzhu/gorm"
 
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 type View struct {

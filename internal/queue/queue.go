@@ -12,8 +12,8 @@ import (
 	"github.com/robfig/cron/v3"
 	"go.opentelemetry.io/otel"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 // Queue abstracts the underlying queuing library

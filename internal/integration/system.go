@@ -11,20 +11,20 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zitadel/oidc/v3/pkg/client"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 var systemUserKey = sync.OnceValues(func() ([]byte, error) {
-	return integrationPrivateKey("TESSERA_INTEGRATION_SYSTEM_USER_KEY_FILE")
+	return integrationPrivateKey("NOMEN_INTEGRATION_SYSTEM_USER_KEY_FILE")
 })
 
 var systemUserWithNoPermissions = sync.OnceValues(func() ([]byte, error) {
-	return integrationPrivateKey("TESSERA_INTEGRATION_UNPRIVILEGED_KEY_FILE")
+	return integrationPrivateKey("NOMEN_INTEGRATION_UNPRIVILEGED_KEY_FILE")
 })
 
 var (

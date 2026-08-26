@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 func MarshalJSON(w http.ResponseWriter, i interface{}, err error, statusCode int) {

@@ -6,9 +6,9 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	group_v2 "github.com/EonsofStupid/tessera/pkg/grpc/group/v2"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	group_v2 "github.com/shippinAI/nomen/pkg/grpc/group/v2"
 )
 
 // CreateGroup creates a new user group in the specified organization.

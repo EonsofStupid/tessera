@@ -3,7 +3,7 @@ package authz
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // UserIDInCTX checks if the userID

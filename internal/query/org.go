@@ -9,14 +9,14 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	domain_pkg "github.com/EonsofStupid/tessera/internal/domain"
-	es "github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/v2/readmodel"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	domain_pkg "github.com/shippinAI/nomen/internal/domain"
+	es "github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/readmodel"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (

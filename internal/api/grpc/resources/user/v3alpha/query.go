@@ -3,7 +3,7 @@ package user
 import (
 	"context"
 
-	user "github.com/EonsofStupid/tessera/pkg/grpc/resources/user/v3alpha"
+	user "github.com/shippinAI/nomen/pkg/grpc/resources/user/v3alpha"
 )
 
 func (s *Server) SearchUsers(ctx context.Context, _ *user.SearchUsersRequest) (_ *user.SearchUsersResponse, err error) {

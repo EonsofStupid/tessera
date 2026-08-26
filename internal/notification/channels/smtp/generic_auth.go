@@ -4,7 +4,7 @@ import (
 	"net/smtp"
 	"slices"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type GenericAuth struct {

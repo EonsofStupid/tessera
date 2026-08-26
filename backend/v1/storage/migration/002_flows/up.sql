@@ -5,17 +5,17 @@
 -- "what is stage 2 of login-mfa" is a lookup, and reordering in a blueprint
 -- diff shows as row changes a reviewer can read.
 
-CREATE TYPE tessera.flow_designation AS ENUM (
+CREATE TYPE nomen_product.flow_designation AS ENUM (
     'authentication'
     , 'recovery'
 );
 
-CREATE TABLE tessera.flows (
+CREATE TABLE nomen_product.flows (
     instance_id TEXT NOT NULL
     , slug TEXT NOT NULL CHECK (slug <> '')
 
     , title TEXT NOT NULL DEFAULT ''
-    , designation tessera.flow_designation NOT NULL
+    , designation nomen_product.flow_designation NOT NULL
 
     , created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     , updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -23,7 +23,7 @@ CREATE TABLE tessera.flows (
     , PRIMARY KEY (instance_id, slug)
 );
 
-CREATE TABLE tessera.flow_stages (
+CREATE TABLE nomen_product.flow_stages (
     instance_id TEXT NOT NULL
     , flow_slug TEXT NOT NULL
     , position SMALLINT NOT NULL CHECK (position >= 0)
@@ -36,12 +36,12 @@ CREATE TABLE tessera.flow_stages (
 
     , PRIMARY KEY (instance_id, flow_slug, position)
     , CONSTRAINT fk_stage_flow FOREIGN KEY (instance_id, flow_slug)
-        REFERENCES tessera.flows (instance_id, slug) ON DELETE CASCADE
+        REFERENCES nomen_product.flows (instance_id, slug) ON DELETE CASCADE
 );
 
 -- One client's walk through a plan. Server-side on purpose: the client holds
 -- an id and a token, never the plan, never the session token, until done.
-CREATE TABLE tessera.flow_executions (
+CREATE TABLE nomen_product.flow_executions (
     instance_id TEXT NOT NULL
     , id TEXT NOT NULL
 
@@ -61,9 +61,9 @@ CREATE TABLE tessera.flow_executions (
 );
 
 -- Expiry sweeps scan by time, not by tenant.
-CREATE INDEX idx_flow_executions_expiry ON tessera.flow_executions (expires_at);
+CREATE INDEX idx_flow_executions_expiry ON nomen_product.flow_executions (expires_at);
 
 CREATE OR REPLACE TRIGGER trg_set_updated_at_flows
-    BEFORE UPDATE ON tessera.flows
+    BEFORE UPDATE ON nomen_product.flows
     FOR EACH ROW
-    EXECUTE FUNCTION tessera.set_updated_at();
+    EXECUTE FUNCTION nomen_product.set_updated_at();

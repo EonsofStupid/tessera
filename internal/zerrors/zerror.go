@@ -9,7 +9,7 @@ import (
 	"runtime/debug"
 	"sync/atomic"
 
-	"github.com/zitadel/sloggcp"
+	"github.com/shippinAI/nomen/sloggcp"
 )
 
 //go:generate enumer -type=Kind -trimprefix=Kind -json
@@ -108,7 +108,7 @@ func GCPErrorReportingEnabled(enable bool) {
 	gcpErrorReporting.Store(enable)
 }
 
-type ZitadelError struct {
+type NomenError struct {
 	Kind    Kind
 	Parent  error
 	Message string
@@ -133,24 +133,24 @@ func (m ErrorDetailsMap) MarshalJSON() ([]byte, error) {
 }
 
 func ThrowError(parent error, id, message string) error {
-	return CreateZitadelError(KindUnknown, parent, id, message, 1)
+	return CreateNomenError(KindUnknown, parent, id, message, 1)
 }
 
-// CreateZitadelError creates a ZitadelError of the given kind.
+// CreateNomenError creates a NomenError of the given kind.
 // If ReportLocation or StackTrace are enabled, they are added to the error.
 // The skip parameter defines how many stack frames to skip when determining
 // the report location.
-// A skip value of 0 means the location where CreateZitadelError is called.
-// When the parent error is also a ZitadelError, the report location and stack trace
+// A skip value of 0 means the location where CreateNomenError is called.
+// When the parent error is also a NomenError, the report location and stack trace
 // are inherited from the parent error.
-func CreateZitadelError(kind Kind, parent error, id, message string, skip int) *ZitadelError {
-	err := &ZitadelError{
+func CreateNomenError(kind Kind, parent error, id, message string, skip int) *NomenError {
+	err := &NomenError{
 		Kind:    kind,
 		Parent:  parent,
 		ID:      id,
 		Message: message,
 	}
-	var target *ZitadelError
+	var target *NomenError
 	if errors.As(parent, &target) {
 		// inherit stack trace and report location from parent error
 		err.reportLocation = target.reportLocation
@@ -169,44 +169,44 @@ func CreateZitadelError(kind Kind, parent error, id, message string, skip int) *
 	return err
 }
 
-func (err *ZitadelError) Error() string {
+func (err *NomenError) Error() string {
 	if err.Parent != nil {
 		return fmt.Sprintf("ID=%s Message=%s Parent=(%v)", err.ID, err.Message, err.Parent)
 	}
 	return fmt.Sprintf("ID=%s Message=%s", err.ID, err.Message)
 }
 
-func (err *ZitadelError) Unwrap() error {
+func (err *NomenError) Unwrap() error {
 	return err.GetParent()
 }
 
-func (err *ZitadelError) GetParent() error {
+func (err *NomenError) GetParent() error {
 	return err.Parent
 }
 
-func (err *ZitadelError) GetMessage() string {
+func (err *NomenError) GetMessage() string {
 	return err.Message
 }
 
-func (err *ZitadelError) SetMessage(msg string) {
+func (err *NomenError) SetMessage(msg string) {
 	err.Message = msg
 }
 
-func (err *ZitadelError) GetID() string {
+func (err *NomenError) GetID() string {
 	return err.ID
 }
 
-func (err *ZitadelError) GetDetails() ErrorDetails {
+func (err *NomenError) GetDetails() ErrorDetails {
 	return err.Details
 }
 
-func (err *ZitadelError) WithDetails(details ErrorDetails) *ZitadelError {
+func (err *NomenError) WithDetails(details ErrorDetails) *NomenError {
 	err.Details = details
 	return err
 }
 
-func (err *ZitadelError) Is(target error) bool {
-	t, ok := target.(*ZitadelError)
+func (err *NomenError) Is(target error) bool {
+	t, ok := target.(*NomenError)
 	if !ok {
 		return false
 	}
@@ -240,20 +240,20 @@ func (err *ZitadelError) Is(target error) bool {
 	return true
 }
 
-func IsZitadelError(err error) bool {
-	zitadelErr := new(ZitadelError)
-	return errors.As(err, &zitadelErr)
+func IsNomenError(err error) bool {
+	nomenErr := new(NomenError)
+	return errors.As(err, &nomenErr)
 }
 
-func AsZitadelError(err error) (*ZitadelError, bool) {
-	zitadelErr := new(ZitadelError)
-	ok := errors.As(err, &zitadelErr)
-	return zitadelErr, ok
+func AsNomenError(err error) (*NomenError, bool) {
+	nomenErr := new(NomenError)
+	ok := errors.As(err, &nomenErr)
+	return nomenErr, ok
 }
 
-var _ slog.LogValuer = (*ZitadelError)(nil)
+var _ slog.LogValuer = (*NomenError)(nil)
 
-func (err *ZitadelError) LogValue() slog.Value {
+func (err *NomenError) LogValue() slog.Value {
 	attributes := make([]slog.Attr, 0, 6)
 	attributes = append(attributes,
 		slog.String("kind", err.Kind.String()),
@@ -279,16 +279,16 @@ func (err *ZitadelError) LogValue() slog.Value {
 }
 
 // ReportLocation implements [sloggcp.ReportLocationError].
-func (err *ZitadelError) ReportLocation() *sloggcp.ReportLocation {
+func (err *NomenError) ReportLocation() *sloggcp.ReportLocation {
 	return err.reportLocation
 }
 
 // StackTrace implements [sloggcp.StackTraceError].
-func (err *ZitadelError) StackTrace() (trace []byte, ok bool) {
+func (err *NomenError) StackTrace() (trace []byte, ok bool) {
 	return err.stackTrace, err.hasStackTrace
 }
 
 var (
-	_ sloggcp.ReportLocationError = (*ZitadelError)(nil)
-	_ sloggcp.StackTraceError     = (*ZitadelError)(nil)
+	_ sloggcp.ReportLocationError = (*NomenError)(nil)
+	_ sloggcp.StackTraceError     = (*NomenError)(nil)
 )

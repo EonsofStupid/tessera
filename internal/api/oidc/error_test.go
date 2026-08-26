@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func Test_oidcError(t *testing.T) {
@@ -44,7 +44,7 @@ func Test_oidcError(t *testing.T) {
 			),
 		},
 		{
-			name: "zitadel error, invalid request",
+			name: "nomen error, invalid request",
 			err:  zerrors.ThrowPreconditionFailed(io.ErrClosedPipe, "TEST-123", "oopsie"),
 			wantErr: op.NewStatusError(
 				oidc.ErrInvalidRequest().

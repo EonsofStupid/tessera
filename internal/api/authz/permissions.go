@@ -3,8 +3,8 @@ package authz
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func CheckPermission(ctx context.Context, resolver MembershipsResolver, systemUserRoleMapping []RoleMapping, roleMappings []RoleMapping, permission, orgID, resourceID string) (err error) {

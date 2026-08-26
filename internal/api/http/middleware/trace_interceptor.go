@@ -6,8 +6,8 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
 )
 
 func DefaultTraceHandler(handler http.Handler) http.Handler {
@@ -17,7 +17,7 @@ func DefaultTraceHandler(handler http.Handler) http.Handler {
 func TraceHandler(ignoredPrefix ...string) func(http.Handler) http.Handler {
 	return func(handler http.Handler) http.Handler {
 		return otelhttp.NewHandler(handler,
-			"zitadel",
+			"nomen",
 			otelhttp.WithFilter(instrumentation.RequestFilter(ignoredPrefix...)),
 			otelhttp.WithPublicEndpointFn(func(_ *http.Request) bool {
 				return true

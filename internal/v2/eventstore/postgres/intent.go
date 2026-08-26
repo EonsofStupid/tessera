@@ -1,9 +1,9 @@
 package postgres
 
 import (
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
 )
 
 type intent struct {

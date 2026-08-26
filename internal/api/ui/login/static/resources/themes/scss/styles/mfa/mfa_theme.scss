@@ -7,13 +7,13 @@
       input[type="radio"] {
         &:hover,
         &:focus {
-          background-color: var(--zitadel-color-card-hover);
-          border-color: var(--zitadel-color-input-border-hover);
+          background-color: var(--nomen-color-card-hover);
+          border-color: var(--nomen-color-input-border-hover);
         }
       }
 
       label {
-        border: 1px solid var(--zitadel-color-input-border);
+        border: 1px solid var(--nomen-color-input-border);
 
         .mfa-img {
           margin-right: 1rem;
@@ -21,9 +21,9 @@
       }
 
       input[type="radio"]:checked + label {
-        background-color: var(--zitadel-color-card-hover);
-        border: 1px solid var(--zitadel-color-input-border-active);
-        box-shadow: 0 0 0 2px var(--zitadel-color-input-border-active);
+        background-color: var(--nomen-color-card-hover);
+        border: 1px solid var(--nomen-color-input-border-active);
+        box-shadow: 0 0 0 2px var(--nomen-color-input-border-active);
       }
     }
   }

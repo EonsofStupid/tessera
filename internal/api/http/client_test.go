@@ -10,7 +10,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/denylist"
+	"github.com/shippinAI/nomen/internal/denylist"
 )
 
 func TestClientConfig_NewClient_Allowed(t *testing.T) {

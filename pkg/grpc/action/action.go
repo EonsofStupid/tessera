@@ -1,6 +1,6 @@
 package action
 
-import "github.com/EonsofStupid/tessera/internal/api/grpc/server/middleware"
+import "github.com/shippinAI/nomen/internal/api/grpc/server/middleware"
 
 func (f *Flow) Localizers() []middleware.Localizer {
 	if f == nil {

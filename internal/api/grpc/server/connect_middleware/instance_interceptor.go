@@ -7,15 +7,15 @@ import (
 	"strings"
 
 	"connectrpc.com/connect"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/gerrors"
-	zitadel_http "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	object_v3 "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/gerrors"
+	nomen_http "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	object_v3 "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
 )
 
 func InstanceInterceptor(verifier authz.InstanceVerifier, externalDomain string, translator *i18n.Translator, explicitInstanceIdServices ...string) connect.UnaryInterceptorFunc {
@@ -78,28 +78,28 @@ func addInstanceByID(ctx context.Context, req connect.AnyRequest, handler connec
 func addInstanceByDomain(ctx context.Context, req connect.AnyRequest, handler connect.UnaryFunc, verifier authz.InstanceVerifier, translator *i18n.Translator, domain string) (connect.AnyResponse, error) {
 	instance, err := verifier.InstanceByHost(ctx, domain, "")
 	if err != nil {
-		notFoundErr := new(zerrors.ZitadelError)
+		notFoundErr := new(zerrors.NomenError)
 		if errors.As(err, &notFoundErr) && notFoundErr.Kind == zerrors.KindNotFound {
 			notFoundErr.Message = translator.LocalizeFromCtx(ctx, notFoundErr.GetMessage(), nil)
 		}
-		code, _, _ := gerrors.ExtractZITADELError(err)
+		code, _, _ := gerrors.ExtractNOMENError(err)
 		return nil, connect.NewError(connect.Code(code), fmt.Errorf("unable to set instance using domain %s: %w", domain, err))
 	}
 	return handler(authz.WithInstance(ctx, instance), req)
 }
 
 func addInstanceByRequestedHost(ctx context.Context, req connect.AnyRequest, handler connect.UnaryFunc, verifier authz.InstanceVerifier, translator *i18n.Translator, externalDomain string) (connect.AnyResponse, error) {
-	requestContext := zitadel_http.DomainContext(ctx)
+	requestContext := nomen_http.DomainContext(ctx)
 	if requestContext.InstanceDomain() == "" {
 		logging.WithFields("origin", requestContext.Origin(), "externalDomain", externalDomain).Error("unable to set instance")
 		return nil, connect.NewError(connect.CodeNotFound, errors.New("no instanceHost specified"))
 	}
 	instance, err := verifier.InstanceByHost(ctx, requestContext.InstanceDomain(), requestContext.RequestedDomain())
 	if err != nil {
-		origin := zitadel_http.DomainContext(ctx)
+		origin := nomen_http.DomainContext(ctx)
 		logging.WithFields("origin", requestContext.Origin(), "externalDomain", externalDomain).WithError(err).Error("unable to set instance")
-		zErr := new(zerrors.ZitadelError)
-		code, _, _ := gerrors.ExtractZITADELError(err)
+		zErr := new(zerrors.NomenError)
+		code, _, _ := gerrors.ExtractNOMENError(err)
 		if errors.As(err, &zErr) {
 			zErr.SetMessage(translator.LocalizeFromCtx(ctx, zErr.GetMessage(), nil))
 			return nil, connect.NewError(connect.Code(code), fmt.Errorf("unable to set instance using origin %s (ExternalDomain is %s): %s", origin, externalDomain, zErr.Error()))

@@ -13,8 +13,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // Repository reads and writes seats.
@@ -35,8 +35,8 @@ var _ domain.SeatRepository = (*Repository)(nil)
 const selectSeat = `
 SELECT s.account_id, s.occupant::TEXT, s.basis::TEXT, s.scopes, s.policy_version,
        COALESCE(array_agg(w.workspace_id) FILTER (WHERE w.workspace_id IS NOT NULL), '{}')
-FROM tessera.seats s
-LEFT JOIN tessera.seat_workspaces w
+FROM nomen_product.seats s
+LEFT JOIN nomen_product.seat_workspaces w
        ON w.instance_id = s.instance_id AND w.member_id = s.member_id
 WHERE s.instance_id = $1 AND s.member_id = $2
 GROUP BY s.account_id, s.occupant, s.basis, s.scopes, s.policy_version`
@@ -109,8 +109,8 @@ func upsertSeat(ctx context.Context, qe database.QueryExecutor, instanceID strin
 	// so the columns it does not mention must land on their defaults rather
 	// than on whatever a previous run left behind.
 	if _, err = qe.Exec(ctx, `
-INSERT INTO tessera.seats (instance_id, member_id, account_id, occupant, basis, scopes, policy_version)
-VALUES ($1, $2, $3, $4::tessera.seat_occupant, $5::tessera.seat_basis, $6, $7)
+INSERT INTO nomen_product.seats (instance_id, member_id, account_id, occupant, basis, scopes, policy_version)
+VALUES ($1, $2, $3, $4::nomen_product.seat_occupant, $5::nomen_product.seat_basis, $6, $7)
 ON CONFLICT (instance_id, member_id) DO UPDATE SET
     account_id     = EXCLUDED.account_id,
     occupant       = EXCLUDED.occupant,
@@ -128,7 +128,7 @@ ON CONFLICT (instance_id, member_id) DO UPDATE SET
 	// Replaced, not merged. Removing a workspace from a blueprint has to remove
 	// the entitlement, or revoking access becomes something only a human can do.
 	if _, err = qe.Exec(ctx,
-		`DELETE FROM tessera.seat_workspaces
+		`DELETE FROM nomen_product.seat_workspaces
 		 WHERE instance_id = $1 AND member_id = $2 AND workspace_id <> ALL($3)`,
 		instanceID, seat.MemberID, nonNilScopes(seat.Workspaces),
 	); err != nil {
@@ -136,7 +136,7 @@ ON CONFLICT (instance_id, member_id) DO UPDATE SET
 	}
 	for _, ws := range seat.Workspaces {
 		if _, err = qe.Exec(ctx,
-			`INSERT INTO tessera.seat_workspaces (instance_id, member_id, workspace_id)
+			`INSERT INTO nomen_product.seat_workspaces (instance_id, member_id, workspace_id)
 			 VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`,
 			instanceID, seat.MemberID, ws,
 		); err != nil {
@@ -158,7 +158,7 @@ func (r *Repository) RemoveSeat(ctx context.Context, instanceID, memberID string
 // difference between `removed` and `unchanged`.
 func removeSeat(ctx context.Context, qe database.QueryExecutor, instanceID, memberID string) (int64, error) {
 	return qe.Exec(ctx,
-		`DELETE FROM tessera.seats WHERE instance_id = $1 AND member_id = $2`,
+		`DELETE FROM nomen_product.seats WHERE instance_id = $1 AND member_id = $2`,
 		instanceID, memberID)
 }
 
@@ -167,8 +167,8 @@ func removeSeat(ctx context.Context, qe database.QueryExecutor, instanceID, memb
 func (r *Repository) SeatsInWorkspace(ctx context.Context, instanceID, workspaceID string) ([]*domain.Seat, error) {
 	rows, err := r.pool.Query(ctx, `
 SELECT s.member_id, s.account_id, s.occupant::TEXT, s.basis::TEXT, s.scopes, s.policy_version
-FROM tessera.seats s
-JOIN tessera.seat_workspaces w
+FROM nomen_product.seats s
+JOIN nomen_product.seat_workspaces w
   ON w.instance_id = s.instance_id AND w.member_id = s.member_id
 WHERE s.instance_id = $1 AND w.workspace_id = $2
 ORDER BY s.member_id`, instanceID, workspaceID)

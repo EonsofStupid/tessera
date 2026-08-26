@@ -12,10 +12,10 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	user_v2 "github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/api/scim/resources"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	user_v2 "github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 var totalCountOfHumanUsers = 13
@@ -369,7 +369,7 @@ var totalCountOfHumanUsers = 13
 					setProvisioningDomain(t, Instance.Users.Get(integration.UserTypeOrgOwner).ID, "fooBar")
 
 					// set externalID for provisioning domain
-					setAndEnsureMetadata(t, resp.UserId, "urn:zitadel:scim:fooBar:externalId", "100-scopedExternalId")
+					setAndEnsureMetadata(t, resp.UserId, "urn:nomen:scim:fooBar:externalId", "100-scopedExternalId")
 					return &scim.ListRequest{
 						Filter: gu.Ptr(fmt.Sprintf(`id eq "%s"`, resp.UserId)),
 					}
@@ -437,7 +437,7 @@ func sortScimUserByUsername(users []*resources.ScimUser) []*resources.ScimUser {
 }
 
 func createUsers(t *testing.T, ctx context.Context, orgID string) []string {
-	count := totalCountOfHumanUsers - 1 // zitadel admin is always created by default
+	count := totalCountOfHumanUsers - 1 // nomen admin is always created by default
 	createdUserIDs := make([]string, 0, count)
 
 	// create the full scim user if on primary org

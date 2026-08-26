@@ -14,8 +14,8 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	webkey "github.com/EonsofStupid/tessera/pkg/grpc/webkey/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	webkey "github.com/shippinAI/nomen/pkg/grpc/webkey/v2beta"
 )
 
 var (

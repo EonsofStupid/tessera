@@ -8,8 +8,8 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
 )
 
 var (
@@ -105,7 +105,7 @@ func Test_ProjectMemberPrepares(t *testing.T) {
 							"uro",
 							"user-id",
 							database.TextArray[string]{"role-1", "role-2"},
-							"gigi@caos-ag.zitadel.ch",
+							"gigi@caos-ag.nomen.ch",
 							"gigi@caos.ch",
 							"first-name",
 							"last-name",
@@ -130,7 +130,7 @@ func Test_ProjectMemberPrepares(t *testing.T) {
 						UserResourceOwner:  "uro",
 						UserID:             "user-id",
 						Roles:              database.TextArray[string]{"role-1", "role-2"},
-						PreferredLoginName: "gigi@caos-ag.zitadel.ch",
+						PreferredLoginName: "gigi@caos-ag.nomen.ch",
 						Email:              "gigi@caos.ch",
 						FirstName:          "first-name",
 						LastName:           "last-name",
@@ -157,7 +157,7 @@ func Test_ProjectMemberPrepares(t *testing.T) {
 							"uro",
 							"user-id",
 							database.TextArray[string]{"role-1", "role-2"},
-							"machine@caos-ag.zitadel.ch",
+							"machine@caos-ag.nomen.ch",
 							nil,
 							nil,
 							nil,
@@ -182,7 +182,7 @@ func Test_ProjectMemberPrepares(t *testing.T) {
 						UserResourceOwner:  "uro",
 						UserID:             "user-id",
 						Roles:              database.TextArray[string]{"role-1", "role-2"},
-						PreferredLoginName: "machine@caos-ag.zitadel.ch",
+						PreferredLoginName: "machine@caos-ag.nomen.ch",
 						Email:              "",
 						FirstName:          "",
 						LastName:           "",
@@ -209,7 +209,7 @@ func Test_ProjectMemberPrepares(t *testing.T) {
 							"uro",
 							"user-id-1",
 							database.TextArray[string]{"role-1", "role-2"},
-							"gigi@caos-ag.zitadel.ch",
+							"gigi@caos-ag.nomen.ch",
 							"gigi@caos.ch",
 							"first-name",
 							"last-name",
@@ -226,7 +226,7 @@ func Test_ProjectMemberPrepares(t *testing.T) {
 							"uro",
 							"user-id-2",
 							database.TextArray[string]{"role-1", "role-2"},
-							"machine@caos-ag.zitadel.ch",
+							"machine@caos-ag.nomen.ch",
 							nil,
 							nil,
 							nil,
@@ -251,7 +251,7 @@ func Test_ProjectMemberPrepares(t *testing.T) {
 						UserResourceOwner:  "uro",
 						UserID:             "user-id-1",
 						Roles:              database.TextArray[string]{"role-1", "role-2"},
-						PreferredLoginName: "gigi@caos-ag.zitadel.ch",
+						PreferredLoginName: "gigi@caos-ag.nomen.ch",
 						Email:              "gigi@caos.ch",
 						FirstName:          "first-name",
 						LastName:           "last-name",
@@ -267,7 +267,7 @@ func Test_ProjectMemberPrepares(t *testing.T) {
 						UserResourceOwner:  "uro",
 						UserID:             "user-id-2",
 						Roles:              database.TextArray[string]{"role-1", "role-2"},
-						PreferredLoginName: "machine@caos-ag.zitadel.ch",
+						PreferredLoginName: "machine@caos-ag.nomen.ch",
 						Email:              "",
 						FirstName:          "",
 						LastName:           "",

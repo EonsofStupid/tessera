@@ -8,33 +8,33 @@ import (
 	"time"
 
 	"github.com/go-jose/go-jose/v4"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	"github.com/EonsofStupid/tessera/internal/actions"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/actions"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
-	ClaimPrefix                     = "urn:zitadel:iam"
-	ScopeProjectRolePrefix          = "urn:zitadel:iam:org:project:role:"
-	ScopeProjectsRoles              = "urn:zitadel:iam:org:projects:roles"
-	ClaimProjectRoles               = "urn:zitadel:iam:org:project:roles"
-	ClaimProjectRolesFormat         = "urn:zitadel:iam:org:project:%s:roles"
-	ScopeUserMetaData               = "urn:zitadel:iam:user:metadata"
+	ClaimPrefix                     = "urn:nomen:iam"
+	ScopeProjectRolePrefix          = "urn:nomen:iam:org:project:role:"
+	ScopeProjectsRoles              = "urn:nomen:iam:org:projects:roles"
+	ClaimProjectRoles               = "urn:nomen:iam:org:project:roles"
+	ClaimProjectRolesFormat         = "urn:nomen:iam:org:project:%s:roles"
+	ScopeUserMetaData               = "urn:nomen:iam:user:metadata"
 	ClaimUserMetaData               = ScopeUserMetaData
-	ScopeResourceOwner              = "urn:zitadel:iam:user:resourceowner"
+	ScopeResourceOwner              = "urn:nomen:iam:user:resourceowner"
 	ClaimResourceOwnerID            = ScopeResourceOwner + ":id"
 	ClaimResourceOwnerName          = ScopeResourceOwner + ":name"
 	ClaimResourceOwnerPrimaryDomain = ScopeResourceOwner + ":primary_domain"
-	ClaimActionLogFormat            = "urn:zitadel:iam:action:%s:log"
+	ClaimActionLogFormat            = "urn:nomen:iam:action:%s:log"
 	ScopeUserGroups                 = "groups"
 	ClaimUserGroups                 = ScopeUserGroups
-	ScopeCustomUserGroups           = "urn:zitadel:iam:user:groups"
+	ScopeCustomUserGroups           = "urn:nomen:iam:user:groups"
 	ClaimCustomUserGroups           = ScopeCustomUserGroups
 )
 

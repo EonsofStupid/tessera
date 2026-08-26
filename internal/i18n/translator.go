@@ -6,11 +6,11 @@ import (
 
 	"github.com/grpc-ecosystem/go-grpc-middleware/util/metautils"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
 )
 
 type Translator struct {
@@ -31,9 +31,9 @@ type Message struct {
 	Text string
 }
 
-// NewZitadelTranslator translates to all supported languages, as the ZITADEL texts are not customizable.
-func NewZitadelTranslator(defaultLanguage language.Tag) *Translator {
-	return newTranslator(ZITADEL, defaultLanguage, SupportedLanguages(), "")
+// NewNomenTranslator translates to all supported languages, as the NOMEN texts are not customizable.
+func NewNomenTranslator(defaultLanguage language.Tag) *Translator {
+	return newTranslator(NOMEN, defaultLanguage, SupportedLanguages(), "")
 }
 
 func NewNotificationTranslator(defaultLanguage language.Tag, allowedLanguages []language.Tag) *Translator {

@@ -8,8 +8,8 @@ import (
 	"github.com/dop251/goja_nodejs/require"
 	"github.com/sirupsen/logrus"
 
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type Config struct {

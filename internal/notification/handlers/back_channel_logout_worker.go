@@ -7,17 +7,17 @@ import (
 	"time"
 
 	"github.com/riverqueue/river"
-	"github.com/zitadel/oidc/v3/pkg/crypto"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/crypto"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/api/oidc/sign"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/notification/backchannel"
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/set"
-	"github.com/EonsofStupid/tessera/internal/notification/types"
-	"github.com/EonsofStupid/tessera/internal/queue"
+	"github.com/shippinAI/nomen/internal/api/oidc/sign"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/notification/backchannel"
+	"github.com/shippinAI/nomen/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/channels/set"
+	"github.com/shippinAI/nomen/internal/notification/types"
+	"github.com/shippinAI/nomen/internal/queue"
 )
 
 type BackChannelLogoutWorker struct {

@@ -18,17 +18,17 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	v2beta_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/policy"
-	settings "github.com/EonsofStupid/tessera/pkg/grpc/settings/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	v2beta_org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/policy"
+	settings "github.com/shippinAI/nomen/pkg/grpc/settings/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func createInstanceWithOrg(t *testing.T) (context.Context, *integration.Instance, string) {
@@ -77,7 +77,7 @@ func uploadOrganizationAsset(ctx context.Context, t *testing.T, instance *integr
 	md, ok := metadata.FromOutgoingContext(ctx)
 	require.True(t, ok)
 	// context information has to be HTTP headers, as the asset API is only HTTP
-	req.Header.Set("x-zitadel-orgid", md.Get("x-zitadel-orgid")[0])
+	req.Header.Set("x-nomen-orgid", md.Get("x-nomen-orgid")[0])
 	req.Header.Set("authorization", md.Get("authorization")[0])
 	req.Header.Set("Content-Type", writer.FormDataContentType())
 

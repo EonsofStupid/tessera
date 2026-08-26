@@ -1,6 +1,6 @@
 package backchannel
 
-import "github.com/EonsofStupid/tessera/internal/eventstore"
+import "github.com/shippinAI/nomen/internal/eventstore"
 
 const (
 	QueueName = "back_channel_logout"

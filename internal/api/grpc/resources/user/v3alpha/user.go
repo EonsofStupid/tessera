@@ -3,12 +3,12 @@ package user
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	resource_object "github.com/EonsofStupid/tessera/internal/api/grpc/resources/object/v3alpha"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
-	"github.com/EonsofStupid/tessera/pkg/grpc/resources/user/v3alpha"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	resource_object "github.com/shippinAI/nomen/internal/api/grpc/resources/object/v3alpha"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
+	"github.com/shippinAI/nomen/pkg/grpc/resources/user/v3alpha"
 )
 
 func (s *Server) CreateUser(ctx context.Context, req *user.CreateUserRequest) (_ *user.CreateUserResponse, err error) {

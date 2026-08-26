@@ -1,4 +1,4 @@
-CREATE TYPE zitadel.settings_type AS ENUM (
+CREATE TYPE nomen.settings_type AS ENUM (
     'login',
     'branding',
     'password_complexity',
@@ -12,38 +12,38 @@ CREATE TYPE zitadel.settings_type AS ENUM (
     'secret_generator'
 );
 
-CREATE TYPE zitadel.settings_state AS ENUM (
+CREATE TYPE nomen.settings_state AS ENUM (
     'active',
     'preview'
 );
 
-CREATE TABLE zitadel.settings (
+CREATE TABLE nomen.settings (
     instance_id TEXT NOT NULL
     , organization_id TEXT
     , id TEXT NOT NULL DEFAULT gen_random_uuid()
-    , type zitadel.settings_type NOT NULL
-    , state zitadel.settings_state NOT NULL
+    , type nomen.settings_type NOT NULL
+    , state nomen.settings_state NOT NULL
     , settings JSONB -- the storage does not really care about what is configured so we store it as json
 
     , created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     , updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 
     , PRIMARY KEY (instance_id, id, type, state)
-    , FOREIGN KEY (instance_id) REFERENCES zitadel.instances(id) ON DELETE CASCADE
-    , FOREIGN KEY (instance_id, organization_id) REFERENCES zitadel.organizations(instance_id, id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id) REFERENCES nomen.instances(id) ON DELETE CASCADE
+    , FOREIGN KEY (instance_id, organization_id) REFERENCES nomen.organizations(instance_id, id) ON DELETE CASCADE
 
     , UNIQUE (instance_id, organization_id, type, state)
 );
 
-CREATE UNIQUE INDEX idx_settings_unique_type ON zitadel.settings (instance_id, organization_id, type, state) NULLS NOT DISTINCT;
+CREATE UNIQUE INDEX idx_settings_unique_type ON nomen.settings (instance_id, organization_id, type, state) NULLS NOT DISTINCT;
 
 CREATE TRIGGER trigger_set_updated_at
-BEFORE UPDATE ON zitadel.settings
+BEFORE UPDATE ON nomen.settings
 FOR EACH ROW
 WHEN (NEW.updated_at IS NULL)
-EXECUTE FUNCTION zitadel.set_updated_at();
+EXECUTE FUNCTION nomen.set_updated_at();
 
-CREATE OR REPLACE FUNCTION zitadel.jsonb_array_remove(
+CREATE OR REPLACE FUNCTION nomen.jsonb_array_remove(
     source JSONB
     , path TEXT[]
     , value anyelement
@@ -66,7 +66,7 @@ AS $$
   END;
 $$;
 
-CREATE OR REPLACE FUNCTION zitadel.jsonb_array_append(
+CREATE OR REPLACE FUNCTION nomen.jsonb_array_append(
     source jsonb
     , path text[]
     , value anyelement

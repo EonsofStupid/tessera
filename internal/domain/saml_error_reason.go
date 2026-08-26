@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"github.com/zitadel/saml/pkg/provider"
+	"github.com/shippinAI/nomen/saml/pkg/provider"
 )
 
 type SAMLErrorReason int32

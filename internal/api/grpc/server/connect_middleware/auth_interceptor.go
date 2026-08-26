@@ -6,9 +6,9 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 func AuthorizationInterceptor(verifier authz.APITokenVerifier, systemUserPermissions authz.Config, authConfig authz.Config) connect.UnaryInterceptorFunc {
@@ -43,7 +43,7 @@ func authorize(ctx context.Context, req connect.AnyRequest, handler connect.Unar
 }
 
 func orgIDAndDomainFromRequest(req connect.AnyRequest) (id, domain string) {
-	orgID := req.Header().Get(http.ZitadelOrgID)
+	orgID := req.Header().Get(http.NomenOrgID)
 	oz, ok := req.Any().(OrganizationFromRequest)
 	if ok {
 		id = oz.OrganizationFromRequestConnect().ID

@@ -12,9 +12,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/feature/v2"
-	schema "github.com/EonsofStupid/tessera/pkg/grpc/resources/userschema/v3alpha"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/feature/v2"
+	schema "github.com/shippinAI/nomen/pkg/grpc/resources/userschema/v3alpha"
 )
 
 var (

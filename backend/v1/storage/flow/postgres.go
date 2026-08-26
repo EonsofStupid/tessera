@@ -1,5 +1,5 @@
 // Package flow implements [domain.FlowRepository] and
-// [domain.ExecutionRepository] over Postgres, and the `tessera/flow`
+// [domain.ExecutionRepository] over Postgres, and the `nomen/flow`
 // blueprint applier on top of them.
 package flow
 
@@ -9,8 +9,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // Repository reads and writes flows and executions.
@@ -34,7 +34,7 @@ func flowBySlug(ctx context.Context, qe database.QueryExecutor, instanceID, slug
 	f := &domain.Flow{Slug: slug}
 	var designation string
 	err := qe.QueryRow(ctx,
-		`SELECT title, designation::TEXT FROM tessera.flows WHERE instance_id = $1 AND slug = $2`,
+		`SELECT title, designation::TEXT FROM nomen_product.flows WHERE instance_id = $1 AND slug = $2`,
 		instanceID, slug).Scan(&f.Title, &designation)
 	if err != nil {
 		if errors.Is(err, &database.NoRowFoundError{}) {
@@ -45,7 +45,7 @@ func flowBySlug(ctx context.Context, qe database.QueryExecutor, instanceID, slug
 	f.Designation = domain.FlowDesignation(designation)
 
 	rows, err := qe.Query(ctx,
-		`SELECT kind, config FROM tessera.flow_stages
+		`SELECT kind, config FROM nomen_product.flow_stages
 		 WHERE instance_id = $1 AND flow_slug = $2 ORDER BY position`,
 		instanceID, slug)
 	if err != nil {
@@ -89,8 +89,8 @@ func upsertFlow(ctx context.Context, qe database.QueryExecutor, instanceID strin
 		return err
 	}
 	if _, err := qe.Exec(ctx, `
-INSERT INTO tessera.flows (instance_id, slug, title, designation)
-VALUES ($1, $2, $3, $4::tessera.flow_designation)
+INSERT INTO nomen_product.flows (instance_id, slug, title, designation)
+VALUES ($1, $2, $3, $4::nomen_product.flow_designation)
 ON CONFLICT (instance_id, slug) DO UPDATE SET
     title = EXCLUDED.title, designation = EXCLUDED.designation`,
 		instanceID, flow.Slug, flow.Title, string(flow.Designation),
@@ -100,7 +100,7 @@ ON CONFLICT (instance_id, slug) DO UPDATE SET
 	// Stages replaced whole: position is meaning, and merging positions from
 	// two declarations produces an order nobody wrote.
 	if _, err := qe.Exec(ctx,
-		`DELETE FROM tessera.flow_stages WHERE instance_id = $1 AND flow_slug = $2`,
+		`DELETE FROM nomen_product.flow_stages WHERE instance_id = $1 AND flow_slug = $2`,
 		instanceID, flow.Slug); err != nil {
 		return err
 	}
@@ -113,7 +113,7 @@ ON CONFLICT (instance_id, slug) DO UPDATE SET
 			cfg = []byte("{}")
 		}
 		if _, err := qe.Exec(ctx, `
-INSERT INTO tessera.flow_stages (instance_id, flow_slug, position, kind, config)
+INSERT INTO nomen_product.flow_stages (instance_id, flow_slug, position, kind, config)
 VALUES ($1, $2, $3, $4, $5)`,
 			instanceID, flow.Slug, i, string(st.Kind), cfg); err != nil {
 			return err
@@ -130,7 +130,7 @@ func (r *Repository) RemoveFlow(ctx context.Context, instanceID, slug string) er
 
 func removeFlow(ctx context.Context, qe database.QueryExecutor, instanceID, slug string) (int64, error) {
 	return qe.Exec(ctx,
-		`DELETE FROM tessera.flows WHERE instance_id = $1 AND slug = $2`,
+		`DELETE FROM nomen_product.flows WHERE instance_id = $1 AND slug = $2`,
 		instanceID, slug)
 }
 
@@ -143,7 +143,7 @@ func (r *Repository) SaveExecution(ctx context.Context, exec *domain.Execution) 
 		return err
 	}
 	_, err = r.pool.Exec(ctx, `
-INSERT INTO tessera.flow_executions
+INSERT INTO nomen_product.flow_executions
   (instance_id, id, token, plan, position, user_id, session_id, session_token, resource_owner, expires_at)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
 		exec.InstanceID, exec.ID, exec.Token, plan, exec.Position,
@@ -157,7 +157,7 @@ func (r *Repository) ExecutionByID(ctx context.Context, instanceID, id string) (
 	var plan []byte
 	err := r.pool.QueryRow(ctx, `
 SELECT token, plan, position, user_id, session_id, session_token, resource_owner, expires_at
-FROM tessera.flow_executions WHERE instance_id = $1 AND id = $2`,
+FROM nomen_product.flow_executions WHERE instance_id = $1 AND id = $2`,
 		instanceID, id).Scan(
 		&exec.Token, &plan, &exec.Position,
 		&exec.UserID, &exec.SessionID, &exec.SessionToken, &exec.ResourceOwner, &exec.ExpiresAt)
@@ -176,7 +176,7 @@ FROM tessera.flow_executions WHERE instance_id = $1 AND id = $2`,
 // UpdateExecution implements [domain.ExecutionRepository].
 func (r *Repository) UpdateExecution(ctx context.Context, exec *domain.Execution) error {
 	_, err := r.pool.Exec(ctx, `
-UPDATE tessera.flow_executions
+UPDATE nomen_product.flow_executions
 SET position = $3, user_id = $4, session_id = $5, session_token = $6, resource_owner = $7
 WHERE instance_id = $1 AND id = $2`,
 		exec.InstanceID, exec.ID, exec.Position,
@@ -187,7 +187,7 @@ WHERE instance_id = $1 AND id = $2`,
 // DeleteExecution implements [domain.ExecutionRepository].
 func (r *Repository) DeleteExecution(ctx context.Context, instanceID, id string) error {
 	_, err := r.pool.Exec(ctx,
-		`DELETE FROM tessera.flow_executions WHERE instance_id = $1 AND id = $2`,
+		`DELETE FROM nomen_product.flow_executions WHERE instance_id = $1 AND id = $2`,
 		instanceID, id)
 	return err
 }

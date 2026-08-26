@@ -9,21 +9,21 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/client/rs"
-	"github.com/zitadel/oidc/v3/pkg/client/tokenexchange"
-	"github.com/zitadel/oidc/v3/pkg/crypto"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rs"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/tokenexchange"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/crypto"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	oidc_api "github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
+	oidc_api "github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func setImpersonationPolicy(t *testing.T, instance *integration.Instance, value bool) {
@@ -102,7 +102,7 @@ func TestServer_TokenExchange(t *testing.T) {
 	teResp, err := tokenexchange.ExchangeToken(ctx, exchanger, noPermPAT, oidc.AccessTokenType, "", "", nil, nil, nil, oidc.AccessTokenType)
 	require.NoError(t, err)
 
-	patScopes := oidc.SpaceDelimitedArray{"openid", "profile", "urn:zitadel:iam:user:metadata", "urn:zitadel:iam:user:resourceowner"}
+	patScopes := oidc.SpaceDelimitedArray{"openid", "profile", "urn:nomen:iam:user:metadata", "urn:nomen:iam:user:resourceowner"}
 
 	relyingParty, err := rp.NewRelyingPartyOIDC(ctx, instance.OIDCIssuer(), client.GetClientId(), "", "", []string{"openid"}, rp.WithJWTProfile(rp.SignerFromKeyFile(keyData)))
 	require.NoError(t, err)
@@ -365,7 +365,7 @@ func TestServer_TokenExchangeImpersonation(t *testing.T) {
 	teResp, err := tokenexchange.ExchangeToken(ctx, exchanger, noPermPAT, oidc.AccessTokenType, "", "", nil, nil, nil, oidc.AccessTokenType)
 	require.NoError(t, err)
 
-	patScopes := oidc.SpaceDelimitedArray{"openid", "profile", "urn:zitadel:iam:user:metadata", "urn:zitadel:iam:user:resourceowner"}
+	patScopes := oidc.SpaceDelimitedArray{"openid", "profile", "urn:nomen:iam:user:metadata", "urn:nomen:iam:user:resourceowner"}
 
 	relyingParty, err := rp.NewRelyingPartyOIDC(ctx, instance.OIDCIssuer(), client.GetClientId(), "", "", []string{"openid"}, rp.WithJWTProfile(rp.SignerFromKeyFile(keyData)))
 	require.NoError(t, err)
@@ -709,7 +709,7 @@ func TestServer_TokenExchangeImpersonationClientCredentialsActor(t *testing.T) {
 	accessTokenVerifier(ctx, resourceServer, userResp.GetUserId(), impersonatorUser.GetUserId())(t, got.AccessToken)
 }
 
-// This test tries to call the zitadel API with an impersonated token,
+// This test tries to call the nomen API with an impersonated token,
 // which should fail.
 func TestImpersonation_API_Call(t *testing.T) {
 	instance := integration.NewInstance(CTX)

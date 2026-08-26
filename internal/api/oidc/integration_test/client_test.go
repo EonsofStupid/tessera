@@ -9,18 +9,18 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/client/rs"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rs"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"golang.org/x/text/language"
 
-	oidc_api "github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/authn"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
+	oidc_api "github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/authn"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
 )
 
 func TestServer_Introspect(t *testing.T) {
@@ -154,7 +154,7 @@ func TestServer_Introspect(t *testing.T) {
 
 func TestServer_Introspect_invalid_auth_invalid_token(t *testing.T) {
 	// ensure that when an invalid authentication and token is sent, the authentication error is returned
-	// https://github.com/EonsofStupid/tessera/pull/8133
+	// https://github.com/shippinAI/nomen/pull/8133
 	resourceServer, err := Instance.CreateResourceServerClientCredentials(CTX, "xxxxx", "xxxxx")
 	require.NoError(t, err)
 	_, err = rs.Introspect[*oidc.IntrospectionResponse](context.Background(), resourceServer, "xxxxx")

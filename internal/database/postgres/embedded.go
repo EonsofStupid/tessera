@@ -5,11 +5,11 @@ import (
 	"os"
 
 	embeddedpostgres "github.com/fergusstrange/embedded-postgres"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 func StartEmbedded() (embeddedpostgres.Config, func()) {
-	path, err := os.MkdirTemp("", "zitadel-embedded-postgres-*")
+	path, err := os.MkdirTemp("", "nomen-embedded-postgres-*")
 	logging.OnError(err).Fatal("unable to create temp dir")
 
 	port, close := getPort()

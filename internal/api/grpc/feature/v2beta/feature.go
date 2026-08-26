@@ -7,8 +7,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	object "github.com/EonsofStupid/tessera/internal/api/grpc/object/v2beta"
-	feature "github.com/EonsofStupid/tessera/pkg/grpc/feature/v2beta"
+	object "github.com/shippinAI/nomen/internal/api/grpc/object/v2beta"
+	feature "github.com/shippinAI/nomen/pkg/grpc/feature/v2beta"
 )
 
 func (s *Server) SetSystemFeatures(ctx context.Context, req *connect.Request[feature.SetSystemFeaturesRequest]) (_ *connect.Response[feature.SetSystemFeaturesResponse], err error) {

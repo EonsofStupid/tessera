@@ -6,9 +6,9 @@ import (
 
 	sq "github.com/Masterminds/squirrel"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	z_db "github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/crypto"
+	z_db "github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type Database struct {

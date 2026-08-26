@@ -3,7 +3,7 @@ package repository
 import (
 	"encoding/json"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type JSON[T any] struct {

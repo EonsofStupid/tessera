@@ -6,12 +6,12 @@ import (
 	"connectrpc.com/connect"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
-	webkey "github.com/EonsofStupid/tessera/pkg/grpc/webkey/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/webkey/v2beta/webkeyconnect"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
+	webkey "github.com/shippinAI/nomen/pkg/grpc/webkey/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/webkey/v2beta/webkeyconnect"
 )
 
 var _ webkeyconnect.WebKeyServiceHandler = (*Server)(nil)
@@ -52,5 +52,5 @@ func (s *Server) RegisterConnectServer(interceptors ...connect.Interceptor) (str
 }
 
 func (s *Server) FileDescriptor() protoreflect.FileDescriptor {
-	return webkey.File_zitadel_webkey_v2beta_webkey_service_proto
+	return webkey.File_nomen_webkey_v2beta_webkey_service_proto
 }

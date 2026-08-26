@@ -3,11 +3,11 @@ package system
 import (
 	"context"
 
-	object_pb "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	system_pb "github.com/EonsofStupid/tessera/pkg/grpc/system"
+	object_pb "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	system_pb "github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func (s *Server) SetInstanceFeature(ctx context.Context, req *system_pb.SetInstanceFeatureRequest) (*system_pb.SetInstanceFeatureResponse, error) {

@@ -6,7 +6,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgconn"
 
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 func exec(ctx context.Context, db database.ContextExecuter, stmt string, possibleErrCodes []string, args ...interface{}) error {

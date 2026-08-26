@@ -8,12 +8,12 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	old_es "github.com/EonsofStupid/tessera/internal/eventstore/repository/sql"
-	new_es "github.com/EonsofStupid/tessera/internal/eventstore/v3"
-	"github.com/EonsofStupid/tessera/internal/migration"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	old_es "github.com/shippinAI/nomen/internal/eventstore/repository/sql"
+	new_es "github.com/shippinAI/nomen/internal/eventstore/v3"
+	"github.com/shippinAI/nomen/internal/migration"
 )
 
 func NewCleanup() *cobra.Command {
@@ -23,7 +23,7 @@ func NewCleanup() *cobra.Command {
 		Long:  `cleans up migration if they got stuck`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera setup cleanup command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen setup cleanup command failed")
 			}()
 			config, shutdown, err := NewConfig(cmd, viper.GetViper())
 			if err != nil {
@@ -55,7 +55,7 @@ func Cleanup(ctx context.Context, config *Config) error {
 	}
 
 	if step == nil {
-		logging.Info(ctx, "there is no stuck migration; please run `tessera setup`")
+		logging.Info(ctx, "there is no stuck migration; please run `nomen setup`")
 		return nil
 	}
 

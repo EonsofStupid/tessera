@@ -9,9 +9,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/muhlemmer/httpforwarded"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
 )
 
 func WithOrigin(enforceHttps bool, http1Header, http2Header string, instanceHostHeaders, publicDomainHeaders []string) mux.MiddlewareFunc {
@@ -21,7 +21,7 @@ func WithOrigin(enforceHttps bool, http1Header, http2Header string, instanceHost
 				r,
 				enforceHttps,
 				// to make sure we don't break existing configurations, we append the existing checked headers as well
-				slices.Compact(append(instanceHostHeaders, http1Header, http2Header, http_util.Forwarded, http_util.ZitadelForwarded, http_util.ForwardedFor, http_util.ForwardedHost, http_util.ForwardedProto)),
+				slices.Compact(append(instanceHostHeaders, http1Header, http2Header, http_util.Forwarded, http_util.NomenForwarded, http_util.ForwardedFor, http_util.ForwardedHost, http_util.ForwardedProto)),
 				publicDomainHeaders,
 			)
 			next.ServeHTTP(w, r.WithContext(http_util.WithDomainContext(r.Context(), origin)))
@@ -57,7 +57,7 @@ func hostFromRequest(r *http.Request, headers []string) (host, proto string) {
 		switch http.CanonicalHeaderKey(header) {
 		case http.CanonicalHeaderKey(http_util.Forwarded),
 			http.CanonicalHeaderKey(http_util.ForwardedFor),
-			http.CanonicalHeaderKey(http_util.ZitadelForwarded):
+			http.CanonicalHeaderKey(http_util.NomenForwarded):
 			hostFromHeader, protoFromHeader = hostFromForwarded(r.Header.Values(header))
 		case http.CanonicalHeaderKey(http_util.ForwardedHost):
 			hostFromHeader = r.Header.Get(header)

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install Tessera's pinned, repository-local protocol toolchain.
+# Install Nomen's pinned, repository-local protocol toolchain.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

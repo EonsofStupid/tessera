@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 const (

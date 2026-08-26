@@ -8,17 +8,17 @@ import (
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/id"
-	id_mock "github.com/EonsofStupid/tessera/internal/id/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/id"
+	id_mock "github.com/shippinAI/nomen/internal/id/mock"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestAddDomain(t *testing.T) {
@@ -766,7 +766,7 @@ func TestCommandSide_GenerateOrgDomainValidation(t *testing.T) {
 			},
 			res: res{
 				wantToken: "a",
-				wantURL:   "_zitadel-challenge.domain.ch",
+				wantURL:   "_nomen-challenge.domain.ch",
 			},
 		},
 		{
@@ -815,7 +815,7 @@ func TestCommandSide_GenerateOrgDomainValidation(t *testing.T) {
 			},
 			res: res{
 				wantToken: "a",
-				wantURL:   "https://domain.ch/.well-known/zitadel-challenge/a.txt",
+				wantURL:   "https://domain.ch/.well-known/nomen-challenge/a.txt",
 			},
 		},
 		{
@@ -865,7 +865,7 @@ func TestCommandSide_GenerateOrgDomainValidation(t *testing.T) {
 			},
 			res: res{
 				wantToken: "a",
-				wantURL:   "https://domain.ch/.well-known/zitadel-challenge/a.txt",
+				wantURL:   "https://domain.ch/.well-known/nomen-challenge/a.txt",
 			},
 		},
 		{
@@ -1307,9 +1307,9 @@ func TestCommandSide_ValidateOrgDomain(t *testing.T) {
 							&org.NewAggregate("org1").Aggregate,
 							"domain.ch",
 						),
-						user.NewDomainClaimedEvent(http.WithRequestedHost(context.Background(), "zitadel.ch"),
+						user.NewDomainClaimedEvent(http.WithRequestedHost(context.Background(), "nomen.ch"),
 							&user.NewAggregate("user1", "org2").Aggregate,
-							"tempid@temporary.zitadel.ch",
+							"tempid@temporary.nomen.ch",
 							"username@domain.ch",
 							false,
 							"",
@@ -1396,9 +1396,9 @@ func TestCommandSide_ValidateOrgDomain(t *testing.T) {
 							&org.NewAggregate("org1").Aggregate,
 							"domain.ch",
 						),
-						user.NewDomainClaimedEvent(http.WithRequestedHost(context.Background(), "zitadel.ch"),
+						user.NewDomainClaimedEvent(http.WithRequestedHost(context.Background(), "nomen.ch"),
 							&user.NewAggregate("user1", "org2").Aggregate,
-							"tempid@temporary.zitadel.ch",
+							"tempid@temporary.nomen.ch",
 							"username@domain.ch",
 							true,
 							"",
@@ -1520,7 +1520,7 @@ func TestCommandSide_ValidateOrgDomain(t *testing.T) {
 				idGenerator:                 tt.fields.idGenerator,
 				loginPaths:                  tt.fields.loginPaths(t),
 			}
-			got, err := r.ValidateOrgDomain(http.WithRequestedHost(tt.args.ctx, "zitadel.ch"), tt.args.domain, tt.args.claimedUserIDs, tt.args.permissionCheck)
+			got, err := r.ValidateOrgDomain(http.WithRequestedHost(tt.args.ctx, "nomen.ch"), tt.args.domain, tt.args.claimedUserIDs, tt.args.permissionCheck)
 			if tt.res.err == nil {
 				assert.NoError(t, err)
 			}

@@ -9,12 +9,12 @@ import (
 	dsig "github.com/russellhaering/goxmldsig"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/azuread"
-	"github.com/EonsofStupid/tessera/internal/query"
-	idp_rp "github.com/EonsofStupid/tessera/internal/repository/idp"
-	idp_pb "github.com/EonsofStupid/tessera/pkg/grpc/idp/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/object/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/idp/providers/azuread"
+	"github.com/shippinAI/nomen/internal/query"
+	idp_rp "github.com/shippinAI/nomen/internal/repository/idp"
+	idp_pb "github.com/shippinAI/nomen/pkg/grpc/idp/v2"
 )
 
 func (s *Server) GetIDPByID(ctx context.Context, req *connect.Request[idp_pb.GetIDPByIDRequest]) (*connect.Response[idp_pb.GetIDPByIDResponse], error) {
@@ -85,8 +85,8 @@ func idpTypeToPb(idpType domain.IDPType) idp_pb.IDPType {
 		return idp_pb.IDPType_IDP_TYPE_APPLE
 	case domain.IDPTypeSAML:
 		return idp_pb.IDPType_IDP_TYPE_SAML
-	case domain.IDPTypeZitadel:
-		return idp_pb.IDPType_IDP_TYPE_ZITADEL
+	case domain.IDPTypeNomen:
+		return idp_pb.IDPType_IDP_TYPE_NOMEN
 	case domain.IDPTypeUnspecified:
 		return idp_pb.IDPType_IDP_TYPE_UNSPECIFIED
 	default:
@@ -152,8 +152,8 @@ func configToPb(config *query.IDPTemplate) *idp_pb.IDPConfig {
 		samlConfigToPb(idpConfig, config.SAMLIDPTemplate)
 		return idpConfig
 	}
-	if config.ZitadelIDPTemplate != nil {
-		zitadelConfigToPb(idpConfig, config.ZitadelIDPTemplate)
+	if config.NomenIDPTemplate != nil {
+		nomenConfigToPb(idpConfig, config.NomenIDPTemplate)
 		return idpConfig
 	}
 	return idpConfig
@@ -394,7 +394,7 @@ func signatureAlgorithmToPb(signatureAlgorithm string) idp_pb.SAMLSignatureAlgor
 	}
 }
 
-func zitadelConfigToPb(idpConfig *idp_pb.IDPConfig, template *query.ZitadelIDPTemplate) {
+func nomenConfigToPb(idpConfig *idp_pb.IDPConfig, template *query.NomenIDPTemplate) {
 	instanceRolesInfo := make([]*idp_pb.InstanceRolesInfo, 0, len(template.InstanceRolesInfo))
 	for _, role := range template.InstanceRolesInfo {
 		instanceRolesInfo = append(instanceRolesInfo, &idp_pb.InstanceRolesInfo{
@@ -402,8 +402,8 @@ func zitadelConfigToPb(idpConfig *idp_pb.IDPConfig, template *query.ZitadelIDPTe
 			OrganizationDomain: role.OrganizationDomain,
 		})
 	}
-	idpConfig.Config = &idp_pb.IDPConfig_Zitadel{
-		Zitadel: &idp_pb.ZitadelConfig{
+	idpConfig.Config = &idp_pb.IDPConfig_Nomen{
+		Nomen: &idp_pb.NomenConfig{
 			ClientId:          template.ClientID,
 			Issuer:            template.Issuer,
 			Scopes:            template.Scopes,

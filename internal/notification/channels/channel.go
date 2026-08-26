@@ -1,6 +1,6 @@
 package channels
 
-import "github.com/EonsofStupid/tessera/internal/eventstore"
+import "github.com/shippinAI/nomen/internal/eventstore"
 
 type Message interface {
 	GetTriggeringEventType() eventstore.EventType

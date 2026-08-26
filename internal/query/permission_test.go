@@ -7,10 +7,10 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/database"
-	domain_pkg "github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/feature"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/database"
+	domain_pkg "github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/feature"
 )
 
 func TestPermissionClause(t *testing.T) {
@@ -109,7 +109,7 @@ func TestPermissionClause(t *testing.T) {
 				permission: "permission1",
 				options: []PermissionOption{
 					SingleOrgPermissionOption([]SearchQuery{
-						mustSearchQuery(NewUserDisplayNameSearchQuery("zitadel", TextContains)),
+						mustSearchQuery(NewUserDisplayNameSearchQuery("nomen", TextContains)),
 						mustSearchQuery(NewUserResourceOwnerSearchQuery("orgID", TextEquals)),
 					}),
 				},

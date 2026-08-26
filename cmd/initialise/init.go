@@ -9,23 +9,25 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 var (
 	//go:embed sql/*.sql
 	stmts embed.FS
 
-	createUserStmt           string
-	grantStmt                string
-	databaseStmt             string
-	createEventstoreStmt     string
-	createProjectionsStmt    string
-	createSystemStmt         string
-	createEncryptionKeysStmt string
-	createEventsStmt         string
-	createUniqueConstraints  string
+	createUserStmt               string
+	grantStmt                    string
+	databaseStmt                 string
+	createEventstoreStmt         string
+	createProjectionsStmt        string
+	createSystemStmt             string
+	createEncryptionKeysStmt     string
+	createEventsStmt             string
+	createUniqueConstraints      string
+	createNomenSchemaStmt        string
+	createNomenProductSchemaStmt string
 
 	roleAlreadyExistsCode = "42710"
 	dbAlreadyExistsCode   = "42P04"
@@ -34,8 +36,8 @@ var (
 func New() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "init",
-		Short: "initialize Tessera instance",
-		Long: `Sets up the minimum requirements to start Tessera.
+		Short: "initialize Nomen instance",
+		Long: `Sets up the minimum requirements to start Nomen.
 
 Prerequisites:
 - PostgreSql database
@@ -43,17 +45,17 @@ Prerequisites:
 The user provided by flags needs privileges to
 - create the database if it does not exist
 - see other users and create a new one if the user does not exist
-- grant all rights of the Tessera database to the user created if not yet set
+- grant all rights of the Nomen database to the user created if not yet set
 
 If you don't have admin/superuser credentials (e.g. on a managed PostgreSQL
 service), you can provision the database user and database manually and then
-run only 'tessera init schema' to bootstrap the required schemas and tables
+run only 'nomen init schema' to bootstrap the required schemas and tables
 using the service user credentials. No admin privileges are needed for that
 sub-command. See the database documentation for details.
 `,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera init command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen init command failed")
 			}()
 			config, shutdown, err := NewConfig(cmd, viper.GetViper())
 			if err != nil {
@@ -81,9 +83,9 @@ func InitAll(ctx context.Context, config *Config) error {
 		return fmt.Errorf("initialize database failed: %w", err)
 	}
 
-	err = verifyZitadel(ctx, config.Database)
+	err = verifyNomen(ctx, config.Database)
 	if err != nil {
-		return fmt.Errorf("initialize Tessera failed: %w", err)
+		return fmt.Errorf("initialize Nomen failed: %w", err)
 	}
 	return nil
 }
@@ -157,6 +159,16 @@ func ReadStmts() (err error) {
 	}
 
 	createUniqueConstraints, err = readStmt("10_unique_constraints_table")
+	if err != nil {
+		return err
+	}
+
+	createNomenSchemaStmt, err = readStmt("09_nomen_schema")
+	if err != nil {
+		return err
+	}
+
+	createNomenProductSchemaStmt, err = readStmt("11_nomen_product_schema")
 	if err != nil {
 		return err
 	}

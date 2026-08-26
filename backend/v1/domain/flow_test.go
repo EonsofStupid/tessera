@@ -90,7 +90,7 @@ type fakeRunner struct {
 func (r fakeRunner) Kind() StageKind { return r.kind }
 func (r fakeRunner) Challenge(_ context.Context, exec *Execution, _ FlowStage) (*Challenge, error) {
 	return &Challenge{
-		Component: "tessera-stage-" + string(r.kind),
+		Component: "nomen-stage-" + string(r.kind),
 		Flow:      exec.Plan.FlowSlug,
 		Fields:    []ChallengeField{{Name: "give", Type: "text", Required: true}},
 	}, nil
@@ -124,7 +124,7 @@ func TestExecutor_WalksTheWholeFlow(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if ch.Component != "tessera-stage-identify" {
+	if ch.Component != "nomen-stage-identify" {
 		t.Fatalf("first challenge = %s", ch.Component)
 	}
 	if exec.ID == "" || exec.Token == "" || exec.ID == exec.Token {
@@ -132,14 +132,14 @@ func TestExecutor_WalksTheWholeFlow(t *testing.T) {
 	}
 
 	ch, err = x.Advance(context.Background(), exec, map[string]any{"give": "identify"})
-	if err != nil || ch.Component != "tessera-stage-password" {
+	if err != nil || ch.Component != "nomen-stage-password" {
 		t.Fatalf("after identify: ch=%v err=%v", ch, err)
 	}
 	if exec.UserID != "user-1" {
 		t.Fatal("identify's accumulation did not reach the execution")
 	}
 	ch, err = x.Advance(context.Background(), exec, map[string]any{"give": "password"})
-	if err != nil || ch.Component != "tessera-stage-totp" {
+	if err != nil || ch.Component != "nomen-stage-totp" {
 		t.Fatalf("after password: ch=%v err=%v", ch, err)
 	}
 	ch, err = x.Advance(context.Background(), exec, map[string]any{"give": "totp"})
@@ -163,7 +163,7 @@ func TestExecutor_AWrongAnswerStaysAndCarriesTheError(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if ch.Component != "tessera-stage-identify" || len(ch.Errors["give"]) == 0 {
+		if ch.Component != "nomen-stage-identify" || len(ch.Errors["give"]) == 0 {
 			t.Fatalf("attempt %d: ch=%+v — a failed stage re-asks with its errors", i, ch)
 		}
 		if exec.Position != 0 {

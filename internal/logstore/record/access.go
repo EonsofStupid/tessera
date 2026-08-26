@@ -7,7 +7,7 @@ import (
 
 	"google.golang.org/grpc/codes"
 
-	zitadel_http "github.com/EonsofStupid/tessera/internal/api/http"
+	nomen_http "github.com/shippinAI/nomen/internal/api/http"
 )
 
 type AccessLog struct {
@@ -40,11 +40,11 @@ const (
 
 var (
 	unaccountableEndpoints = []string{
-		"/zitadel.system.v1.SystemService/",
-		"/zitadel.admin.v1.AdminService/Healthz",
-		"/zitadel.management.v1.ManagementService/Healthz",
-		"/zitadel.management.v1.ManagementService/GetOIDCInformation",
-		"/zitadel.auth.v1.AuthService/Healthz",
+		"/nomen.system.v1.SystemService/",
+		"/nomen.admin.v1.AdminService/Healthz",
+		"/nomen.management.v1.ManagementService/Healthz",
+		"/nomen.management.v1.ManagementService/GetOIDCInformation",
+		"/nomen.auth.v1.AuthService/Healthz",
 	}
 )
 
@@ -55,7 +55,7 @@ func (a AccessLog) IsAuthenticated() bool {
 	if !a.normalized {
 		panic("access log not normalized, Normalize() must be called before IsAuthenticated()")
 	}
-	_, hasHTTPAuthHeader := a.RequestHeaders[strings.ToLower(zitadel_http.Authorization)]
+	_, hasHTTPAuthHeader := a.RequestHeaders[strings.ToLower(nomen_http.Authorization)]
 	// ignore requests, which were unauthorized or do not require an authorization (even if one was sent)
 	// also ignore if the limit was already reached or if the server returned an internal error
 	// not that endpoints paths are only checked with the gRPC representation as HTTP (gateway) will not log them
@@ -83,7 +83,7 @@ func (a AccessLog) isUnaccountableEndpoint() bool {
 func (a AccessLog) Normalize() *AccessLog {
 	a.RequestedDomain = cutString(a.RequestedDomain, 200)
 	a.RequestURL = cutString(a.RequestURL, 200)
-	a.RequestHeaders = normalizeHeaders(a.RequestHeaders, strings.ToLower(zitadel_http.Authorization), "grpcgateway-authorization", "cookie", "grpcgateway-cookie")
+	a.RequestHeaders = normalizeHeaders(a.RequestHeaders, strings.ToLower(nomen_http.Authorization), "grpcgateway-authorization", "cookie", "grpcgateway-cookie")
 	a.ResponseHeaders = normalizeHeaders(a.ResponseHeaders, "set-cookie")
 	a.normalized = true
 	return &a

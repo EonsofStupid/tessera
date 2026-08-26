@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/user/schema"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/user/schema"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestUserSchemaProjection_reduces(t *testing.T) {
@@ -29,7 +29,7 @@ func TestUserSchemaProjection_reduces(t *testing.T) {
 					testEvent(
 						schema.CreatedType,
 						schema.AggregateType,
-						[]byte(`{"schemaType": "type", "schema": {"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}, "possibleAuthenticators": [1,2]}`),
+						[]byte(`{"schemaType": "type", "schema": {"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}, "possibleAuthenticators": [1,2]}`),
 					), eventstore.GenericEventMapper[schema.CreatedEvent]),
 			},
 			reduce: (&userSchemaProjection{}).reduceCreated,
@@ -49,7 +49,7 @@ func TestUserSchemaProjection_reduces(t *testing.T) {
 								domain.UserSchemaStateActive,
 								"type",
 								1,
-								json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+								json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 								[]domain.AuthenticatorType{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 							},
 						},
@@ -64,7 +64,7 @@ func TestUserSchemaProjection_reduces(t *testing.T) {
 					testEvent(
 						schema.UpdatedType,
 						schema.AggregateType,
-						[]byte(`{"schemaType": "type", "schemaRevision": 2, "schema": {"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}, "possibleAuthenticators": [1,2]}`),
+						[]byte(`{"schemaType": "type", "schemaRevision": 2, "schema": {"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}, "possibleAuthenticators": [1,2]}`),
 					), eventstore.GenericEventMapper[schema.UpdatedEvent]),
 			},
 			reduce: (&userSchemaProjection{}).reduceUpdated,
@@ -79,7 +79,7 @@ func TestUserSchemaProjection_reduces(t *testing.T) {
 								anyArg{},
 								uint64(15),
 								"type",
-								json.RawMessage(`{"$schema":"urn:zitadel:schema:v1","properties":{"name":{"type":"string","urn:zitadel:schema:permission":{"self":"rw"}}},"type":"object"}`),
+								json.RawMessage(`{"$schema":"urn:nomen:schema:v1","properties":{"name":{"type":"string","urn:nomen:schema:permission":{"self":"rw"}}},"type":"object"}`),
 								uint64(2),
 								[]domain.AuthenticatorType{domain.AuthenticatorTypeUsername, domain.AuthenticatorTypePassword},
 								"agg-id",

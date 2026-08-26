@@ -5,7 +5,7 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/EonsofStupid/tessera/internal/api/call"
+	"github.com/shippinAI/nomen/internal/api/call"
 )
 
 func CallDurationHandler() connect.UnaryInterceptorFunc {

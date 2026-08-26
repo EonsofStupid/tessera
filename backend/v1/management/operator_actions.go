@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v1/domain"
 )
 
 type OperatorActionService struct {
@@ -32,10 +32,10 @@ func (s *OperatorActionService) Get(ctx context.Context) (domain.OperatorActionC
 		return domain.OperatorActionCatalog{}, err
 	}
 	actions := []domain.OperatorAction{
-		plannedAction("action.application_plan_create", "Plan an application", "Creates an immutable application plan for operator review.", "/tessera/v1/applications:plan", "tessera.applications.plan", domain.CapabilityIDDownstreamOIDC),
-		plannedAction("action.provider_plan_create", "Plan an identity provider", "Creates an immutable federation plan without changing live trust.", "/tessera/v1/providers:plan", "tessera.providers.plan", domain.CapabilityIDUpstreamOIDC),
-		plannedAction("action.flow_plan_publish", "Plan a flow publication", "Validates a flow graph and prepares a reviewed publication plan.", "/tessera/v1/flows:plan", "tessera.flows.plan", domain.CapabilityIDVisualFlowEngine),
-		plannedAction("action.deployment_plan_operation", "Plan a deployment operation", "Prepares a reviewed install, backup, restore, upgrade or rotation operation.", "/tessera/v1/deployment:plan", "tessera.deployment.plan", domain.CapabilityIDDeploymentOperations),
+		plannedAction("action.application_plan_create", "Plan an application", "Creates an immutable application plan for operator review.", "/nomen/v1/applications:plan", "nomen.applications.plan", domain.CapabilityIDDownstreamOIDC),
+		plannedAction("action.provider_plan_create", "Plan an identity provider", "Creates an immutable federation plan without changing live trust.", "/nomen/v1/providers:plan", "nomen.providers.plan", domain.CapabilityIDUpstreamOIDC),
+		plannedAction("action.flow_plan_publish", "Plan a flow publication", "Validates a flow graph and prepares a reviewed publication plan.", "/nomen/v1/flows:plan", "nomen.flows.plan", domain.CapabilityIDVisualFlowEngine),
+		plannedAction("action.deployment_plan_operation", "Plan a deployment operation", "Prepares a reviewed install, backup, restore, upgrade or rotation operation.", "/nomen/v1/deployment:plan", "nomen.deployment.plan", domain.CapabilityIDDeploymentOperations),
 	}
 	for index := range actions {
 		resolution := domain.ResolveCapability(discovery, []uint32{1}, actions[index].CapabilityID)

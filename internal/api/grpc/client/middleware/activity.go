@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/EonsofStupid/tessera/internal/activity"
-	"github.com/EonsofStupid/tessera/internal/api/info"
+	"github.com/shippinAI/nomen/internal/activity"
+	"github.com/shippinAI/nomen/internal/api/info"
 )
 
 func UnaryActivityClientInterceptor() grpc.UnaryClientInterceptor {

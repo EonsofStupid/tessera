@@ -8,7 +8,7 @@ import (
 
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
 )
 
 // Change represents a change to a column in a database table.

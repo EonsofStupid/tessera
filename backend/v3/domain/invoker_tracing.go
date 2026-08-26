@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/tracing"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/tracing"
 )
 
 // traceInvoker decorates each command with tracing.

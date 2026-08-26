@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestPreconditionFailed(t *testing.T) {
@@ -18,17 +18,17 @@ func TestPreconditionFailed(t *testing.T) {
 		err := zerrors.ThrowPreconditionFailed(parentErr, id, message)
 		assert.NotNil(t, err)
 
-		zitadelErr, ok := zerrors.AsZitadelError(err)
+		nomenErr, ok := zerrors.AsNomenError(err)
 		assert.True(t, ok)
-		assert.Equal(t, zerrors.KindPreconditionFailed, zitadelErr.Kind)
+		assert.Equal(t, zerrors.KindPreconditionFailed, nomenErr.Kind)
 
-		zitadelError := new(zerrors.ZitadelError)
-		if errors.As(err, &zitadelError) {
-			assert.Equal(t, parentErr, zitadelError.Unwrap())
-			assert.Equal(t, id, zitadelError.ID)
-			assert.Equal(t, message, zitadelError.Message)
+		nomenError := new(zerrors.NomenError)
+		if errors.As(err, &nomenError) {
+			assert.Equal(t, parentErr, nomenError.Unwrap())
+			assert.Equal(t, id, nomenError.ID)
+			assert.Equal(t, message, nomenError.Message)
 		} else {
-			t.Errorf("error is not of type ZitadelError")
+			t.Errorf("error is not of type NomenError")
 		}
 	})
 
@@ -40,17 +40,17 @@ func TestPreconditionFailed(t *testing.T) {
 		err := zerrors.ThrowPreconditionFailedf(parentErr, id, format, arg)
 		assert.NotNil(t, err)
 
-		zitadelErr, ok := zerrors.AsZitadelError(err)
+		nomenErr, ok := zerrors.AsNomenError(err)
 		assert.True(t, ok)
-		assert.Equal(t, zerrors.KindPreconditionFailed, zitadelErr.Kind)
+		assert.Equal(t, zerrors.KindPreconditionFailed, nomenErr.Kind)
 
-		zitadelError := new(zerrors.ZitadelError)
-		if errors.As(err, &zitadelError) {
-			assert.Equal(t, parentErr, zitadelError.Unwrap())
-			assert.Equal(t, id, zitadelError.ID)
-			assert.Equal(t, expectedMessage, zitadelError.Message)
+		nomenError := new(zerrors.NomenError)
+		if errors.As(err, &nomenError) {
+			assert.Equal(t, parentErr, nomenError.Unwrap())
+			assert.Equal(t, id, nomenError.ID)
+			assert.Equal(t, expectedMessage, nomenError.Message)
 		} else {
-			t.Errorf("error is not of type ZitadelError")
+			t.Errorf("error is not of type NomenError")
 		}
 	})
 

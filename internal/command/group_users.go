@@ -4,10 +4,10 @@ import (
 	"context"
 	"slices"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	repo "github.com/EonsofStupid/tessera/internal/repository/group"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	repo "github.com/shippinAI/nomen/internal/repository/group"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 func (c *Commands) AddUsersToGroup(ctx context.Context, groupID string, userIDs []string) (_ *domain.ObjectDetails, err error) {

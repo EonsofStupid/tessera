@@ -14,7 +14,7 @@ const (
 	SessionDeletePermission     = "session.delete"
 )
 
-// PermissionRepository is the interface that manages and checks Zitadel permissions.
+// PermissionRepository is the interface that manages and checks Nomen permissions.
 //
 // TODO(muhlemmer): This just defines the checker methods, rest to be done later.
 type PermissionRepository interface {

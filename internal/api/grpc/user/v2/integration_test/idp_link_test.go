@@ -12,9 +12,9 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func TestServer_AddIDPLink(t *testing.T) {
@@ -104,7 +104,7 @@ func TestServer_ListIDPLinks(t *testing.T) {
 	_, err := Instance.CreateUserIDPlink(IamCTX, userInstanceResp.GetUserId(), "external_instance", instanceIdpResp.Id, "externalUsername_instance")
 	require.NoError(t, err)
 
-	ctxOrg := metadata.AppendToOutgoingContext(IamCTX, "x-zitadel-orgid", orgResp.GetOrganizationId())
+	ctxOrg := metadata.AppendToOutgoingContext(IamCTX, "x-nomen-orgid", orgResp.GetOrganizationId())
 	orgIdpResp := Instance.AddOrgGenericOAuthProvider(ctxOrg, orgResp.OrganizationId)
 	userOrgResp := Instance.CreateHumanUserVerified(ctxOrg, orgResp.OrganizationId, integration.Email(), integration.Phone())
 	_, err = Instance.CreateUserIDPlink(ctxOrg, userOrgResp.GetUserId(), "external_org", orgIdpResp.Id, "externalUsername_org")
@@ -258,7 +258,7 @@ func TestServer_RemoveIDPLink(t *testing.T) {
 	_, err := Instance.CreateUserIDPlink(IamCTX, userInstanceResp.GetUserId(), "external_instance", instanceIdpResp.Id, "externalUsername_instance")
 	require.NoError(t, err)
 
-	ctxOrg := metadata.AppendToOutgoingContext(IamCTX, "x-zitadel-orgid", orgResp.GetOrganizationId())
+	ctxOrg := metadata.AppendToOutgoingContext(IamCTX, "x-nomen-orgid", orgResp.GetOrganizationId())
 	orgIdpResp := Instance.AddOrgGenericOAuthProvider(ctxOrg, orgResp.OrganizationId)
 	userOrgResp := Instance.CreateHumanUserVerified(ctxOrg, orgResp.OrganizationId, integration.Email(), integration.Phone())
 	_, err = Instance.CreateUserIDPlink(ctxOrg, userOrgResp.GetUserId(), "external_org", orgIdpResp.Id, "externalUsername_org")

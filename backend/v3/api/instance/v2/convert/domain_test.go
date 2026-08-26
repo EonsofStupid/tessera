@@ -7,12 +7,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	filter_v2 "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	filter_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	instance_v2 "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	instance_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	filter_v2 "github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	filter_v2beta "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	instance_v2 "github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	instance_v2beta "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/object/v2"
 )
 
 func TestListCustomDomainsBetaRequestToV2Request(t *testing.T) {

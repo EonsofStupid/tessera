@@ -61,7 +61,7 @@ Errors:
     CouldNotDialTLS: "tidak dapat menghubungi server SMTP menggunakan TLS, periksa port, masalah firewall..."
     CouldNotCreateClient: "tidak dapat membuat klien smtp"
     CouldNotStartTLS: "tidak dapat memulai tls"
-    CouldNotAuth: "tidak dapat menambahkan autentikasi smtp, periksa apakah pengguna dan kata sandi Anda benar, jika benar mungkin penyedia Anda memerlukan metode autentikasi yang tidak didukung oleh Zitadel"
+    CouldNotAuth: "tidak dapat menambahkan autentikasi smtp, periksa apakah pengguna dan kata sandi Anda benar, jika benar mungkin penyedia Anda memerlukan metode autentikasi yang tidak didukung oleh Nomen"
     CouldNotSetSender: "tidak dapat menyetel pengirim"
     CouldNotSetRecipient: "tidak dapat menyetel penerima"
   SMTPConfig:
@@ -207,7 +207,7 @@ Errors:
     NotActive: "Organisasi tidak aktif"
     NotChanged: "Organisasi tidak berubah"
     DefaultOrgNotDeletable: "Organisasi Default tidak boleh dihapus"
-    ZitadelOrgNotDeletable: "Organisasi dengan proyek Zitadel tidak boleh dihapus"
+    NomenOrgNotDeletable: "Organisasi dengan proyek Nomen tidak boleh dihapus"
     InvalidDomain: "Domain tidak valid"
     DomainMissing: "Domainnya hilang"
     DomainNotOnOrg: "Domain tidak ada di organisasi"
@@ -216,8 +216,8 @@ Errors:
     DomainVerificationTypeInvalid: "Jenis verifikasi domain tidak valid"
     DomainVerificationMissing: "Verifikasi domain belum dimulai"
     DomainVerificationFailed: "Verifikasi domain gagal"
-    DomainVerificationTXTNotFound: "Data TXT _zitadel-challenge tidak ditemukan untuk domain Anda."
-    DomainVerificationTXTNoMatch: "Data TXT _zitadel-challenge telah ditemukan untuk domain Anda tetapi tidak berisi teks token yang tepat."
+    DomainVerificationTXTNotFound: "Data TXT _nomen-challenge tidak ditemukan untuk domain Anda."
+    DomainVerificationTXTNoMatch: "Data TXT _nomen-challenge telah ditemukan untuk domain Anda tetapi tidak berisi teks token yang tepat."
     DomainVerificationHTTPNotFound: "File yang berisi tantangan tidak ditemukan di URL yang diharapkan."
     DomainVerificationHTTPNoMatch: "File yang berisi tantangan telah ditemukan di URL yang diharapkan tetapi tidak berisi teks token yang tepat."
     DomainVerificationTimeout: "Ada waktu tunggu untuk menanyakan server DNS"
@@ -342,7 +342,7 @@ Errors:
   Instance:
     AlreadyExists: "Instans sudah ada"
     NotChanged: "Instans tidak berubah"
-    NotFound: "Instans tidak ditemukan. Pastikan Anda memiliki domain yang benar. Lihat https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Instans tidak ditemukan. Pastikan Anda memiliki domain yang benar. Lihat https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Peran belum diubah"
     MemberInvalid: "Anggota tidak valid"
@@ -1104,20 +1104,20 @@ EventTypes:
         changed: "Kebijakan penguncian kata sandi diubah"
   iam:
     setup:
-      started: "Penyiapan Zitadel dimulai"
-      done: "Penyiapan Zitadel selesai"
+      started: "Penyiapan Nomen dimulai"
+      done: "Penyiapan Nomen selesai"
     global:
       org:
         set: "Kumpulan organisasi global"
     project:
       iam:
-        set: "Kumpulan proyek Zitadel"
+        set: "Kumpulan proyek Nomen"
     member:
-      added: "Anggota Zitadel menambahkan"
-      changed: "Anggota Zitadel berubah"
-      removed: "Anggota Zitadel dihapus"
+      added: "Anggota Nomen menambahkan"
+      changed: "Anggota Nomen berubah"
+      removed: "Anggota Nomen dihapus"
       cascade:
-        removed: "Rangkaian anggota Zitadel dihapus"
+        removed: "Rangkaian anggota Nomen dihapus"
     idp:
       config:
         added: "Konfigurasi IDP ditambahkan"
@@ -1230,9 +1230,9 @@ EventTypes:
       removed: "Domain dihapus"
     iam:
       console:
-        set: "Aplikasi Konsol Manajemen Zitadel diatur"
+        set: "Aplikasi Konsol Manajemen Nomen diatur"
       project:
-        set: "Kumpulan proyek Zitadel"
+        set: "Kumpulan proyek Nomen"
     mail:
       template:
         added: "Templat email ditambahkan"

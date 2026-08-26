@@ -4,10 +4,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/zitadel/passwap"
+	"github.com/shippinAI/nomen/passwap"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/internal/crypto"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/internal/crypto"
 )
 
 func TestMain(m *testing.M) {

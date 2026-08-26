@@ -6,12 +6,12 @@ import (
 	"time"
 
 	"github.com/go-jose/go-jose/v4"
-	"github.com/zitadel/oidc/v3/pkg/crypto"
-	openid "github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/crypto"
+	openid "github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	zcrypto "github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/idp"
-	"github.com/EonsofStupid/tessera/internal/idp/providers/oidc"
+	zcrypto "github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/idp"
+	"github.com/shippinAI/nomen/internal/idp/providers/oidc"
 )
 
 const (

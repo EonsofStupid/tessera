@@ -1,4 +1,4 @@
-CREATE TABLE tessera.tessera_operator_events (
+CREATE TABLE nomen_product.nomen_operator_events (
     instance_id TEXT NOT NULL,
     tenant_id TEXT NOT NULL,
     event_id UUID NOT NULL,
@@ -20,10 +20,10 @@ CREATE TABLE tessera.tessera_operator_events (
     UNIQUE (instance_id, tenant_id, session_id, sequence)
 );
 
-CREATE INDEX tessera_operator_events_tenant_time
-    ON tessera.tessera_operator_events (instance_id, tenant_id, occurred_at DESC);
+CREATE INDEX nomen_operator_events_tenant_time
+    ON nomen_product.nomen_operator_events (instance_id, tenant_id, occurred_at DESC);
 
-CREATE TABLE tessera.tessera_outbox (
+CREATE TABLE nomen_product.nomen_outbox (
     instance_id TEXT NOT NULL,
     tenant_id TEXT NOT NULL,
     event_id UUID NOT NULL,
@@ -35,31 +35,31 @@ CREATE TABLE tessera.tessera_outbox (
     PRIMARY KEY (instance_id, tenant_id, event_id, topic)
 );
 
-CREATE INDEX tessera_outbox_pending
-    ON tessera.tessera_outbox (created_at)
+CREATE INDEX nomen_outbox_pending
+    ON nomen_product.nomen_outbox (created_at)
     WHERE published_at IS NULL;
 
-ALTER TABLE tessera.tessera_operator_events ENABLE ROW LEVEL SECURITY;
-ALTER TABLE tessera.tessera_operator_events FORCE ROW LEVEL SECURITY;
-ALTER TABLE tessera.tessera_outbox ENABLE ROW LEVEL SECURITY;
-ALTER TABLE tessera.tessera_outbox FORCE ROW LEVEL SECURITY;
+ALTER TABLE nomen_product.nomen_operator_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE nomen_product.nomen_operator_events FORCE ROW LEVEL SECURITY;
+ALTER TABLE nomen_product.nomen_outbox ENABLE ROW LEVEL SECURITY;
+ALTER TABLE nomen_product.nomen_outbox FORCE ROW LEVEL SECURITY;
 
-CREATE POLICY tessera_operator_events_tenant_policy ON tessera.tessera_operator_events
+CREATE POLICY nomen_operator_events_tenant_policy ON nomen_product.nomen_operator_events
     USING (
-        instance_id = current_setting('tessera.instance_id', true)
-        AND tenant_id = current_setting('tessera.tenant_id', true)
+        instance_id = current_setting('nomen_product.instance_id', true)
+        AND tenant_id = current_setting('nomen_product.tenant_id', true)
     )
     WITH CHECK (
-        instance_id = current_setting('tessera.instance_id', true)
-        AND tenant_id = current_setting('tessera.tenant_id', true)
+        instance_id = current_setting('nomen_product.instance_id', true)
+        AND tenant_id = current_setting('nomen_product.tenant_id', true)
     );
 
-CREATE POLICY tessera_outbox_tenant_policy ON tessera.tessera_outbox
+CREATE POLICY nomen_outbox_tenant_policy ON nomen_product.nomen_outbox
     USING (
-        instance_id = current_setting('tessera.instance_id', true)
-        AND tenant_id = current_setting('tessera.tenant_id', true)
+        instance_id = current_setting('nomen_product.instance_id', true)
+        AND tenant_id = current_setting('nomen_product.tenant_id', true)
     )
     WITH CHECK (
-        instance_id = current_setting('tessera.instance_id', true)
-        AND tenant_id = current_setting('tessera.tenant_id', true)
+        instance_id = current_setting('nomen_product.instance_id', true)
+        AND tenant_id = current_setting('nomen_product.tenant_id', true)
     );

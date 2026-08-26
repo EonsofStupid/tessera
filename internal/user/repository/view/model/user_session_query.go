@@ -1,9 +1,9 @@
 package model
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
-	usr_model "github.com/EonsofStupid/tessera/internal/user/model"
-	"github.com/EonsofStupid/tessera/internal/view/repository"
+	"github.com/shippinAI/nomen/internal/domain"
+	usr_model "github.com/shippinAI/nomen/internal/user/model"
+	"github.com/shippinAI/nomen/internal/view/repository"
 )
 
 type UserSessionSearchRequest usr_model.UserSessionSearchRequest

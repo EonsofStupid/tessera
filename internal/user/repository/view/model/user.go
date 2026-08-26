@@ -5,16 +5,16 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	org_model "github.com/EonsofStupid/tessera/internal/org/model"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/user/model"
-	es_model "github.com/EonsofStupid/tessera/internal/user/repository/eventsourcing/model"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	org_model "github.com/shippinAI/nomen/internal/org/model"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/user/model"
+	es_model "github.com/shippinAI/nomen/internal/user/repository/eventsourcing/model"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (

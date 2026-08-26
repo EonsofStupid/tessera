@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"github.com/EonsofStupid/tessera/internal/crypto"
+	"github.com/shippinAI/nomen/internal/crypto"
 )
 
 type MFAState int32

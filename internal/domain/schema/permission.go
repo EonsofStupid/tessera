@@ -5,7 +5,7 @@ import (
 
 	"github.com/santhosh-tekuri/jsonschema/v5"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -16,8 +16,8 @@ var (
 )
 
 const (
-	PermissionSchemaID = "urn:zitadel:schema:permission-schema:v1"
-	PermissionProperty = "urn:zitadel:schema:permission"
+	PermissionSchemaID = "urn:nomen:schema:permission-schema:v1"
+	PermissionProperty = "urn:nomen:schema:permission"
 )
 
 type Role int32

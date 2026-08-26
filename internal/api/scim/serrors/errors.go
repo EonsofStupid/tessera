@@ -8,13 +8,13 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	zhttp_middleware "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	zhttp_middleware "github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type scimErrorType string
@@ -31,7 +31,7 @@ type ScimError struct {
 	Detail        string                   `json:"detail,omitempty"`
 	StatusCode    int                      `json:"-"`
 	Status        string                   `json:"status"`
-	ZitadelDetail *ErrorDetail             `json:"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail,omitempty"`
+	NomenDetail *ErrorDetail             `json:"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail,omitempty"`
 }
 
 type ErrorDetail struct {
@@ -126,8 +126,8 @@ func ThrowPayloadTooLarge(parent error) error {
 	}
 }
 
-func IsScimOrZitadelError(err error) bool {
-	_, zok := zerrors.AsZitadelError(err)
+func IsScimOrNomenError(err error) bool {
+	_, zok := zerrors.AsNomenError(err)
 	return IsScimError(err) || zok
 }
 
@@ -165,8 +165,8 @@ func MapToScimError(ctx context.Context, translator *i18n.Translator, err error)
 		return mappedErr
 	}
 
-	zitadelErr := new(zerrors.ZitadelError)
-	if ok := errors.As(err, &zitadelErr); !ok {
+	nomenErr := new(zerrors.NomenError)
+	if ok := errors.As(err, &nomenErr); !ok {
 		return &ScimError{
 			Schemas:    []schemas.ScimSchemaType{schemas.IdError},
 			Detail:     "Unknown internal server error",
@@ -175,21 +175,21 @@ func MapToScimError(ctx context.Context, translator *i18n.Translator, err error)
 		}
 	}
 
-	statusCode, ok := http_util.ZitadelErrorToHTTPStatusCode(ctx, err)
+	statusCode, ok := http_util.NomenErrorToHTTPStatusCode(ctx, err)
 	if !ok {
 		statusCode = http.StatusInternalServerError
 	}
 
-	localizedMsg := translator.LocalizeFromCtx(ctx, zitadelErr.GetMessage(), nil)
+	localizedMsg := translator.LocalizeFromCtx(ctx, nomenErr.GetMessage(), nil)
 	return &ScimError{
-		Schemas:    []schemas.ScimSchemaType{schemas.IdError, schemas.IdZitadelErrorDetail},
+		Schemas:    []schemas.ScimSchemaType{schemas.IdError, schemas.IdNomenErrorDetail},
 		ScimType:   mapErrorToScimErrorType(err),
 		Detail:     localizedMsg,
 		StatusCode: statusCode,
 		Status:     strconv.Itoa(statusCode),
-		ZitadelDetail: &ErrorDetail{
-			ID:      zitadelErr.GetID(),
-			Message: zitadelErr.GetMessage(),
+		NomenDetail: &ErrorDetail{
+			ID:      nomenErr.GetID(),
+			Message: nomenErr.GetMessage(),
 		},
 	}
 }

@@ -3,12 +3,12 @@ package system
 import (
 	"context"
 
-	instance_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/instance"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/member"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/query"
-	object_pb "github.com/EonsofStupid/tessera/pkg/grpc/object"
-	system_pb "github.com/EonsofStupid/tessera/pkg/grpc/system"
+	instance_grpc "github.com/shippinAI/nomen/internal/api/grpc/instance"
+	"github.com/shippinAI/nomen/internal/api/grpc/member"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/query"
+	object_pb "github.com/shippinAI/nomen/pkg/grpc/object"
+	system_pb "github.com/shippinAI/nomen/pkg/grpc/system"
 )
 
 func (s *Server) ListInstances(ctx context.Context, req *system_pb.ListInstancesRequest) (*system_pb.ListInstancesResponse, error) {

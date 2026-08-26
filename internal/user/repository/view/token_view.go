@@ -3,11 +3,11 @@ package view
 import (
 	"github.com/jinzhu/gorm"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/user/model"
-	usr_model "github.com/EonsofStupid/tessera/internal/user/repository/view/model"
-	"github.com/EonsofStupid/tessera/internal/view/repository"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/user/model"
+	usr_model "github.com/shippinAI/nomen/internal/user/repository/view/model"
+	"github.com/shippinAI/nomen/internal/view/repository"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TokenByIDs(db *gorm.DB, table, tokenID, userID, instanceID string) (*usr_model.TokenView, error) {

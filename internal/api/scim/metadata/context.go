@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const bulkIDPrefix = "bulkid:"
@@ -36,9 +36,9 @@ func GetScimContextData(ctx context.Context) ScimContextData {
 	return data
 }
 
-func SetScimBulkIDMapping(ctx context.Context, bulkID, zitadelID string) context.Context {
+func SetScimBulkIDMapping(ctx context.Context, bulkID, nomenID string) context.Context {
 	data := GetScimContextData(ctx)
-	data.bulkIDMapping[bulkID] = zitadelID
+	data.bulkIDMapping[bulkID] = nomenID
 	return ctx
 }
 
@@ -50,10 +50,10 @@ func ResolveScimBulkIDIfNeeded(ctx context.Context, resourceID string) (string, 
 
 	bulkID := strings.TrimPrefix(lowerResourceID, bulkIDPrefix)
 	data := GetScimContextData(ctx)
-	zitadelID, ok := data.bulkIDMapping[bulkID]
+	nomenID, ok := data.bulkIDMapping[bulkID]
 	if !ok {
 		return bulkID, zerrors.ThrowInvalidArgumentf(nil, "SCIM-BLK4", "Could not resolve bulkID %v to created ID", bulkID)
 	}
 
-	return zitadelID, nil
+	return nomenID, nil
 }

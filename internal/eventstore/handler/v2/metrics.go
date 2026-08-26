@@ -5,8 +5,8 @@ import (
 
 	"go.opentelemetry.io/otel/attribute"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
 )
 
 const (

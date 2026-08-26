@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestEmailValid(t *testing.T) {
@@ -69,7 +69,7 @@ func TestEmailValid(t *testing.T) {
 			result: true,
 		},
 		{
-			name: "email UTF-8, valid", // https://github.com/EonsofStupid/tessera/issues/9821
+			name: "email UTF-8, valid", // https://github.com/shippinAI/nomen/issues/9821
 			args: args{
 				email: &Email{EmailAddress: "abc@sünde.com"},
 			},

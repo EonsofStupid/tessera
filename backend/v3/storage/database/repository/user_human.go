@@ -11,9 +11,9 @@ import (
 	"github.com/muhlemmer/gu"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 // -------------------------------------------------------------
@@ -105,7 +105,7 @@ func (u userHuman) create(ctx context.Context, builder *database.StatementBuilde
 	columns := slices.Sorted(maps.Keys(columnValues))
 
 	// write final insert
-	builder.WriteString(" INSERT INTO zitadel.users (")
+	builder.WriteString(" INSERT INTO nomen.users (")
 	builder.WriteString(strings.Join(columns, ", "))
 	builder.WriteString(") VALUES (")
 	for i, column := range columns {
@@ -346,7 +346,7 @@ func (u userHuman) SetVerification(verification domain.VerificationType) databas
 			if typ.ID != nil {
 				id = *typ.ID
 			}
-			builder.WriteString("INSERT INTO zitadel.verifications(instance_id, user_id, id, code, created_at, expiry) SELECT instance_id, id, ")
+			builder.WriteString("INSERT INTO nomen.verifications(instance_id, user_id, id, code, created_at, expiry) SELECT instance_id, id, ")
 			builder.WriteArgs(id, typ.Code, createdAt, expiry)
 			builder.WriteString(" FROM ")
 			builder.WriteString(existingHumanUser.unqualifiedTableName())
@@ -354,7 +354,7 @@ func (u userHuman) SetVerification(verification domain.VerificationType) databas
 		}, nil)
 	case *domain.VerificationTypeSucceeded:
 		return database.NewCTEChange(func(builder *database.StatementBuilder) {
-			builder.WriteString("DELETE FROM zitadel.verifications USING existing_user")
+			builder.WriteString("DELETE FROM nomen.verifications USING existing_user")
 
 			writeCondition(builder, database.And(
 				database.NewColumnCondition(u.verification.instanceIDColumn(), existingHumanUser.InstanceIDColumn()),
@@ -373,7 +373,7 @@ func (u userHuman) SetVerification(verification domain.VerificationType) databas
 		}
 		return database.NewCTEChange(
 			func(builder *database.StatementBuilder) {
-				builder.WriteString("UPDATE zitadel.verifications SET ")
+				builder.WriteString("UPDATE nomen.verifications SET ")
 				err := changes.Write(builder)
 				logging.New(logging.StreamRuntime).Debug("write changes in cte failed", "error", err)
 				builder.WriteString(" FROM existing_user")

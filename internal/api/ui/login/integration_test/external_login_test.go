@@ -9,12 +9,12 @@
 // authReq.LinkingUsers state. Before the fix, the handler ignored that state and built the new
 // user's external identity (IDPConfigID + ExternalUserID) and its "verified" email straight from
 // the raw POST body. An UNAUTHENTICATED attacker could therefore POST forged data directly to the
-// endpoint - without ever going through the real IDP - and have Zitadel create a real account
+// endpoint - without ever going through the real IDP - and have Nomen create a real account
 // bound to an arbitrary (IDPConfigID, ExternalUserID). By setting ExternalUserID to a victim's
 // public external identifier (e.g. a GitHub numeric user id) the attacker pre-creates an account
 // that the victim's own, genuine future "Sign in with X" then silently logs into.
 //
-// This test drives the exact attack over raw HTTP against a running Zitadel instance:
+// This test drives the exact attack over raw HTTP against a running Nomen instance:
 //
 //  1. authorize (create a V1 auth request)  ->  2. load login page (grab CSRF)
 //     ->  3. select the IDP (sets SelectedIDPConfigID)  ->  4. forge the not-found-option POST
@@ -47,14 +47,14 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	feature "github.com/EonsofStupid/tessera/pkg/grpc/feature/v2"
-	idp_pb "github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	feature "github.com/shippinAI/nomen/pkg/grpc/feature/v2"
+	idp_pb "github.com/shippinAI/nomen/pkg/grpc/idp"
+	user "github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 var (
@@ -85,7 +85,7 @@ func TestExternalNotFoundOption_ForgedRegistration_IsRejected(t *testing.T) {
 
 	// Force Login V1. Three things select V1 at auth-request creation (internal/api/oidc/auth_request.go):
 	// (a) the instance feature LoginV2.Required must be false, (b) the OIDC app's login version must be
-	// unspecified/V1, and (c) the authorize request must NOT carry the x-zitadel-login-client header.
+	// unspecified/V1, and (c) the authorize request must NOT carry the x-nomen-login-client header.
 	// We pin (a) here explicitly so the test does not depend on the instance default.
 	integration.EnsureInstanceFeature(t, CTX, Instance,
 		&feature.SetInstanceFeaturesRequest{LoginV2: &feature.LoginV2{Required: false}},
@@ -116,7 +116,7 @@ func TestExternalNotFoundOption_ForgedRegistration_IsRejected(t *testing.T) {
 	// --- Attacker HTTP client -------------------------------------------------------------------
 
 	// One shared cookie jar for the WHOLE flow. This is mandatory: the server issues a user-agent
-	// cookie (zitadel.useragent) on the authorize response and binds the created auth request to that
+	// cookie (nomen.useragent) on the authorize response and binds the created auth request to that
 	// user-agent id; getAuthRequest later looks it up by (authRequestID, userAgentID). A different jar
 	// (or no jar) would make the auth request unresolvable. The csrf cookie also lives here.
 	jar, err := cookiejar.New(nil)

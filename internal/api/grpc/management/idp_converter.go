@@ -7,16 +7,16 @@ import (
 	"github.com/muhlemmer/gu"
 	dsig "github.com/russellhaering/goxmldsig"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	idp_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/idp"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	idp_pb "github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	idp_grpc "github.com/shippinAI/nomen/internal/api/grpc/idp"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	idp_pb "github.com/shippinAI/nomen/pkg/grpc/idp"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func AddOIDCIDPRequestToDomain(req *mgmt_pb.AddOrgOIDCIDPRequest) *domain.IDPConfig {
@@ -541,8 +541,8 @@ func signatureAlgorithmToCommand(signatureAlgorithm idp_pb.SAMLSignatureAlgorith
 	}
 }
 
-func addZitadelProviderToCommand(req *mgmt_pb.AddZitadelProviderRequest) command.ZitadelProvider {
-	return command.ZitadelProvider{
+func addNomenProviderToCommand(req *mgmt_pb.AddNomenProviderRequest) command.NomenProvider {
+	return command.NomenProvider{
 		Name:         req.Name,
 		Issuer:       req.Issuer,
 		ClientID:     req.ClientId,
@@ -552,8 +552,8 @@ func addZitadelProviderToCommand(req *mgmt_pb.AddZitadelProviderRequest) command
 	}
 }
 
-func updateZitadelProviderToCommand(req *mgmt_pb.UpdateZitadelProviderRequest) command.ZitadelProvider {
-	return command.ZitadelProvider{
+func updateNomenProviderToCommand(req *mgmt_pb.UpdateNomenProviderRequest) command.NomenProvider {
+	return command.NomenProvider{
 		Name:         req.Name,
 		Issuer:       req.Issuer,
 		ClientID:     req.ClientId,

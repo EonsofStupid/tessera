@@ -3,8 +3,8 @@ package domain
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/eventstore"
-	legacy_es "github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/backend/v3/storage/eventstore"
+	legacy_es "github.com/shippinAI/nomen/internal/eventstore"
 )
 
 // eventStoreInvoker checks if the [EventProducer].Events function returns any events.

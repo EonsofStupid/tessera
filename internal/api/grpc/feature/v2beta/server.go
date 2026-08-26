@@ -6,12 +6,12 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
-	feature "github.com/EonsofStupid/tessera/pkg/grpc/feature/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/feature/v2beta/featureconnect"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
+	feature "github.com/shippinAI/nomen/pkg/grpc/feature/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/feature/v2beta/featureconnect"
 )
 
 var _ featureconnect.FeatureServiceHandler = (*Server)(nil)
@@ -36,7 +36,7 @@ func (s *Server) RegisterConnectServer(interceptors ...connect.Interceptor) (str
 }
 
 func (s *Server) FileDescriptor() protoreflect.FileDescriptor {
-	return feature.File_zitadel_feature_v2beta_feature_service_proto
+	return feature.File_nomen_feature_v2beta_feature_service_proto
 }
 
 func (s *Server) AppName() string {

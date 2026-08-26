@@ -10,15 +10,15 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	"github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/internal/database"
 )
 
 func newDatabase() *cobra.Command {
 	return &cobra.Command{
 		Use:   "database",
 		Short: "initialize only the database",
-		Long: `Sets up the Tessera database.
+		Long: `Sets up the Nomen database.
 
 Prerequisites:
 - postgreSQL
@@ -26,11 +26,11 @@ Prerequisites:
 The user provided by flags needs privileges to 
 - create the database if it does not exist
 - see other users and create a new one if the user does not exist
-- grant all rights of the Tessera database to the user created if not yet set
+- grant all rights of the Nomen database to the user created if not yet set
 `,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera init verify database command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen init verify database command failed")
 			}()
 			config, shutdown, err := NewConfig(cmd, viper.GetViper())
 			if err != nil {

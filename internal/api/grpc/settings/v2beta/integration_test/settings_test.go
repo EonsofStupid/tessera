@@ -12,9 +12,9 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	object_pb "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	settings "github.com/EonsofStupid/tessera/pkg/grpc/settings/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	object_pb "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	settings "github.com/shippinAI/nomen/pkg/grpc/settings/v2beta"
 )
 
 func TestServer_GetSecuritySettings(t *testing.T) {

@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
 )
 
 func TestNewProjectionMetrics(t *testing.T) {

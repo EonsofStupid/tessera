@@ -5,7 +5,7 @@ import (
 
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func CreateMockEncryptionAlg(ctrl *gomock.Controller) EncryptionAlgorithm {

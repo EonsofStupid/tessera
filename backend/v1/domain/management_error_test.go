@@ -69,8 +69,8 @@ func TestManagementErrorValidate(t *testing.T) {
 		{"missing assurance", without(validManagementError(ManagementErrorStepUpRequired), func(err *ManagementError) { err.RequiredAssurance = "" }), "requires required_assurance"},
 		{"missing retry after", without(validManagementError(ManagementErrorRateLimited), func(err *ManagementError) { err.RetryAfterSeconds = 0 }), "positive retry_after_seconds"},
 		{"missing diagnostic", without(validManagementError(ManagementErrorServiceUnavailable), func(err *ManagementError) { err.DiagnosticReference = "" }), "requires diagnostic_ref"},
-		{"unexpected entitlement", without(validManagementError(ManagementErrorConflict), func(err *ManagementError) { err.MissingEntitlement = "tessera:manage" }), "only valid for entitlement_required"},
-		{"unexpected permission", without(validManagementError(ManagementErrorConflict), func(err *ManagementError) { err.RequiredPermission = "tessera.idp.write" }), "only valid for permission_required"},
+		{"unexpected entitlement", without(validManagementError(ManagementErrorConflict), func(err *ManagementError) { err.MissingEntitlement = "nomen:manage" }), "only valid for entitlement_required"},
+		{"unexpected permission", without(validManagementError(ManagementErrorConflict), func(err *ManagementError) { err.RequiredPermission = "nomen.idp.write" }), "only valid for permission_required"},
 		{"unexpected assurance", without(validManagementError(ManagementErrorConflict), func(err *ManagementError) { err.RequiredAssurance = "phishing_resistant" }), "only valid for step_up_required"},
 		{"unexpected retry after", without(validManagementError(ManagementErrorConflict), func(err *ManagementError) { err.RetryAfterSeconds = 30 }), "only valid for rate_limited"},
 	}
@@ -134,9 +134,9 @@ func validManagementError(errorType ManagementErrorType) ManagementError {
 	}
 	switch errorType {
 	case ManagementErrorEntitlementRequired:
-		result.MissingEntitlement = "tessera:manage"
+		result.MissingEntitlement = "nomen:manage"
 	case ManagementErrorPermissionRequired:
-		result.RequiredPermission = "tessera.idp.write"
+		result.RequiredPermission = "nomen.idp.write"
 	case ManagementErrorStepUpRequired:
 		result.RequiredAssurance = "phishing_resistant"
 	case ManagementErrorRateLimited:

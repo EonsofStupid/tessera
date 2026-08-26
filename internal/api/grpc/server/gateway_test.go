@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
 )
 
 func TestErrorHandler_PreservesUnauthenticatedStatus(t *testing.T) {

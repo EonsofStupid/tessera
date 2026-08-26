@@ -1,8 +1,8 @@
 package management
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/domain"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func AddLockoutPolicyToDomain(p *mgmt.AddCustomLockoutPolicyRequest) *domain.LockoutPolicy {

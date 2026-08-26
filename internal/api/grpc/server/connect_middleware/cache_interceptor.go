@@ -7,7 +7,7 @@ import (
 
 	"connectrpc.com/connect"
 
-	_ "github.com/EonsofStupid/tessera/internal/statik"
+	_ "github.com/shippinAI/nomen/internal/statik"
 )
 
 func NoCacheInterceptor() connect.UnaryInterceptorFunc {

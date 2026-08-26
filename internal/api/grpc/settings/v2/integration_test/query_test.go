@@ -15,12 +15,12 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	idp_pb "github.com/EonsofStupid/tessera/pkg/grpc/idp/v2"
-	object_pb "github.com/EonsofStupid/tessera/pkg/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/idp"
+	idp_pb "github.com/shippinAI/nomen/pkg/grpc/idp/v2"
+	object_pb "github.com/shippinAI/nomen/pkg/grpc/object/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2"
 )
 
 func TestServer_GetSecuritySettings(t *testing.T) {
@@ -693,12 +693,12 @@ func assertPaginationResponse(t *assert.CollectT, expected *filter.PaginationRes
 	assert.Equal(t, expected.TotalResult, actual.TotalResult)
 }
 
-func TestServer_GetActiveIdentityProviders_ZitadelType(t *testing.T) {
+func TestServer_GetActiveIdentityProviders_NomenType(t *testing.T) {
 	instance := integration.NewInstance(CTX)
 	iamOwnerCTX := instance.WithAuthorizationToken(CTX, integration.UserTypeIAMOwner)
 
 	idpName := integration.IDPName()
-	idpResp := instance.AddZitadelProvider(iamOwnerCTX, idpName)
+	idpResp := instance.AddNomenProvider(iamOwnerCTX, idpName)
 	instance.AddProviderToDefaultLoginPolicy(iamOwnerCTX, idpResp.GetId())
 
 	retryDuration, tick := integration.WaitForAndTickWithMaxDuration(iamOwnerCTX, time.Minute)
@@ -713,6 +713,6 @@ func TestServer_GetActiveIdentityProviders_ZitadelType(t *testing.T) {
 		}
 		assert.Equal(ct, idpResp.GetId(), providers[0].GetId())
 		assert.Equal(ct, idpName, providers[0].GetName())
-		assert.Equal(ct, settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_ZITADEL, providers[0].GetType())
+		assert.Equal(ct, settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_NOMEN, providers[0].GetType())
 	}, retryDuration, tick)
 }

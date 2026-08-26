@@ -10,13 +10,13 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	authorization "github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	group_v2 "github.com/EonsofStupid/tessera/pkg/grpc/group/v2"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	authorization "github.com/shippinAI/nomen/pkg/grpc/authorization/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	group_v2 "github.com/shippinAI/nomen/pkg/grpc/group/v2"
 )
 
 func Test_ListGroupsRequestToModel(t *testing.T) {

@@ -11,15 +11,15 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/riverqueue/river"
 	"github.com/robfig/cron/v3"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/queue"
-	"github.com/EonsofStupid/tessera/internal/v2/system"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	analytics "github.com/EonsofStupid/tessera/pkg/grpc/analytics/v2beta"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/queue"
+	"github.com/shippinAI/nomen/internal/v2/system"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	analytics "github.com/shippinAI/nomen/pkg/grpc/analytics/v2beta"
 )
 
 const (

@@ -3,10 +3,10 @@ package saml
 import (
 	"strings"
 
-	"github.com/zitadel/saml/pkg/provider/serviceprovider"
+	"github.com/shippinAI/nomen/saml/pkg/provider/serviceprovider"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 const (

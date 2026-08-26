@@ -3,7 +3,7 @@ package domain
 // import (
 // 	"context"
 
-// 	"github.com/EonsofStupid/tessera/backend/v3/storage/eventstore"
+// 	"github.com/shippinAI/nomen/backend/v3/storage/eventstore"
 // )
 
 // // SetEmailCommand sets the email address of a user.

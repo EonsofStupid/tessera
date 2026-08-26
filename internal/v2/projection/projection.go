@@ -1,6 +1,6 @@
 package projection
 
-import "github.com/EonsofStupid/tessera/internal/v2/eventstore"
+import "github.com/shippinAI/nomen/internal/v2/eventstore"
 
 type projection struct {
 	instance string

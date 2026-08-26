@@ -3,8 +3,8 @@ package postgres
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
 )
 
 var (

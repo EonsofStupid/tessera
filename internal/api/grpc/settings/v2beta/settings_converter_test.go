@@ -11,12 +11,12 @@ import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	settings "github.com/EonsofStupid/tessera/pkg/grpc/settings/v2beta"
+	"github.com/shippinAI/nomen/internal/api/grpc"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	settings "github.com/shippinAI/nomen/pkg/grpc/settings/v2beta"
 )
 
 var ignoreTypes = []protoreflect.FullName{"google.protobuf.Duration"}
@@ -338,7 +338,7 @@ func Test_legalSettingsToPb(t *testing.T) {
 		TOSLink:        "http://example.com/tos",
 		PrivacyLink:    "http://example.com/pricacy",
 		HelpLink:       "http://example.com/help",
-		SupportEmail:   "support@zitadel.com",
+		SupportEmail:   "support@nomen.com",
 		IsDefault:      true,
 		DocsLink:       "http://example.com/docs",
 		CustomLink:     "http://example.com/custom",
@@ -348,7 +348,7 @@ func Test_legalSettingsToPb(t *testing.T) {
 		TosLink:           "http://example.com/tos",
 		PrivacyPolicyLink: "http://example.com/pricacy",
 		HelpLink:          "http://example.com/help",
-		SupportEmail:      "support@zitadel.com",
+		SupportEmail:      "support@nomen.com",
 		DocsLink:          "http://example.com/docs",
 		CustomLink:        "http://example.com/custom",
 		CustomLinkText:    "Custom",
@@ -475,8 +475,8 @@ func Test_idpTypeToPb(t *testing.T) {
 			want: settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_APPLE,
 		},
 		{
-			args: args{domain.IDPTypeZitadel},
-			want: settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_ZITADEL,
+			args: args{domain.IDPTypeNomen},
+			want: settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_NOMEN,
 		},
 		{
 			args: args{99},

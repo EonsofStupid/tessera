@@ -7,7 +7,7 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type CheckType int
@@ -16,8 +16,8 @@ const (
 	CheckTypeHTTP CheckType = iota
 	CheckTypeDNS
 
-	HTTPPattern = "https://%s/.well-known/zitadel-challenge/%s.txt"
-	DNSPattern  = "_zitadel-challenge.%s"
+	HTTPPattern = "https://%s/.well-known/nomen-challenge/%s.txt"
+	DNSPattern  = "_nomen-challenge.%s"
 )
 
 func ValidateDomain(domain, token, verifier string, checkType CheckType, client *http.Client) error {

@@ -1,11 +1,11 @@
-// Package cache provides abstraction of cache implementations that can be used by zitadel.
+// Package cache provides abstraction of cache implementations that can be used by nomen.
 package cache
 
 import (
 	"context"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 // Purpose describes which object types are stored by a cache.

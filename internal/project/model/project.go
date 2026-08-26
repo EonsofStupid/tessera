@@ -1,8 +1,8 @@
 package model
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/domain"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
 )
 
 type Project struct {

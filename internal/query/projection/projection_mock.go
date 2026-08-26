@@ -13,8 +13,8 @@ import (
 	context "context"
 	reflect "reflect"
 
-	eventstore "github.com/EonsofStupid/tessera/internal/eventstore"
-	handler "github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
+	eventstore "github.com/shippinAI/nomen/internal/eventstore"
+	handler "github.com/shippinAI/nomen/internal/eventstore/handler/v2"
 	gomock "go.uber.org/mock/gomock"
 )
 

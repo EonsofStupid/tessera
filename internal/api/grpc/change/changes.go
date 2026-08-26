@@ -3,10 +3,10 @@ package change
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	change_pb "github.com/EonsofStupid/tessera/pkg/grpc/change"
-	"github.com/EonsofStupid/tessera/pkg/grpc/message"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	change_pb "github.com/shippinAI/nomen/pkg/grpc/change"
+	"github.com/shippinAI/nomen/pkg/grpc/message"
 )
 
 func EventsToChangesPb(changes []*query.Event, assetAPIPrefix string) []*change_pb.Change {

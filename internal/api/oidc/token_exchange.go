@@ -6,19 +6,19 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/oidc/sign"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/oidc/sign"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
-	UserIDTokenType oidc.TokenType = "urn:zitadel:params:oauth:token-type:user_id"
+	UserIDTokenType oidc.TokenType = "urn:nomen:params:oauth:token-type:user_id"
 
 	// TokenTypeNA is set when the returned Token Exchange access token value can't be used as an access token.
 	// For example, when it is an ID Token.
@@ -260,7 +260,7 @@ func validateImpersonationTokenExchangeScopes(
 				WithDescription("scope %q not found in subject or actor token", scope)
 		}
 
-		// Subject-data scopes (openid, profile, email, urn:zitadel:iam:user:*, …)
+		// Subject-data scopes (openid, profile, email, urn:nomen:iam:user:*, …)
 		// skip the union check — validated by client allowlist below.
 	}
 
@@ -286,10 +286,10 @@ func isTokenExchangeAuthorizationScope(scope string) bool {
 		return true
 	}
 	if strings.HasPrefix(scope, ScopeProjectRolePrefix) {
-		return true // urn:zitadel:iam:org:project:role:*
+		return true // urn:nomen:iam:org:project:role:*
 	}
 	if strings.HasPrefix(scope, domain.ProjectIDScope) {
-		return true // urn:zitadel:iam:org:project:id:*:aud
+		return true // urn:nomen:iam:org:project:id:*:aud
 	}
 	if strings.HasPrefix(scope, domain.OrgIDScope) {
 		return true

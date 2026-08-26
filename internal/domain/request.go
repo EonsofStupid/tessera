@@ -1,16 +1,16 @@
 package domain
 
 const (
-	OrgDomainPrimaryScope = "urn:zitadel:iam:org:domain:primary:"
-	OrgIDScope            = "urn:zitadel:iam:org:id:"
-	OrgRoleIDScope        = "urn:zitadel:iam:org:roles:id:"
-	OrgDomainPrimaryClaim = "urn:zitadel:iam:org:domain:primary"
-	OrgIDClaim            = "urn:zitadel:iam:org:id"
-	ProjectIDScope        = "urn:zitadel:iam:org:project:id:"
-	ProjectIDScopeZITADEL = "zitadel"
+	OrgDomainPrimaryScope = "urn:nomen:iam:org:domain:primary:"
+	OrgIDScope            = "urn:nomen:iam:org:id:"
+	OrgRoleIDScope        = "urn:nomen:iam:org:roles:id:"
+	OrgDomainPrimaryClaim = "urn:nomen:iam:org:domain:primary"
+	OrgIDClaim            = "urn:nomen:iam:org:id"
+	ProjectIDScope        = "urn:nomen:iam:org:project:id:"
+	ProjectIDScopeNOMEN = "nomen"
 	AudSuffix             = ":aud"
-	ProjectScopeZITADEL   = ProjectIDScope + ProjectIDScopeZITADEL + AudSuffix
-	SelectIDPScope        = "urn:zitadel:iam:org:idp:id:"
+	ProjectScopeNOMEN   = ProjectIDScope + ProjectIDScopeNOMEN + AudSuffix
+	SelectIDPScope        = "urn:nomen:iam:org:idp:id:"
 )
 
 // TODO: Change AuthRequest to interface and let oidcauthreqesut implement it

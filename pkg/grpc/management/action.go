@@ -1,6 +1,6 @@
 package management
 
-import "github.com/EonsofStupid/tessera/internal/api/grpc/server/middleware"
+import "github.com/shippinAI/nomen/internal/api/grpc/server/middleware"
 
 func (r *ListFlowTypesResponse) Localizers() (localizers []middleware.Localizer) {
 	if r == nil {

@@ -78,7 +78,7 @@ const lensSchema = type({
 
 export const overviewSchema = type({
   schema_version: '1',
-  service_id: "'tessera'",
+  service_id: "'nomen'",
   resource_revision: 'string',
   observed_at: 'string',
   readiness: readinessSchema,
@@ -88,6 +88,64 @@ export const overviewSchema = type({
     clients: 'unknown[]',
   },
   activity: 'unknown[]',
+})
+
+const preflightCheckSchema = type({
+  id: "'database' | 'issuer' | 'tls' | 'asymmetric_signing' | 'notification_delivery'",
+  status: "'passed' | 'warning' | 'failed'",
+  required: 'boolean',
+  summary: 'string',
+  'reason?': 'string',
+  'remediation?': 'string',
+  'diagnostic_ref?': 'string',
+})
+
+export const deploymentPreflightSchema = type({
+  schema_version: '1',
+  resource_revision: 'string',
+  observed_at: 'string',
+  status: "'ready' | 'action_required' | 'blocked'",
+  issuer: 'string',
+  checks: preflightCheckSchema.array(),
+})
+
+export const ownerEnrollmentSchema = type({
+  schema_version: '1',
+  resource_revision: 'string',
+  observed_at: 'string',
+  state: "'pending' | 'passkey_pending' | 'recovery_pending' | 'complete'",
+  'ceremony_id?': 'string',
+  'owner_id?': 'string',
+  passkey_enrolled: 'boolean',
+  recovery_confirmed: 'boolean',
+  'expires_at?': 'string',
+  revision: 'number.integer >= 0',
+})
+
+const webAuthnCredentialDescriptorSchema = type({
+  type: "'public-key'",
+  id: 'string',
+  'transports?': 'string[]',
+})
+
+export const ownerEnrollmentBeginSchema = type({
+  enrollment: ownerEnrollmentSchema,
+  publicKey: {
+    rp: { id: 'string', name: 'string' },
+    user: { id: 'string', name: 'string', displayName: 'string' },
+    challenge: 'string',
+    pubKeyCredParams: type({ type: "'public-key'", alg: 'number.integer' }).array(),
+    'timeout?': 'number.integer > 0',
+    'excludeCredentials?': webAuthnCredentialDescriptorSchema.array(),
+    'authenticatorSelection?': 'unknown',
+    'attestation?': 'string',
+    'extensions?': 'unknown',
+  },
+})
+
+export const ownerEnrollmentCompleteSchema = type({
+  enrollment: ownerEnrollmentSchema,
+  recovery_artifact: 'string',
 })
 
 const seedSuggestionSchema = type({
@@ -126,6 +184,9 @@ export const environmentSchema = type({
   'api?': 'string',
   'issuer?': 'string',
   'clientid?': 'string',
+  'edition?': "'public' | 'enterprise'",
+  'demo_caps?': 'boolean',
+  'version?': 'string',
 })
 
 export const tokenResponseSchema = type({ access_token: 'string' })
@@ -133,6 +194,10 @@ export const tokenResponseSchema = type({ access_token: 'string' })
 export type ManagementErrorEnvelope = typeof managementErrorEnvelopeSchema.infer
 export type CapabilityDiscovery = typeof capabilityDiscoverySchema.infer
 export type Overview = typeof overviewSchema.infer
+export type DeploymentPreflight = typeof deploymentPreflightSchema.infer
+export type OwnerEnrollment = typeof ownerEnrollmentSchema.infer
+export type OwnerEnrollmentBegin = typeof ownerEnrollmentBeginSchema.infer
+export type OwnerEnrollmentComplete = typeof ownerEnrollmentCompleteSchema.infer
 export type OperatorActionCatalog = typeof operatorActionCatalogSchema.infer
 export type Environment = typeof environmentSchema.infer
 
@@ -156,6 +221,22 @@ export function isCapabilityDiscovery(value: unknown): value is CapabilityDiscov
 
 export function isOverview(value: unknown): value is Overview {
   return accepts(overviewSchema, value)
+}
+
+export function isDeploymentPreflight(value: unknown): value is DeploymentPreflight {
+  return accepts(deploymentPreflightSchema, value)
+}
+
+export function isOwnerEnrollment(value: unknown): value is OwnerEnrollment {
+  return accepts(ownerEnrollmentSchema, value)
+}
+
+export function isOwnerEnrollmentBegin(value: unknown): value is OwnerEnrollmentBegin {
+  return accepts(ownerEnrollmentBeginSchema, value)
+}
+
+export function isOwnerEnrollmentComplete(value: unknown): value is OwnerEnrollmentComplete {
+  return accepts(ownerEnrollmentCompleteSchema, value)
 }
 
 export function isOperatorActionCatalog(value: unknown): value is OperatorActionCatalog {

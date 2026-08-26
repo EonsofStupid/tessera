@@ -11,7 +11,7 @@ import (
 
 	"github.com/dop251/goja"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func mustNewURL(t *testing.T, raw string) *url.URL {

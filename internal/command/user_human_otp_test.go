@@ -13,17 +13,17 @@ import (
 	"go.uber.org/mock/gomock"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/notification/senders"
-	"github.com/EonsofStupid/tessera/internal/notification/senders/mock"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/notification/senders"
+	"github.com/shippinAI/nomen/internal/notification/senders/mock"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func TestCommandSide_AddHumanTOTP(t *testing.T) {
@@ -537,7 +537,7 @@ func TestCommands_createHumanTOTP(t *testing.T) {
 				),
 			},
 			args: args{
-				ctx:           http_util.WithRequestedHost(authz.NewMockContext("instanceID", "org1", "user1"), "zitadel.com"),
+				ctx:           http_util.WithRequestedHost(authz.NewMockContext("instanceID", "org1", "user1"), "nomen.com"),
 				resourceOwner: "org1",
 				userID:        "user1",
 			},
@@ -586,7 +586,7 @@ func TestCommands_createHumanTOTP(t *testing.T) {
 				checkPermission: newMockPermissionCheckAllowed(),
 			},
 			args: args{
-				ctx:           http_util.WithRequestedHost(authz.NewMockContext("instanceID", "org1", "user1"), "zitadel.com"),
+				ctx:           http_util.WithRequestedHost(authz.NewMockContext("instanceID", "org1", "user1"), "nomen.com"),
 				resourceOwner: "org1",
 				userID:        "user2",
 			},

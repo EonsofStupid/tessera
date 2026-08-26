@@ -12,8 +12,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	instance "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	instance "github.com/shippinAI/nomen/pkg/grpc/instance/v2beta"
 )
 
 func TestDeleteInstace(t *testing.T) {

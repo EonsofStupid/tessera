@@ -10,15 +10,15 @@ import (
 	"github.com/lucasb-eyer/go-colorful"
 	"github.com/muesli/gamut"
 
-	admin_view "github.com/EonsofStupid/tessera/internal/admin/repository/eventsourcing/view"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	iam_model "github.com/EonsofStupid/tessera/internal/iam/repository/view/model"
-	"github.com/EonsofStupid/tessera/internal/repository/instance"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/static"
+	admin_view "github.com/shippinAI/nomen/internal/admin/repository/eventsourcing/view"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	iam_model "github.com/shippinAI/nomen/internal/iam/repository/view/model"
+	"github.com/shippinAI/nomen/internal/repository/instance"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/static"
 )
 
 const (
@@ -256,34 +256,34 @@ func (m *Styling) writeFile(policy *iam_model.LabelPolicyView) (io.Reader, int64
 	if policy.PrimaryColor != "" {
 		palette := m.generateColorPaletteRGBA255(policy.PrimaryColor)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-primary-%v: %s;", i, color)
+			cssContent += fmt.Sprintf("--nomen-color-primary-%v: %s;", i, color)
 		}
 	}
 
 	if policy.BackgroundColor != "" {
 		palette := m.generateColorPaletteRGBA255(policy.BackgroundColor)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-background-%v: %s;", i, color)
+			cssContent += fmt.Sprintf("--nomen-color-background-%v: %s;", i, color)
 		}
 	}
 	if policy.WarnColor != "" {
 		palette := m.generateColorPaletteRGBA255(policy.WarnColor)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-warn-%v: %s;", i, color)
+			cssContent += fmt.Sprintf("--nomen-color-warn-%v: %s;", i, color)
 		}
 	}
 	if policy.FontColor != "" {
-		cssContent += fmt.Sprintf("--zitadel-color-label: %s;", policy.FontColor)
+		cssContent += fmt.Sprintf("--nomen-color-label: %s;", policy.FontColor)
 		palette := m.generateColorPaletteRGBA255(policy.FontColor)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-text-%v: %s;", i, color)
+			cssContent += fmt.Sprintf("--nomen-color-text-%v: %s;", i, color)
 		}
 	}
 	var fontname string
 	if policy.FontURL != "" {
 		split := strings.Split(policy.FontURL, "/")
 		fontname = split[len(split)-1]
-		cssContent += fmt.Sprintf("--zitadel-font-family: %s;", fontname)
+		cssContent += fmt.Sprintf("--nomen-font-family: %s;", fontname)
 	}
 	cssContent += "}"
 	if policy.FontURL != "" {
@@ -293,26 +293,26 @@ func (m *Styling) writeFile(policy *iam_model.LabelPolicyView) (io.Reader, int64
 	if policy.PrimaryColorDark != "" {
 		palette := m.generateColorPaletteRGBA255(policy.PrimaryColorDark)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-primary-%v: %s;", i, color)
+			cssContent += fmt.Sprintf("--nomen-color-primary-%v: %s;", i, color)
 		}
 	}
 	if policy.BackgroundColorDark != "" {
 		palette := m.generateColorPaletteRGBA255(policy.BackgroundColorDark)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-background-%v: %s;", i, color)
+			cssContent += fmt.Sprintf("--nomen-color-background-%v: %s;", i, color)
 		}
 	}
 	if policy.WarnColorDark != "" {
 		palette := m.generateColorPaletteRGBA255(policy.WarnColorDark)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-warn-%v: %s;", i, color)
+			cssContent += fmt.Sprintf("--nomen-color-warn-%v: %s;", i, color)
 		}
 	}
 	if policy.FontColorDark != "" {
-		cssContent += fmt.Sprintf("--zitadel-color-label: %s;", policy.FontColorDark)
+		cssContent += fmt.Sprintf("--nomen-color-label: %s;", policy.FontColorDark)
 		palette := m.generateColorPaletteRGBA255(policy.FontColorDark)
 		for i, color := range palette {
-			cssContent += fmt.Sprintf("--zitadel-color-text-%v: %s;", i, color)
+			cssContent += fmt.Sprintf("--nomen-color-text-%v: %s;", i, color)
 		}
 	}
 	cssContent += "}"

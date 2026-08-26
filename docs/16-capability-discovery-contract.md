@@ -5,22 +5,22 @@
 
 ## Purpose
 
-`GET /tessera/v1/capabilities` is the only authority for deciding which paths
-the Tessera management application offers. Neither the standalone browser nor
+`GET /nomen/v1/capabilities` is the only authority for deciding which paths
+the Nomen management application offers. Neither the standalone browser nor
 an optional host adapter infers support from a version string, a successful
 health check, an inherited provider endpoint or a remembered deployment
 profile.
 
-This is a protected management read. Tessera requires
-`tessera.capabilities.read`; missing authentication is a typed `401`, while an
+This is a protected management read. Nomen requires
+`nomen.capabilities.read`; missing authentication is a typed `401`, while an
 authenticated caller without that permission receives a typed `403` naming
-the permission. The same-origin browser uses the user's Tessera session;
+the permission. The same-origin browser uses the user's Nomen session;
 external clients use a least-privilege management credential.
 
 The response answers three different questions:
 
 1. Which discovery schema is this response using?
-2. Are Tessera and the optional operator, analytics, custody, mesh and host
+2. Are Nomen and the optional operator, analytics, custody, mesh and host
    adapter components compatible?
 3. Is each customer capability operational, degraded, preview-only or
    unsupported, and should its UI be enabled, disabled or hidden?
@@ -37,15 +37,22 @@ A discovery document contains:
 - one fact for each advertised capability.
 
 Component versions are opaque display values. Clients do not parse them or
-construct compatibility ranges. Tessera reports the management API major and
+construct compatibility ranges. Nomen reports the management API major and
 the compatibility result already evaluated against its signed bundle policy.
 This keeps compatibility policy in one tested place.
 
-The only mandatory component role is `tessera`. `tessera_operator`,
-`clickhouse`, `vaultix`, `zuul` and `shippin_adapter` are reported as
-`not_present` when intentionally absent and are required only by capabilities
-that name them. Vaultix is a custody dependency, ClickHouse is an asynchronous
-analytics projection, and neither becomes an identity authority.
+The only mandatory component role is `nomen` (product language: Nomen).
+`nomen_operator`, `clickhouse`, `vaultix`, `zuul` and `shippin_adapter` are
+reported as `not_present` when intentionally absent and are required only by
+capabilities that name them. `vaultix` is the historical wire id for Nomen
+Vault custody; `zuul` is the historical wire id for Nomen Mesh. ClickHouse is
+an asynchronous analytics projection. None of those become an identity
+authority.
+
+On `NOMEN_EDITION=public`, Vault, Mesh, ClickHouse, Redis-backed cache, and
+high availability stay `unsupported` / `hidden` or `not_present` with reason
+`edition_public_withheld` (`26-editions-and-demo-tier.md`). Ids stay additive;
+do not silently rename a wire role a consumer already pins.
 
 Component compatibility is one of:
 
@@ -87,9 +94,17 @@ Initial stable ids include `overview`, `guided_setup`,
 `forward_auth`, `identity_aware_proxy`, `visual_flow_engine`, and
 `vaultix_secret_custody`. New ids are additive.
 
+The complete canonical vocabulary is the embedded, machine-readable
+`backend/v1/domain/capability-ledger.v1.json`. It contains every union row from
+`22-certification-and-parity-program.md` plus explicitly marked supporting
+runtime capabilities. Discovery is assembled from that ledger, so a documented
+capability cannot silently disappear from the server response. Ledger presence
+is inventory, not an operational claim: promotion still requires the
+release-bound proof below.
+
 ## Client resolution
 
-For each route or action, every Tessera client resolves in this order:
+For each route or action, every Nomen client resolves in this order:
 
 1. An unsupported `schema_version` disables it as `schema_incompatible`.
 2. An invalid document using a supported schema disables it as

@@ -7,7 +7,7 @@ import (
 )
 
 // A flow is an ordered set of stages, declared as a blueprint and executed
-// one challenge at a time. The model is Authentik's — flow, stage, plan,
+// one challenge at a time. The model is Nomen's — flow, stage, plan,
 // challenge — reimplemented here because it is a model rather than a library:
 // identity, MFA and recovery become configurations of one engine instead of
 // three code paths.
@@ -125,7 +125,7 @@ type Plan struct {
 }
 
 // PlanFlow is the planner. Deliberately small and deliberately present: this
-// is where Authentik evaluates per-binding policies and attaches
+// is where Nomen evaluates per-binding policies and attaches
 // re-evaluation markers, and where ours will when something needs them.
 // Callers depend on the seam, not on the shortcut behind it.
 func PlanFlow(f *Flow) (*Plan, error) {

@@ -7,10 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/internal_permission/v2"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/internal_permission/v2"
 )
 
 func Test_administratorFilterToQuery(t *testing.T) {

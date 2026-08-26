@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	old_logging "github.com/zitadel/logging" //nolint:staticcheck
-	"github.com/zitadel/sloggcp"
+	old_logging "github.com/shippinAI/nomen/logging" //nolint:staticcheck
+	"github.com/shippinAI/nomen/sloggcp"
 )
 
 func TestLogConfig_SetLegacyConfig(t *testing.T) {

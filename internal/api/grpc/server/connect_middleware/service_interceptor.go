@@ -6,8 +6,8 @@ import (
 
 	"connectrpc.com/connect"
 
-	"github.com/EonsofStupid/tessera/internal/api/service"
-	_ "github.com/EonsofStupid/tessera/internal/statik"
+	"github.com/shippinAI/nomen/internal/api/service"
+	_ "github.com/shippinAI/nomen/internal/statik"
 )
 
 const (

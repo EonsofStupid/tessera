@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/domain"
 )
 
 func assertMetadata(t *testing.T, expected, gotten []*domain.Metadata) {

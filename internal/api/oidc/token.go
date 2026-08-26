@@ -5,14 +5,14 @@ import (
 	"slices"
 	"time"
 
-	"github.com/zitadel/oidc/v3/pkg/crypto"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/crypto"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	"github.com/EonsofStupid/tessera/internal/api/oidc/sign"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/api/oidc/sign"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 /*
@@ -142,7 +142,7 @@ func (s *Server) createJWT(ctx context.Context, client op.Client, session *comma
 	claims.Actor = actorDomainToClaims(session.Actor)
 	claims.Claims = userInfo.Claims
 
-	// This is the whole of Tessera on the wire. Everything above is Zitadel
+	// This is the whole of Nomen on the wire. Everything above is Nomen
 	// minting an access token; this is the one call that makes it a seat token,
 	// and it is deliberately the last thing before the signature so there is
 	// exactly one place to look for what a consumer will see.

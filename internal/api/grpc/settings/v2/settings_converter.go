@@ -5,12 +5,12 @@ import (
 
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	idp_api "github.com/EonsofStupid/tessera/internal/api/grpc/idp/v2"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	idp_pb "github.com/EonsofStupid/tessera/pkg/grpc/idp/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/settings/v2"
+	idp_api "github.com/shippinAI/nomen/internal/api/grpc/idp/v2"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	idp_pb "github.com/shippinAI/nomen/pkg/grpc/idp/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/settings/v2"
 )
 
 func loginSettingsToPb(current *query.LoginPolicy) *settings.LoginSettings {
@@ -232,8 +232,8 @@ func idpTypeToPb(idpType domain.IDPType) settings.IdentityProviderType {
 		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_APPLE
 	case domain.IDPTypeSAML:
 		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_SAML
-	case domain.IDPTypeZitadel:
-		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_ZITADEL
+	case domain.IDPTypeNomen:
+		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_NOMEN
 	default:
 		return settings.IdentityProviderType_IDENTITY_PROVIDER_TYPE_UNSPECIFIED
 	}

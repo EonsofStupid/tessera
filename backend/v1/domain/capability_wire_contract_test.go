@@ -11,11 +11,11 @@ import (
 func TestCapabilityWireContractMatchesDomain(t *testing.T) {
 	t.Parallel()
 
-	contents, err := os.ReadFile("../../../proto/tessera/management/v1/capability.proto")
+	contents, err := os.ReadFile("../../../proto/nomen/management/v1/capability.proto")
 	require.NoError(t, err)
 	wire := string(contents)
 
-	for _, value := range []ComponentRole{ComponentTessera, ComponentTesseraOperator, ComponentClickHouse, ComponentVaultix, ComponentZuul, ComponentShippinAdapter} {
+	for _, value := range []ComponentRole{ComponentNomen, ComponentNomenOperator, ComponentClickHouse, ComponentVaultix, ComponentZuul, ComponentShippinAdapter} {
 		require.Contains(t, wire, "COMPONENT_ROLE_"+strings.ToUpper(string(value)))
 	}
 	for _, value := range []CompatibilityState{CompatibilityCompatible, CompatibilityIncompatible, CompatibilityNotPresent, CompatibilityUnknown} {

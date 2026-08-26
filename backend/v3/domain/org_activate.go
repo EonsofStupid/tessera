@@ -5,11 +5,11 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/org"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/org"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var (
@@ -71,7 +71,7 @@ func (cmd *ActivateOrgCommand) Validate(ctx context.Context, opts *InvokeOpts) (
 
 	organizationRepo := opts.organizationRepo
 
-	// TODO: lock entry as soon as https://github.com/EonsofStupid/tessera/issues/10930 is done
+	// TODO: lock entry as soon as https://github.com/shippinAI/nomen/issues/10930 is done
 	org, err := organizationRepo.Get(ctx, opts.DB(), database.WithCondition(
 		organizationRepo.PrimaryKeyCondition(authz.GetInstance(ctx).InstanceID(), cmd.ID),
 	))

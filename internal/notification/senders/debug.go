@@ -3,9 +3,9 @@ package senders
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/fs"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/log"
+	"github.com/shippinAI/nomen/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/channels/fs"
+	"github.com/shippinAI/nomen/internal/notification/channels/log"
 )
 
 func debugChannels(ctx context.Context, getFileSystemProvider func(ctx context.Context) (*fs.Config, error), getLogProvider func(ctx context.Context) (*log.Config, error)) []channels.NotificationChannel {

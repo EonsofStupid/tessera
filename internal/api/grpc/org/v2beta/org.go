@@ -6,17 +6,17 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	orgv2 "github.com/EonsofStupid/tessera/backend/v3/api/org/v2"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	metadata "github.com/EonsofStupid/tessera/internal/api/grpc/metadata/v2beta"
-	object "github.com/EonsofStupid/tessera/internal/api/grpc/object/v2beta"
-	user "github.com/EonsofStupid/tessera/internal/api/grpc/user/v2beta"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	filter "github.com/EonsofStupid/tessera/pkg/grpc/filter/v2beta"
-	org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
-	v2beta_org "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
+	orgv2 "github.com/shippinAI/nomen/backend/v3/api/org/v2"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	metadata "github.com/shippinAI/nomen/internal/api/grpc/metadata/v2beta"
+	object "github.com/shippinAI/nomen/internal/api/grpc/object/v2beta"
+	user "github.com/shippinAI/nomen/internal/api/grpc/user/v2beta"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	filter "github.com/shippinAI/nomen/pkg/grpc/filter/v2beta"
+	org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
+	v2beta_org "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
 )
 
 func (s *Server) CreateOrganization(ctx context.Context, request *connect.Request[v2beta_org.CreateOrganizationRequest]) (*connect.Response[v2beta_org.CreateOrganizationResponse], error) {

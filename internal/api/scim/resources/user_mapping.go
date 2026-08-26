@@ -6,16 +6,16 @@ import (
 	"time"
 
 	"github.com/muhlemmer/gu"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/scim/metadata"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/scim/metadata"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func (h *UsersHandler) mapToAddHuman(ctx context.Context, scimUser *ScimUser) (*command.AddHuman, error) {
@@ -47,7 +47,7 @@ func (h *UsersHandler) mapToAddHuman(ctx context.Context, scimUser *ScimUser) (*
 
 	// Okta sends a random password during SCIM provisioning
 	// irrespective of whether the Sync Password option is enabled or disabled on Okta.
-	// This password does not comply with Zitadel's password complexity, and
+	// This password does not comply with Nomen's password complexity, and
 	// the following workaround ignores the random password as it does not add any value.
 	ignorePasswordOnCreate := metadata.GetScimContextData(ctx).IgnorePasswordOnCreate
 	if scimUser.Password != nil && !ignorePasswordOnCreate {
@@ -202,7 +202,7 @@ func (h *UsersHandler) mapAddCommandToScimUser(ctx context.Context, user *ScimUs
 	user.Resource = buildResource(ctx, h, addHuman.Details)
 	user.Password = nil
 
-	// ZITADEL supports only one (primary) phone number or email.
+	// NOMEN supports only one (primary) phone number or email.
 	// Therefore, only the primary one should be returned.
 	// Note that the phone number might also be reformatted.
 	if addHuman.Phone.Number != "" {
@@ -229,7 +229,7 @@ func (h *UsersHandler) mapChangeCommandToScimUser(ctx context.Context, user *Sci
 	user.Resource = buildResource(ctx, h, changeHuman.Details)
 	user.Password = nil
 
-	// ZITADEL supports only one (primary) phone number or email.
+	// NOMEN supports only one (primary) phone number or email.
 	// Therefore, only the primary one should be returned.
 	// Note that the phone number might also be reformatted.
 	if changeHuman.Phone != nil {

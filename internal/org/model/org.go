@@ -1,10 +1,10 @@
 package model
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	iam_model "github.com/EonsofStupid/tessera/internal/iam/model"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/domain"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	iam_model "github.com/shippinAI/nomen/internal/iam/model"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type Org struct {

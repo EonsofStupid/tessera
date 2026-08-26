@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"go.opentelemetry.io/otel/trace"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -20,10 +20,10 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/metrics"
-	client_middleware "github.com/EonsofStupid/tessera/internal/api/grpc/client/middleware"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/metrics"
+	client_middleware "github.com/shippinAI/nomen/internal/api/grpc/client/middleware"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	http_mw "github.com/shippinAI/nomen/internal/api/http/middleware"
 )
 
 const (
@@ -33,7 +33,7 @@ const (
 
 var (
 	customHeaders = []string{
-		"x-zitadel-",
+		"x-nomen-",
 	}
 	jsonMarshaler = &runtime.JSONPb{
 		UnmarshalOptions: protojson.UnmarshalOptions{

@@ -11,14 +11,14 @@ import (
 	"github.com/stretchr/testify/require"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	zitadel_internal_domain "github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	idp_grpc "github.com/EonsofStupid/tessera/pkg/grpc/idp"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	nomen_internal_domain "github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/idp"
+	idp_grpc "github.com/shippinAI/nomen/pkg/grpc/idp"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func TestServer_TestIDProviderOrgReduces(t *testing.T) {
@@ -2157,7 +2157,7 @@ func TestServer_TestIDProviderOrgReduces(t *testing.T) {
 			assert.NotNil(t, saml.Certificate)
 			assert.NotNil(t, saml.Binding)
 			assert.Equal(t, false, saml.WithSignedRequest)
-			assert.Equal(t, zitadel_internal_domain.SAMLNameIDFormatTransient, *saml.NameIDFormat)
+			assert.Equal(t, nomen_internal_domain.SAMLNameIDFormatTransient, *saml.NameIDFormat)
 			assert.Equal(t, name, saml.TransientMappingAttributeName)
 			assert.Equal(t, false, saml.FederatedLogoutEnabled)
 			assert.Equal(t, "http://www.w3.org/2000/09/xmldsig#rsa-sha1", saml.SignatureAlgorithm)
@@ -2253,7 +2253,7 @@ func TestServer_TestIDProviderOrgReduces(t *testing.T) {
 			assert.NotNil(t, updateSAML.Binding)
 			assert.NotEqual(t, saml.Binding, updateSAML.Binding)
 			assert.Equal(t, true, updateSAML.WithSignedRequest)
-			assert.Equal(t, zitadel_internal_domain.SAMLNameIDFormatEmailAddress, *updateSAML.NameIDFormat)
+			assert.Equal(t, nomen_internal_domain.SAMLNameIDFormatEmailAddress, *updateSAML.NameIDFormat)
 			assert.Equal(t, name, updateSAML.TransientMappingAttributeName)
 			assert.Equal(t, true, updateSAML.FederatedLogoutEnabled)
 			assert.Equal(t, "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", updateSAML.SignatureAlgorithm)

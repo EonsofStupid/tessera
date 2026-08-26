@@ -3,16 +3,16 @@ package senders
 import (
 	"context"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/notification/channels"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/fs"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/instrumenting"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/log"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/sms"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/twilio"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/webhook"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/notification/channels"
+	"github.com/shippinAI/nomen/internal/notification/channels/fs"
+	"github.com/shippinAI/nomen/internal/notification/channels/instrumenting"
+	"github.com/shippinAI/nomen/internal/notification/channels/log"
+	"github.com/shippinAI/nomen/internal/notification/channels/sms"
+	"github.com/shippinAI/nomen/internal/notification/channels/twilio"
+	"github.com/shippinAI/nomen/internal/notification/channels/webhook"
 )
 
 const twilioSpanName = "twilio.NotificationChannel"

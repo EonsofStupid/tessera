@@ -12,9 +12,9 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/user/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	user "github.com/shippinAI/nomen/pkg/grpc/user/v2beta"
 )
 
 func TestServer_RegisterPasskey(t *testing.T) {

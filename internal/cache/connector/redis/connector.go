@@ -16,7 +16,7 @@ type Config struct {
 	// Pool, timeout, retry, and circuit breaker settings can still be used as overlays.
 	// Format: redis://user:password@host:port[/db] or rediss://... for TLS.
 	// Note: the DB number in the URL path is ignored for cache DB selection.
-	// ZITADEL derives the actual DB from DBOffset + purpose; use /0 or omit the /db path.
+	// NOMEN derives the actual DB from DBOffset + purpose; use /0 or omit the /db path.
 	URL string
 
 	// The network type, either tcp or unix.
@@ -35,9 +35,9 @@ type Config struct {
 	// or the User Password when connecting to a Redis 6.0 instance, or greater,
 	// that is using the Redis ACL system.
 	Password string
-	// Each ZITADEL cache uses an incremental DB namespace.
+	// Each NOMEN cache uses an incremental DB namespace.
 	// This option offsets the first DB so it doesn't conflict with other databases on the same server.
-	// Note that ZITADEL uses FLUSHDB command to truncate a cache.
+	// Note that NOMEN uses FLUSHDB command to truncate a cache.
 	// This can have destructive consequences when overlapping DB namespaces are used.
 	DBOffset int
 

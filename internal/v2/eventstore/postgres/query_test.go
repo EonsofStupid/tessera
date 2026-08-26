@@ -10,9 +10,9 @@ import (
 
 	"github.com/shopspring/decimal"
 
-	"github.com/EonsofStupid/tessera/internal/v2/database"
-	"github.com/EonsofStupid/tessera/internal/v2/database/mock"
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/database"
+	"github.com/shippinAI/nomen/internal/v2/database/mock"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
 )
 
 func Test_writeOrdering(t *testing.T) {

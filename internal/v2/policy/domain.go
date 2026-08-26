@@ -1,6 +1,6 @@
 package policy
 
-import "github.com/EonsofStupid/tessera/internal/v2/eventstore"
+import "github.com/shippinAI/nomen/internal/v2/eventstore"
 
 const DomainPolicyAddedTypeSuffix = "policy.domain.added"
 

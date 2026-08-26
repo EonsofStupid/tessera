@@ -11,18 +11,18 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/app"
-	"github.com/EonsofStupid/tessera/pkg/grpc/auth"
-	mgmt "github.com/EonsofStupid/tessera/pkg/grpc/management"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/app"
+	"github.com/shippinAI/nomen/pkg/grpc/auth"
+	mgmt "github.com/shippinAI/nomen/pkg/grpc/management"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 var (
@@ -37,7 +37,7 @@ const (
 	redirectURI          = "https://callback"
 	redirectURIImplicit  = "http://localhost:9999/callback"
 	logoutRedirectURI    = "https://logged-out"
-	zitadelAudienceScope = domain.ProjectIDScope + domain.ProjectIDScopeZITADEL + domain.AudSuffix
+	nomenAudienceScope = domain.ProjectIDScope + domain.ProjectIDScopeNOMEN + domain.AudSuffix
 )
 
 func TestMain(m *testing.M) {
@@ -57,7 +57,7 @@ func TestMain(m *testing.M) {
 	}())
 }
 
-func Test_TESSERA_API_missing_audience_scope(t *testing.T) {
+func Test_NOMEN_API_missing_audience_scope(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreateVerifiedWebAuthNSession(t, CTXLOGIN, User.GetUserId())
@@ -86,9 +86,9 @@ func Test_TESSERA_API_missing_audience_scope(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_TESSERA_API_missing_authentication(t *testing.T) {
+func Test_NOMEN_API_missing_authentication(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
-	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, zitadelAudienceScope)
+	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, nomenAudienceScope)
 	createResp, err := Instance.Client.SessionV2.CreateSession(CTXLOGIN, &session.CreateSessionRequest{
 		Checks: &session.Checks{
 			User: &session.CheckUser{
@@ -120,13 +120,13 @@ func Test_TESSERA_API_missing_authentication(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_TESSERA_API_missing_mfa_2fa_setup(t *testing.T) {
+func Test_NOMEN_API_missing_mfa_2fa_setup(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	org := Instance.CreateOrganization(CTXIAM, integration.OrganizationName(), integration.Email())
 	userID := org.CreatedAdmins[0].GetUserId()
 	Instance.SetUserPassword(CTXIAM, userID, integration.UserPassword, false)
 	Instance.RegisterUserU2F(CTXIAM, userID)
-	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, zitadelAudienceScope)
+	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, nomenAudienceScope)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreatePasswordSession(t, CTXLOGIN, userID, integration.UserPassword)
 	linkResp, err := Instance.Client.OIDCv2.CreateCallback(CTXLOGIN, &oidc_pb.CreateCallbackRequest{
 		AuthRequestId: authRequestID,
@@ -152,12 +152,12 @@ func Test_TESSERA_API_missing_mfa_2fa_setup(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_TESSERA_API_missing_mfa_policy(t *testing.T) {
+func Test_NOMEN_API_missing_mfa_policy(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	org := Instance.CreateOrganization(CTXIAM, integration.OrganizationName(), integration.Email())
 	userID := org.CreatedAdmins[0].GetUserId()
 	Instance.SetUserPassword(CTXIAM, userID, integration.UserPassword, false)
-	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, zitadelAudienceScope)
+	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, nomenAudienceScope)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreatePasswordSession(t, CTXLOGIN, userID, integration.UserPassword)
 	linkResp, err := Instance.Client.OIDCv2.CreateCallback(CTXLOGIN, &oidc_pb.CreateCallbackRequest{
 		AuthRequestId: authRequestID,
@@ -184,7 +184,7 @@ func Test_TESSERA_API_missing_mfa_policy(t *testing.T) {
 	require.Equal(t, userID, myUserResp.GetUser().GetId())
 
 	// require MFA
-	ctxOrg := metadata.AppendToOutgoingContext(CTXIAM, "x-zitadel-orgid", org.GetOrganizationId())
+	ctxOrg := metadata.AppendToOutgoingContext(CTXIAM, "x-nomen-orgid", org.GetOrganizationId())
 	_, err = Instance.Client.Mgmt.AddCustomLoginPolicy(ctxOrg, &mgmt.AddCustomLoginPolicyRequest{
 		ForceMfa: true,
 	})
@@ -208,9 +208,9 @@ func Test_TESSERA_API_missing_mfa_policy(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_TESSERA_API_success(t *testing.T) {
+func Test_NOMEN_API_success(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
-	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, zitadelAudienceScope)
+	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, nomenAudienceScope)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreateVerifiedWebAuthNSession(t, CTXLOGIN, User.GetUserId())
 	linkResp, err := Instance.Client.OIDCv2.CreateCallback(CTXLOGIN, &oidc_pb.CreateCallbackRequest{
 		AuthRequestId: authRequestID,
@@ -237,14 +237,14 @@ func Test_TESSERA_API_success(t *testing.T) {
 	require.Equal(t, User.GetUserId(), myUserResp.GetUser().GetId())
 }
 
-func Test_TESSERA_API_glob_redirects(t *testing.T) {
-	const redirectURI = "https://my-org-1yfnjl2xj-my-app.vercel.app/api/auth/callback/zitadel"
+func Test_NOMEN_API_glob_redirects(t *testing.T) {
+	const redirectURI = "https://my-org-1yfnjl2xj-my-app.vercel.app/api/auth/callback/nomen"
 	clientID, _ := createClientWithOpts(t, Instance, clientOpts{
-		redirectURI: "https://my-org-*-my-app.vercel.app/api/auth/callback/zitadel",
+		redirectURI: "https://my-org-*-my-app.vercel.app/api/auth/callback/nomen",
 		logoutURI:   "https://my-org-*-my-app.vercel.app/",
 		devMode:     true,
 	})
-	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, zitadelAudienceScope)
+	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, nomenAudienceScope)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreateVerifiedWebAuthNSession(t, CTXLOGIN, User.GetUserId())
 	linkResp, err := Instance.Client.OIDCv2.CreateCallback(CTXLOGIN, &oidc_pb.CreateCallbackRequest{
 		AuthRequestId: authRequestID,
@@ -271,9 +271,9 @@ func Test_TESSERA_API_glob_redirects(t *testing.T) {
 	require.Equal(t, User.GetUserId(), myUserResp.GetUser().GetId())
 }
 
-func Test_TESSERA_API_inactive_access_token(t *testing.T) {
+func Test_NOMEN_API_inactive_access_token(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
-	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, oidc.ScopeOfflineAccess, zitadelAudienceScope)
+	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, oidc.ScopeOfflineAccess, nomenAudienceScope)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreateVerifiedWebAuthNSession(t, CTXLOGIN, User.GetUserId())
 	linkResp, err := Instance.Client.OIDCv2.CreateCallback(CTXLOGIN, &oidc_pb.CreateCallbackRequest{
 		AuthRequestId: authRequestID,
@@ -311,11 +311,11 @@ func Test_TESSERA_API_inactive_access_token(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_TESSERA_API_terminated_session(t *testing.T) {
+func Test_NOMEN_API_terminated_session(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	provider, err := Instance.CreateRelyingParty(CTX, clientID, redirectURI)
 	require.NoError(t, err)
-	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, oidc.ScopeOfflineAccess, zitadelAudienceScope)
+	authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, oidc.ScopeOfflineAccess, nomenAudienceScope)
 	sessionID, sessionToken, startTime, changeTime := Instance.CreateVerifiedWebAuthNSession(t, CTXLOGIN, User.GetUserId())
 	linkResp, err := Instance.Client.OIDCv2.CreateCallback(CTXLOGIN, &oidc_pb.CreateCallbackRequest{
 		AuthRequestId: authRequestID,
@@ -353,7 +353,7 @@ func Test_TESSERA_API_terminated_session(t *testing.T) {
 	require.Nil(t, myUserResp)
 }
 
-func Test_TESSERA_API_terminated_session_user_disabled(t *testing.T) {
+func Test_NOMEN_API_terminated_session_user_disabled(t *testing.T) {
 	clientID, _ := createClient(t, Instance)
 	tests := []struct {
 		name    string
@@ -385,7 +385,7 @@ func Test_TESSERA_API_terminated_session_user_disabled(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			disabledUser := Instance.CreateHumanUser(CTX)
 			Instance.SetUserPassword(CTX, disabledUser.GetUserId(), integration.UserPassword, false)
-			authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, oidc.ScopeOfflineAccess, zitadelAudienceScope)
+			authRequestID := createAuthRequest(t, Instance, clientID, redirectURI, oidc.ScopeOpenID, oidc.ScopeOfflineAccess, nomenAudienceScope)
 			sessionID, sessionToken, startTime, changeTime := Instance.CreatePasswordSession(t, CTXLOGIN, disabledUser.GetUserId(), integration.UserPassword)
 			linkResp, err := Instance.Client.OIDCv2.CreateCallback(CTXLOGIN, &oidc_pb.CreateCallbackRequest{
 				AuthRequestId: authRequestID,

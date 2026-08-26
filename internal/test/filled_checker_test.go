@@ -63,7 +63,7 @@ func TestCheckAllFieldsIgnores(t *testing.T) {
 					Company map[string]string
 					priv    bool
 				}{
-					Company: map[string]string{"caos AG": "ZITADEL"},
+					Company: map[string]string{"caos AG": "NOMEN"},
 					priv:    true,
 				},
 				ignoredFields: []string{"Company"},

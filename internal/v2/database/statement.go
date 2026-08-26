@@ -8,7 +8,7 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 )
 
 type Statement struct {

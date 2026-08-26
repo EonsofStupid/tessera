@@ -9,15 +9,15 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	authorization_v2 "github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2"
-	instance_v2 "github.com/EonsofStupid/tessera/pkg/grpc/instance/v2"
-	org_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/org/v2beta"
-	project_v2beta "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
-	user_v2 "github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/integration"
+	authorization_v2 "github.com/shippinAI/nomen/pkg/grpc/authorization/v2"
+	instance_v2 "github.com/shippinAI/nomen/pkg/grpc/instance/v2"
+	org_v2beta "github.com/shippinAI/nomen/pkg/grpc/org/v2beta"
+	project_v2beta "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
+	user_v2 "github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func TestServer_AuthorizationReduces(t *testing.T) {

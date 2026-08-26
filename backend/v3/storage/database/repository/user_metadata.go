@@ -3,14 +3,14 @@ package repository
 import (
 	"strings"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type userMetadata struct{}
 
 func (userMetadata) qualifiedTableName() string {
-	return "zitadel.user_metadata"
+	return "nomen.user_metadata"
 }
 
 func (userMetadata) unqualifiedTableName() string {
@@ -25,7 +25,7 @@ func (userMetadata) unqualifiedTableName() string {
 func (u userMetadata) SetMetadata(metadata ...*domain.Metadata) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("INSERT INTO zitadel.user_metadata(instance_id, user_id, key, value, created_at, updated_at)")
+			builder.WriteString("INSERT INTO nomen.user_metadata(instance_id, user_id, key, value, created_at, updated_at)")
 			builder.WriteString(" SELECT existing_user.instance_id, existing_user.id, md.key::TEXT, md.value::BYTEA, md.created_at::TIMESTAMPTZ, md.updated_at::TIMESTAMPTZ")
 			builder.WriteString(" FROM existing_user CROSS JOIN (VALUES ")
 			for i, md := range metadata {
@@ -68,7 +68,7 @@ func (u userMetadata) SetMetadata(metadata ...*domain.Metadata) database.Change 
 func (u userMetadata) RemoveMetadata(condition database.Condition) database.Change {
 	return database.NewCTEChange(
 		func(builder *database.StatementBuilder) {
-			builder.WriteString("DELETE FROM zitadel.user_metadata USING ")
+			builder.WriteString("DELETE FROM nomen.user_metadata USING ")
 			builder.WriteString(existingUser.unqualifiedTableName())
 			writeCondition(builder, database.And(
 				database.NewColumnCondition(existingUser.InstanceIDColumn(), u.instanceIDColumn()),

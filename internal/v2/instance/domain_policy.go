@@ -1,9 +1,9 @@
 package instance
 
 import (
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/v2/policy"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/policy"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const DomainPolicyAddedType = eventTypePrefix + policy.DomainPolicyAddedTypeSuffix

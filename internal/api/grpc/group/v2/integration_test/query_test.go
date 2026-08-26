@@ -12,11 +12,11 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	authorization "github.com/EonsofStupid/tessera/pkg/grpc/authorization/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/filter/v2"
-	group_v2 "github.com/EonsofStupid/tessera/pkg/grpc/group/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	"github.com/shippinAI/nomen/internal/integration"
+	authorization "github.com/shippinAI/nomen/pkg/grpc/authorization/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/filter/v2"
+	group_v2 "github.com/shippinAI/nomen/pkg/grpc/group/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 func TestServer_GetGroup(t *testing.T) {

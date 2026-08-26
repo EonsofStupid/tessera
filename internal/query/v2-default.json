@@ -2,7 +2,7 @@
   "de": {
     "common": {
       "back": "Zurück",
-      "title": "Anmelden mit Zitadel"
+      "title": "Anmelden mit Nomen"
     },
     "accounts": {
       "title": "Konten",
@@ -54,7 +54,7 @@
         "userNotActive": "Das Benutzerkonto ist inaktiv. Wenden Sie sich für weitere Informationen an Ihren Administrator."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Ein Fehler ist aufgetreten",
         "multipleUsersFound": "Mehrere Benutzer gefunden",
@@ -319,7 +319,7 @@
         "description": "Einige Daten fehlen. Bitte überprüfen Sie Ihre Eingaben."
       },
       "title": "Registrieren",
-      "description": "Erstellen Sie Ihr Zitadel-Konto.",
+      "description": "Erstellen Sie Ihr Nomen-Konto.",
       "noMethodAvailableWarning": "Keine Authentifizierungsmethode verfügbar. Bitte wenden Sie sich an den Administrator.",
       "selectMethod": "Wählen Sie die Methode, mit der Sie sich authentifizieren möchten",
       "agreeTo": "Um sich zu registrieren, müssen Sie den Nutzungsbedingungen zustimmen",
@@ -438,7 +438,7 @@
       },
       "request": {
         "title": "{appName} möchte eine Verbindung herstellen:",
-        "description": "Durch Klicken auf Zulassen erlauben Sie {appName} und Zitadel, Ihre Informationen gemäß ihren jeweiligen Nutzungsbedingungen und Datenschutzrichtlinien zu verwenden. Sie können diesen Zugriff jederzeit widerrufen.",
+        "description": "Durch Klicken auf Zulassen erlauben Sie {appName} und Nomen, Ihre Informationen gemäß ihren jeweiligen Nutzungsbedingungen und Datenschutzrichtlinien zu verwenden. Sie können diesen Zugriff jederzeit widerrufen.",
         "disclaimer": "{appName} hat Zugriff auf:",
         "submit": "Zulassen",
         "deny": "Ablehnen"
@@ -463,7 +463,7 @@
   "en": {
     "common": {
       "back": "Back",
-      "title": "Login with Zitadel"
+      "title": "Login with Nomen"
     },
     "accounts": {
       "title": "Accounts",
@@ -515,7 +515,7 @@
         "userNotActive": "User is not active. Contact your administrator for more information."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "An error occurred",
         "multipleUsersFound": "Multiple users found",
@@ -780,7 +780,7 @@
         "description": "Provide email, first and last name to register."
       },
       "title": "Register",
-      "description": "Create your Zitadel account.",
+      "description": "Create your Nomen account.",
       "noMethodAvailableWarning": "No authentication method available. Please contact your administrator.",
       "selectMethod": "Select the method you would like to authenticate",
       "agreeTo": "To register you must agree to the terms and conditions",
@@ -900,7 +900,7 @@
       "request": {
         "title": "{appName} would like to connect",
         "description": "{appName} will have access to:",
-        "disclaimer": "By clicking Allow, you allow {appName} and Zitadel to use your information in accordance with their respective terms of service and privacy policies. You can revoke this access at any time.",
+        "disclaimer": "By clicking Allow, you allow {appName} and Nomen to use your information in accordance with their respective terms of service and privacy policies. You can revoke this access at any time.",
         "submit": "Allow",
         "deny": "Deny"
       },
@@ -924,7 +924,7 @@
   "es": {
     "common": {
       "back": "Atrás",
-      "title": "Iniciar sesión con Zitadel"
+      "title": "Iniciar sesión con Nomen"
     },
     "accounts": {
       "title": "Cuentas",
@@ -976,7 +976,7 @@
         "userNotActive": "El usuario no está activo. Contacte con su administrador para más información."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Ocurrió un error",
         "multipleUsersFound": "Se encontraron varios usuarios",
@@ -1241,7 +1241,7 @@
         "description": "No se proporcionaron datos suficientes para el registro."
       },
       "title": "Registrarse",
-      "description": "Crea tu cuenta Zitadel.",
+      "description": "Crea tu cuenta Nomen.",
       "noMethodAvailableWarning": "No hay métodos de autenticación disponibles. Por favor, contacta a tu administrador.",
       "selectMethod": "Selecciona el método con el que deseas autenticarte",
       "agreeTo": "Para registrarte debes aceptar los términos y condiciones",
@@ -1361,7 +1361,7 @@
       "request": {
         "title": "{appName} desea conectarse:",
         "description": "{appName} tendrá acceso a:",
-        "disclaimer": "Al hacer clic en Permitir, autorizas a {appName} y a Zitadel a usar tu información de acuerdo con sus respectivos términos de servicio y políticas de privacidad. Puedes revocar este acceso en cualquier momento.",
+        "disclaimer": "Al hacer clic en Permitir, autorizas a {appName} y a Nomen a usar tu información de acuerdo con sus respectivos términos de servicio y políticas de privacidad. Puedes revocar este acceso en cualquier momento.",
         "submit": "Permitir",
         "deny": "Denegar"
       },
@@ -1385,7 +1385,7 @@
   "it": {
     "common": {
       "back": "Indietro",
-      "title": "Accedi con Zitadel"
+      "title": "Accedi con Nomen"
     },
     "accounts": {
       "title": "Account",
@@ -1437,7 +1437,7 @@
         "userNotActive": "L'utente non è attivo. Contatta l'amministratore per maggiori informazioni."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Si è verificato un errore",
         "multipleUsersFound": "Trovati più utenti",
@@ -1702,7 +1702,7 @@
         "description": "Inserisci i tuoi dati per registrarti."
       },
       "title": "Registrati",
-      "description": "Crea il tuo account Zitadel.",
+      "description": "Crea il tuo account Nomen.",
       "noMethodAvailableWarning": "Nessun metodo di autenticazione disponibile. Contatta l'amministratore di sistema per assistenza.",
       "selectMethod": "Seleziona il metodo con cui desideri autenticarti",
       "agreeTo": "Per registrarti devi accettare i termini e le condizioni",
@@ -1822,7 +1822,7 @@
       "request": {
         "title": "{appName} desidera connettersi:",
         "description": "{appName} avrà accesso a:",
-        "disclaimer": "Cliccando su Consenti, autorizzi {appName} e Zitadel a utilizzare le tue informazioni in conformità con i rispettivi termini di servizio e politiche sulla privacy. Puoi revocare questo accesso in qualsiasi momento.",
+        "disclaimer": "Cliccando su Consenti, autorizzi {appName} e Nomen a utilizzare le tue informazioni in conformità con i rispettivi termini di servizio e politiche sulla privacy. Puoi revocare questo accesso in qualsiasi momento.",
         "submit": "Consenti",
         "deny": "Nega"
       },
@@ -1846,7 +1846,7 @@
   "nl": {
     "common": {
       "back": "Terug",
-      "title": "Inloggen met Zitadel"
+      "title": "Inloggen met Nomen"
     },
     "accounts": {
       "title": "Accounts",
@@ -1898,7 +1898,7 @@
         "userNotActive": "Gebruiker is niet actief. Neem contact op met jouw beheerder voor meer informatie."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Er is een fout opgetreden",
         "multipleUsersFound": "Meerdere gebruikers gevonden",
@@ -2163,7 +2163,7 @@
         "description": "Geef e-mail, voornaam en achternaam op om te registreren."
       },
       "title": "Registreren",
-      "description": "Maak jouw Zitadel-account aan.",
+      "description": "Maak jouw Nomen-account aan.",
       "noMethodAvailableWarning": "Geen authenticatiemethode beschikbaar. Neem contact op met jouw beheerder.",
       "selectMethod": "Selecteer de methode waarmee u wilt verifiëren",
       "agreeTo": "Om te registreren moet u akkoord gaan met de voorwaarden",
@@ -2283,7 +2283,7 @@
       "request": {
         "title": "{appName} wil verbinding maken",
         "description": "{appName} krijgt toegang tot:",
-        "disclaimer": "Door op Toestaan te klikken geeft u {appName} en Zitadel toestemming om jouw informatie te gebruiken overeenkomstig hun respectieve servicevoorwaarden en privacybeleid. U kunt deze toegang op elk moment intrekken.",
+        "disclaimer": "Door op Toestaan te klikken geeft u {appName} en Nomen toestemming om jouw informatie te gebruiken overeenkomstig hun respectieve servicevoorwaarden en privacybeleid. U kunt deze toegang op elk moment intrekken.",
         "submit": "Toestaan",
         "deny": "Weigeren"
       },
@@ -2307,7 +2307,7 @@
   "pl": {
     "common": {
       "back": "Powrót",
-      "title": "Zaloguj się za pomocą Zitadel"
+      "title": "Zaloguj się za pomocą Nomen"
     },
     "accounts": {
       "title": "Konta",
@@ -2359,7 +2359,7 @@
         "userNotActive": "Użytkownik jest nieaktywny. Skontaktuj się z administratorem, aby uzyskać więcej informacji."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Wystąpił błąd",
         "multipleUsersFound": "Znaleziono wielu użytkowników",
@@ -2624,7 +2624,7 @@
         "description": "Podaj e-mail, imię i nazwisko, aby się zarejestrować."
       },
       "title": "Rejestracja",
-      "description": "Utwórz konto Zitadel.",
+      "description": "Utwórz konto Nomen.",
       "noMethodAvailableWarning": "Brak dostępnych metod uwierzytelniania. Skontaktuj się z administratorem.",
       "selectMethod": "Wybierz metodę uwierzytelniania, której chcesz użyć",
       "agreeTo": "Aby się zarejestrować, musisz zaakceptować warunki korzystania",
@@ -2744,7 +2744,7 @@
       "request": {
         "title": "{appName} chce się połączyć:",
         "description": "{appName} będzie miało dostęp do:",
-        "disclaimer": "Klikając Zezwól, pozwalasz tej aplikacji i Zitadel na korzystanie z Twoich informacji zgodnie z ich odpowiednimi warunkami użytkowania i politykami prywatności. Możesz cofnąć ten dostęp w dowolnym momencie.",
+        "disclaimer": "Klikając Zezwól, pozwalasz tej aplikacji i Nomen na korzystanie z Twoich informacji zgodnie z ich odpowiednimi warunkami użytkowania i politykami prywatności. Możesz cofnąć ten dostęp w dowolnym momencie.",
         "submit": "Zezwól",
         "deny": "Odmów"
       },
@@ -2768,7 +2768,7 @@
   "ru": {
     "common": {
       "back": "Назад",
-      "title": "Войти с Zitadel"
+      "title": "Войти с Nomen"
     },
     "accounts": {
       "title": "Аккаунты",
@@ -2820,7 +2820,7 @@
         "userNotActive": "Пользователь неактивен. Обратитесь к администратору за дополнительной информацией."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Произошла ошибка",
         "multipleUsersFound": "Найдено несколько пользователей",
@@ -3085,7 +3085,7 @@
         "description": "Укажите email, имя и фамилию для регистрации."
       },
       "title": "Регистрация",
-      "description": "Создайте свой аккаунт Zitadel.",
+      "description": "Создайте свой аккаунт Nomen.",
       "noMethodAvailableWarning": "Нет доступных методов аутентификации. Обратитесь к администратору.",
       "selectMethod": "Выберите метод аутентификации",
       "agreeTo": "Для регистрации необходимо принять условия:",
@@ -3205,7 +3205,7 @@
       "request": {
         "title": "{appName} хочет подключиться:",
         "description": "{appName} получит доступ к:",
-        "disclaimer": "Нажимая «Разрешить», вы разрешаете этому приложению и Zitadel использовать вашу информацию в соответствии с их условиями использования и политиками конфиденциальности. Вы можете отозвать этот доступ в любое время.",
+        "disclaimer": "Нажимая «Разрешить», вы разрешаете этому приложению и Nomen использовать вашу информацию в соответствии с их условиями использования и политиками конфиденциальности. Вы можете отозвать этот доступ в любое время.",
         "submit": "Разрешить",
         "deny": "Запретить"
       },
@@ -3229,7 +3229,7 @@
   "zh": {
     "common": {
       "back": "返回",
-      "title": "使用 Zitadel 登录"
+      "title": "使用 Nomen 登录"
     },
     "accounts": {
       "title": "账户",
@@ -3281,7 +3281,7 @@
         "userNotActive": "用户未激活。请联系管理员了解更多信息。"
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "发生错误",
         "multipleUsersFound": "找到多个用户",
@@ -3546,7 +3546,7 @@
         "description": "请提供所有必需的数据。"
       },
       "title": "注册",
-      "description": "创建您的 Zitadel 账户。",
+      "description": "创建您的 Nomen 账户。",
       "noMethodAvailableWarning": "没有可用的认证方法。请联系您的系统管理员。",
       "selectMethod": "选择您想使用的认证方法",
       "agreeTo": "注册即表示您同意条款和条件",
@@ -3666,7 +3666,7 @@
       "request": {
         "title": "{appName} 想要连接：",
         "description": "{appName} 将访问：",
-        "disclaimer": "点击“允许”即表示您允许此应用程序和 Zitadel 根据其各自的服务条款和隐私政策使用您的信息。您可以随时撤销此访问权限。",
+        "disclaimer": "点击“允许”即表示您允许此应用程序和 Nomen 根据其各自的服务条款和隐私政策使用您的信息。您可以随时撤销此访问权限。",
         "submit": "允许",
         "deny": "拒绝"
       },
@@ -3690,7 +3690,7 @@
   "tr": {
     "common": {
       "back": "Geri",
-      "title": "Zitadel ile Giriş"
+      "title": "Nomen ile Giriş"
     },
     "accounts": {
       "title": "Hesaplar",
@@ -3742,7 +3742,7 @@
         "userNotActive": "Kullanıcı aktif değil. Daha fazla bilgi için yöneticinizle iletişime geçin."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Bir hata oluştu",
         "multipleUsersFound": "Birden fazla kullanıcı bulundu",
@@ -4007,7 +4007,7 @@
         "description": "Kayıt olmak için e-posta, ad ve soyadı sağlayın."
       },
       "title": "Kayıt",
-      "description": "Zitadel hesabınızı oluşturun.",
+      "description": "Nomen hesabınızı oluşturun.",
       "noMethodAvailableWarning": "Kullanılabilir kimlik doğrulama yöntemi yok. Lütfen yöneticinizle iletişime geçin.",
       "selectMethod": "Kimlik doğrulaması yapmak istediğiniz yöntemi seçin",
       "agreeTo": "Kayıt olmak için şartları ve koşulları kabul etmelisiniz",
@@ -4127,7 +4127,7 @@
       "request": {
         "title": "{appName} bağlanmak istiyor",
         "description": "{appName} şunlara erişim sahibi olacak:",
-        "disclaimer": "İzin Ver'e tıklayarak, {appName} ve Zitadel'in bilgilerinizi kendi hizmet şartları ve gizlilik politikalarına uygun olarak kullanmasına izin vermiş olursunuz. Bu erişimi istediğiniz zaman iptal edebilirsiniz.",
+        "disclaimer": "İzin Ver'e tıklayarak, {appName} ve Nomen'in bilgilerinizi kendi hizmet şartları ve gizlilik politikalarına uygun olarak kullanmasına izin vermiş olursunuz. Bu erişimi istediğiniz zaman iptal edebilirsiniz.",
         "submit": "İzin Ver",
         "deny": "Reddet"
       },
@@ -4151,7 +4151,7 @@
   "uk": {
     "common": {
       "back": "Назад",
-      "title": "Вхід через Zitadel"
+      "title": "Вхід через Nomen"
     },
     "accounts": {
       "title": "Облікові записи",
@@ -4203,7 +4203,7 @@
         "userNotActive": "Користувач неактивний. Зверніться до адміністратора для отримання додаткової інформації."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Сталася помилка",
         "multipleUsersFound": "Знайдено кількох користувачів",
@@ -4468,7 +4468,7 @@
         "description": "Вкажіть електронну пошту, ім'я та прізвище для реєстрації."
       },
       "title": "Реєстрація",
-      "description": "Створіть свій обліковий запис Zitadel.",
+      "description": "Створіть свій обліковий запис Nomen.",
       "noMethodAvailableWarning": "Немає доступного методу автентифікації. Будь ласка, зверніться до адміністратора.",
       "selectMethod": "Виберіть метод автентифікації",
       "agreeTo": "Для реєстрації ви повинні погодитися з умовами та положеннями",
@@ -4588,7 +4588,7 @@
       "request": {
         "title": "{appName} хоче підключитися",
         "description": "{appName} матиме доступ до:",
-        "disclaimer": "Натискаючи Дозволити, ви дозволяєте {appName} та Zitadel використовувати вашу інформацію відповідно до їхніх умов надання послуг та політик конфіденційності. Ви можете скасувати цей доступ у будь-який час.",
+        "disclaimer": "Натискаючи Дозволити, ви дозволяєте {appName} та Nomen використовувати вашу інформацію відповідно до їхніх умов надання послуг та політик конфіденційності. Ви можете скасувати цей доступ у будь-який час.",
         "submit": "Дозволити",
         "deny": "Відхилити"
       },
@@ -4612,7 +4612,7 @@
   "ar": {
     "common": {
       "back": "رجوع",
-      "title": "تسجيل الدخول باستخدام Zitadel"
+      "title": "تسجيل الدخول باستخدام Nomen"
     },
     "accounts": {
       "title": "الحسابات",
@@ -4664,7 +4664,7 @@
         "userNotActive": "المستخدم غير نشط. اتصل بالمسؤول لمزيد من المعلومات."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "حدث خطأ",
         "multipleUsersFound": "تم العثور على مستخدمين متعددين",
@@ -4929,7 +4929,7 @@
         "description": "قدم البريد الإلكتروني والاسم الأول والأخير للتسجيل."
       },
       "title": "تسجيل",
-      "description": "أنشئ حساب ZITADEL الخاص بك.",
+      "description": "أنشئ حساب NOMEN الخاص بك.",
       "noMethodAvailableWarning": "لا توجد طريقة مصادقة متاحة. يرجى الاتصال بالمسؤول.",
       "selectMethod": "حدد الطريقة التي ترغب في المصادقة بها",
       "agreeTo": "للتسجيل يجب عليك الموافقة على الشروط والأحكام",
@@ -5049,7 +5049,7 @@
       "request": {
         "title": "{appName} يود الاتصال",
         "description": "{appName} سيكون لديه حق الوصول إلى:",
-        "disclaimer": "بالنقر فوق سماح، فإنك تسمح لـ {appName} و Zitadel استخدام معلوماتك وفقاً لشروط الخدمة وسياسات الخصوصية الخاصة بكل منهما. يمكنك إلغاء هذا الوصول في أي وقت.",
+        "disclaimer": "بالنقر فوق سماح، فإنك تسمح لـ {appName} و Nomen استخدام معلوماتك وفقاً لشروط الخدمة وسياسات الخصوصية الخاصة بكل منهما. يمكنك إلغاء هذا الوصول في أي وقت.",
         "submit": "سماح",
         "deny": "رفض"
       },
@@ -5073,7 +5073,7 @@
   "hu": {
     "common": {
       "back": "Vissza",
-      "title": "Bejelentkezés a Zitadel-lel"
+      "title": "Bejelentkezés a Nomen-lel"
     },
     "accounts": {
       "title": "Fiókok",
@@ -5125,7 +5125,7 @@
         "userNotActive": "A felhasználó nem aktív. További információért fordulj a rendszergazdához."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Hiba történt",
         "multipleUsersFound": "Több felhasználó is található",
@@ -5390,7 +5390,7 @@
         "description": "A regisztrációhoz add meg az e-mail címedet, keresztneved és vezetékneved."
       },
       "title": "Regisztráció",
-      "description": "Hozd létre a Zitadel fiókodat.",
+      "description": "Hozd létre a Nomen fiókodat.",
       "noMethodAvailableWarning": "Nincs elérhető hitelesítési módszer. Fordulj a rendszergazdához.",
       "selectMethod": "Válaszd ki, milyen módszerrel szeretnél hitelesíteni",
       "agreeTo": "A regisztrációhoz el kell fogadnod a felhasználási feltételeket",
@@ -5510,7 +5510,7 @@
       "request": {
         "title": "A(z) {appName} kapcsolódni szeretne",
         "description": "A(z) {appName} hozzáférést kap a következőkhöz:",
-        "disclaimer": "Az Engedélyezés gombra kattintva engedélyezed, hogy a(z) {appName} és a Zitadel a saját felhasználási feltételeik és adatvédelmi irányelveik szerint használja az adataidat. Ezt a hozzáférést bármikor visszavonhatod.",
+        "disclaimer": "Az Engedélyezés gombra kattintva engedélyezed, hogy a(z) {appName} és a Nomen a saját felhasználási feltételeik és adatvédelmi irányelveik szerint használja az adataidat. Ezt a hozzáférést bármikor visszavonhatod.",
         "submit": "Engedélyezés",
         "deny": "Elutasítás"
       },
@@ -5534,7 +5534,7 @@
   "fr": {
     "common": {
       "back": "Retour",
-      "title": "Connexion avec Zitadel"
+      "title": "Connexion avec Nomen"
     },
     "accounts": {
       "title": "Comptes",
@@ -5586,7 +5586,7 @@
         "userNotActive": "L'utilisateur n'est pas actif. Contactez votre administrateur pour plus d'informations."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Une erreur s'est produite",
         "multipleUsersFound": "Plusieurs utilisateurs trouvés",
@@ -5851,7 +5851,7 @@
         "description": "Fournissez un e-mail, un prénom et un nom pour vous inscrire."
       },
       "title": "S'inscrire",
-      "description": "Créez votre compte Zitadel.",
+      "description": "Créez votre compte Nomen.",
       "noMethodAvailableWarning": "Aucune méthode d'authentification disponible. Veuillez contacter votre administrateur.",
       "selectMethod": "Sélectionnez la méthode que vous souhaitez utiliser pour vous authentifier",
       "agreeTo": "Pour vous inscrire, vous devez accepter les conditions d'utilisation",
@@ -5971,7 +5971,7 @@
       "request": {
         "title": "{appName} souhaite se connecter",
         "description": "{appName} aura accès à :",
-        "disclaimer": "En cliquant sur Autoriser, vous permettez à {appName} et à Zitadel d'utiliser vos informations conformément à leurs conditions d'utilisation et politiques de confidentialité respectives. Vous pouvez révoquer cet accès à tout moment.",
+        "disclaimer": "En cliquant sur Autoriser, vous permettez à {appName} et à Nomen d'utiliser vos informations conformément à leurs conditions d'utilisation et politiques de confidentialité respectives. Vous pouvez révoquer cet accès à tout moment.",
         "submit": "Autoriser",
         "deny": "Refuser"
       },
@@ -5995,7 +5995,7 @@
   "ja": {
     "common": {
       "back": "戻る",
-      "title": "Zitadelでログイン"
+      "title": "Nomenでログイン"
     },
     "accounts": {
       "title": "アカウント",
@@ -6047,7 +6047,7 @@
         "userNotActive": "ユーザーはアクティブではありません。詳細については管理者にお問い合わせください。"
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "エラーが発生しました",
         "multipleUsersFound": "複数のユーザーが見つかりました",
@@ -6312,7 +6312,7 @@
         "description": "登録するにはメールアドレス、姓、名を入力してください。"
       },
       "title": "登録",
-      "description": "Zitadelアカウントを作成します。",
+      "description": "Nomenアカウントを作成します。",
       "noMethodAvailableWarning": "使用可能な認証方法がありません。管理者にお問い合わせください。",
       "selectMethod": "認証に使用する方法を選択してください",
       "agreeTo": "登録するには利用規約に同意する必要があります",
@@ -6432,7 +6432,7 @@
       "request": {
         "title": "{appName}が接続を要求しています",
         "description": "{appName}は以下にアクセスします：",
-        "disclaimer": "「許可」をクリックすることで、{appName}とZitadelがそれぞれの利用規約およびプライバシーポリシーに従ってあなたの情報を使用することを許可します。このアクセスはいつでも取り消すことができます。",
+        "disclaimer": "「許可」をクリックすることで、{appName}とNomenがそれぞれの利用規約およびプライバシーポリシーに従ってあなたの情報を使用することを許可します。このアクセスはいつでも取り消すことができます。",
         "submit": "許可",
         "deny": "拒否"
       },
@@ -6456,7 +6456,7 @@
   "pt": {
     "common": {
       "back": "Voltar",
-      "title": "Entrar com Zitadel"
+      "title": "Entrar com Nomen"
     },
     "accounts": {
       "title": "Contas",
@@ -6508,7 +6508,7 @@
         "userNotActive": "O usuário não está ativo. Entre em contato com o administrador para mais informações."
       }
     },
-    "zitadel": {
+    "nomen": {
       "errors": {
         "errorOccured": "Ocorreu um erro",
         "multipleUsersFound": "Múltiplos usuários encontrados",
@@ -6773,7 +6773,7 @@
         "description": "Forneça e-mail, nome e sobrenome para se cadastrar."
       },
       "title": "Cadastrar",
-      "description": "Crie sua conta Zitadel.",
+      "description": "Crie sua conta Nomen.",
       "noMethodAvailableWarning": "Nenhum método de autenticação disponível. Por favor, entre em contato com o administrador.",
       "selectMethod": "Selecione o método de autenticação desejado",
       "agreeTo": "Para se cadastrar, você deve concordar com os termos e condições",
@@ -6893,7 +6893,7 @@
       "request": {
         "title": "{appName} deseja se conectar",
         "description": "{appName} terá acesso a:",
-        "disclaimer": "Ao clicar em Permitir, você autoriza {appName} e Zitadel a usar suas informações de acordo com seus respectivos termos de serviço e políticas de privacidade. Você pode revogar este acesso a qualquer momento.",
+        "disclaimer": "Ao clicar em Permitir, você autoriza {appName} e Nomen a usar suas informações de acordo com seus respectivos termos de serviço e políticas de privacidade. Você pode revogar este acesso a qualquer momento.",
         "submit": "Permitir",
         "deny": "Negar"
       },

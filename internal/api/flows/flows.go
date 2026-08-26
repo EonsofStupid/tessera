@@ -18,11 +18,11 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	flowstorage "github.com/EonsofStupid/tessera/backend/v1/storage/flow"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	flowstorage "github.com/shippinAI/nomen/backend/v1/storage/flow"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 const (
@@ -34,9 +34,9 @@ const (
 	// executor is: the login client, running in-process. Not SYSTEM_OWNER;
 	// a login path with instance-delete permissions is an incident report
 	// with a delay on it.
-	SystemRole = "TESSERA_FLOWS"
+	SystemRole = "NOMEN_FLOWS"
 	// SystemUserID names these calls in the audit trail.
-	SystemUserID = "TESSERA_FLOWS"
+	SystemUserID = "NOMEN_FLOWS"
 )
 
 // Permissions is what SystemRole must map to; start.go registers it.

@@ -4,17 +4,17 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
-	"github.com/zitadel/logging"
-	"github.com/zitadel/saml/pkg/provider"
+	"github.com/shippinAI/nomen/logging"
+	"github.com/shippinAI/nomen/saml/pkg/provider"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object/v2"
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/saml"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	saml_pb "github.com/EonsofStupid/tessera/pkg/grpc/saml/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/object/v2"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/saml"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	saml_pb "github.com/shippinAI/nomen/pkg/grpc/saml/v2"
 )
 
 func (s *Server) GetSAMLRequest(ctx context.Context, req *connect.Request[saml_pb.GetSAMLRequestRequest]) (*connect.Response[saml_pb.GetSAMLRequestResponse], error) {

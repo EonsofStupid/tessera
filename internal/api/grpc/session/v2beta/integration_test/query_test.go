@@ -14,9 +14,9 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v2beta"
-	session "github.com/EonsofStupid/tessera/pkg/grpc/session/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v2beta"
+	session "github.com/shippinAI/nomen/pkg/grpc/session/v2beta"
 )
 
 func TestServer_GetSession(t *testing.T) {

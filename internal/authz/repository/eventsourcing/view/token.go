@@ -3,10 +3,10 @@ package view
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/query"
-	usr_view "github.com/EonsofStupid/tessera/internal/user/repository/view"
-	usr_view_model "github.com/EonsofStupid/tessera/internal/user/repository/view/model"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/query"
+	usr_view "github.com/shippinAI/nomen/internal/user/repository/view"
+	usr_view_model "github.com/shippinAI/nomen/internal/user/repository/view/model"
 )
 
 const (

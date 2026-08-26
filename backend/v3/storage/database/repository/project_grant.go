@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	internaldb "github.com/EonsofStupid/tessera/internal/database"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	internaldb "github.com/shippinAI/nomen/internal/database"
 )
 
 // -------------------------------------------------------------
@@ -45,7 +45,7 @@ func (p projectGrant) List(ctx context.Context, client database.QueryExecutor, o
 }
 
 const insertProjectGrantRolesStmt = `WITH added_roles AS (
-	INSERT INTO zitadel.project_grant_roles (
+	INSERT INTO nomen.project_grant_roles (
 		instance_id, grant_id, project_id, key
 	)
 	VALUES ($2, $3, $4, unnest($1::text[]))
@@ -84,20 +84,20 @@ func (p projectGrant) Create(ctx context.Context, client database.QueryExecutor,
 		Scan(&projectGrant.CreatedAt, &projectGrant.UpdatedAt)
 }
 
-const queryUpdateProjectGrantRoleStmt = `SELECT instance_id, id, project_id, $1::text[] as keys from zitadel.project_grants`
+const queryUpdateProjectGrantRoleStmt = `SELECT instance_id, id, project_id, $1::text[] as keys from nomen.project_grants`
 
 const updateProjectGrantRoleStmt = `removed_roles AS (
-    DELETE FROM zitadel.project_grant_roles as pgr
+    DELETE FROM nomen.project_grant_roles as pgr
     USING pg
     WHERE pg.instance_id = pgr.instance_id AND pg.id = pgr.grant_id AND NOT(pgr.key = ANY(pg.keys))
 ), added_roles AS (
-	INSERT INTO zitadel.project_grant_roles (
+	INSERT INTO nomen.project_grant_roles (
 		instance_id, grant_id, project_id, key
 	)
 	SELECT instance_id, id, project_id, unnest(pg.keys) FROM pg
 	ON CONFLICT (instance_id, grant_id, key) DO NOTHING
 )
-UPDATE zitadel.project_grants SET `
+UPDATE nomen.project_grants SET `
 
 const updateProjectGrantRoleStmtWhere = ` FROM pg
 WHERE pg.instance_id = project_grants.instance_id
@@ -224,7 +224,7 @@ func (p projectGrant) ExistsRoleKey(cond database.Condition) database.Condition 
 // -------------------------------------------------------------
 
 func (p projectGrant) qualifiedTableName() string {
-	return "zitadel." + p.unqualifiedTableName()
+	return "nomen." + p.unqualifiedTableName()
 }
 
 func (projectGrant) unqualifiedTableName() string {
@@ -232,7 +232,7 @@ func (projectGrant) unqualifiedTableName() string {
 }
 
 func (p projectGrant) qualifiedRolesTableName() string {
-	return "zitadel." + p.unqualifiedRolesTableName()
+	return "nomen." + p.unqualifiedRolesTableName()
 }
 
 func (projectGrant) unqualifiedRolesTableName() string {
@@ -283,17 +283,17 @@ func (p projectGrant) StateColumn() database.Column {
 // -------------------------------------------------------------
 
 const queryProjectGrantStmt = `SELECT
-	zitadel.project_grants.instance_id,	
-	zitadel.project_grants.id,
-	zitadel.project_grants.project_id,
-	zitadel.project_grants.granting_organization_id,
-	zitadel.project_grants.granted_organization_id,
-	zitadel.project_grants.created_at,
-	zitadel.project_grants.updated_at,
-	zitadel.project_grants.state,
+	nomen.project_grants.instance_id,	
+	nomen.project_grants.id,
+	nomen.project_grants.project_id,
+	nomen.project_grants.granting_organization_id,
+	nomen.project_grants.granted_organization_id,
+	nomen.project_grants.created_at,
+	nomen.project_grants.updated_at,
+	nomen.project_grants.state,
     ARRAY_AGG(project_grant_roles.key) FILTER (WHERE project_grant_roles.grant_id IS NOT NULL) AS role_keys
-	FROM zitadel.project_grants
-	LEFT JOIN zitadel.project_grant_roles ON zitadel.project_grant_roles.instance_id = zitadel.project_grants.instance_id AND zitadel.project_grant_roles.grant_id = zitadel.project_grants.id`
+	FROM nomen.project_grants
+	LEFT JOIN nomen.project_grant_roles ON nomen.project_grant_roles.instance_id = nomen.project_grants.instance_id AND nomen.project_grant_roles.grant_id = nomen.project_grants.id`
 
 func (p projectGrant) prepareQuery(opts []database.QueryOption) (*database.StatementBuilder, error) {
 	options := new(database.QueryOpts)

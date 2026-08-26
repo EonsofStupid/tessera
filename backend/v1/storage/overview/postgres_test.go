@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -40,7 +40,7 @@ func (r aggregateRow) Scan(dest ...any) error {
 	return nil
 }
 
-func TestSnapshotReadsOnlyInstanceScopedTesseraFacts(t *testing.T) {
+func TestSnapshotReadsOnlyInstanceScopedNomenFacts(t *testing.T) {
 	pool := &queryerStub{row: aggregateRow{
 		humans: 2, agents: 3, attachments: 4, flows: 1,
 		policies: []string{"policy-a"},
@@ -53,9 +53,9 @@ func TestSnapshotReadsOnlyInstanceScopedTesseraFacts(t *testing.T) {
 	assert.Equal(t, uint64(4), facts.WorkspaceAttachments)
 	assert.Equal(t, uint64(1), facts.Flows)
 	assert.Equal(t, []any{"instance-1"}, pool.args)
-	assert.Contains(t, pool.statement, "FROM tessera.seats")
-	assert.Contains(t, pool.statement, "FROM tessera.seat_workspaces")
-	assert.Contains(t, pool.statement, "FROM tessera.flows")
+	assert.Contains(t, pool.statement, "FROM nomen_product.seats")
+	assert.Contains(t, pool.statement, "FROM nomen_product.seat_workspaces")
+	assert.Contains(t, pool.statement, "FROM nomen_product.flows")
 	assert.NotContains(t, pool.statement, "billing")
 }
 

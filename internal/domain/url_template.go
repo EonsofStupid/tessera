@@ -4,7 +4,7 @@ import (
 	"io"
 	"text/template"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 func RenderURLTemplate(w io.Writer, tmpl string, data any) error {

@@ -5,11 +5,11 @@ import (
 
 	"github.com/muhlemmer/gu"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object/v2"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/feature"
-	"github.com/EonsofStupid/tessera/internal/query"
-	feature_pb "github.com/EonsofStupid/tessera/pkg/grpc/feature/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/object/v2"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/feature"
+	"github.com/shippinAI/nomen/internal/query"
+	feature_pb "github.com/shippinAI/nomen/pkg/grpc/feature/v2"
 )
 
 func systemFeaturesToCommand(req *feature_pb.SetSystemFeaturesRequest) (*command.SystemFeatures, error) {

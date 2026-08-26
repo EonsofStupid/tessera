@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/denylist"
+	"github.com/shippinAI/nomen/internal/denylist"
 )
 
 type ClientConfig struct {

@@ -3,14 +3,14 @@ package eventstore
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	auth_view "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/view"
-	"github.com/EonsofStupid/tessera/internal/config/systemdefaults"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	iam_model "github.com/EonsofStupid/tessera/internal/iam/model"
-	iam_view_model "github.com/EonsofStupid/tessera/internal/iam/repository/view/model"
-	"github.com/EonsofStupid/tessera/internal/query"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	auth_view "github.com/shippinAI/nomen/internal/auth/repository/eventsourcing/view"
+	"github.com/shippinAI/nomen/internal/config/systemdefaults"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	iam_model "github.com/shippinAI/nomen/internal/iam/model"
+	iam_view_model "github.com/shippinAI/nomen/internal/iam/repository/view/model"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 type OrgRepository struct {

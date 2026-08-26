@@ -18,130 +18,131 @@ import (
 	"github.com/common-nighthawk/go-figure"
 	"github.com/fatih/color"
 	"github.com/gorilla/mux"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/saml/pkg/provider"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/zitadel/oidc/v3/pkg/op"
-	"github.com/zitadel/saml/pkg/provider"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"golang.org/x/text/language"
 
-	tessera_management_api "github.com/EonsofStupid/tessera/backend/v1/api/management"
-	tessera_domain "github.com/EonsofStupid/tessera/backend/v1/domain"
-	tessera_management "github.com/EonsofStupid/tessera/backend/v1/management"
-	flowstorage "github.com/EonsofStupid/tessera/backend/v1/storage/flow"
-	tesseramigration "github.com/EonsofStupid/tessera/backend/v1/storage/migration"
-	operatoreventstorage "github.com/EonsofStupid/tessera/backend/v1/storage/operator_event"
-	overviewstorage "github.com/EonsofStupid/tessera/backend/v1/storage/overview"
-	seatstorage "github.com/EonsofStupid/tessera/backend/v1/storage/seat"
-	new_domain "github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	v3_postgres "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/postgres"
-	tessera_blueprint "github.com/EonsofStupid/tessera/cmd/blueprint"
-	"github.com/EonsofStupid/tessera/cmd/build"
-	"github.com/EonsofStupid/tessera/cmd/encryption"
-	"github.com/EonsofStupid/tessera/cmd/key"
-	cmd_tls "github.com/EonsofStupid/tessera/cmd/tls"
-	"github.com/EonsofStupid/tessera/internal/actions"
-	admin_es "github.com/EonsofStupid/tessera/internal/admin/repository/eventsourcing"
-	"github.com/EonsofStupid/tessera/internal/api"
-	"github.com/EonsofStupid/tessera/internal/api/assets"
-	internal_authz "github.com/EonsofStupid/tessera/internal/api/authz"
-	flows_api "github.com/EonsofStupid/tessera/internal/api/flows"
-	action_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/action/v2"
-	action_v2_beta "github.com/EonsofStupid/tessera/internal/api/grpc/action/v2beta"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/admin"
-	app_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/app/v2beta"
-	application "github.com/EonsofStupid/tessera/internal/api/grpc/application/v2"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/auth"
-	authorization_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/authorization/v2"
-	authorization_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/authorization/v2beta"
-	feature_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/feature/v2"
-	feature_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/feature/v2beta"
-	group_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/group/v2"
-	idp_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/idp/v2"
-	instance_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/instance/v2"
-	instance_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/instance/v2beta"
-	internal_permission_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/internal_permission/v2"
-	internal_permission_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/internal_permission/v2beta"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/management"
-	oidc_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/oidc/v2"
-	oidc_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/oidc/v2beta"
-	org_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/org/v2"
-	org_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/org/v2beta"
-	project_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/project/v2"
-	project_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/project/v2beta"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/resources/debug_events/debug_events"
-	user_v3_alpha "github.com/EonsofStupid/tessera/internal/api/grpc/resources/user/v3alpha"
-	userschema_v3_alpha "github.com/EonsofStupid/tessera/internal/api/grpc/resources/userschema/v3alpha"
-	saml_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/saml/v2"
-	session_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/session/v2"
-	session_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/session/v2beta"
-	settings_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/settings/v2"
-	settings_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/settings/v2beta"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/system"
-	user_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/user/v2"
-	user_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/user/v2beta"
-	webkey_v2 "github.com/EonsofStupid/tessera/internal/api/grpc/webkey/v2"
-	webkey_v2beta "github.com/EonsofStupid/tessera/internal/api/grpc/webkey/v2beta"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/api/idp"
-	"github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/api/robots_txt"
-	"github.com/EonsofStupid/tessera/internal/api/saml"
-	"github.com/EonsofStupid/tessera/internal/api/scim"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/api/ui/console"
-	"github.com/EonsofStupid/tessera/internal/api/ui/console/path"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/api/well_known"
-	auth_es "github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing"
-	"github.com/EonsofStupid/tessera/internal/authz"
-	authz_repo "github.com/EonsofStupid/tessera/internal/authz/repository"
-	authz_es "github.com/EonsofStupid/tessera/internal/authz/repository/eventsourcing/eventstore"
-	"github.com/EonsofStupid/tessera/internal/cache"
-	"github.com/EonsofStupid/tessera/internal/cache/connector"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	cryptoDB "github.com/EonsofStupid/tessera/internal/crypto/database"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/domain/federatedlogout"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	old_es "github.com/EonsofStupid/tessera/internal/eventstore/repository/sql"
-	new_es "github.com/EonsofStupid/tessera/internal/eventstore/v3"
-	"github.com/EonsofStupid/tessera/internal/execution"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/integration/sink"
-	"github.com/EonsofStupid/tessera/internal/logstore"
-	"github.com/EonsofStupid/tessera/internal/logstore/emitters/access"
-	emit_execution "github.com/EonsofStupid/tessera/internal/logstore/emitters/execution"
-	emit_stdout "github.com/EonsofStupid/tessera/internal/logstore/emitters/stdout"
-	"github.com/EonsofStupid/tessera/internal/logstore/record"
-	"github.com/EonsofStupid/tessera/internal/net"
-	"github.com/EonsofStupid/tessera/internal/notification"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/queue"
-	"github.com/EonsofStupid/tessera/internal/serviceping"
-	"github.com/EonsofStupid/tessera/internal/static"
-	es_v4 "github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	es_v4_pg "github.com/EonsofStupid/tessera/internal/v2/eventstore/postgres"
-	"github.com/EonsofStupid/tessera/internal/webauthn"
-	"github.com/EonsofStupid/tessera/openapi"
+	nomen_management_api "github.com/shippinAI/nomen/backend/v1/api/management"
+	nomen_domain "github.com/shippinAI/nomen/backend/v1/domain"
+	nomen_management "github.com/shippinAI/nomen/backend/v1/management"
+	flowstorage "github.com/shippinAI/nomen/backend/v1/storage/flow"
+	nomenmigration "github.com/shippinAI/nomen/backend/v1/storage/migration"
+	operatoreventstorage "github.com/shippinAI/nomen/backend/v1/storage/operator_event"
+	overviewstorage "github.com/shippinAI/nomen/backend/v1/storage/overview"
+	ownerEnrollmentStorage "github.com/shippinAI/nomen/backend/v1/storage/owner_enrollment"
+	seatstorage "github.com/shippinAI/nomen/backend/v1/storage/seat"
+	new_domain "github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	v3_postgres "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/postgres"
+	nomen_blueprint "github.com/shippinAI/nomen/cmd/blueprint"
+	"github.com/shippinAI/nomen/cmd/build"
+	"github.com/shippinAI/nomen/cmd/encryption"
+	"github.com/shippinAI/nomen/cmd/key"
+	cmd_tls "github.com/shippinAI/nomen/cmd/tls"
+	"github.com/shippinAI/nomen/internal/actions"
+	admin_es "github.com/shippinAI/nomen/internal/admin/repository/eventsourcing"
+	"github.com/shippinAI/nomen/internal/api"
+	"github.com/shippinAI/nomen/internal/api/assets"
+	internal_authz "github.com/shippinAI/nomen/internal/api/authz"
+	flows_api "github.com/shippinAI/nomen/internal/api/flows"
+	action_v2 "github.com/shippinAI/nomen/internal/api/grpc/action/v2"
+	action_v2_beta "github.com/shippinAI/nomen/internal/api/grpc/action/v2beta"
+	"github.com/shippinAI/nomen/internal/api/grpc/admin"
+	app_v2beta "github.com/shippinAI/nomen/internal/api/grpc/app/v2beta"
+	application "github.com/shippinAI/nomen/internal/api/grpc/application/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/auth"
+	authorization_v2 "github.com/shippinAI/nomen/internal/api/grpc/authorization/v2"
+	authorization_v2beta "github.com/shippinAI/nomen/internal/api/grpc/authorization/v2beta"
+	feature_v2 "github.com/shippinAI/nomen/internal/api/grpc/feature/v2"
+	feature_v2beta "github.com/shippinAI/nomen/internal/api/grpc/feature/v2beta"
+	group_v2 "github.com/shippinAI/nomen/internal/api/grpc/group/v2"
+	idp_v2 "github.com/shippinAI/nomen/internal/api/grpc/idp/v2"
+	instance_v2 "github.com/shippinAI/nomen/internal/api/grpc/instance/v2"
+	instance_v2beta "github.com/shippinAI/nomen/internal/api/grpc/instance/v2beta"
+	internal_permission_v2 "github.com/shippinAI/nomen/internal/api/grpc/internal_permission/v2"
+	internal_permission_v2beta "github.com/shippinAI/nomen/internal/api/grpc/internal_permission/v2beta"
+	"github.com/shippinAI/nomen/internal/api/grpc/management"
+	oidc_v2 "github.com/shippinAI/nomen/internal/api/grpc/oidc/v2"
+	oidc_v2beta "github.com/shippinAI/nomen/internal/api/grpc/oidc/v2beta"
+	org_v2 "github.com/shippinAI/nomen/internal/api/grpc/org/v2"
+	org_v2beta "github.com/shippinAI/nomen/internal/api/grpc/org/v2beta"
+	project_v2 "github.com/shippinAI/nomen/internal/api/grpc/project/v2"
+	project_v2beta "github.com/shippinAI/nomen/internal/api/grpc/project/v2beta"
+	"github.com/shippinAI/nomen/internal/api/grpc/resources/debug_events/debug_events"
+	user_v3_alpha "github.com/shippinAI/nomen/internal/api/grpc/resources/user/v3alpha"
+	userschema_v3_alpha "github.com/shippinAI/nomen/internal/api/grpc/resources/userschema/v3alpha"
+	saml_v2 "github.com/shippinAI/nomen/internal/api/grpc/saml/v2"
+	session_v2 "github.com/shippinAI/nomen/internal/api/grpc/session/v2"
+	session_v2beta "github.com/shippinAI/nomen/internal/api/grpc/session/v2beta"
+	settings_v2 "github.com/shippinAI/nomen/internal/api/grpc/settings/v2"
+	settings_v2beta "github.com/shippinAI/nomen/internal/api/grpc/settings/v2beta"
+	"github.com/shippinAI/nomen/internal/api/grpc/system"
+	user_v2 "github.com/shippinAI/nomen/internal/api/grpc/user/v2"
+	user_v2beta "github.com/shippinAI/nomen/internal/api/grpc/user/v2beta"
+	webkey_v2 "github.com/shippinAI/nomen/internal/api/grpc/webkey/v2"
+	webkey_v2beta "github.com/shippinAI/nomen/internal/api/grpc/webkey/v2beta"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/api/idp"
+	"github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/api/robots_txt"
+	"github.com/shippinAI/nomen/internal/api/saml"
+	"github.com/shippinAI/nomen/internal/api/scim"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/api/ui/console"
+	"github.com/shippinAI/nomen/internal/api/ui/console/path"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/api/well_known"
+	auth_es "github.com/shippinAI/nomen/internal/auth/repository/eventsourcing"
+	"github.com/shippinAI/nomen/internal/authz"
+	authz_repo "github.com/shippinAI/nomen/internal/authz/repository"
+	authz_es "github.com/shippinAI/nomen/internal/authz/repository/eventsourcing/eventstore"
+	"github.com/shippinAI/nomen/internal/cache"
+	"github.com/shippinAI/nomen/internal/cache/connector"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	cryptoDB "github.com/shippinAI/nomen/internal/crypto/database"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/domain/federatedlogout"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	old_es "github.com/shippinAI/nomen/internal/eventstore/repository/sql"
+	new_es "github.com/shippinAI/nomen/internal/eventstore/v3"
+	"github.com/shippinAI/nomen/internal/execution"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/integration/sink"
+	"github.com/shippinAI/nomen/internal/logstore"
+	"github.com/shippinAI/nomen/internal/logstore/emitters/access"
+	emit_execution "github.com/shippinAI/nomen/internal/logstore/emitters/execution"
+	emit_stdout "github.com/shippinAI/nomen/internal/logstore/emitters/stdout"
+	"github.com/shippinAI/nomen/internal/logstore/record"
+	"github.com/shippinAI/nomen/internal/net"
+	"github.com/shippinAI/nomen/internal/notification"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/queue"
+	"github.com/shippinAI/nomen/internal/serviceping"
+	"github.com/shippinAI/nomen/internal/static"
+	es_v4 "github.com/shippinAI/nomen/internal/v2/eventstore"
+	es_v4_pg "github.com/shippinAI/nomen/internal/v2/eventstore/postgres"
+	"github.com/shippinAI/nomen/internal/webauthn"
+	"github.com/shippinAI/nomen/openapi"
 )
 
 func New(server chan<- *Server) *cobra.Command {
 	start := &cobra.Command{
 		Use:   "start",
-		Short: "starts Tessera instance",
-		Long: `starts Tessera.
+		Short: "starts Nomen instance",
+		Long: `starts Nomen.
 Requirements:
 - postgreSQL`,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera start command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen start command failed")
 			}()
 
 			err = cmd_tls.ModeFromFlag(cmd)
@@ -160,7 +161,7 @@ Requirements:
 			if err != nil {
 				return err
 			}
-			return startZitadel(cmd.Context(), config, masterKey, server)
+			return startNomen(cmd.Context(), config, masterKey, server)
 		},
 	}
 
@@ -184,7 +185,7 @@ type Server struct {
 	Shutdown   chan<- os.Signal
 }
 
-func startZitadel(ctx context.Context, config *Config, masterKey string, server chan<- *Server) error {
+func startNomen(ctx context.Context, config *Config, masterKey string, server chan<- *Server) error {
 	showBasicInformation(config)
 
 	i18n.MustLoadSupportedLanguagesFromDir()
@@ -195,27 +196,27 @@ func startZitadel(ctx context.Context, config *Config, masterKey string, server 
 	}
 	new_domain.SetPool(v3_postgres.PGxPool(dbClient.Pool))
 
-	// Tessera's own schema, on every start.
+	// Nomen's own schema, on every start.
 	//
-	// Not as a setup step, which is where Zitadel runs its transactional-tables
+	// Not as a setup step, which is where Nomen runs its transactional-tables
 	// migration — a setup step is recorded once and skipped forever after, so a
 	// migration added later would never reach a database that had already been
 	// set up. Every deployment in the fleet would silently keep the old schema
 	// and the failure would surface as a column that does not exist, a long way
 	// from here.
 	//
-	// tern records its own version in `tessera.migrations`, so this is a cheap
+	// tern records its own version in `nomen_product.migrations`, so this is a cheap
 	// no-op when the schema is current, and the only thing that makes adding
 	// migration 002 an ordinary act rather than an operational event.
-	if err := tesseramigration.Migrate(ctx, dbClient.Pool); err != nil {
-		return fmt.Errorf("cannot migrate the tessera schema: %w", err)
+	if err := nomenmigration.Migrate(ctx, dbClient.Pool); err != nil {
+		return fmt.Errorf("cannot migrate the nomen schema: %w", err)
 	}
 
 	// Declared state, on every boot. A configured directory that cannot apply
 	// fails the start rather than starting anyway: the operator declared what
 	// this box's identity state is, and running while not in that state is the
 	// drift no one notices until a customer does. Unset means off.
-	if err := tessera_blueprint.ApplyOnStart(ctx, config.Blueprints, v3_postgres.PGxPool(dbClient.Pool)); err != nil {
+	if err := nomen_blueprint.ApplyOnStart(ctx, config.Blueprints, v3_postgres.PGxPool(dbClient.Pool)); err != nil {
 		return fmt.Errorf("blueprints did not apply: %w", err)
 	}
 
@@ -252,6 +253,9 @@ func startZitadel(ctx context.Context, config *Config, masterKey string, server 
 	sessionTokenVerifier := internal_authz.SessionTokenVerifier(keys.OIDC)
 	sessionTokenDecryptor := internal_authz.SessionTokenDecryptor(keys.OIDC)
 	new_domain.SetSessionTokenDecryptor(sessionTokenDecryptor)
+	if err := connector.StartConnectorsForEdition(config.Edition, config.Caches); err != nil {
+		return err
+	}
 	cacheConnectors, err := connector.StartConnectors(config.Caches, dbClient)
 	if err != nil {
 		return fmt.Errorf("unable to start caches: %w", err)
@@ -349,6 +353,12 @@ func startZitadel(ctx context.Context, config *Config, masterKey string, server 
 		return fmt.Errorf("cannot start commands: %w", err)
 	}
 	defer commands.Close(ctx) // wait for background jobs
+	if config.DemoCaps {
+		commands.SetProductCapGuard(demoCapGuard{
+			policy:  nomen_domain.EditionPolicy{Edition: config.Edition, DemoCaps: true},
+			queries: queries,
+		})
+	}
 
 	// sink Server is stubbed out in production builds, see function's godoc.
 	closeSink := sink.StartServer(commands)
@@ -524,7 +534,7 @@ func startAPIs(
 		http_util.WithMaxAge(int(math.Floor(config.Quotas.Access.ExhaustedCookieMaxAge.Seconds()))),
 	)
 	limitingAccessInterceptor := middleware.NewAccessInterceptor(accessSvc, exhaustedCookieHandler, &config.Quotas.Access.AccessConfig)
-	translator := i18n.NewZitadelTranslator(language.English)
+	translator := i18n.NewNomenTranslator(language.English)
 	apis, err := api.New(
 		ctx,
 		config.Port,
@@ -686,7 +696,7 @@ func startAPIs(
 
 	apis.RegisterHandlerOnPrefix(idp.HandlerPrefix, idp.NewHandler(commands, queries, keys.IDPConfig, instanceInterceptor.Handler, federatedLogoutsCache))
 
-	// Tessera's flow executor: login, MFA and recovery as declared flows.
+	// Nomen's flow executor: login, MFA and recovery as declared flows.
 	apis.RegisterHandlerOnPrefix(flows_api.HandlerPrefix, instanceInterceptor.Handler(
 		flows_api.NewHandler(flows_api.Config{
 			ExecutionTTL:    10 * time.Minute,
@@ -734,7 +744,7 @@ func startAPIs(
 		config.SystemDefaults.SecretHasher,
 		federatedLogoutsCache,
 		httpClient,
-		// Tessera's seats, over the same pool everything else uses. Passed in
+		// Nomen's seats, over the same pool everything else uses. Passed in
 		// rather than reached for, so the OIDC server's dependency on our
 		// storage is visible in its signature.
 		seatstorage.NewRepository(v3_postgres.PGxPool(dbClient.Pool)),
@@ -744,32 +754,44 @@ func startAPIs(
 	}
 	apis.RegisterHandlerPrefixes(oidcServer, oidcPrefixes...)
 
-	// Tessera's native management boundary. The instance interceptor resolves
+	// Nomen's native management boundary. The instance interceptor resolves
 	// the tenant before authorization or storage reads, and the handler emits
-	// only Tessera's typed management errors.
-	capabilityService := tessera_management.NewCapabilityService(time.Now)
-	apis.RegisterHandlerOnPrefix(tessera_management_api.HandlerPrefix, instanceInterceptor.Handler(
-		tessera_management_api.NewHandler(
-			tessera_management.NewOverviewService(
+	// only Nomen's typed management errors.
+	capabilityService := nomen_management.NewCapabilityService(time.Now, nomen_management.WithEdition(config.Edition))
+	apis.RegisterHandlerOnPrefix(nomen_management_api.HandlerPrefix, instanceInterceptor.Handler(
+		nomen_management_api.NewHandler(
+			nomen_management.NewOverviewService(
 				overviewstorage.NewRepository(v3_postgres.PGxPool(dbClient.Pool)),
-				tessera_management.NewQuerySigningKeyCounter(queries),
+				nomen_management.NewQuerySigningKeyCounter(queries),
 				time.Now,
 			),
-			tessera_management_api.NewTesseraAuthorizer(verifier, config.SystemAuthZ, config.InternalAuthZ),
+			nomen_management_api.NewNomenAuthorizer(verifier, config.SystemAuthZ, config.InternalAuthZ),
 			func(ctx context.Context) string { return internal_authz.GetInstance(ctx).InstanceID() },
 			oidcServer.IssuerFromRequest,
-		).WithCapabilities(capabilityService).WithOperatorActions(
-			tessera_management.NewOperatorActionService(capabilityService, time.Now),
+		).WithCapabilities(capabilityService).WithDeploymentPreflight(
+			nomen_management.NewDeploymentPreflightService(
+				nomen_management.NewQueryDatabaseHealth(queries),
+				nomen_management.NewQuerySigningKeyCounter(queries),
+				nomen_management.NewQueryNotificationConfiguration(queries),
+				time.Now,
+			),
+		).WithOwnerEnrollment(
+			nomen_management.NewOwnerEnrollmentService(
+				ownerEnrollmentStorage.NewRepository(v3_postgres.PGxPool(dbClient.Pool)),
+				time.Now,
+			).WithBootstrapAuthority(os.Getenv("NOMEN_BOOTSTRAP_AUTHORITY")),
+		).WithOperatorActions(
+			nomen_management.NewOperatorActionService(capabilityService, time.Now),
 		).WithOperatorEvents(
 			operatoreventstorage.NewRepository(v3_postgres.PGxPool(dbClient.Pool)),
-			func(ctx context.Context) tessera_domain.OperatorActor {
+			func(ctx context.Context) nomen_domain.OperatorActor {
 				instanceID := internal_authz.GetInstance(ctx).InstanceID()
 				contextData := internal_authz.GetCtxData(ctx)
 				tenantID := contextData.OrgID
 				if tenantID == "" {
 					tenantID = "deployment." + instanceID
 				}
-				return tessera_domain.OperatorActor{
+				return nomen_domain.OperatorActor{
 					InstanceID: instanceID,
 					TenantID:   tenantID,
 					ActorID:    contextData.UserID,
@@ -812,6 +834,8 @@ func startAPIs(
 			instanceInterceptor.HandlerFuncWithError,
 			middleware.AuthorizationInterceptor(verifier, config.SystemAuthZ, config.InternalAuthZ).HandlerFuncWithError(schemas.HandlerPrefix)))
 
+	config.Console.Edition = config.Edition
+	config.Console.DemoCaps = config.DemoCaps
 	c, err := console.Start(config.Console, config.ExternalSecure, oidcServer.IssuerFromRequest, middleware.CallDurationHandler, instanceInterceptor.Handler, limitingAccessInterceptor, config.CustomerPortal)
 	if err != nil {
 		return nil, fmt.Errorf("unable to start management console: %w", err)
@@ -907,7 +931,7 @@ func shutdownServer(ctx context.Context, server *http.Server) error {
 }
 
 func showBasicInformation(startConfig *Config) {
-	fmt.Println(color.MagentaString(figure.NewFigure("TESSERA", "", true).String()))
+	fmt.Println(color.MagentaString(figure.NewFigure("NOMEN", "", true).String()))
 	http := "http"
 	if startConfig.TLS.Enabled || startConfig.ExternalSecure {
 		http = "https"

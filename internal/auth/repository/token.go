@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	usr_model "github.com/EonsofStupid/tessera/internal/user/model"
+	usr_model "github.com/shippinAI/nomen/internal/user/model"
 )
 
 type TokenRepository interface {

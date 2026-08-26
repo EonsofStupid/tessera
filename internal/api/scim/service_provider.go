@@ -6,12 +6,12 @@ import (
 
 	"github.com/gorilla/mux"
 
-	zhttp "github.com/EonsofStupid/tessera/internal/api/http"
-	scim_config "github.com/EonsofStupid/tessera/internal/api/scim/config"
-	sresources "github.com/EonsofStupid/tessera/internal/api/scim/resources"
-	sschemas "github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	zhttp "github.com/shippinAI/nomen/internal/api/http"
+	scim_config "github.com/shippinAI/nomen/internal/api/scim/config"
+	sresources "github.com/shippinAI/nomen/internal/api/scim/resources"
+	sschemas "github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type serviceProviderHandler struct {

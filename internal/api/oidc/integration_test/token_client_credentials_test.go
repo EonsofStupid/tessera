@@ -9,15 +9,15 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/oidc/v3/pkg/client/rp"
-	"github.com/zitadel/oidc/v3/pkg/oidc"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/client/rp"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/oidc"
 
-	oidc_api "github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/auth"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user"
+	oidc_api "github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/auth"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/user"
 )
 
 func TestServer_ClientCredentialsExchange(t *testing.T) {
@@ -106,10 +106,10 @@ func TestServer_ClientCredentialsExchange(t *testing.T) {
 			},
 		},
 		{
-			name:         "openid, profile, email, zitadel",
+			name:         "openid, profile, email, nomen",
 			clientID:     clientID,
 			clientSecret: clientSecret,
-			scope:        []string{oidc.ScopeOpenID, oidc.ScopeProfile, oidc.ScopeEmail, domain.ProjectScopeZITADEL},
+			scope:        []string{oidc.ScopeOpenID, oidc.ScopeProfile, oidc.ScopeEmail, domain.ProjectScopeNOMEN},
 			wantClaims: claims{
 				name:     name,
 				username: name,
@@ -186,7 +186,7 @@ func TestServer_ClientCredentialsExchange(t *testing.T) {
 			assert.Empty(t, userinfo.Address)
 
 			_, err = Instance.Client.Auth.GetMyUser(integration.WithAuthorizationToken(CTX, tokens.AccessToken), &auth.GetMyUserRequest{})
-			if slices.Contains(tt.scope, domain.ProjectScopeZITADEL) {
+			if slices.Contains(tt.scope, domain.ProjectScopeNOMEN) {
 				require.NoError(t, err)
 			} else {
 				require.Error(t, err)

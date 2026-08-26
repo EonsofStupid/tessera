@@ -21,7 +21,7 @@ import (
 	sdk_metric "go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/sdk/resource"
 
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type MetricConfig struct {
@@ -166,7 +166,7 @@ func newMeterProvider(ctx context.Context, cfg MetricConfig, resource *resource.
 		// We can't just call autoexport.NewMetricReader unconditionally because
 		// autoexport defaults to "otlp" when OTEL_METRICS_EXPORTER is unset, and
 		// the OTLP exporter silently points at localhost:4318 even with no env
-		// vars configured. That would cause every ZITADEL instance to start
+		// vars configured. That would cause every NOMEN instance to start
 		// attempting OTLP connections after upgrading, spamming logs with
 		// connection errors.
 		//

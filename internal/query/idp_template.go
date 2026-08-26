@@ -7,17 +7,17 @@ import (
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/database"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore/handler/v2"
-	"github.com/EonsofStupid/tessera/internal/query/projection"
-	"github.com/EonsofStupid/tessera/internal/repository/idp"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/database"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore/handler/v2"
+	"github.com/shippinAI/nomen/internal/query/projection"
+	"github.com/shippinAI/nomen/internal/repository/idp"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 type IDPTemplate struct {
@@ -47,7 +47,7 @@ type IDPTemplate struct {
 	*LDAPIDPTemplate
 	*AppleIDPTemplate
 	*SAMLIDPTemplate
-	*ZitadelIDPTemplate
+	*NomenIDPTemplate
 }
 
 type IDPTemplates struct {
@@ -171,7 +171,7 @@ type SAMLIDPTemplate struct {
 	FederatedLogoutEnabled        bool
 }
 
-type ZitadelIDPTemplate struct {
+type NomenIDPTemplate struct {
 	IDPID             string
 	ClientID          string
 	ClientSecret      *crypto.CryptoValue
@@ -752,37 +752,37 @@ var (
 )
 
 var (
-	zitadelIdpTemplateTable = table{
-		name:          projection.IDPTemplateZitadelTable,
-		instanceIDCol: projection.ZitadelInstanceIDCol,
+	nomenIdpTemplateTable = table{
+		name:          projection.IDPTemplateNomenTable,
+		instanceIDCol: projection.NomenInstanceIDCol,
 	}
-	ZitadelIDCol = Column{
-		name:  projection.ZitadelIDCol,
-		table: zitadelIdpTemplateTable,
+	NomenIDCol = Column{
+		name:  projection.NomenIDCol,
+		table: nomenIdpTemplateTable,
 	}
-	ZitadelInstanceIDCol = Column{
-		name:  projection.ZitadelInstanceIDCol,
-		table: zitadelIdpTemplateTable,
+	NomenInstanceIDCol = Column{
+		name:  projection.NomenInstanceIDCol,
+		table: nomenIdpTemplateTable,
 	}
-	ZitadelIssuerCol = Column{
-		name:  projection.ZitadelIssuerCol,
-		table: zitadelIdpTemplateTable,
+	NomenIssuerCol = Column{
+		name:  projection.NomenIssuerCol,
+		table: nomenIdpTemplateTable,
 	}
-	ZitadelClientIDCol = Column{
-		name:  projection.ZitadelClientIDCol,
-		table: zitadelIdpTemplateTable,
+	NomenClientIDCol = Column{
+		name:  projection.NomenClientIDCol,
+		table: nomenIdpTemplateTable,
 	}
-	ZitadelClientSecretCol = Column{
-		name:  projection.ZitadelClientSecretCol,
-		table: zitadelIdpTemplateTable,
+	NomenClientSecretCol = Column{
+		name:  projection.NomenClientSecretCol,
+		table: nomenIdpTemplateTable,
 	}
-	ZitadelScopesCol = Column{
-		name:  projection.ZitadelScopesCol,
-		table: zitadelIdpTemplateTable,
+	NomenScopesCol = Column{
+		name:  projection.NomenScopesCol,
+		table: nomenIdpTemplateTable,
 	}
-	ZitadelInstanceRolesInfoCol = Column{
-		name:  projection.ZitadelInstanceRolesInfoCol,
-		table: zitadelIdpTemplateTable,
+	NomenInstanceRolesInfoCol = Column{
+		name:  projection.NomenInstanceRolesInfoCol,
+		table: nomenIdpTemplateTable,
 	}
 )
 
@@ -1043,13 +1043,13 @@ func prepareIDPTemplateByIDQuery() (sq.SelectBuilder, func(*sql.Row) (*IDPTempla
 			AppleKeyIDCol.identifier(),
 			ApplePrivateKeyCol.identifier(),
 			AppleScopesCol.identifier(),
-			// zitadel
-			ZitadelIDCol.identifier(),
-			ZitadelIssuerCol.identifier(),
-			ZitadelClientIDCol.identifier(),
-			ZitadelClientSecretCol.identifier(),
-			ZitadelScopesCol.identifier(),
-			ZitadelInstanceRolesInfoCol.identifier(),
+			// nomen
+			NomenIDCol.identifier(),
+			NomenIssuerCol.identifier(),
+			NomenClientIDCol.identifier(),
+			NomenClientSecretCol.identifier(),
+			NomenScopesCol.identifier(),
+			NomenInstanceRolesInfoCol.identifier(),
 		).From(idpTemplateTable.identifier()).
 			LeftJoin(join(OAuthIDCol, IDPTemplateIDCol)).
 			LeftJoin(join(OIDCIDCol, IDPTemplateIDCol)).
@@ -1063,7 +1063,7 @@ func prepareIDPTemplateByIDQuery() (sq.SelectBuilder, func(*sql.Row) (*IDPTempla
 			LeftJoin(join(SAMLIDCol, IDPTemplateIDCol)).
 			LeftJoin(join(LDAPIDCol, IDPTemplateIDCol)).
 			LeftJoin(join(AppleIDCol, IDPTemplateIDCol)).
-			LeftJoin(join(ZitadelIDCol, IDPTemplateIDCol)).
+			LeftJoin(join(NomenIDCol, IDPTemplateIDCol)).
 			PlaceholderFormat(sq.Dollar),
 		func(row *sql.Row) (*IDPTemplate, error) {
 			idpTemplate := new(IDPTemplate)
@@ -1174,12 +1174,12 @@ func prepareIDPTemplateByIDQuery() (sq.SelectBuilder, func(*sql.Row) (*IDPTempla
 			applePrivateKey := new(crypto.CryptoValue)
 			appleScopes := database.TextArray[string]{}
 
-			zitadelID := sql.NullString{}
-			zitadelClientID := sql.NullString{}
-			zitadelClientSecret := new(crypto.CryptoValue)
-			zitadelIssuer := sql.NullString{}
-			zitadelScopes := database.TextArray[string]{}
-			zitadelInstanceRolesInfo := database.JSONArray[idp.RolesInfo]{}
+			nomenID := sql.NullString{}
+			nomenClientID := sql.NullString{}
+			nomenClientSecret := new(crypto.CryptoValue)
+			nomenIssuer := sql.NullString{}
+			nomenScopes := database.TextArray[string]{}
+			nomenInstanceRolesInfo := database.JSONArray[idp.RolesInfo]{}
 
 			err := row.Scan(
 				&idpTemplate.ID,
@@ -1300,13 +1300,13 @@ func prepareIDPTemplateByIDQuery() (sq.SelectBuilder, func(*sql.Row) (*IDPTempla
 				&appleKeyID,
 				&applePrivateKey,
 				&appleScopes,
-				// zitadel
-				&zitadelID,
-				&zitadelIssuer,
-				&zitadelClientID,
-				&zitadelClientSecret,
-				&zitadelScopes,
-				&zitadelInstanceRolesInfo,
+				// nomen
+				&nomenID,
+				&nomenIssuer,
+				&nomenClientID,
+				&nomenClientSecret,
+				&nomenScopes,
+				&nomenInstanceRolesInfo,
 			)
 			if err != nil {
 				if errors.Is(err, sql.ErrNoRows) {
@@ -1459,14 +1459,14 @@ func prepareIDPTemplateByIDQuery() (sq.SelectBuilder, func(*sql.Row) (*IDPTempla
 					Scopes:     appleScopes,
 				}
 			}
-			if zitadelID.Valid {
-				idpTemplate.ZitadelIDPTemplate = &ZitadelIDPTemplate{
-					IDPID:             zitadelID.String,
-					ClientID:          zitadelClientID.String,
-					ClientSecret:      zitadelClientSecret,
-					Issuer:            zitadelIssuer.String,
-					Scopes:            zitadelScopes,
-					InstanceRolesInfo: zitadelInstanceRolesInfo,
+			if nomenID.Valid {
+				idpTemplate.NomenIDPTemplate = &NomenIDPTemplate{
+					IDPID:             nomenID.String,
+					ClientID:          nomenClientID.String,
+					ClientSecret:      nomenClientSecret,
+					Issuer:            nomenIssuer.String,
+					Scopes:            nomenScopes,
+					InstanceRolesInfo: nomenInstanceRolesInfo,
 				}
 			}
 			return idpTemplate, nil
@@ -1594,13 +1594,13 @@ func prepareIDPTemplatesQuery() (sq.SelectBuilder, func(*sql.Rows) (*IDPTemplate
 			AppleKeyIDCol.identifier(),
 			ApplePrivateKeyCol.identifier(),
 			AppleScopesCol.identifier(),
-			// zitadel
-			ZitadelIDCol.identifier(),
-			ZitadelIssuerCol.identifier(),
-			ZitadelClientIDCol.identifier(),
-			ZitadelClientSecretCol.identifier(),
-			ZitadelScopesCol.identifier(),
-			ZitadelInstanceRolesInfoCol.identifier(),
+			// nomen
+			NomenIDCol.identifier(),
+			NomenIssuerCol.identifier(),
+			NomenClientIDCol.identifier(),
+			NomenClientSecretCol.identifier(),
+			NomenScopesCol.identifier(),
+			NomenInstanceRolesInfoCol.identifier(),
 			// count
 			countColumn.identifier(),
 		).From(idpTemplateTable.identifier()).
@@ -1616,7 +1616,7 @@ func prepareIDPTemplatesQuery() (sq.SelectBuilder, func(*sql.Rows) (*IDPTemplate
 			LeftJoin(join(SAMLIDCol, IDPTemplateIDCol)).
 			LeftJoin(join(LDAPIDCol, IDPTemplateIDCol)).
 			LeftJoin(join(AppleIDCol, IDPTemplateIDCol)).
-			LeftJoin(join(ZitadelIDCol, IDPTemplateIDCol)).
+			LeftJoin(join(NomenIDCol, IDPTemplateIDCol)).
 			PlaceholderFormat(sq.Dollar),
 		func(rows *sql.Rows) (*IDPTemplates, error) {
 			templates := make([]*IDPTemplate, 0)
@@ -1730,12 +1730,12 @@ func prepareIDPTemplatesQuery() (sq.SelectBuilder, func(*sql.Rows) (*IDPTemplate
 				applePrivateKey := new(crypto.CryptoValue)
 				appleScopes := database.TextArray[string]{}
 
-				zitadelID := sql.NullString{}
-				zitadelIssuer := sql.NullString{}
-				zitadelClientID := sql.NullString{}
-				zitadelClientSecret := new(crypto.CryptoValue)
-				zitadelScopes := database.TextArray[string]{}
-				zitadelInstanceRolesInfo := database.JSONArray[idp.RolesInfo]{}
+				nomenID := sql.NullString{}
+				nomenIssuer := sql.NullString{}
+				nomenClientID := sql.NullString{}
+				nomenClientSecret := new(crypto.CryptoValue)
+				nomenScopes := database.TextArray[string]{}
+				nomenInstanceRolesInfo := database.JSONArray[idp.RolesInfo]{}
 
 				err := rows.Scan(
 					&idpTemplate.ID,
@@ -1856,13 +1856,13 @@ func prepareIDPTemplatesQuery() (sq.SelectBuilder, func(*sql.Rows) (*IDPTemplate
 					&appleKeyID,
 					&applePrivateKey,
 					&appleScopes,
-					// zitadel
-					&zitadelID,
-					&zitadelIssuer,
-					&zitadelClientID,
-					&zitadelClientSecret,
-					&zitadelScopes,
-					&zitadelInstanceRolesInfo,
+					// nomen
+					&nomenID,
+					&nomenIssuer,
+					&nomenClientID,
+					&nomenClientSecret,
+					&nomenScopes,
+					&nomenInstanceRolesInfo,
 					&count,
 				)
 
@@ -2014,14 +2014,14 @@ func prepareIDPTemplatesQuery() (sq.SelectBuilder, func(*sql.Rows) (*IDPTemplate
 						Scopes:     appleScopes,
 					}
 				}
-				if zitadelID.Valid {
-					idpTemplate.ZitadelIDPTemplate = &ZitadelIDPTemplate{
-						IDPID:             zitadelID.String,
-						Issuer:            zitadelIssuer.String,
-						ClientID:          zitadelClientID.String,
-						ClientSecret:      zitadelClientSecret,
-						Scopes:            zitadelScopes,
-						InstanceRolesInfo: zitadelInstanceRolesInfo,
+				if nomenID.Valid {
+					idpTemplate.NomenIDPTemplate = &NomenIDPTemplate{
+						IDPID:             nomenID.String,
+						Issuer:            nomenIssuer.String,
+						ClientID:          nomenClientID.String,
+						ClientSecret:      nomenClientSecret,
+						Scopes:            nomenScopes,
+						InstanceRolesInfo: nomenInstanceRolesInfo,
 					}
 				}
 				templates = append(templates, idpTemplate)

@@ -7,8 +7,8 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/api/grpc/application/v2/convert"
-	"github.com/EonsofStupid/tessera/pkg/grpc/application/v2"
+	"github.com/shippinAI/nomen/internal/api/grpc/application/v2/convert"
+	"github.com/shippinAI/nomen/pkg/grpc/application/v2"
 )
 
 func (s *Server) CreateApplicationKey(ctx context.Context, req *connect.Request[application.CreateApplicationKeyRequest]) (*connect.Response[application.CreateApplicationKeyResponse], error) {

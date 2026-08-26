@@ -6,14 +6,14 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/api/grpc/server"
-	"github.com/EonsofStupid/tessera/internal/api/oidc"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/query"
-	oidc_pb "github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2"
-	"github.com/EonsofStupid/tessera/pkg/grpc/oidc/v2/oidcconnect"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/api/grpc/server"
+	"github.com/shippinAI/nomen/internal/api/oidc"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/query"
+	oidc_pb "github.com/shippinAI/nomen/pkg/grpc/oidc/v2"
+	"github.com/shippinAI/nomen/pkg/grpc/oidc/v2/oidcconnect"
 )
 
 var _ oidcconnect.OIDCServiceHandler = (*Server)(nil)
@@ -50,7 +50,7 @@ func (s *Server) RegisterConnectServer(interceptors ...connect.Interceptor) (str
 }
 
 func (s *Server) FileDescriptor() protoreflect.FileDescriptor {
-	return oidc_pb.File_zitadel_oidc_v2_oidc_service_proto
+	return oidc_pb.File_nomen_oidc_v2_oidc_service_proto
 }
 
 func (s *Server) AppName() string {

@@ -8,24 +8,24 @@ import (
 	"time"
 
 	"github.com/muhlemmer/gu"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/auth/repository/eventsourcing/view"
-	cache "github.com/EonsofStupid/tessera/internal/auth_request/repository"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	es_models "github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/query"
-	user_repo "github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	user_model "github.com/EonsofStupid/tessera/internal/user/model"
-	user_view_model "github.com/EonsofStupid/tessera/internal/user/repository/view/model"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/auth/repository/eventsourcing/view"
+	cache "github.com/shippinAI/nomen/internal/auth_request/repository"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	es_models "github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/query"
+	user_repo "github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	user_model "github.com/shippinAI/nomen/internal/user/model"
+	user_view_model "github.com/shippinAI/nomen/internal/user/repository/view/model"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const unknownUserID = "UNKNOWN"
@@ -1237,7 +1237,7 @@ func (repo *AuthRequestRepo) nextStepsUser(ctx context.Context, request *domain.
 		if request.SelectedIDPConfigID != "" {
 			steps = append(steps, &domain.RedirectToExternalIDPStep{})
 		}
-		// or there aren't any sessions to use, present the login page (https://github.com/EonsofStupid/tessera/issues/7213)
+		// or there aren't any sessions to use, present the login page (https://github.com/shippinAI/nomen/issues/7213)
 		if len(users) == 0 {
 			steps = append(steps, new(domain.LoginStep))
 		}

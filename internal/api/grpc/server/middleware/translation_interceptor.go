@@ -5,10 +5,10 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	_ "github.com/EonsofStupid/tessera/internal/statik"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/i18n"
+	_ "github.com/shippinAI/nomen/internal/statik"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
 )
 
 func TranslationHandler() func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
@@ -30,5 +30,5 @@ func TranslationHandler() func(ctx context.Context, req interface{}, info *grpc.
 }
 
 func getTranslator(ctx context.Context) *i18n.Translator {
-	return i18n.NewZitadelTranslator(authz.GetInstance(ctx).DefaultLanguage())
+	return i18n.NewNomenTranslator(authz.GetInstance(ctx).DefaultLanguage())
 }

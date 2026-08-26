@@ -62,7 +62,7 @@ Errors:
     CouldNotDialTLS: "无法使用 TLS 与 SMTP 服务器联系，请检查端口、防火墙问题..."
     CouldNotCreateClient: "无法创建 smtp 客户端"
     CouldNotStartTLS: "无法启动 tls"
-    CouldNotAuth: "无法添加 smtp 身份验证，请检查您的用户名和密码是否正确，如果正确，可能您的提供商需要 Zitadel 不支持的身份验证方法"
+    CouldNotAuth: "无法添加 smtp 身份验证，请检查您的用户名和密码是否正确，如果正确，可能您的提供商需要 Nomen 不支持的身份验证方法"
     CouldNotSetSender: "无法设置发件人"
     CouldNotSetRecipient: "无法设置收件人"
   SMTPConfig:
@@ -154,7 +154,7 @@ Errors:
       Invalid: "密码无效"
       NotSet: "用户未设置密码"
       NotChanged: "新密码不能与您当前的密码相同"
-      NotSupported: "不支持密码哈希编码。查看 https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "不支持密码哈希编码。查看 https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "未找到密码策略"
       MinLength: "密码太短"
@@ -208,7 +208,7 @@ Errors:
     NotActive: "组织未激活"
     NotChanged: "组织信息未改变"
     DefaultOrgNotDeletable: "默认组织不应删除"
-    ZitadelOrgNotDeletable: "不得删除与Zitadel项目有关的组织"
+    NomenOrgNotDeletable: "不得删除与Nomen项目有关的组织"
     InvalidDomain: "无效的域名"
     DomainMissing: "域名缺失"
     DomainNotOnOrg: "组织中不存在域"
@@ -217,8 +217,8 @@ Errors:
     DomainVerificationTypeInvalid: "域名验证类型无效"
     DomainVerificationMissing: "域名验证尚未开始"
     DomainVerificationFailed: "域名验证失败"
-    DomainVerificationTXTNotFound: "未找到您的域的 _zitadel-challenge TXT 记录。检查您是否已将其添加到 DNS 服务器或等待新记录传播"
-    DomainVerificationTXTNoMatch: "已找到您的域的 _zitadel-challenge TXT 记录，但它不包含正确的令牌文本。检查您是否已将正确的令牌添加到 DNS 服务器或等待新记录传播"
+    DomainVerificationTXTNotFound: "未找到您的域的 _nomen-challenge TXT 记录。检查您是否已将其添加到 DNS 服务器或等待新记录传播"
+    DomainVerificationTXTNoMatch: "已找到您的域的 _nomen-challenge TXT 记录，但它不包含正确的令牌文本。检查您是否已将正确的令牌添加到 DNS 服务器或等待新记录传播"
     DomainVerificationHTTPNotFound: "在预期的 URL 中找不到包含质询的文件。检查您是否已将文件上传到正确的位置并具有读取权限"
     DomainVerificationHTTPNoMatch: "已在预期 URL 中找到包含质询的文件，但它不包含正确的标记文本。检查其内容"
     DomainVerificationTimeout: "查询 DNS 服务器超时"
@@ -343,7 +343,7 @@ Errors:
   Instance:
     AlreadyExists: "实例已经存在"
     NotChanged: "实例没有改变"
-    NotFound: "实例未找到。确保您有正确的域。查看 https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "实例未找到。确保您有正确的域。查看 https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "角色没有改变"
     MemberInvalid: "成员无效"
@@ -1111,20 +1111,20 @@ EventTypes:
         changed: "更改密码锁定策略"
   iam:
     setup:
-      started: "开始 Zitadel 配置"
-      done: "Zitadel 配置完成"
+      started: "开始 Nomen 配置"
+      done: "Nomen 配置完成"
     global:
       org:
         set: "设置全局组织"
     project:
       iam:
-        set: "设置 Zitadel 项目"
+        set: "设置 Nomen 项目"
     member:
-      added: "添加 Zitadel 成员"
-      changed: "更改 Zitadel 成员"
-      removed: "删除 Zitadel 成员"
+      added: "添加 Nomen 成员"
+      changed: "更改 Nomen 成员"
+      removed: "删除 Nomen 成员"
       cascade:
-        removed: "删除 Zitadel 成员级联"
+        removed: "删除 Nomen 成员级联"
     idp:
       config:
         added: "添加 IDP 配置"
@@ -1237,9 +1237,9 @@ EventTypes:
       removed: "域名已删除"
     iam:
       console:
-        set: "Zitadel管理控制台应用程序已设置"
+        set: "Nomen管理控制台应用程序已设置"
       project:
-        set: "Zitadel 项目集"
+        set: "Nomen 项目集"
     mail:
       template:
         added: "添加了电子邮件模板"

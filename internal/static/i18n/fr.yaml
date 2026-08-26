@@ -61,7 +61,7 @@ Errors:
     CouldNotDialTLS: "Impossible de contacter le serveur SMTP via TLS, vérifiez le port, problèmes de pare-feu..."
     CouldNotCreateClient: "impossible de créer un client SMTP"
     CouldNotStartTLS: "je n'ai pas pu démarrer tls"
-    CouldNotAuth: "Impossible d'ajouter l'authentification SMTP, vérifiez si votre utilisateur et votre mot de passe sont corrects. S'ils sont corrects, votre fournisseur nécessite peut-être une méthode d'authentification non prise en charge par Zitadel."
+    CouldNotAuth: "Impossible d'ajouter l'authentification SMTP, vérifiez si votre utilisateur et votre mot de passe sont corrects. S'ils sont corrects, votre fournisseur nécessite peut-être une méthode d'authentification non prise en charge par Nomen."
     CouldNotSetSender: "impossible de définir l'expéditeur"
     CouldNotSetRecipient: "impossible de définir le destinataire"
   SMTPConfig:
@@ -153,7 +153,7 @@ Errors:
       Invalid: "Le mot de passe n'est pas valide"
       NotSet: "L'utilisateur n'a pas défini de mot de passe"
       NotChanged: "Le nouveau mot de passe ne peut pas être le même que votre mot de passe actuel"
-      NotSupported: "Encodage de hachage de mot de passe non pris en charge. Consultez https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Encodage de hachage de mot de passe non pris en charge. Consultez https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Politique de mot de passe non trouvée"
       MinLength: "Le mot de passe est trop court"
@@ -207,7 +207,7 @@ Errors:
     NotActive: "L'organisation n'est pas active"
     NotChanged: "L'organisation n'a pas changé"
     DefaultOrgNotDeletable: "L'organisation par défault ne doit pas être supprimée"
-    ZitadelOrgNotDeletable: "L'organisation avec Zitadel project ne doit pas être supprimée"
+    NomenOrgNotDeletable: "L'organisation avec Nomen project ne doit pas être supprimée"
     InvalidDomain: "Domaine non valide"
     DomainMissing: "Domaine manquant"
     DomainNotOnOrg: "Le domaine n'existe pas dans l'organisation"
@@ -216,8 +216,8 @@ Errors:
     DomainVerificationTypeInvalid: "Le type de vérification du domaine n'est pas valide"
     DomainVerificationMissing: "La vérification du domaine n'a pas encore commencé"
     DomainVerificationFailed: "La vérification du domaine a échoué"
-    DomainVerificationTXTNotFound: "L'enregistrement TXT _zitadel-challenge est introuvable pour votre domaine. Vérifiez que vous l'avez ajouté à votre serveur DNS ou attendez que le nouvel enregistrement se propage"
-    DomainVerificationTXTNoMatch: "L'enregistrement TXT _zitadel-challenge a été trouvé pour votre domaine mais il ne contient pas le bon texte de jeton. Vérifiez que vous avez ajouté le bon token à votre serveur DNS ou attendez que le nouvel enregistrement se propage"
+    DomainVerificationTXTNotFound: "L'enregistrement TXT _nomen-challenge est introuvable pour votre domaine. Vérifiez que vous l'avez ajouté à votre serveur DNS ou attendez que le nouvel enregistrement se propage"
+    DomainVerificationTXTNoMatch: "L'enregistrement TXT _nomen-challenge a été trouvé pour votre domaine mais il ne contient pas le bon texte de jeton. Vérifiez que vous avez ajouté le bon token à votre serveur DNS ou attendez que le nouvel enregistrement se propage"
     DomainVerificationHTTPNotFound: "Le fichier contenant le défi n'a pas été trouvé dans l'URL attendue. Vérifiez que vous avez téléchargé le fichier au bon endroit avec les autorisations de lecture"
     DomainVerificationHTTPNoMatch: "Le fichier contenant le défi a été trouvé dans l'URL attendue mais il ne contient pas le bon texte de token. Vérifiez son contenu"
     DomainVerificationTimeout: "Il y a eu un délai d'attente lors de l'interrogation du serveur DNS"
@@ -342,7 +342,7 @@ Errors:
   Instance:
     AlreadyExists: "L'instance existe déjà"
     NotChanged: "L'instance n'a pas changé"
-    NotFound: "Instance non trouvé. Assurez-vous que vous avez la bonne organisation. Vérifiez https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Instance non trouvé. Assurez-vous que vous avez la bonne organisation. Vérifiez https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Les rôles n'ont pas été modifiés"
     MemberInvalid: "Le membre n'est pas valide"
@@ -1105,20 +1105,20 @@ EventTypes:
         changed: "Modification de la politique de verrouillage des mots de passe"
   iam:
     setup:
-      started: "L'installation de Zitadel a commencé"
-      done: "Installation de Zitadel terminée"
+      started: "L'installation de Nomen a commencé"
+      done: "Installation de Nomen terminée"
     global:
       org:
         set: "Global org set"
     lockout:
       iam:
-        set: "set du projet Zitadel"
+        set: "set du projet Nomen"
     member:
-      added: "Zitadel membre ajouté"
-      changed: "membre de Zitadel modifié"
-      removed: "membre Zitadel supprimé"
+      added: "Nomen membre ajouté"
+      changed: "membre de Nomen modifié"
+      removed: "membre Nomen supprimé"
       cascade:
-        removed: "Membre Zitadel supprimé en cascade"
+        removed: "Membre Nomen supprimé en cascade"
     idp:
       config:
         added: "Ajout de la configuration IDP"
@@ -1231,9 +1231,9 @@ EventTypes:
       removed: "Domaine supprimé"
     iam:
       console:
-        set: "Ensemble d'applications Console de gestion Zitadel"
+        set: "Ensemble d'applications Console de gestion Nomen"
       project:
-        set: "Zitadel project set"
+        set: "Nomen project set"
     mail:
       template:
         added: "Modèle de e-mail ajouté"

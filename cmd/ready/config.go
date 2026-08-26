@@ -7,13 +7,13 @@ import (
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	old_logging "github.com/zitadel/logging" //nolint:staticcheck
+	old_logging "github.com/shippinAI/nomen/logging" //nolint:staticcheck
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation"
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
-	internal_authz "github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/config/hook"
-	"github.com/EonsofStupid/tessera/internal/config/network"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
+	internal_authz "github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/config/hook"
+	"github.com/shippinAI/nomen/internal/config/network"
 )
 
 type Config struct {

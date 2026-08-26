@@ -1,8 +1,8 @@
 package command
 
 import (
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/repository/user"
 )
 
 func writeModelToHuman(wm *HumanWriteModel) *domain.Human {

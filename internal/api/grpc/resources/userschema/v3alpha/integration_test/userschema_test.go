@@ -11,10 +11,10 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
-	resource_object "github.com/EonsofStupid/tessera/pkg/grpc/resources/object/v3alpha"
-	schema "github.com/EonsofStupid/tessera/pkg/grpc/resources/userschema/v3alpha"
+	"github.com/shippinAI/nomen/internal/integration"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
+	resource_object "github.com/shippinAI/nomen/pkg/grpc/resources/object/v3alpha"
+	schema "github.com/shippinAI/nomen/pkg/grpc/resources/userschema/v3alpha"
 )
 
 func TestServer_CreateUserSchema(t *testing.T) {
@@ -223,7 +223,7 @@ func TestServer_CreateUserSchema(t *testing.T) {
 									},
 									"description": {
 										"type": "string",
-										"urn:zitadel:schema:permission": "read"
+										"urn:nomen:schema:permission": "read"
 									}
 								},
 								"required": ["name"]
@@ -258,7 +258,7 @@ func TestServer_CreateUserSchema(t *testing.T) {
 									},
 									"description": {
 										"type": "string",
-										"urn:zitadel:schema:permission": {
+										"urn:nomen:schema:permission": {
 											"owner": "rw",
 											"self": "r"
 										}
@@ -440,7 +440,7 @@ func TestServer_UpdateUserSchema(t *testing.T) {
 								s := new(structpb.Struct)
 								err := s.UnmarshalJSON([]byte(`
 							{
-								"$schema": "urn:zitadel:schema:v1",
+								"$schema": "urn:nomen:schema:v1",
 								"type": "object",
 								"properties": {
 									"name": {
@@ -478,7 +478,7 @@ func TestServer_UpdateUserSchema(t *testing.T) {
 								s := new(structpb.Struct)
 								err := s.UnmarshalJSON([]byte(`
 								{
-									"$schema": "urn:zitadel:schema:v1",
+									"$schema": "urn:nomen:schema:v1",
 									"type": "object",
 									"properties": {
 										"name": {

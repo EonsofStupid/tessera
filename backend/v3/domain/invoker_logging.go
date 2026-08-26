@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
 )
 
 // loggingInvoker decorates each command with logging.

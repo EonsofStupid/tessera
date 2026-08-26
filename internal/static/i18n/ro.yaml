@@ -62,7 +62,7 @@ Errors:
     CouldNotDialTLS: "Nu s-a putut contacta serverul SMTP folosind TLS, verificați portul, probleme de firewall..."
     CouldNotCreateClient: "Nu s-a putut crea clientul smtp"
     CouldNotStartTLS: "Nu s-a putut porni tls"
-    CouldNotAuth: "Nu s-a putut adăuga autentificare smtp, verificați dacă numele de utilizator și parola sunt corecte, dacă sunt corecte, poate furnizorul dvs. necesită o metodă de autentificare nesuportată de Zitadel"
+    CouldNotAuth: "Nu s-a putut adăuga autentificare smtp, verificați dacă numele de utilizator și parola sunt corecte, dacă sunt corecte, poate furnizorul dvs. necesită o metodă de autentificare nesuportată de Nomen"
     CouldNotSetSender: "Nu s-a putut seta expeditorul"
     CouldNotSetRecipient: "Nu s-a putut seta destinatarul"
   SMTPConfig:
@@ -154,7 +154,7 @@ Errors:
       Invalid: "Parola este invalidă"
       NotSet: "Utilizatorul nu a setat o parolă"
       NotChanged: "Parola nouă nu poate fi aceeași cu parola curentă"
-      NotSupported: "Codificarea hash a parolei nu este acceptată. Consultați https://zitadel.com/docs/concepts/architecture/secrets#hashed-secrets"
+      NotSupported: "Codificarea hash a parolei nu este acceptată. Consultați https://nomen.com/docs/concepts/architecture/secrets#hashed-secrets"
     PasswordComplexityPolicy:
       NotFound: "Politica de parolă nu a fost găsită"
       MinLength: "Parola este prea scurtă"
@@ -208,7 +208,7 @@ Errors:
     NotActive: "Organizația nu este activă"
     NotChanged: "Organizația nu a fost schimbată"
     DefaultOrgNotDeletable: "Organizația implicită nu trebuie să fie ștearsă"
-    ZitadelOrgNotDeletable: "Organizația cu proiectul Zitadel nu trebuie să fie ștearsă"
+    NomenOrgNotDeletable: "Organizația cu proiectul Nomen nu trebuie să fie ștearsă"
     InvalidDomain: "Domeniu invalid"
     DomainMissing: "Domeniu lipsă"
     DomainNotOnOrg: "Domeniul nu există în organizație"
@@ -217,8 +217,8 @@ Errors:
     DomainVerificationTypeInvalid: "Tipul de verificare a domeniului este invalid"
     DomainVerificationMissing: "Verificarea domeniului nu a fost încă începută"
     DomainVerificationFailed: "Verificarea domeniului a eșuat"
-    DomainVerificationTXTNotFound: "Înregistrarea TXT _zitadel-challenge nu a fost găsită pentru domeniul dvs. Verificați dacă l-ați adăugat la serverul DNS sau așteptați până când noua înregistrare este propagată"
-    DomainVerificationTXTNoMatch: "Înregistrarea TXT _zitadel-challenge a fost găsită pentru domeniul dvs., dar nu conține textul corect al token-ului. Verificați dacă ați adăugat token-ul corect la serverul DNS sau așteptați până când noua înregistrare este propagată"
+    DomainVerificationTXTNotFound: "Înregistrarea TXT _nomen-challenge nu a fost găsită pentru domeniul dvs. Verificați dacă l-ați adăugat la serverul DNS sau așteptați până când noua înregistrare este propagată"
+    DomainVerificationTXTNoMatch: "Înregistrarea TXT _nomen-challenge a fost găsită pentru domeniul dvs., dar nu conține textul corect al token-ului. Verificați dacă ați adăugat token-ul corect la serverul DNS sau așteptați până când noua înregistrare este propagată"
     DomainVerificationHTTPNotFound: "Fișierul care conține provocarea nu a fost găsit în URL-ul așteptat. Verificați dacă ați încărcat fișierul în locul potrivit cu permisiuni de citire"
     DomainVerificationHTTPNoMatch: "Fișierul care conține provocarea a fost găsit în URL-ul așteptat, dar nu conține textul corect al token-ului. Verificați conținutul acestuia"
     DomainVerificationTimeout: "A existat o depășire a timpului de așteptare la interogarea serverului DNS"
@@ -343,7 +343,7 @@ Errors:
   Instance:
     AlreadyExists: "Instanța există deja"
     NotChanged: "Instanța nu a fost schimbată"
-    NotFound: "Instanța nu a fost găsită. Asigurați-vă că aveți domeniul corect. Consultați https://zitadel.com/docs/apis/introduction#domains"
+    NotFound: "Instanța nu a fost găsită. Asigurați-vă că aveți domeniul corect. Consultați https://nomen.com/docs/apis/introduction#domains"
     Member:
       RolesNotChanged: "Rolurile nu au fost schimbate"
     MemberInvalid: "Membrul este invalid"
@@ -1105,20 +1105,20 @@ Errors:
             changed: "Politică de blocare a parolei schimbată"
       iam:
         setup:
-          started: "Configurarea Zitadel a început"
-          done: "Configurarea Zitadel a fost finalizată"
+          started: "Configurarea Nomen a început"
+          done: "Configurarea Nomen a fost finalizată"
         global:
           org:
             set: "Organizație globală setată"
         project:
           iam:
-            set: "Proiect Zitadel setat"
+            set: "Proiect Nomen setat"
         member:
-          added: "Membru Zitadel adăugat"
-          changed: "Membru Zitadel schimbat"
-          removed: "Membru Zitadel șters"
+          added: "Membru Nomen adăugat"
+          changed: "Membru Nomen schimbat"
+          removed: "Membru Nomen șters"
           cascade:
-            removed: "Membru Zitadel cascadă șters"
+            removed: "Membru Nomen cascadă șters"
         idp:
           config:
             added: "Configurație IDP adăugată"
@@ -1231,9 +1231,9 @@ Errors:
               removed: "Domeniu șters"
             iam:
               console:
-                set: "Aplicație Consolă de Gestionare Zitadel configurată"
+                set: "Aplicație Consolă de Gestionare Nomen configurată"
               project:
-                set: "Proiectul Zitadel setat"
+                set: "Proiectul Nomen setat"
             mail:
               template:
                 added: "Șablon de e-mail adăugat"

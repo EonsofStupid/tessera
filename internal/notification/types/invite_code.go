@@ -4,16 +4,16 @@ import (
 	"context"
 	"strings"
 
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/api/ui/login"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/query"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/api/ui/login"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/query"
 )
 
 func (notify Notify) SendInviteCode(ctx context.Context, user *query.NotifyUser, code, applicationName, urlTmpl, authRequestID string) error {
 	var url string
 	if applicationName == "" {
-		applicationName = "ZITADEL"
+		applicationName = "NOMEN"
 	}
 	if urlTmpl == "" {
 		url = login.InviteUserLink(http_utils.DomainContext(ctx).Origin(), user.ID, user.PreferredLoginName, code, user.ResourceOwner, authRequestID)

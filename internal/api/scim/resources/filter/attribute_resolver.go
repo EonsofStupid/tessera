@@ -5,8 +5,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // jsonFieldCache Cache storing JSON tag to field mappings for each reflect.Type

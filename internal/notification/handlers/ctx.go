@@ -3,8 +3,8 @@ package handlers
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 const NotifyUserID = "NOTIFICATION" //TODO: system?

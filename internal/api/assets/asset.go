@@ -12,17 +12,17 @@ import (
 
 	"github.com/gabriel-vasile/mimetype"
 	"github.com/gorilla/mux"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	http_mw "github.com/EonsofStupid/tessera/internal/api/http/middleware"
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/i18n"
-	"github.com/EonsofStupid/tessera/internal/id"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/static"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	http_mw "github.com/shippinAI/nomen/internal/api/http/middleware"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/i18n"
+	"github.com/shippinAI/nomen/internal/id"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/static"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 const (
@@ -79,11 +79,11 @@ type ErrorHandler func(w http.ResponseWriter, r *http.Request, err error, defaul
 func DefaultErrorHandler(translator *i18n.Translator) func(w http.ResponseWriter, r *http.Request, err error, defaultCode int) {
 	return func(w http.ResponseWriter, r *http.Request, err error, defaultCode int) {
 		logging.WithFields("uri", r.RequestURI).WithError(err).Warn("error occurred on asset api")
-		code, ok := http_util.ZitadelErrorToHTTPStatusCode(r.Context(), err)
+		code, ok := http_util.NomenErrorToHTTPStatusCode(r.Context(), err)
 		if !ok {
 			code = defaultCode
 		}
-		zErr := new(zerrors.ZitadelError)
+		zErr := new(zerrors.NomenError)
 		if errors.As(err, &zErr) {
 			zErr.SetMessage(translator.LocalizeFromCtx(r.Context(), zErr.GetMessage(), nil))
 			zErr.Parent = nil // ensuring we don't leak any unwanted information

@@ -3,9 +3,9 @@ package readmodel
 import (
 	"time"
 
-	"github.com/EonsofStupid/tessera/internal/v2/eventstore"
-	"github.com/EonsofStupid/tessera/internal/v2/org"
-	"github.com/EonsofStupid/tessera/internal/v2/projection"
+	"github.com/shippinAI/nomen/internal/v2/eventstore"
+	"github.com/shippinAI/nomen/internal/v2/org"
+	"github.com/shippinAI/nomen/internal/v2/projection"
 )
 
 type Org struct {

@@ -5,9 +5,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	session_grpc "github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	session_grpc "github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 func TestCheckUserGRPCToQueryOpt(t *testing.T) {

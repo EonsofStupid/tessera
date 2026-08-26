@@ -3,10 +3,10 @@ package metadata
 import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	v2beta_object "github.com/EonsofStupid/tessera/internal/api/grpc/object/v2beta"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	meta_pb "github.com/EonsofStupid/tessera/pkg/grpc/metadata/v2beta"
+	v2beta_object "github.com/shippinAI/nomen/internal/api/grpc/object/v2beta"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	meta_pb "github.com/shippinAI/nomen/pkg/grpc/metadata/v2beta"
 )
 
 // code in this file is copied from internal/api/grpc/metadata/metadata.go

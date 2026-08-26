@@ -9,12 +9,12 @@ import (
 	"github.com/go-webauthn/webauthn/webauthn"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	old_domain "github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/session"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	session_grpc "github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	old_domain "github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/session"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	session_grpc "github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 type ChallengeTypePasskey struct {

@@ -19,12 +19,12 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/EonsofStupid/tessera/internal/api/scim/resources"
-	"github.com/EonsofStupid/tessera/internal/api/scim/schemas"
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/internal/integration/scim"
-	"github.com/EonsofStupid/tessera/internal/test"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/scim/resources"
+	"github.com/shippinAI/nomen/internal/api/scim/schemas"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/internal/integration/scim"
+	"github.com/shippinAI/nomen/internal/test"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 var (
@@ -57,11 +57,11 @@ func TestBulk(t *testing.T) {
 	membershipNotFoundErr := &scim.ScimError{
 		Schemas: []string{
 			"urn:ietf:params:scim:api:messages:2.0:Error",
-			"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+			"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 		},
 		Detail: "membership not found",
 		Status: "404",
-		ZitadelDetail: &scim.ZitadelErrorDetail{
+		NomenDetail: &scim.NomenErrorDetail{
 			ID:      "AUTHZ-cdgFk",
 			Message: "membership not found",
 		},
@@ -70,7 +70,7 @@ func TestBulk(t *testing.T) {
 	type wantErr struct {
 		scimErrorType string
 		status        int
-		zitadelErrID  string
+		nomenErrID  string
 	}
 
 	tests := []struct {
@@ -113,12 +113,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							Detail:   "Could not resolve bulkID 1 to created ID",
 							Status:   "400",
 							ScimType: "invalidValue",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-BLK4",
 								Message: "Could not resolve bulkID 1 to created ID",
 							},
@@ -136,12 +136,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							Detail:   "Could not resolve bulkID 2 to created ID",
 							Status:   "400",
 							ScimType: "invalidValue",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-BLK4",
 								Message: "Could not resolve bulkID 2 to created ID",
 							},
@@ -159,12 +159,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							Detail:   "Could not resolve bulkID 3 to created ID",
 							Status:   "400",
 							ScimType: "invalidValue",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-BLK4",
 								Message: "Could not resolve bulkID 3 to created ID",
 							},
@@ -176,11 +176,11 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							Detail: "User could not be found",
 							Status: "404",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "COMMAND-ugjs0upun6",
 								Message: "Errors.User.NotFound",
 							},
@@ -192,12 +192,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							Detail:   "Could not resolve bulkID 99 to created ID",
 							Status:   "400",
 							ScimType: "invalidValue",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-BLK4",
 								Message: "Could not resolve bulkID 99 to created ID",
 							},
@@ -249,11 +249,11 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							Detail: "User could not be found",
 							Status: "404",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "COMMAND-ugjs0upun6",
 								Message: "Errors.User.NotFound",
 							},
@@ -265,12 +265,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							Detail:   "Could not resolve bulkID 99 to created ID",
 							Status:   "400",
 							ScimType: "invalidValue",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-BLK4",
 								Message: "Could not resolve bulkID 99 to created ID",
 							},
@@ -361,11 +361,11 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							Detail: "User could not be found",
 							Status: "404",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "COMMAND-ugjs0upun6",
 								Message: "Errors.User.NotFound",
 							},
@@ -377,12 +377,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							ScimType: "invalidValue",
 							Detail:   "Email is empty",
 							Status:   "400",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-EM19",
 								Message: "Errors.User.Email.Empty",
 							},
@@ -394,12 +394,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							ScimType: "invalidValue",
 							Detail:   "Could not parse locale",
 							Status:   "400",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-MD11",
 								Message: "Could not parse locale",
 							},
@@ -411,12 +411,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							ScimType: "invalidValue",
 							Detail:   "Password is too short",
 							Status:   "400",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "COMMA-HuJf6",
 								Message: "Errors.User.PasswordComplexityPolicy.MinLength",
 							},
@@ -428,12 +428,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							ScimType: "invalidValue",
 							Detail:   "Could not parse timezone",
 							Status:   "400",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-MD12",
 								Message: "Could not parse timezone",
 							},
@@ -445,12 +445,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							ScimType: "invalidValue",
 							Detail:   "Errors.Invalid.Argument",
 							Status:   "400",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "V2-zzad3",
 								Message: "Errors.Invalid.Argument",
 							},
@@ -462,12 +462,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							ScimType: "invalidValue",
 							Detail:   "First name in profile is empty",
 							Status:   "400",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "USER-UCej2",
 								Message: "Errors.User.Profile.FirstNameEmpty",
 							},
@@ -488,11 +488,11 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							Detail: "User could not be found",
 							Status: "404",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "COMMAND-ugjs0upun6",
 								Message: "Errors.User.NotFound",
 							},
@@ -508,12 +508,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							ScimType: "invalidValue",
 							Detail:   "Email is empty",
 							Status:   "400",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-EM19",
 								Message: "Errors.User.Email.Empty",
 							},
@@ -525,12 +525,12 @@ func TestBulk(t *testing.T) {
 						Response: &scim.ScimError{
 							Schemas: []string{
 								"urn:ietf:params:scim:api:messages:2.0:Error",
-								"urn:ietf:params:scim:api:zitadel:messages:2.0:ErrorDetail",
+								"urn:ietf:params:scim:api:nomen:messages:2.0:ErrorDetail",
 							},
 							ScimType: "invalidValue",
 							Detail:   "Could not parse locale",
 							Status:   "400",
-							ZitadelDetail: &scim.ZitadelErrorDetail{
+							NomenDetail: &scim.NomenErrorDetail{
 								ID:      "SCIM-MD11",
 								Message: "Could not parse locale",
 							},
@@ -546,7 +546,7 @@ func TestBulk(t *testing.T) {
 			wantErr: &wantErr{
 				status:        http.StatusRequestEntityTooLarge,
 				scimErrorType: "invalidValue",
-				zitadelErrID:  "SCIM-BLK19",
+				nomenErrID:  "SCIM-BLK19",
 			},
 		},
 		{
@@ -590,8 +590,8 @@ func TestBulk(t *testing.T) {
 				scimErr := scim.RequireScimError(t, statusCode, err)
 				assert.Equal(t, tt.wantErr.scimErrorType, scimErr.Error.ScimType)
 
-				if tt.wantErr.zitadelErrID != "" {
-					assert.Equal(t, tt.wantErr.zitadelErrID, scimErr.Error.ZitadelDetail.ID)
+				if tt.wantErr.nomenErrID != "" {
+					assert.Equal(t, tt.wantErr.nomenErrID, scimErr.Error.NomenDetail.ID)
 				}
 				return
 			}
@@ -687,7 +687,7 @@ func buildTooManyOperationsRequest() *scim.BulkRequest {
 }
 
 func setProvisioningDomain(t require.TestingT, userID, provisioningDomain string) {
-	setAndEnsureMetadata(t, userID, "urn:zitadel:scim:provisioningDomain", provisioningDomain)
+	setAndEnsureMetadata(t, userID, "urn:nomen:scim:provisioningDomain", provisioningDomain)
 }
 
 func setAndEnsureMetadata(t require.TestingT, userID, key, value string) {
@@ -720,7 +720,7 @@ func ensureMetadataProjected(t require.TestingT, userID, key, value string) {
 func removeProvisioningDomain(t require.TestingT, userID string) {
 	_, err := Instance.Client.Mgmt.RemoveUserMetadata(CTX, &management.RemoveUserMetadataRequest{
 		Id:  userID,
-		Key: "urn:zitadel:scim:provisioningDomain",
+		Key: "urn:nomen:scim:provisioningDomain",
 	})
 	require.NoError(t, err)
 }

@@ -3,11 +3,11 @@ package login
 import (
 	"net/http"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/api/assets"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/i18n"
+	"github.com/shippinAI/nomen/internal/api/assets"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/i18n"
 )
 
 type dynamicResourceData struct {

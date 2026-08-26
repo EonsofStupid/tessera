@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	flowstorage "github.com/EonsofStupid/tessera/backend/v1/storage/flow"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	flowstorage "github.com/shippinAI/nomen/backend/v1/storage/flow"
 )
 
 func flowEntry(slug string, stages ...map[string]any) domain.Entry {

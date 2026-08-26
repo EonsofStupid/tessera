@@ -11,10 +11,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	app "github.com/EonsofStupid/tessera/pkg/grpc/app/v2beta"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	project "github.com/EonsofStupid/tessera/pkg/grpc/project/v2beta"
+	"github.com/shippinAI/nomen/internal/integration"
+	app "github.com/shippinAI/nomen/pkg/grpc/app/v2beta"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	project "github.com/shippinAI/nomen/pkg/grpc/project/v2beta"
 )
 
 func TestServer_ListAppKeys(t *testing.T) {

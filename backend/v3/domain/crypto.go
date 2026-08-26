@@ -3,7 +3,7 @@ package domain
 // import (
 // 	"context"
 
-// 	"github.com/EonsofStupid/tessera/internal/crypto"
+// 	"github.com/shippinAI/nomen/internal/crypto"
 // )
 
 // type generateCodeCommand struct {

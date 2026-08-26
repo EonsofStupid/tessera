@@ -3,7 +3,7 @@ package convert
 import (
 	"encoding/json"
 
-	session_grpc "github.com/EonsofStupid/tessera/pkg/grpc/session/v2"
+	session_grpc "github.com/shippinAI/nomen/pkg/grpc/session/v2"
 )
 
 func CheckPasskeyGRPCToDomain(checkPasskey *session_grpc.CheckWebAuthN) ([]byte, error) {

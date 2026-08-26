@@ -11,19 +11,19 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
 )
 
 func New() *cobra.Command {
 	return &cobra.Command{
 		Use:   "ready",
-		Short: "Checks if Tessera is ready",
-		Long:  "Checks if Tessera is ready",
+		Short: "Checks if Nomen is ready",
+		Long:  "Checks if Nomen is ready",
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Overwrite context with ready stream for logging
 			cmd.SetContext(logging.NewCtx(cmd.Context(), logging.StreamReady))
 			defer func() {
-				logging.OnError(cmd.Context(), err).Error("tessera ready command failed")
+				logging.OnError(cmd.Context(), err).Error("nomen ready command failed")
 			}()
 			config, shutdown, err := newConfig(cmd, viper.GetViper())
 			if err != nil {

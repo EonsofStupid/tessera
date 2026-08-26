@@ -9,14 +9,14 @@ import (
 	"github.com/muhlemmer/gu"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	object "github.com/EonsofStupid/tessera/pkg/grpc/object/v3alpha"
-	resource_object "github.com/EonsofStupid/tessera/pkg/grpc/resources/object/v3alpha"
-	user "github.com/EonsofStupid/tessera/pkg/grpc/resources/user/v3alpha"
+	"github.com/shippinAI/nomen/internal/integration"
+	object "github.com/shippinAI/nomen/pkg/grpc/object/v3alpha"
+	resource_object "github.com/shippinAI/nomen/pkg/grpc/resources/object/v3alpha"
+	user "github.com/shippinAI/nomen/pkg/grpc/resources/user/v3alpha"
 )
 
 func TestServer_CreateUser(t *testing.T) {
@@ -25,7 +25,7 @@ func TestServer_CreateUser(t *testing.T) {
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
@@ -35,11 +35,11 @@ func TestServer_CreateUser(t *testing.T) {
 	}`)
 	schemaResp := instance.CreateUserSchema(isolatedIAMOwnerCTX, schema)
 	permissionSchema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
-				"urn:zitadel:schema:permission": {
+				"urn:nomen:schema:permission": {
 					"owner": "r",
 					"self": "r"
 				},
@@ -233,7 +233,7 @@ func TestServer_PatchUser(t *testing.T) {
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
@@ -243,11 +243,11 @@ func TestServer_PatchUser(t *testing.T) {
 	}`)
 	schemaResp := instance.CreateUserSchema(isolatedIAMOwnerCTX, schema)
 	permissionSchema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
-				"urn:zitadel:schema:permission": {
+				"urn:nomen:schema:permission": {
 					"owner": "r",
 					"self": "r"
 				},
@@ -652,7 +652,7 @@ func TestServer_DeleteUser(t *testing.T) {
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
@@ -868,7 +868,7 @@ func TestServer_LockUser(t *testing.T) {
 	ensureFeatureEnabled(t, instance)
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
@@ -1069,7 +1069,7 @@ func TestServer_UnlockUser(t *testing.T) {
 	ensureFeatureEnabled(t, instance)
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
@@ -1251,7 +1251,7 @@ func TestServer_DeactivateUser(t *testing.T) {
 	ensureFeatureEnabled(t, instance)
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {
@@ -1452,7 +1452,7 @@ func TestServer_ActivateUser(t *testing.T) {
 	ensureFeatureEnabled(t, instance)
 	isolatedIAMOwnerCTX := instance.WithAuthorization(CTX, integration.UserTypeIAMOwner)
 	schema := []byte(`{
-		"$schema": "urn:zitadel:schema:v1",
+		"$schema": "urn:nomen:schema:v1",
 			"type": "object",
 			"properties": {
 			"name": {

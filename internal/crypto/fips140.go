@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/EonsofStupid/tessera/backend/v3/instrumentation/logging"
+	"github.com/shippinAI/nomen/backend/v3/instrumentation/logging"
 )
 
 // fipsPBKDF2MinIterations is the minimum PBKDF2 iteration count per NIST SP 800-132 §5.2.

@@ -4,20 +4,20 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/EonsofStupid/tessera/internal/config"
-	"github.com/EonsofStupid/tessera/internal/crypto"
+	"github.com/shippinAI/nomen/internal/config"
+	"github.com/shippinAI/nomen/internal/crypto"
 )
 
 const (
-	ZitadelKeyPath = "TESSERA_KEY_PATH"
+	NomenKeyPath = "NOMEN_KEY_PATH"
 )
 
 type Storage struct{}
 
 func (d *Storage) ReadKeys() (crypto.Keys, error) {
-	path := os.Getenv(ZitadelKeyPath)
+	path := os.Getenv(NomenKeyPath)
 	if path == "" {
-		return nil, fmt.Errorf("no path set, %s is empty", ZitadelKeyPath)
+		return nil, fmt.Errorf("no path set, %s is empty", NomenKeyPath)
 	}
 	keys := new(crypto.Keys)
 	err := config.Read(keys, path)

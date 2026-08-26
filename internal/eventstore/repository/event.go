@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/shopspring/decimal"
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 var _ eventstore.Event = (*Event)(nil)

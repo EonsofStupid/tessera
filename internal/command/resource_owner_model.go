@@ -1,7 +1,7 @@
 package command
 
 import (
-	"github.com/EonsofStupid/tessera/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/eventstore"
 )
 
 // resourceOwnerModel can be used to retrieve the resourceOwner of an aggregate

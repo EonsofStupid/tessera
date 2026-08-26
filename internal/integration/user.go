@@ -7,8 +7,8 @@ import (
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func (i *Instance) CreateMachineUserPATWithMembership(ctx context.Context, roles ...string) (id, pat string, err error) {

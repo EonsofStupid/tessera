@@ -3,13 +3,13 @@ package management
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	action_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/action"
-	obj_grpc "github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	action_pb "github.com/EonsofStupid/tessera/pkg/grpc/action"
-	mgmt_pb "github.com/EonsofStupid/tessera/pkg/grpc/management"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	action_grpc "github.com/shippinAI/nomen/internal/api/grpc/action"
+	obj_grpc "github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	action_pb "github.com/shippinAI/nomen/pkg/grpc/action"
+	mgmt_pb "github.com/shippinAI/nomen/pkg/grpc/management"
 )
 
 func (s *Server) ListFlowTypes(ctx context.Context, _ *mgmt_pb.ListFlowTypesRequest) (*mgmt_pb.ListFlowTypesResponse, error) {

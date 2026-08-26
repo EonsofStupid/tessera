@@ -10,10 +10,10 @@ import (
 
 	"github.com/riverqueue/river"
 
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/denylist"
-	target_domain "github.com/EonsofStupid/tessera/internal/execution/target"
-	exec_repo "github.com/EonsofStupid/tessera/internal/repository/execution"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/denylist"
+	target_domain "github.com/shippinAI/nomen/internal/execution/target"
+	exec_repo "github.com/shippinAI/nomen/internal/repository/execution"
 )
 
 type Worker struct {

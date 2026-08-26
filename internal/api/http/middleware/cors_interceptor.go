@@ -5,7 +5,7 @@ import (
 
 	"github.com/rs/cors"
 
-	http_utils "github.com/EonsofStupid/tessera/internal/api/http"
+	http_utils "github.com/shippinAI/nomen/internal/api/http"
 )
 
 var (
@@ -17,7 +17,7 @@ var (
 			http_utils.Accept,
 			http_utils.AcceptLanguage,
 			http_utils.Authorization,
-			http_utils.ZitadelOrgID,
+			http_utils.NomenOrgID,
 			http_utils.XUserAgent,
 			http_utils.XGrpcWeb,
 			http_utils.XRequestedWith,

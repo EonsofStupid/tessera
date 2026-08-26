@@ -1,8 +1,8 @@
 package convert
 
 import (
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	objpb "github.com/EonsofStupid/tessera/pkg/grpc/object"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	objpb "github.com/shippinAI/nomen/pkg/grpc/object"
 )
 
 var grpcTimestampOpToDomain = map[objpb.TimestampQueryMethod]database.NumberOperation{

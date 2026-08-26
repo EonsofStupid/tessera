@@ -15,10 +15,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/language"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/crypto"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/crypto"
 )
 
 func Test_user_Get(t *testing.T) {
@@ -64,7 +64,7 @@ func Test_user_Get(t *testing.T) {
 	err = orgDomainRepo.Add(t.Context(), tx, &domain.AddOrganizationDomain{
 		InstanceID: instanceID,
 		OrgID:      orgID2,
-		Domain:     "primary.zitadel.com",
+		Domain:     "primary.nomen.com",
 		IsVerified: true,
 		IsPrimary:  true,
 	})
@@ -72,7 +72,7 @@ func Test_user_Get(t *testing.T) {
 	err = orgDomainRepo.Add(t.Context(), tx, &domain.AddOrganizationDomain{
 		InstanceID: instanceID,
 		OrgID:      orgID2,
-		Domain:     "verified.zitadel.com",
+		Domain:     "verified.nomen.com",
 		IsVerified: true,
 		IsPrimary:  false,
 	})
@@ -80,7 +80,7 @@ func Test_user_Get(t *testing.T) {
 	err = orgDomainRepo.Add(t.Context(), tx, &domain.AddOrganizationDomain{
 		InstanceID: instanceID,
 		OrgID:      orgID2,
-		Domain:     "unverified.zitadel.com",
+		Domain:     "unverified.nomen.com",
 		IsVerified: false,
 		IsPrimary:  false,
 	})
@@ -128,11 +128,11 @@ func Test_user_Get(t *testing.T) {
 		UpdatedAt:      now,
 		LoginNames: []domain.LoginName{
 			{
-				LoginName:   "machine-user@primary.zitadel.com",
+				LoginName:   "machine-user@primary.nomen.com",
 				IsPreferred: true,
 			},
 			{
-				LoginName: "machine-user@verified.zitadel.com",
+				LoginName: "machine-user@verified.nomen.com",
 			},
 		},
 		Machine: &domain.MachineUser{
@@ -631,7 +631,7 @@ func Test_user_ListConditions(t *testing.T) {
 	err = orgDomainRepo.Add(t.Context(), tx, &domain.AddOrganizationDomain{
 		InstanceID: instanceID1,
 		OrgID:      instance1OrgID1,
-		Domain:     "org1.zitadel.com",
+		Domain:     "org1.nomen.com",
 		IsVerified: true,
 		IsPrimary:  true,
 	})
@@ -641,7 +641,7 @@ func Test_user_ListConditions(t *testing.T) {
 	err = orgDomainRepo.Add(t.Context(), tx, &domain.AddOrganizationDomain{
 		InstanceID: instanceID1,
 		OrgID:      instance1OrgID2,
-		Domain:     "org2-primary.zitadel.com",
+		Domain:     "org2-primary.nomen.com",
 		IsVerified: true,
 		IsPrimary:  true,
 	})
@@ -649,14 +649,14 @@ func Test_user_ListConditions(t *testing.T) {
 	err = orgDomainRepo.Add(t.Context(), tx, &domain.AddOrganizationDomain{
 		InstanceID: instanceID1,
 		OrgID:      instance1OrgID2,
-		Domain:     "org2-verified.zitadel.com",
+		Domain:     "org2-verified.nomen.com",
 		IsVerified: true,
 	})
 	require.NoError(t, err)
 	err = orgDomainRepo.Add(t.Context(), tx, &domain.AddOrganizationDomain{
 		InstanceID: instanceID1,
 		OrgID:      instance1OrgID2,
-		Domain:     "org2-unverified.zitadel.com",
+		Domain:     "org2-unverified.nomen.com",
 	})
 	require.NoError(t, err)
 
@@ -877,7 +877,7 @@ func Test_user_ListConditions(t *testing.T) {
 			opts: []database.QueryOption{
 				database.WithCondition(database.And(
 					userRepo.InstanceIDCondition(instanceID1),
-					userRepo.LoginNameCondition(database.TextOperationEqual, "human-user-2@org2-primary.zitadel.com"),
+					userRepo.LoginNameCondition(database.TextOperationEqual, "human-user-2@org2-primary.nomen.com"),
 				)),
 			},
 			want: want{

@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	repoDomain "github.com/EonsofStupid/tessera/backend/v3/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database/repository"
-	"github.com/EonsofStupid/tessera/internal/repository/permission"
+	repoDomain "github.com/shippinAI/nomen/backend/v3/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v3/storage/database/repository"
+	"github.com/shippinAI/nomen/internal/repository/permission"
 )
 
 type administratorRolePermission struct {
@@ -55,7 +55,7 @@ func TestAdministratorRolePermissionReducers(t *testing.T) {
 func listReducedAdministratorRolePermissions(t *testing.T, tx database.QueryExecutor, conditions ...database.Condition) []administratorRolePermission {
 	t.Helper()
 
-	builder := database.NewStatementBuilder(`SELECT role_name, permission FROM zitadel.administrator_role_permissions`)
+	builder := database.NewStatementBuilder(`SELECT role_name, permission FROM nomen.administrator_role_permissions`)
 	if len(conditions) > 0 {
 		builder.WriteString(" WHERE ")
 		database.And(conditions...).Write(builder)

@@ -1,6 +1,6 @@
 package command
 
-import "github.com/EonsofStupid/tessera/internal/domain"
+import "github.com/shippinAI/nomen/internal/domain"
 
 func userGrantWriteModelToUserGrant(writeModel *UserGrantWriteModel) *domain.UserGrant {
 	return &domain.UserGrant{

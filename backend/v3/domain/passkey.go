@@ -6,8 +6,8 @@ import (
 	"github.com/go-webauthn/webauthn/protocol"
 	"github.com/go-webauthn/webauthn/webauthn"
 
-	"github.com/EonsofStupid/tessera/internal/api/http"
-	old_domain "github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/internal/api/http"
+	old_domain "github.com/shippinAI/nomen/internal/domain"
 )
 
 func PasskeysToCredentials(ctx context.Context, passkeys []*Passkey, rpID string) []webauthn.Credential {

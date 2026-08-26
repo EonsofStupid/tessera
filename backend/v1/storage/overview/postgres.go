@@ -1,4 +1,4 @@
-// Package overview reads the minimal Tessera-owned facts used by the
+// Package overview reads the minimal Nomen-owned facts used by the
 // provider-neutral management overview.
 package overview
 
@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
+	"github.com/shippinAI/nomen/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
 )
 
 type Repository struct {
@@ -22,7 +22,7 @@ func NewRepository(pool queryer) *Repository {
 	return &Repository{pool: pool}
 }
 
-// Snapshot deliberately reads only Tessera's schema. Inventory and billing
+// Snapshot deliberately reads only Nomen's schema. Inventory and billing
 // remain host-product facts and cannot be smuggled into identity counts here.
 func (r *Repository) Snapshot(ctx context.Context, instanceID string) (domain.OverviewFacts, error) {
 	if instanceID == "" {
@@ -33,15 +33,15 @@ func (r *Repository) Snapshot(ctx context.Context, instanceID string) (domain.Ov
 SELECT
     COUNT(*) FILTER (WHERE occupant = 'human') AS human_seats,
     COUNT(*) FILTER (WHERE occupant = 'agent') AS agent_seats,
-    (SELECT COUNT(*) FROM tessera.seat_workspaces WHERE instance_id = $1) AS workspace_attachments,
-    (SELECT COUNT(*) FROM tessera.flows WHERE instance_id = $1) AS flows,
+    (SELECT COUNT(*) FROM nomen_product.seat_workspaces WHERE instance_id = $1) AS workspace_attachments,
+    (SELECT COUNT(*) FROM nomen_product.flows WHERE instance_id = $1) AS flows,
     ARRAY(
         SELECT DISTINCT policy_version
-        FROM tessera.seats
+        FROM nomen_product.seats
         WHERE instance_id = $1 AND policy_version <> ''
         ORDER BY policy_version
     ) AS policy_revisions
-FROM tessera.seats
+FROM nomen_product.seats
 WHERE instance_id = $1`
 
 	var humanSeats, agentSeats, attachments, flows int64

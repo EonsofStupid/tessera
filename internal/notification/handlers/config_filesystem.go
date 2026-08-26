@@ -3,9 +3,9 @@ package handlers
 import (
 	"context"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/notification/channels/fs"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/notification/channels/fs"
 )
 
 // GetFileSystemProvider reads the iam filesystem provider config

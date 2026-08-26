@@ -1,10 +1,10 @@
 package metadata
 
 import (
-	"github.com/EonsofStupid/tessera/internal/api/grpc/object"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
-	meta_pb "github.com/EonsofStupid/tessera/pkg/grpc/metadata"
+	"github.com/shippinAI/nomen/internal/api/grpc/object"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/zerrors"
+	meta_pb "github.com/shippinAI/nomen/pkg/grpc/metadata"
 )
 
 func UserMetadataListToPb(dataList []*query.UserMetadata) []*meta_pb.Metadata {

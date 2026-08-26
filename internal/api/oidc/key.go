@@ -10,14 +10,14 @@ import (
 
 	"github.com/go-jose/go-jose/v4"
 	"github.com/jonboulle/clockwork"
-	"github.com/zitadel/oidc/v3/pkg/op"
+	"github.com/shippinAI/nomen/oidc/v3/pkg/op"
 
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/query"
-	"github.com/EonsofStupid/tessera/internal/telemetry/tracing"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/query"
+	"github.com/shippinAI/nomen/internal/telemetry/tracing"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 var supportedWebKeyAlgs = []string{
@@ -194,7 +194,7 @@ type keySetOption func(*oidcKeySet)
 
 // withKeyExpiryCheck forces VerifySignature to check the expiry of the public key.
 // Note that public key expiry is not part of the standard,
-// but is currently established behavior of zitadel.
+// but is currently established behavior of nomen.
 // We might want to remove this check in the future.
 func withKeyExpiryCheck(check bool) keySetOption {
 	return func(k *oidcKeySet) {

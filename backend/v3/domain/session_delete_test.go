@@ -10,12 +10,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 
-	"github.com/EonsofStupid/tessera/backend/v3/domain"
-	domainmock "github.com/EonsofStupid/tessera/backend/v3/domain/mock"
-	"github.com/EonsofStupid/tessera/backend/v3/storage/database"
-	noopdb "github.com/EonsofStupid/tessera/backend/v3/storage/database/dialect/noop"
-	"github.com/EonsofStupid/tessera/internal/api/authz"
-	zdomain "github.com/EonsofStupid/tessera/internal/domain"
+	"github.com/shippinAI/nomen/backend/v3/domain"
+	domainmock "github.com/shippinAI/nomen/backend/v3/domain/mock"
+	"github.com/shippinAI/nomen/backend/v3/storage/database"
+	noopdb "github.com/shippinAI/nomen/backend/v3/storage/database/dialect/noop"
+	"github.com/shippinAI/nomen/internal/api/authz"
+	zdomain "github.com/shippinAI/nomen/internal/domain"
 )
 
 func TestDeleteSessionCommand_Validate(t *testing.T) {

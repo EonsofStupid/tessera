@@ -9,10 +9,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/require"
 
-	"github.com/EonsofStupid/tessera/internal/integration"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	v1 "github.com/EonsofStupid/tessera/pkg/grpc/v1"
+	"github.com/shippinAI/nomen/internal/integration"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	v1 "github.com/shippinAI/nomen/pkg/grpc/v1"
 )
 
 func TestServer_ImportData(t *testing.T) {

@@ -10,20 +10,20 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/proto"
 
-	http_util "github.com/EonsofStupid/tessera/internal/api/http"
-	"github.com/EonsofStupid/tessera/internal/webauthn"
-	"github.com/EonsofStupid/tessera/pkg/grpc/admin"
-	"github.com/EonsofStupid/tessera/pkg/grpc/auth"
-	"github.com/EonsofStupid/tessera/pkg/grpc/instance"
-	"github.com/EonsofStupid/tessera/pkg/grpc/management"
-	"github.com/EonsofStupid/tessera/pkg/grpc/org"
-	"github.com/EonsofStupid/tessera/pkg/grpc/system"
-	"github.com/EonsofStupid/tessera/pkg/grpc/user"
-	user_v2 "github.com/EonsofStupid/tessera/pkg/grpc/user/v2"
+	http_util "github.com/shippinAI/nomen/internal/api/http"
+	"github.com/shippinAI/nomen/internal/webauthn"
+	"github.com/shippinAI/nomen/pkg/grpc/admin"
+	"github.com/shippinAI/nomen/pkg/grpc/auth"
+	"github.com/shippinAI/nomen/pkg/grpc/instance"
+	"github.com/shippinAI/nomen/pkg/grpc/management"
+	"github.com/shippinAI/nomen/pkg/grpc/org"
+	"github.com/shippinAI/nomen/pkg/grpc/system"
+	"github.com/shippinAI/nomen/pkg/grpc/user"
+	user_v2 "github.com/shippinAI/nomen/pkg/grpc/user/v2"
 )
 
 // NotEmpty can be used as placeholder, when the returned values is unknown.
@@ -76,13 +76,13 @@ func (m UserMap) Get(typ UserType) *User {
 	return m[typ]
 }
 
-// Host returns the primary host of zitadel, on which the first instance is served.
+// Host returns the primary host of nomen, on which the first instance is served.
 // http://localhost:8082 by default
 func (c *Config) Host() string {
 	return fmt.Sprintf("%s:%d", c.Hostname, c.Port)
 }
 
-// Instance is a Zitadel server and client with all resources available for testing.
+// Instance is a Nomen server and client with all resources available for testing.
 type Instance struct {
 	Config      Config
 	Domain      string
@@ -141,14 +141,14 @@ func (i *Instance) awaitFirstUser(ctx context.Context) {
 	var allErrs []error
 	for {
 		resp, err := i.Client.UserV2.AddHumanUser(ctx, &user_v2.AddHumanUserRequest{
-			Username: proto.String("zitadel-admin@zitadel.localhost"),
+			Username: proto.String("nomen-admin@nomen.localhost"),
 			Profile: &user_v2.SetHumanProfile{
 				GivenName:  "hodor",
 				FamilyName: "hodor",
 				NickName:   proto.String("hodor"),
 			},
 			Email: &user_v2.SetHumanEmail{
-				Email: "zitadel-admin@zitadel.localhost",
+				Email: "nomen-admin@nomen.localhost",
 				Verification: &user_v2.SetHumanEmail_IsVerified{
 					IsVerified: true,
 				},
@@ -288,7 +288,7 @@ func (i *Instance) createWebAuthNClient() {
 	i.WebAuthN = webauthn.NewClient(i.Config.WebAuthNName, i.Domain, http_util.BuildOrigin(i.Host(), i.Config.Secure))
 }
 
-// Deprecated: WithAuthorization is misleading, as we have Zitadel resources called authorization now.
+// Deprecated: WithAuthorization is misleading, as we have Nomen resources called authorization now.
 // It is aliased to WithAuthorizationToken, which sets the Authorization header with a Bearer token.
 // Use WithAuthorizationToken directly instead.
 func (i *Instance) WithAuthorization(ctx context.Context, u UserType) context.Context {

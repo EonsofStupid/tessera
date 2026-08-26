@@ -4,14 +4,14 @@ import (
 	"context"
 	"io"
 
-	"github.com/zitadel/logging"
+	"github.com/shippinAI/nomen/logging"
 
-	"github.com/EonsofStupid/tessera/internal/command/preparation"
-	"github.com/EonsofStupid/tessera/internal/crypto"
-	"github.com/EonsofStupid/tessera/internal/domain"
-	"github.com/EonsofStupid/tessera/internal/eventstore"
-	"github.com/EonsofStupid/tessera/internal/repository/user"
-	"github.com/EonsofStupid/tessera/internal/zerrors"
+	"github.com/shippinAI/nomen/internal/command/preparation"
+	"github.com/shippinAI/nomen/internal/crypto"
+	"github.com/shippinAI/nomen/internal/domain"
+	"github.com/shippinAI/nomen/internal/eventstore"
+	"github.com/shippinAI/nomen/internal/repository/user"
+	"github.com/shippinAI/nomen/internal/zerrors"
 )
 
 // RegisterUserPasskey creates a passkey registration for the current authenticated user.
@@ -98,7 +98,7 @@ func (c *Commands) pushUserPasskey(ctx context.Context, wm *HumanWebAuthNWriteMo
 }
 
 // AddUserPasskeyCode generates a Passkey code and sends an email
-// with the default generated URL (pointing to zitadel).
+// with the default generated URL (pointing to nomen).
 func (c *Commands) AddUserPasskeyCode(ctx context.Context, userID, resourceOwner string, alg crypto.EncryptionAlgorithm) (*domain.ObjectDetails, error) {
 	details, err := c.addUserPasskeyCode(ctx, userID, resourceOwner, alg, "", false)
 	if err != nil {

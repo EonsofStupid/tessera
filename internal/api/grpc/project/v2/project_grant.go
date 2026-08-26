@@ -6,10 +6,10 @@ import (
 	"connectrpc.com/connect"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	"github.com/EonsofStupid/tessera/internal/command"
-	"github.com/EonsofStupid/tessera/internal/eventstore/v1/models"
-	"github.com/EonsofStupid/tessera/internal/query"
-	project_pb "github.com/EonsofStupid/tessera/pkg/grpc/project/v2"
+	"github.com/shippinAI/nomen/internal/command"
+	"github.com/shippinAI/nomen/internal/eventstore/v1/models"
+	"github.com/shippinAI/nomen/internal/query"
+	project_pb "github.com/shippinAI/nomen/pkg/grpc/project/v2"
 )
 
 func (s *Server) CreateProjectGrant(ctx context.Context, req *connect.Request[project_pb.CreateProjectGrantRequest]) (*connect.Response[project_pb.CreateProjectGrantResponse], error) {

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/EonsofStupid/tessera/backend/v1/domain"
+	"github.com/shippinAI/nomen/backend/v1/domain"
 )
 
 // CapabilityService publishes the safe development discovery document until a
@@ -16,27 +16,46 @@ import (
 // deliberately conservative: process health or inherited code is never
 // promoted into an "operational" product claim.
 type CapabilityService struct {
-	clock Clock
+	clock   Clock
+	edition string
 }
 
-func NewCapabilityService(clock Clock) *CapabilityService {
+func NewCapabilityService(clock Clock, opts ...func(*CapabilityService)) *CapabilityService {
 	if clock == nil {
 		clock = time.Now
 	}
-	return &CapabilityService{clock: clock}
+	service := &CapabilityService{clock: clock, edition: domain.EditionPublic}
+	for _, opt := range opts {
+		opt(service)
+	}
+	service.edition = domain.NormalizeEdition(service.edition)
+	return service
+}
+
+func WithEdition(edition string) func(*CapabilityService) {
+	return func(s *CapabilityService) {
+		s.edition = edition
+	}
 }
 
 func (s *CapabilityService) Get(context.Context) (domain.CapabilityDiscovery, error) {
 	observedAt := s.clock().UTC()
+	clickhouseReason, vaultReason, meshReason := "clickhouse_not_connected", "vaultix_not_connected", "zuul_not_connected"
+	if s.edition == domain.EditionPublic {
+		clickhouseReason, vaultReason, meshReason = domain.ReasonEditionPublicWithheld, domain.ReasonEditionPublicWithheld, domain.ReasonEditionPublicWithheld
+	}
 	components := []domain.ComponentCompatibility{
-		{Role: domain.ComponentTessera, Version: "workspace", APIMajor: 1, State: domain.CompatibilityUnknown, Reason: "development_bundle_unattested", ObservedAt: observedAt},
-		{Role: domain.ComponentTesseraOperator, State: domain.CompatibilityNotPresent, Reason: "operator_not_connected", ObservedAt: observedAt},
-		{Role: domain.ComponentClickHouse, State: domain.CompatibilityNotPresent, Reason: "clickhouse_not_connected", ObservedAt: observedAt},
-		{Role: domain.ComponentVaultix, State: domain.CompatibilityNotPresent, Reason: "vaultix_not_connected", ObservedAt: observedAt},
-		{Role: domain.ComponentZuul, State: domain.CompatibilityNotPresent, Reason: "zuul_not_connected", ObservedAt: observedAt},
+		{Role: domain.ComponentNomen, Version: domain.ProductVersion, APIMajor: 1, State: domain.CompatibilityUnknown, Reason: "development_bundle_unattested", ObservedAt: observedAt},
+		{Role: domain.ComponentNomenOperator, State: domain.CompatibilityNotPresent, Reason: "operator_not_connected", ObservedAt: observedAt},
+		{Role: domain.ComponentClickHouse, State: domain.CompatibilityNotPresent, Reason: clickhouseReason, ObservedAt: observedAt},
+		{Role: domain.ComponentVaultix, State: domain.CompatibilityNotPresent, Reason: vaultReason, ObservedAt: observedAt},
+		{Role: domain.ComponentZuul, State: domain.CompatibilityNotPresent, Reason: meshReason, ObservedAt: observedAt},
 		{Role: domain.ComponentShippinAdapter, State: domain.CompatibilityNotPresent, Reason: "shippin_adapter_not_connected", ObservedAt: observedAt},
 	}
-	capabilities := developmentCapabilityFacts()
+	capabilities, err := developmentCapabilityFacts(s.edition)
+	if err != nil {
+		return domain.CapabilityDiscovery{}, err
+	}
 	revision, err := capabilityRevision(components, capabilities)
 	if err != nil {
 		return domain.CapabilityDiscovery{}, err
@@ -54,33 +73,32 @@ func (s *CapabilityService) Get(context.Context) (domain.CapabilityDiscovery, er
 	return discovery, nil
 }
 
-func developmentCapabilityFacts() []domain.CapabilityFact {
-	preview := func(id, reason string, required ...domain.ComponentRole) domain.CapabilityFact {
-		return domain.CapabilityFact{
-			ID:                 id,
-			Status:             domain.CapabilityPreview,
-			Exposure:           domain.UIExposureDisabled,
-			Reason:             reason,
-			RequiredComponents: required,
-			OperationKinds:     []domain.OperationKind{},
+func developmentCapabilityFacts(edition string) ([]domain.CapabilityFact, error) {
+	ledger, err := domain.LoadCapabilityLedger()
+	if err != nil {
+		return nil, fmt.Errorf("load capability ledger: %w", err)
+	}
+	entries := ledger.Entries()
+	facts := make([]domain.CapabilityFact, 0, len(entries))
+	for _, entry := range entries {
+		status := entry.CurrentStatus
+		exposure := domain.UIExposureDisabled
+		reason := "awaiting_release_bound_evidence"
+		if edition == domain.EditionPublic && domain.PublicWithheldCapability(entry.ID) {
+			status = domain.CapabilityUnsupported
+			exposure = domain.UIExposureHidden
+			reason = domain.ReasonEditionPublicWithheld
 		}
+		facts = append(facts, domain.CapabilityFact{
+			ID:                 entry.ID,
+			Status:             status,
+			Exposure:           exposure,
+			Reason:             reason,
+			RequiredComponents: entry.RequiredComponents,
+			OperationKinds:     []domain.OperationKind{},
+		})
 	}
-	return []domain.CapabilityFact{
-		preview(domain.CapabilityIDOverview, "awaiting_conformance_proof", domain.ComponentTessera),
-		preview(domain.CapabilityIDGuidedSetup, "operator_not_connected", domain.ComponentTessera, domain.ComponentTesseraOperator),
-		preview(domain.CapabilityIDDeploymentOperations, "operator_not_connected", domain.ComponentTessera, domain.ComponentTesseraOperator),
-		preview(domain.CapabilityIDAnalyticsOLAP, "clickhouse_not_connected", domain.ComponentTessera, domain.ComponentClickHouse),
-		preview(domain.CapabilityIDUpstreamOIDC, "awaiting_conformance_proof", domain.ComponentTessera),
-		preview(domain.CapabilityIDUpstreamSAML, "awaiting_conformance_proof", domain.ComponentTessera),
-		preview(domain.CapabilityIDDownstreamOIDC, "awaiting_conformance_proof", domain.ComponentTessera),
-		preview(domain.CapabilityIDDownstreamSAML, "awaiting_conformance_proof", domain.ComponentTessera),
-		preview(domain.CapabilityIDLDAPOutbound, "ldap_outbound_conformance_pending", domain.ComponentTessera),
-		preview(domain.CapabilityIDLDAPInbound, "ldap_inbound_conformance_pending", domain.ComponentTessera),
-		preview(domain.CapabilityIDForwardAuth, "forward_auth_conformance_pending", domain.ComponentTessera),
-		preview(domain.CapabilityIDIdentityAwareProxy, "proxy_conformance_pending", domain.ComponentTessera, domain.ComponentZuul),
-		preview(domain.CapabilityIDVisualFlowEngine, "visual_flow_editor_pending", domain.ComponentTessera),
-		preview(domain.CapabilityIDVaultixSecretCustody, "vaultix_not_connected", domain.ComponentTessera, domain.ComponentVaultix),
-	}
+	return facts, nil
 }
 
 func capabilityRevision(components []domain.ComponentCompatibility, capabilities []domain.CapabilityFact) (string, error) {

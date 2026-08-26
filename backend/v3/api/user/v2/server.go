@@ -3,8 +3,8 @@ package userv2
 // this file has been commented out to pass the linter
 
 // import (
-// 	"github.com/EonsofStupid/tessera/backend/v3/telemetry/logging"
-// 	"github.com/EonsofStupid/tessera/backend/v3/telemetry/tracing"
+// 	"github.com/shippinAI/nomen/backend/v3/telemetry/logging"
+// 	"github.com/shippinAI/nomen/backend/v3/telemetry/tracing"
 // )
 
 // logger logging.Logger
